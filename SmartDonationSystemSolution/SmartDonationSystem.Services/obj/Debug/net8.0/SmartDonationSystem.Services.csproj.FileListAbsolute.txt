@@ -1,0 +1,43 @@
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.deps.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.csproj.AssemblyReference.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.AssemblyInfoInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.AssemblyInfo.cs
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.csproj.CoreCompileInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.sourcelink.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDon.9BFD3BEF.Up2Date
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\refint\SmartDonationSystem.Services.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\ref\SmartDonationSystem.Services.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\refint\SmartDonationSystem.Services.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.csproj.AssemblyReference.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.AssemblyInfo.cs
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDonationSystem.Services.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\x86\tesseract50.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\x64\tesseract50.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.deps.json
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Services.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\SmartDon.9BFD3BEF.Up2Date
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Services\obj\Debug\net8.0\ref\SmartDonationSystem.Services.dll

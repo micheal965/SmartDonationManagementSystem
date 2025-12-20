@@ -1,0 +1,37 @@
+C:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.deps.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.csproj.AssemblyReference.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.AssemblyInfoInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.AssemblyInfo.cs
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.csproj.CoreCompileInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.sourcelink.json
+C:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDon.97E7B233.Up2Date
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\refint\SmartDonationSystem.DataAccess.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+C:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\ref\SmartDonationSystem.DataAccess.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.csproj.AssemblyReference.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.AssemblyInfo.cs
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\refint\SmartDonationSystem.DataAccess.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.deps.json
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.runtimeconfig.json
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.DataAccess.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDon.97E7B233.Up2Date
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\SmartDonationSystem.DataAccess.genruntimeconfig.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.DataAccess\obj\Debug\net8.0\ref\SmartDonationSystem.DataAccess.dll

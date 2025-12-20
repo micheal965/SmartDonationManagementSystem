@@ -1,0 +1,31 @@
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.deps.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.csproj.AssemblyReference.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.AssemblyInfoInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.AssemblyInfo.cs
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.csproj.CoreCompileInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.sourcelink.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDon.9E9E9BA6.Up2Date
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\refint\SmartDonationSystem.Core.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\ref\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.deps.json
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Core.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.csproj.AssemblyReference.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.AssemblyInfo.cs
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDon.9E9E9BA6.Up2Date
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\refint\SmartDonationSystem.Core.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\SmartDonationSystem.Core.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Core\obj\Debug\net8.0\ref\SmartDonationSystem.Core.dll

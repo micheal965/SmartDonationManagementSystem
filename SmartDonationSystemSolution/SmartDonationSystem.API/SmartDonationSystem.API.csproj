@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDonationSystem.Core\SmartDonationSystem.Core.csproj" />
+    <ProjectReference Include="..\SmartDonationSystem.DataAccess\SmartDonationSystem.DataAccess.csproj" />
+    <ProjectReference Include="..\SmartDonationSystem.Services\SmartDonationSystem.Services.csproj" />
+    <ProjectReference Include="..\SmartDonationSystem.Shared\SmartDonationSystem.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+</Project>

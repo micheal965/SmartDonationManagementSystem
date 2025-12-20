@@ -1,0 +1,23 @@
+C:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.deps.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.AssemblyInfoInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.AssemblyInfo.cs
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.csproj.CoreCompileInputs.cache
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.sourcelink.json
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\refint\SmartDonationSystem.Shared.dll
+c:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.pdb
+C:\Users\MICHEAL\source\repos\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\ref\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.deps.json
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\bin\Debug\net8.0\SmartDonationSystem.Shared.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.AssemblyInfo.cs
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\refint\SmartDonationSystem.Shared.dll
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\SmartDonationSystem.Shared.pdb
+D:\Projects\Personal Projects\SmartDonationSystemSolution\SmartDonationSystem.Shared\obj\Debug\net8.0\ref\SmartDonationSystem.Shared.dll

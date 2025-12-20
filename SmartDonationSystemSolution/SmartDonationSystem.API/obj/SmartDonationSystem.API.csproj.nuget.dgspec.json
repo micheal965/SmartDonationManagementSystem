@@ -1,0 +1,421 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.API\\SmartDonationSystem.API.csproj": {}
+  },
+  "projects": {
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.API\\SmartDonationSystem.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.API\\SmartDonationSystem.API.csproj",
+        "projectName": "SmartDonationSystem.API",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.API\\SmartDonationSystem.API.csproj",
+        "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MICHEAL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\SmartDonationSystem.Services.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\SmartDonationSystem.Services.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.6.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
+        "projectName": "SmartDonationSystem.Core",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
+        "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MICHEAL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj",
+        "projectName": "SmartDonationSystem.DataAccess",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MICHEAL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\SmartDonationSystem.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\SmartDonationSystem.Services.csproj",
+        "projectName": "SmartDonationSystem.Services",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\SmartDonationSystem.Services.csproj",
+        "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MICHEAL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.DataAccess\\SmartDonationSystem.DataAccess.csproj"
+              },
+              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
+            "Tesseract": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+        "projectName": "SmartDonationSystem.Shared",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+        "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\MICHEAL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
