@@ -11,6 +11,7 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
         builder.HasIndex(u => u.IdentityNumber).IsUnique();
         builder.Property(u => u.IdentityNumber).HasMaxLength(14).IsRequired();
         builder.Property(u => u.PictureUrl).HasMaxLength(250);
+        builder.Ignore(u => u.UserName);
 
         // 1 ApplicationUser has many loginHistory
         builder.HasMany(u => u.UserLoginsHistory)

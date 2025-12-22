@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {}
+    "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
+    "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
         "projectName": "SmartDonationSystem.Core",
-        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
         "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\obj\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -31,8 +31,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
-                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
+              "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+                "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj"
               }
             }
           }
@@ -53,6 +53,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.27.9, )"
+            },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
               "version": "[2.3.0, )"
@@ -86,14 +90,14 @@
         }
       }
     },
-    "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
+    "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+        "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
         "projectName": "SmartDonationSystem.Shared",
-        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+        "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
         "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\obj\\",
+        "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SmartDonationSystem.Core.Auths;
+using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.Shared.Enums;
 
 namespace SmartDonationSystem.DataAccess.Seed;
@@ -10,6 +10,7 @@ public static class DefaultUsersSeed
     {
         var user = new ApplicationUser()
         {
+            FullName = "Micheal Ghobrial",
             IdentityNumber = "30407142102037",
             Email = "michealghobriall@gmail.com",
             UserName = "MichealGhobrial",

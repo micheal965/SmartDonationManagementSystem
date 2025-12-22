@@ -4,6 +4,7 @@ namespace SmartDonationSystem.Core.Auth.Models;
 
 public class ApplicationUser : IdentityUser
 {
+    public required string FullName { get; set; } = string.Empty;
     public required string IdentityNumber { get; set; }
     public string? PictureUrl { get; set; }
     public DateTime? BirthDate { get; set; }

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+      "projectUniqueName": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
       "projectName": "SmartDonationSystem.Shared",
-      "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
+      "projectPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\SmartDonationSystem.Shared.csproj",
       "packagesPath": "C:\\Users\\MICHEAL\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\obj\\",
+      "outputPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

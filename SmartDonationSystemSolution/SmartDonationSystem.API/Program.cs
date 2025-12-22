@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
+using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.DataAccess;
 
@@ -11,7 +12,7 @@ namespace SmartDonationSystem.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -52,11 +53,14 @@ namespace SmartDonationSystem.API
                     ClockSkew = TimeSpan.Zero
                 };
             });
-
             // Register Modules dependencies
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
+            await SeedingData.SeedDataAsync(app);
+
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<LogoutMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

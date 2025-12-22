@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.Auth.DTOs;
 using SmartDonationSystem.Core.Auth.Interfaces;
@@ -21,22 +23,40 @@ namespace SmartDonationSystem.API.Identity.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto)
         {
-            await _authServices.RegisterAsync(registerRequestDto);
-            return Ok();
+            var registerResponse = await _authServices.RegisterAsync(registerRequestDto);
+            return StatusCode((int)registerResponse.statusCode, registerResponse);
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
         {
             var loginResponse = await _authServices.LoginAsync(loginDto);
-            return StatusCode((int)loginResponse.statusCode);
+            return StatusCode((int)loginResponse.statusCode, loginResponse);
         }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromHeader] string Authorization)
+        {
+            if (string.IsNullOrWhiteSpace(Authorization) || !Authorization.StartsWith("Bearer "))
+                return BadRequest(Result<string>.BadRequest("Invalid Authorization header"));
+
+            var jwtToken = Authorization["Bearer ".Length..].Trim();
+            if (string.IsNullOrEmpty(jwtToken))
+                return Unauthorized(Result<string>.Unauthorized("Token is missing or invalid"));
+
+            await _authServices.AddTokenBlacklistAsync(jwtToken);
+            return Ok(Result<string>.Ok("Logged out successfully"));
+        }
+
         [HttpPost("rotate-refresh-token")]
         public async Task<IActionResult> RotateRefreshToken()
         {
             var token = Request.Cookies["refreshToken"];
             var result = await _authServices.RotateRefreshTokenAsync(token);
-            return StatusCode((int)result.statusCode);
+            return StatusCode((int)result.statusCode, result);
         }
+
         [HttpPost("extract")]
         public async Task<IActionResult> ExtractText(IFormFile file)
         {
@@ -54,5 +74,13 @@ namespace SmartDonationSystem.API.Identity.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("login-history")]
+        public async Task<IActionResult> GetLoginHistory()
+        {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var historyListResult = await _authServices.GetLoginHistoryAsync(userId);
+            return StatusCode((int)historyListResult.statusCode, historyListResult);
+        }
     }
 }

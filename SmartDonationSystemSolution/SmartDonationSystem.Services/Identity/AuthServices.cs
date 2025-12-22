@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,47 +11,39 @@ using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.Core.Auth.DTOs;
 using SmartDonationSystem.Core.Auth.Interfaces;
 using SmartDonationSystem.Core.Auth.Models;
+using SmartDonationSystem.Core.Cloud;
 using SmartDonationSystem.Core.DTOs;
 using SmartDonationSystem.DataAccess;
-using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.Services.Identity;
 
 public class AuthServices : IAuthServices
 {
-    private readonly ApplicationDbContext _applicationDbContext;
+    private static readonly HashSet<string> BlacklistedTokens = new();
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IUserServices _userServices;
+    private readonly ApplicationDbContext _applicationDbContext;
+    private readonly ICloudinaryServices _cloudinaryServices;
 
-    public AuthServices(
-                        IConfiguration configuration,
+    public AuthServices(IConfiguration configuration,
                         IHttpContextAccessor httpContextAccessor,
                         UserManager<ApplicationUser> userManager,
+                        RoleManager<IdentityRole> roleManager,
                         SignInManager<ApplicationUser> signInManager,
                         ApplicationDbContext applicationDbContext,
-                        IUserServices userServices)
+                        ICloudinaryServices cloudinaryServices)
     {
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
+        _roleManager = roleManager;
         _signInManager = signInManager;
         _applicationDbContext = applicationDbContext;
-        _userServices = userServices;
-    }
-
-    public async Task<Result<ApplicationUser>> RegisterAsync(RegisterRequestDto request)
-    {
-        ApplicationUser user;
-        // if (request.InputType == RegisterInputType.Manual)
-        user = MapManualData(request);
-        // else
-        //     user = ExtractDataFromSource(request);
-
-        return await RegisterAsync(user, request.Role);
+        _cloudinaryServices = cloudinaryServices;
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> LoginAsync(LoginRequestDto loginRequestDto)
     {
@@ -58,14 +51,14 @@ public class AuthServices : IAuthServices
                             .Include(u => u.RefreshTokens)
                             .FirstOrDefaultAsync(u => u.IdentityNumber.Equals(loginRequestDto.IdentityNumber));
         if (user == null)
-            return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid login attempt!");
+            return Result<LoginOrRotateTokenResponseDto>.Unauthorized("Invalid login attempt!");
 
-        SignInResult result = await _signInManager.PasswordSignInAsync(user, loginRequestDto.Password, false, false);
-        if (!result.Succeeded)
-            return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid login attempt!");
+        SignInResult checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, loginRequestDto.Password, false);
+        if (!checkPasswordResult.Succeeded)
+            return Result<LoginOrRotateTokenResponseDto>.Unauthorized("Invalid login attempt!");
 
         //Track IPAddress in UserLoginHistory table
-        await _userServices.SaveLoginAttemptAsync(loginRequestDto.IdentityNumber);
+        await SaveLoginAttemptAsync(loginRequestDto.IdentityNumber);
 
         //Check for RefreshToken
         var RefreshTokenObj = new RefreshToken();
@@ -80,7 +73,7 @@ public class AuthServices : IAuthServices
         }
 
         //set refresh token if not empty in the cookies 
-        if (!string.IsNullOrEmpty(RefreshTokenObj.Token))
+        if (!string.IsNullOrEmpty(RefreshTokenObj?.Token))
             AppendRefreshTokenInCookies(RefreshTokenObj.Token, RefreshTokenObj.expiryDate);
 
         //Get user Roles
@@ -88,70 +81,58 @@ public class AuthServices : IAuthServices
 
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto()
         {
-            Username = user.UserName,
             Token = await CreateJwtWebTokenAsync(user),
-            Roles = roles.ToList(),
         });
     }
-    private ApplicationUser MapManualData(RegisterRequestDto request)
+    public async Task<Result<RegisterResultDto>> RegisterAsync(RegisterRequestDto requestDto)
     {
-        return new ApplicationUser
-        {
-            IdentityNumber = request.IdentityNumber,
-            UserName = request.UserName,
-            BirthDate = request.BirthDate,
-            PhoneNumber = request.PhoneNumber,
-            Address = request.Address,
-        };
-    }
-    // private ApplicationUser ExtractDataFromSource(RegisterRequestDto request)
-    // {
-    //     // مثال: OCR / API / National ID Reader
-    //     return new ApplicationUser
-    //     {
-    //         IdentityNumber = request.ExtractedIdentityNumber,
-    //         UserName = request.ExtractedName,
-    //         BirthDate = request.ExtractedBirthDate,
-    //         PhoneNumber = request.PhoneNumber,
-    //         Address = request.Address,
-    //     };
-    // }
-    private async Task<Result<ApplicationUser>> RegisterAsync(ApplicationUser user, UserRole role)
-    {
-        if (user.IdentityNumber == null || user.UserName == null || user.BirthDate == null)
-            return Result<ApplicationUser>.BadRequest("Identity Number, User Name, and Birth Date are required.");
-
         ApplicationUser? existingUser = await _applicationDbContext.ApplicationUsers
-                                        .FirstOrDefaultAsync(u => u.IdentityNumber == user.IdentityNumber.Trim());
-        if (existingUser != null) return Result<ApplicationUser>.BadRequest("A user with this Identity Number already exists.");
-
+                                        .FirstOrDefaultAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
+        if (existingUser != null) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
         //Upload profile picture on cloudinary
 
         ApplicationUser applicationUser = new ApplicationUser()
         {
-            IdentityNumber = user.IdentityNumber,
-            UserName = user.UserName,
-            BirthDate = user.BirthDate,
-            PhoneNumber = user.PhoneNumber,
-            Address = user.Address,
-            PictureUrl = "" //from cloudinary
+            IdentityNumber = requestDto.IdentityNumber,
+            FullName = requestDto.FullName,
+            UserName = Guid.NewGuid().ToString(),
+            BirthDate = requestDto.BirthDate,
+            PhoneNumber = requestDto.PhoneNumber,
+            Address = requestDto.Address,
+            PictureUrl = await _cloudinaryServices.UploadImageAsync(requestDto.ProfilePicture)
         };
 
-        IdentityResult createResult = await _userManager.CreateAsync(applicationUser);
-        IdentityResult roleResult = await _userManager.AddToRoleAsync(applicationUser, Enum.GetName(role));
-        if (!createResult.Succeeded || !roleResult.Succeeded)
-        {
-            var errors = createResult.Errors.Concat(roleResult.Errors)
-                                    .Select(e => e.Description).ToList();
-            string errorMessage = string.Join("; ", errors);
+        //Check if the role exists
+        if (!await _roleManager.RoleExistsAsync(requestDto.Role) ||
+            requestDto.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase)) return Result<RegisterResultDto>.BadRequest("Invalid role");
 
-            return Result<ApplicationUser>.BadRequest(errorMessage);
+        //Create transaction to ensure the user and its role created or not at all
+        using var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
+
+        IdentityResult createResult = await _userManager.CreateAsync(applicationUser, requestDto.Password);
+        if (!createResult.Succeeded)
+        {
+            await transaction.RollbackAsync();
+            return Result<RegisterResultDto>.BadRequest("Registration failed", createResult.Errors.Select(e => e.Description).ToList());
         }
-        return Result<ApplicationUser>.Created(applicationUser);
+        IdentityResult roleResult = await _userManager.AddToRoleAsync(applicationUser, requestDto.Role);
+        if (!roleResult.Succeeded)
+        {
+            await _userManager.DeleteAsync(applicationUser);
+            await transaction.RollbackAsync();
+
+            return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description).ToList());
+        }
+        await transaction.CommitAsync();
+        return Result<RegisterResultDto>.Created(applicationUser.Adapt<RegisterResultDto>());
     }
-    public async Task<Result<LoginOrRotateTokenResponseDto>> RotateRefreshTokenAsync(string token)
+    public async Task<Result<LoginOrRotateTokenResponseDto>> RotateRefreshTokenAsync(string? token)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
+        if (string.IsNullOrWhiteSpace(token))
+            return Result<LoginOrRotateTokenResponseDto>.BadRequest("Token is required");
+
+        var user = await _userManager.Users.Include(u => u.RefreshTokens)
+                                           .FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
         if (user == null)
             return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid Token");
 
@@ -166,19 +147,72 @@ public class AuthServices : IAuthServices
         user.RefreshTokens.Add(newRefreshTokenObj);
         await _userManager.UpdateAsync(user);
 
-        //Delete old RefreshTtoken and save the new refresh token into cookies=>(Append)
+        //Delete old RefreshToken and save the new refresh token into cookies=>(Append)
         AppendRefreshTokenInCookies(newRefreshTokenObj.Token, newRefreshTokenObj.expiryDate);
 
         //get roles from db for that user
         var roles = await _userManager.GetRolesAsync(user);
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto
         {
-            Username = user.UserName,
             Token = await CreateJwtWebTokenAsync(user),
-            Roles = roles.ToList(),
         }, "Token Rotated successfully!");
     }
 
+    //Logout Services
+    public async Task AddTokenBlacklistAsync(string token)
+    {
+        await Task.Delay(100);  // Simulate async I/O operation to add token to blacklist
+        BlacklistedTokens.Add(token);
+        var refreshTokenFromCookies = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+        DeleteRefreshTokenFromCookies();
+
+        //Revoke RefreshToken in the Database
+        var refreshTokenObj = await _applicationDbContext.RefreshTokens
+                                    .FirstOrDefaultAsync(rf => rf.Token == refreshTokenFromCookies);
+        if (refreshTokenObj == null || refreshTokenObj.isExpired) return;
+
+        refreshTokenObj.revokedOn = DateTime.UtcNow;
+        _applicationDbContext.RefreshTokens.Update(refreshTokenObj);
+        await _applicationDbContext.SaveChangesAsync();
+    }
+    public async Task<bool> IsTokenBlacklistedAsync(string token)
+    {
+        await Task.Delay(100); // Simulate a delay
+        return BlacklistedTokens.Contains(token);
+    }
+
+    //Track IPAddress
+    public async Task SaveLoginAttemptAsync(string IdentityNumber)
+    {
+        var user = await _applicationDbContext.ApplicationUsers.FirstOrDefaultAsync(u => u.IdentityNumber.Equals(IdentityNumber));
+        if (user != null)
+        {
+            var ipAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            // Check if the app is behind a proxy (e.g., Nginx, Cloudflare)
+            if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
+            {
+                //X-Forwarded-For: 203.0.113.45, 70.41.3.18, 150.172.238.178
+                ipAddress = _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].ToString().Split(',')[0].Trim();
+            }
+
+            ipAddress = ipAddress == "::1" ? "127.0.0.1" : ipAddress; // Convert ::1 to 127.0.0.1 if local
+            await _applicationDbContext.UserLoginsHistory.AddAsync(new UserLoginHistory()
+            {
+                ApplicationUserId = user.Id,
+                IpAddress = ipAddress ?? "",
+                LoginTime = DateTime.UtcNow,
+            });
+            await _applicationDbContext.SaveChangesAsync();
+        }
+    }
+    public async Task<Result<IReadOnlyList<UserLoginsHistoryResponseDto>>> GetLoginHistoryAsync(string userId)
+    {
+        IReadOnlyList<UserLoginHistory> userLoginsHistory = await _applicationDbContext.UserLoginsHistory
+                                                                    .Where(lg => lg.ApplicationUserId == userId)
+                                                                    .OrderByDescending(l => l.LoginTime).ToListAsync();
+        return Result<IReadOnlyList<UserLoginsHistoryResponseDto>>.Ok(userLoginsHistory.Adapt<IReadOnlyList<UserLoginsHistoryResponseDto>>());
+    }
 
     //Token Aggregate
     private async Task<string> CreateJwtWebTokenAsync(ApplicationUser user)
@@ -187,7 +221,7 @@ public class AuthServices : IAuthServices
         var claims = new List<Claim>()
         {
             new Claim(ClaimTypes.NameIdentifier,user.Id),
-            new Claim(ClaimTypes.Name,user.UserName),
+            new Claim(ClaimTypes.Name,user.FullName),
             new Claim("NationalId",user.IdentityNumber),
         };
 
@@ -235,5 +269,9 @@ public class AuthServices : IAuthServices
             SameSite = SameSiteMode.Strict,
         };
         _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, cookieOptions);
+    }
+    private void DeleteRefreshTokenFromCookies()
+    {
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken");
     }
 }

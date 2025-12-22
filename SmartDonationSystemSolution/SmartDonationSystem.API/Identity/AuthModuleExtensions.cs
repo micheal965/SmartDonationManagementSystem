@@ -1,5 +1,5 @@
 using SmartDonationSystem.Core.Auth.Interfaces;
-using SmartDonationSystem.Services.Auth;
+using SmartDonationSystem.Services.Identity;
 
 namespace SmartDonationSystem.API.Identity
 {
