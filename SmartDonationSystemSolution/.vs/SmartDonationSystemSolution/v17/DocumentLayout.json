@@ -1,10 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\MICHEAL\\source\\repos\\SmartDonationSystemSolution\\",
+  "WorkspaceRootPath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02C4F140-008B-47D1-BB5F-6F4384BE694F}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|c:\\users\\micheal\\source\\repos\\smartdonationsystemsolution\\smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02C4F140-008B-47D1-BB5F-6F4384BE694F}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|solutionrelative:smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|d:\\projects\\personal projects\\smartdonationproject\\smartdonationsystemsolution\\smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|solutionrelative:smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -68,9 +68,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\MICHEAL\\source\\repos\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
+              "DocumentMoniker": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
               "RelativeDocumentMoniker": "SmartDonationSystem.API\\Program.cs",
-              "ToolTip": "C:\\Users\\MICHEAL\\source\\repos\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
+              "ToolTip": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
               "RelativeToolTip": "SmartDonationSystem.API\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

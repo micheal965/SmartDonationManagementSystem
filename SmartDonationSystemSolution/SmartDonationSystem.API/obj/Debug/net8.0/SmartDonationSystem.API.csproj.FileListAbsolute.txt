@@ -384,3 +384,4 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Mapster.Core.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\CloudinaryDotNet.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
