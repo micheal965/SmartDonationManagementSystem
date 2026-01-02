@@ -3,9 +3,9 @@ using SmartDonationSystem.Services.Identity;
 
 namespace SmartDonationSystem.API.Identity
 {
-    public static class AuthModuleExtensions
+    public static class IdentityModuleExtensions
     {
-        public static IServiceCollection AddAuthModule(this IServiceCollection services)
+        public static IServiceCollection AddIdentityModule(this IServiceCollection services)
         {
             services.AddScoped<IAuthOcrService, AuthOcrService>();
             services.AddScoped<IAuthServices, AuthServices>();

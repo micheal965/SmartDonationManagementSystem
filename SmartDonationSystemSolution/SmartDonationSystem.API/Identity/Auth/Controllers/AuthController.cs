@@ -6,7 +6,7 @@ using SmartDonationSystem.Core.Auth.Interfaces;
 using SmartDonationSystem.Core.DTOs;
 using SmartDonationSystem.Shared.Responses;
 
-namespace SmartDonationSystem.API.Identity.Controllers
+namespace SmartDonationSystem.API.Identity.Auth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

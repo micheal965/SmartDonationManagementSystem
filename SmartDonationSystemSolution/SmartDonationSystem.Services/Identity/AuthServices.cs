@@ -89,7 +89,9 @@ public class AuthServices : IAuthServices
         ApplicationUser? existingUser = await _applicationDbContext.ApplicationUsers
                                         .FirstOrDefaultAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
         if (existingUser != null) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
+
         //Upload profile picture on cloudinary
+        var uploadResult = await _cloudinaryServices.UploadImageAsync(requestDto.ProfilePicture);
 
         ApplicationUser applicationUser = new ApplicationUser()
         {
@@ -99,7 +101,7 @@ public class AuthServices : IAuthServices
             BirthDate = requestDto.BirthDate,
             PhoneNumber = requestDto.PhoneNumber,
             Address = requestDto.Address,
-            PictureUrl = await _cloudinaryServices.UploadImageAsync(requestDto.ProfilePicture)
+            PictureUrl = uploadResult.isSucceded ? uploadResult.url : null,
         };
 
         //Check if the role exists

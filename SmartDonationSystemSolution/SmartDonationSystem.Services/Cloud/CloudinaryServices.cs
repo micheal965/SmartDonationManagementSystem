@@ -1,4 +1,4 @@
-using System;
+using System.Net;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -21,20 +21,21 @@ public class CloudinaryServices : ICloudinaryServices
         _cloudinary = new Cloudinary(account);
     }
     //Upload more than one image
-    public async Task<List<string>> UploadImagesAsync(List<IFormFile> files)
+    public async Task<(bool isSucceded, List<string> urls)> UploadImagesAsync(List<IFormFile> files)
     {
         var uploadedUrls = new List<string>();
         foreach (var file in files)
         {
             var uploadedUrl = await UploadImageAsync(file);
-            uploadedUrls.Add(uploadedUrl);
+            if (uploadedUrl.isSucceded)
+                uploadedUrls.Add(uploadedUrl.url);
         }
-        return uploadedUrls;
+        return (uploadedUrls.Count == files.Count, uploadedUrls);
     }
     //Upload one image
-    public async Task<string> UploadImageAsync(IFormFile file)
+    public async Task<(bool isSucceded, string url)> UploadImageAsync(IFormFile file)
     {
-        if (file == null || file.Length == 0) return null;
+        if (file == null || file.Length == 0) return (false, null);
 
         //Restrict send only images
         if (!IsValidImageFile(file))
@@ -48,7 +49,7 @@ public class CloudinaryServices : ICloudinaryServices
         };
         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-        return uploadResult.SecureUrl.ToString();
+        return (uploadResult.StatusCode == HttpStatusCode.OK, uploadResult.SecureUrl.ToString());
     }
     //Delete more than one image
     public async Task<bool> DeleteImagesAsync(List<string> imagesUrls)
@@ -81,7 +82,6 @@ public class CloudinaryServices : ICloudinaryServices
 
         var imageDestroyResult = await _cloudinary.DestroyAsync(deleteParams);
         return imageDestroyResult.Result == "ok";
-
     }
     //Upload more than one files and no validation for image
     public async Task<List<string>> UploadFilesAsync(List<IFormFile> files, string category)

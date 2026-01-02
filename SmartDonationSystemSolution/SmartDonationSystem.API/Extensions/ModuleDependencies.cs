@@ -31,7 +31,7 @@ namespace SmartDonationSystem.API.Extensions
                 };
             });
 
-            services.AddAuthModule();
+            services.AddIdentityModule();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
             return services;
         }
