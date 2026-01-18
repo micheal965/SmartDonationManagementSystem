@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Auth.Interfaces;
 using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.Core.Cloud;
