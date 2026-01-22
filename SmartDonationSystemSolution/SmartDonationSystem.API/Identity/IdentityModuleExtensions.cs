@@ -8,6 +8,7 @@ namespace SmartDonationSystem.API.Identity
     {
         public static IServiceCollection AddIdentityModule(this IServiceCollection services)
         {
+            RegisterConfigs.RegisterMappings();
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IUserServices, UserServices>();
             return services;

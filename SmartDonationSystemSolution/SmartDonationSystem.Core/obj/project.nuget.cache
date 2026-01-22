@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "zC+sWZ1FOhs=",
+  "dgSpecHash": "NTzyU6XqyIo=",
   "success": true,
   "projectFilePath": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.Core\\SmartDonationSystem.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MICHEAL\\.nuget\\packages\\cloudinarydotnet\\1.27.9\\cloudinarydotnet.1.27.9.nupkg.sha512",
+    "C:\\Users\\MICHEAL\\.nuget\\packages\\mapster\\9.0.0-pre01\\mapster.9.0.0-pre01.nupkg.sha512",
+    "C:\\Users\\MICHEAL\\.nuget\\packages\\mapster.core\\9.0.0-pre01\\mapster.core.9.0.0-pre01.nupkg.sha512",
     "C:\\Users\\MICHEAL\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.22\\microsoft.aspnetcore.cryptography.internal.8.0.22.nupkg.sha512",
     "C:\\Users\\MICHEAL\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.22\\microsoft.aspnetcore.cryptography.keyderivation.8.0.22.nupkg.sha512",
     "C:\\Users\\MICHEAL\\.nuget\\packages\\microsoft.aspnetcore.http\\2.3.0\\microsoft.aspnetcore.http.2.3.0.nupkg.sha512",

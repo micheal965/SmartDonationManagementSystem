@@ -13,9 +13,9 @@ public class RegisterRequestDto
     [Required]
     public required string FullName { get; set; }
     [Required]
-    public required DateOnly BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
-    // image input
+    [Required]
     public required IFormFile IdentityCard { get; set; }
 
     //General Data

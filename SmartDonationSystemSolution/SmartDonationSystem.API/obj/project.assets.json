@@ -2917,6 +2917,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "CloudinaryDotNet": "1.27.9",
+          "Mapster": "9.0.0-pre01",
           "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.22",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
@@ -2953,7 +2954,6 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "CloudinaryDotNet": "1.27.9",
-          "Mapster": "9.0.0-pre01",
           "Microsoft.AspNetCore.Identity": "2.3.1",
           "SmartDonationSystem.Core": "1.0.0",
           "SmartDonationSystem.DataAccess": "1.0.0",

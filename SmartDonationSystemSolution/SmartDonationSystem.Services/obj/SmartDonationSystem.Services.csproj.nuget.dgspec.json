@@ -57,6 +57,10 @@
               "target": "Package",
               "version": "[1.27.9, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[9.0.0-pre01, )"
+            },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
               "version": "[2.3.0, )"
@@ -241,10 +245,6 @@
             "CloudinaryDotNet": {
               "target": "Package",
               "version": "[1.27.9, )"
-            },
-            "Mapster": {
-              "target": "Package",
-              "version": "[9.0.0-pre01, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",

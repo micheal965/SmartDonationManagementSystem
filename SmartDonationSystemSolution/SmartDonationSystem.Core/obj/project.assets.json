@@ -20,6 +20,27 @@
           }
         }
       },
+      "Mapster/9.0.0-pre01": {
+        "type": "package",
+        "dependencies": {
+          "Mapster.Core": "9.0.0-pre01"
+        },
+        "compile": {
+          "lib/net8.0/Mapster.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.dll": {}
+        }
+      },
+      "Mapster.Core/9.0.0-pre01": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Mapster.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/Mapster.Core.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Cryptography.Internal/8.0.22": {
         "type": "package",
         "compile": {
@@ -1329,6 +1350,34 @@
         "lib/netstandard1.3/CloudinaryDotNet.xml",
         "lib/netstandard2.0/CloudinaryDotNet.dll",
         "lib/netstandard2.0/CloudinaryDotNet.xml"
+      ]
+    },
+    "Mapster/9.0.0-pre01": {
+      "sha512": "T9B4KSYi0LJ124i+Y6nedUh/PUPWHloVJSErCRAkrH8AqGNj7NXy2poCxz9vPCdeOC1RLNvUhhN1HxhaDSPbFg==",
+      "type": "package",
+      "path": "mapster/9.0.0-pre01",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net8.0/Mapster.dll",
+        "lib/net9.0/Mapster.dll",
+        "mapster.9.0.0-pre01.nupkg.sha512",
+        "mapster.nuspec"
+      ]
+    },
+    "Mapster.Core/9.0.0-pre01": {
+      "sha512": "POm9O/8rZcm9d/4ikWET85vg27U+1uJxfpKdQdYKB/fX3Wj7ql3t6FdX9g4MYUaiIIkEnhCUnyuC3oUaYN6rRQ==",
+      "type": "package",
+      "path": "mapster.core/9.0.0-pre01",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net8.0/Mapster.Core.dll",
+        "lib/net9.0/Mapster.Core.dll",
+        "mapster.core.9.0.0-pre01.nupkg.sha512",
+        "mapster.core.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Cryptography.Internal/8.0.22": {
@@ -4140,6 +4189,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "CloudinaryDotNet >= 1.27.9",
+      "Mapster >= 9.0.0-pre01",
       "Microsoft.AspNetCore.Http >= 2.3.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.22",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 8.0.2",
@@ -4202,6 +4252,10 @@
           "CloudinaryDotNet": {
             "target": "Package",
             "version": "[1.27.9, )"
+          },
+          "Mapster": {
+            "target": "Package",
+            "version": "[9.0.0-pre01, )"
           },
           "Microsoft.AspNetCore.Http": {
             "target": "Package",
