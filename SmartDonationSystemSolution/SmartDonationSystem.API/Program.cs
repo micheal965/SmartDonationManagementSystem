@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using SmartDonationSystem.API.Extensions;
 using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.DataAccess;
+using System.Text;
 
 namespace SmartDonationSystem.API
 {
@@ -57,17 +57,17 @@ namespace SmartDonationSystem.API
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
-            await SeedingData.SeedDataAsync(app);
+            //  await SeedingData.SeedDataAsync(app);
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            //}
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

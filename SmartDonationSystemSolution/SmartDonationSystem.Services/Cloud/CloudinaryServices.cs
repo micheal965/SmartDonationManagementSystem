@@ -33,7 +33,7 @@ public class CloudinaryServices : ICloudinaryServices
         return (uploadedUrls.Count == files.Count, uploadedUrls);
     }
     //Upload one image
-    public async Task<(bool isSucceded, string url)> UploadImageAsync(IFormFile file)
+    public async Task<(bool isSucceded, string? url)> UploadImageAsync(IFormFile file)
     {
         if (file == null || file.Length == 0) return (false, null);
 
@@ -48,8 +48,9 @@ public class CloudinaryServices : ICloudinaryServices
             Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
         };
         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-
-        return (uploadResult.StatusCode == HttpStatusCode.OK, uploadResult.SecureUrl.ToString());
+        if (uploadResult.Error != null)
+            return (false, null);
+        return (true, uploadResult.SecureUrl.ToString());
     }
     //Delete more than one image
     public async Task<bool> DeleteImagesAsync(List<string> imagesUrls)

@@ -13,12 +13,10 @@ namespace SmartDonationSystem.API.Identity.Auth.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthServices _authServices;
-        private readonly IAuthOcrService _authOcrService;
 
-        public AuthController(IAuthServices authServices, IAuthOcrService authOcrService)
+        public AuthController(IAuthServices authServices)
         {
             _authServices = authServices;
-            _authOcrService = authOcrService;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDto registerRequestDto)
@@ -55,23 +53,6 @@ namespace SmartDonationSystem.API.Identity.Auth.Controllers
             var token = Request.Cookies["refreshToken"];
             var result = await _authServices.RotateRefreshTokenAsync(token);
             return StatusCode((int)result.statusCode, result);
-        }
-
-        [HttpPost("extract")]
-        public async Task<IActionResult> ExtractText(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded.");
-
-            try
-            {
-                return Ok(await _authOcrService.ExtractAsync(file));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "OCR failed: " + ex.Message);
-            }
-
         }
 
         [Authorize]

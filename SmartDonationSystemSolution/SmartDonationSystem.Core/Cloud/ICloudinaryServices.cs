@@ -6,7 +6,7 @@ namespace SmartDonationSystem.Core.Cloud;
 public interface ICloudinaryServices
 {
     Task<(bool isSucceded, List<string> urls)> UploadImagesAsync(List<IFormFile> files);
-    Task<(bool isSucceded, string url)> UploadImageAsync(IFormFile file);
+    Task<(bool isSucceded, string? url)> UploadImageAsync(IFormFile file);
     Task<bool> DeleteImagesAsync(List<string> imagesUrls);
     Task<bool> DeleteImageAsync(string imageUrl);
     Task<List<string>> UploadFilesAsync(List<IFormFile> files, string category);

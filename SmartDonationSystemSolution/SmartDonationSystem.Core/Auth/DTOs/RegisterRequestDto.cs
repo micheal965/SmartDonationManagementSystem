@@ -13,7 +13,7 @@ public class RegisterRequestDto
     [Required]
     public required string FullName { get; set; }
     [Required]
-    public required DateTime BirthDate { get; set; }
+    public required DateOnly BirthDate { get; set; }
 
     // image input
     public required IFormFile IdentityCard { get; set; }

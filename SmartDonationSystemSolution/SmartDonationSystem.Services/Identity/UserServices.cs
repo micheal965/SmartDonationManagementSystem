@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using SmartDonationSystem.Core.Auth.Interfaces;
 using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.Core.Cloud;
+using SmartDonationSystem.Core.User.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
 
@@ -26,50 +26,49 @@ public class UserServices : IUserServices
     public async Task<Result<object>> ChangePasswordAsync(string userId, string oldPassword, string newPassword)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null) return Result<object>.BadRequest("Cannot Change Password!");
+        if (user == null) return Result<object>.NotFound("User not found");
 
         var passwordChangeResult = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         if (!passwordChangeResult.Succeeded)
-            return Result<object>.BadRequest($"Password change failed", passwordChangeResult.Errors);
+            return Result<object>.BadRequest("Cannot Change Password!", passwordChangeResult.Errors.Select(e => e.Description));
 
         //forces re-login on other devices.
         await _userManager.UpdateSecurityStampAsync(user);
         return Result<object>.Ok("Password changed successfully");
     }
-    public async Task<Result<IdentityResult>> AddOrUpdateProfilePictureAsync(string userId, IFormFile profilePicture)
+    public async Task<Result<object>> AddOrUpdateProfilePictureAsync(string userId, IFormFile profilePicture)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null) return Result<IdentityResult>.BadRequest("User not found");
+        if (user == null) return Result<object>.NotFound("User not found");
 
         var uploadResult = await _cloudinaryServices.UploadImageAsync(profilePicture);
         if (!uploadResult.isSucceded)
-            return Result<IdentityResult>.BadRequest("Failed to upload profile picture");
+            return Result<object>.BadRequest("Failed to upload profile picture");
 
-        var deleteResult = await _cloudinaryServices.DeleteImageAsync(user.PictureUrl);
-        if (!deleteResult)
-            return Result<IdentityResult>.BadRequest("Failed to upload profile picture");
+        if (user.PictureUrl != null)
+            await _cloudinaryServices.DeleteImageAsync(user.PictureUrl);
 
         user.PictureUrl = uploadResult.url;
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
-            return Result<IdentityResult>.BadRequest("Failed to update user profile", updateResult.Errors);
+            return Result<object>.BadRequest("Failed to update user profile", updateResult.Errors);
 
-        return Result<IdentityResult>.Ok(updateResult, "Profile picture updated successfully");
+        return Result<object>.Ok("Profile picture updated successfully");
     }
     public async Task<Result<string>> GetProfilePictureAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null) return Result<string>.BadRequest("User not found");
+        if (user == null) return Result<string>.NotFound("User not found");
 
         if (string.IsNullOrEmpty(user.PictureUrl))
-            return Result<string>.Ok(string.Empty, "No profile picture set");
+            return Result<string>.NotFound("No profile picture set");
 
         return Result<string>.Ok(user.PictureUrl, "Profile picture retrieved successfully");
     }
     public async Task<Result<object>> DeleteProfilePictureAsync(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
-        if (user == null) return Result<object>.BadRequest("User not found");
+        if (user == null) return Result<object>.NotFound("User not found");
 
         if (string.IsNullOrEmpty(user.PictureUrl))
             return Result<object>.BadRequest("No profile picture to delete");
