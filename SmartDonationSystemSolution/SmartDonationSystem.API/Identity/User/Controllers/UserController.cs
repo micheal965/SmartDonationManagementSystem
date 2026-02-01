@@ -1,8 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.User.DTOs;
 using SmartDonationSystem.Core.User.Interfaces;
+using System.Security.Claims;
 
 namespace SmartDonationSystem.API.Identity.User.Controllers
 {
@@ -46,5 +46,28 @@ namespace SmartDonationSystem.API.Identity.User.Controllers
             var deleteProfilePictureResponse = await _userServices.DeleteProfilePictureAsync(userId);
             return StatusCode((int)deleteProfilePictureResponse.statusCode, deleteProfilePictureResponse);
         }
+        [HttpDelete("delete-user-soft")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUserSoft()
+        {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var deleteUserSoftResponse = await _userServices.DeleteUserSoftAsync(userId);
+            return StatusCode((int)deleteUserSoftResponse.statusCode, deleteUserSoftResponse);
+        }
+        [HttpGet("get-user-data")]
+        public async Task<IActionResult> GetUserData([FromQuery] string userId)
+        {
+            var getUserDataResponse = await _userServices.GetSpecificUserAsync(userId);
+            return StatusCode((int)getUserDataResponse.statusCode, getUserDataResponse);
+        }
+        [HttpPut("update-user")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUserData(UpdateUserRequestDto updateUserRequestDto)
+        {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var getUserDataResponse = await _userServices.UpdateUserAsync(userId, updateUserRequestDto);
+            return StatusCode((int)getUserDataResponse.statusCode, getUserDataResponse);
+        }
+
     }
 }

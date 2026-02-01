@@ -7,8 +7,8 @@
       "RelativeMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|solutionrelative:smartdonationsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|d:\\projects\\personal projects\\smartdonationproject\\smartdonationsystemsolution\\smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|solutionrelative:smartdonationsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|d:\\projects\\personal projects\\smartdonationproject\\smartdonationsystemsolution\\smartdonationsystem.api\\identity\\user\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC5482AB-C332-17E1-44BE-013984F97D64}|SmartDonationSystem.API\\SmartDonationSystem.API.csproj|solutionrelative:smartdonationsystem.api\\identity\\user\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,22 +17,9 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 169,
+          "SelectedChildIndex": 12,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\appsettings.json",
-              "RelativeDocumentMoniker": "SmartDonationSystem.API\\appsettings.json",
-              "ToolTip": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\appsettings.json",
-              "RelativeToolTip": "SmartDonationSystem.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-22T09:48:10.208Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
@@ -83,15 +70,28 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\appsettings.json",
+              "RelativeDocumentMoniker": "SmartDonationSystem.API\\appsettings.json",
+              "ToolTip": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\appsettings.json",
+              "RelativeToolTip": "SmartDonationSystem.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-01T19:38:41.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
-              "RelativeDocumentMoniker": "SmartDonationSystem.API\\Program.cs",
-              "ToolTip": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Program.cs",
-              "RelativeToolTip": "SmartDonationSystem.API\\Program.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Identity\\User\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "SmartDonationSystem.API\\Identity\\User\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\Projects\\Personal Projects\\SmartDonationProject\\SmartDonationSystemSolution\\SmartDonationSystem.API\\Identity\\User\\Controllers\\UserController.cs",
+              "RelativeToolTip": "SmartDonationSystem.API\\Identity\\User\\Controllers\\UserController.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAAEAAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T23:04:36.899Z",
+              "WhenOpened": "2026-01-31T20:40:17.981Z",
               "EditorCaption": ""
             }
           ]

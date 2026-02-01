@@ -1,7 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +11,10 @@ using SmartDonationSystem.Core.Cloud;
 using SmartDonationSystem.Core.DTOs;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SmartDonationSystem.Services.Identity;
 
@@ -50,7 +50,7 @@ public class AuthServices : IAuthServices
         ApplicationUser? user = await _userManager.Users
                             .Include(u => u.RefreshTokens)
                             .FirstOrDefaultAsync(u => u.IdentityNumber.Equals(loginRequestDto.IdentityNumber));
-        if (user == null)
+        if (user == null || user.IsSoftDeleted)
             return Result<LoginOrRotateTokenResponseDto>.Unauthorized("Invalid login attempt!");
 
         SignInResult checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, loginRequestDto.Password, false);

@@ -1,5 +1,6 @@
 using Mapster;
 
+namespace SmartDonationSystem.Core.Auth.MapsterConfigurations;
 public static class RegisterConfigs
 {
     public static void RegisterMappings()

@@ -1,4 +1,5 @@
 using SmartDonationSystem.Core.Auth.Interfaces;
+using SmartDonationSystem.Core.Auth.MapsterConfigurations;
 using SmartDonationSystem.Core.User.Interfaces;
 using SmartDonationSystem.Services.Identity;
 

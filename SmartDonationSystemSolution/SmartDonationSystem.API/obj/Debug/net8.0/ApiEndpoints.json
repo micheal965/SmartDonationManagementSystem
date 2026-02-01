@@ -1,22 +1,6 @@
 [
   {
     "ContainingType": "SmartDonationSystem.API.Identity.Auth.Controllers.AuthController",
-    "Method": "ExtractText",
-    "RelativePath": "api/Auth/extract",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "file",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SmartDonationSystem.API.Identity.Auth.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -77,7 +61,7 @@
       },
       {
         "Name": "BirthDate",
-        "Type": "System.DateTime",
+        "Type": "System.DateOnly",
         "IsRequired": false
       },
       {
@@ -121,6 +105,106 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/User/change-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "changePasswordRequestDto",
+        "Type": "SmartDonationSystem.Core.User.DTOs.ChangePasswordRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "DeleteProfilePicture",
+    "RelativePath": "api/User/delete-profile-picture",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "DeleteUserSoft",
+    "RelativePath": "api/User/delete-user-soft",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "GetProfilePicture",
+    "RelativePath": "api/User/get-profile-picture",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "GetUserData",
+    "RelativePath": "api/User/get-user-data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "SetProfilePicture",
+    "RelativePath": "api/User/set-profile-picture",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "profilePicture",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Identity.User.Controllers.UserController",
+    "Method": "UpdateUserData",
+    "RelativePath": "api/User/update-user",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateUserRequestDto",
+        "Type": "SmartDonationSystem.Core.User.DTOs.UpdateUserRequestDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

@@ -9,12 +9,10 @@
       "SmartDonationSystem.Services/1.0.0": {
         "dependencies": {
           "CloudinaryDotNet": "1.27.9",
-          "Mapster": "9.0.0-pre01",
           "Microsoft.AspNetCore.Identity": "2.3.1",
           "SmartDonationSystem.Core": "1.0.0",
           "SmartDonationSystem.DataAccess": "1.0.0",
-          "SmartDonationSystem.Shared": "1.0.0",
-          "Tesseract": "5.2.0"
+          "SmartDonationSystem.Shared": "1.0.0"
         },
         "runtime": {
           "SmartDonationSystem.Services.dll": {}
@@ -1365,7 +1363,6 @@
           "System.Runtime": "4.3.1"
         }
       },
-      "System.Reflection.Emit/4.7.0": {},
       "System.Reflection.Metadata/6.0.1": {
         "dependencies": {
           "System.Collections.Immutable": "6.0.0"
@@ -1668,20 +1665,10 @@
           }
         }
       },
-      "Tesseract/5.2.0": {
-        "dependencies": {
-          "System.Reflection.Emit": "4.7.0"
-        },
-        "runtime": {
-          "lib/netstandard2.0/Tesseract.dll": {
-            "assemblyVersion": "5.2.0.0",
-            "fileVersion": "5.2.0.0"
-          }
-        }
-      },
       "SmartDonationSystem.Core/1.0.0": {
         "dependencies": {
           "CloudinaryDotNet": "1.27.9",
+          "Mapster": "9.0.0-pre01",
           "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.22",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
@@ -2567,13 +2554,6 @@
       "path": "system.reflection/4.3.0",
       "hashPath": "system.reflection.4.3.0.nupkg.sha512"
     },
-    "System.Reflection.Emit/4.7.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
-      "path": "system.reflection.emit/4.7.0",
-      "hashPath": "system.reflection.emit.4.7.0.nupkg.sha512"
-    },
     "System.Reflection.Metadata/6.0.1": {
       "type": "package",
       "serviceable": true,
@@ -2804,13 +2784,6 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
-    },
-    "Tesseract/5.2.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-YB7feJlrTWSXtK8+WaCcseGSPK/1r2d2FWeKGyndlrPwYClrzTlCoHD4/oQEUjKafmpkWlhTZZ7pxiRJYZgj6w==",
-      "path": "tesseract/5.2.0",
-      "hashPath": "tesseract.5.2.0.nupkg.sha512"
     },
     "SmartDonationSystem.Core/1.0.0": {
       "type": "project",

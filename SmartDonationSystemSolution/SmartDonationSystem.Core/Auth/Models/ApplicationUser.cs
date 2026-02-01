@@ -9,6 +9,8 @@ public class ApplicationUser : IdentityUser
     public string? PictureUrl { get; set; }
     public DateOnly BirthDate { get; set; }
     public string? Address { get; set; }
+    public bool IsSoftDeleted { get; set; } = false;
+
     //for tracking IP Address for each login
     public List<UserLoginHistory> UserLoginsHistory { get; set; }
     public List<RefreshToken> RefreshTokens { get; set; }

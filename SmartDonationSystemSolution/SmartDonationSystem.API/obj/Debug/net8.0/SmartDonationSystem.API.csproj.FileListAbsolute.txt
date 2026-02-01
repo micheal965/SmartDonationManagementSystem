@@ -219,10 +219,6 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\SmartDonationSystem.API.MvcApplicationPartsAssemblyInfo.cs
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\SmartDonationSystem.API.MvcApplicationPartsAssemblyInfo.cache
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\SmartDonationSystem.API.sourcelink.json
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\x86\tesseract50.dll
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\x64\tesseract50.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\appsettings.Development.json
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\appsettings.json
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\SmartDonationSystem.API.staticwebassets.runtime.json
@@ -295,7 +291,6 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\System.Security.Permissions.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\System.Windows.Extensions.dll
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Tesseract.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -384,3 +379,4 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Mapster.Core.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\CloudinaryDotNet.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
