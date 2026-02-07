@@ -1,0 +1,93 @@
+<div class="flex items-center">
+    <div class="relative w-5/12 ">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#42E2B8] to-white opacity-50"></div>
+        <img src="../../../../../assets/signup-photo.png" alt="signup photo" class="w-100">
+    </div>
+    <div class="w-7/12 ">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
+            class="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
+            <!-- Full Name -->
+            <div class="mb-4">
+                <label for="fullName" class="block font-medium mb-1">Full Name</label>
+                <input type="text" id="fullName" formControlName="fullName" class="w-full p-2 border rounded" />
+                <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Full Name is required.
+                </div>
+            </div>
+
+            <!-- Birth Date -->
+            <div class="mb-4">
+                <label for="birthDate" class="block font-medium mb-1">Birth Date</label>
+                <input type="date" id="birthDate" formControlName="birthDate" class="w-full p-2 border rounded" />
+                <div *ngIf="registerForm.get('birthDate')?.touched && registerForm.get('birthDate')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Birth Date is required.
+                </div>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-4">
+                <label for="role" class="block font-medium mb-1">Role</label>
+                <select id="role" formControlName="role" class="w-full p-2 border rounded">
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                    <!-- Add more roles as needed -->
+                </select>
+                <div *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Role is required.
+                </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-4">
+                <label for="phoneNumber" class="block font-medium mb-1">Phone Number</label>
+                <input type="text" id="phoneNumber" formControlName="phoneNumber" class="w-full p-2 border rounded" />
+                <div *ngIf="registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Phone Number is required.
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-4">
+                <label for="address" class="block font-medium mb-1">Address</label>
+                <input type="text" id="address" formControlName="address" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Identity Number -->
+            <div class="mb-4">
+                <label for="identityNumber" class="block font-medium mb-1">Identity Number</label>
+                <input type="text" id="identityNumber" formControlName="identityNumber"
+                    class="w-full p-2 border rounded" />
+                <div *ngIf="registerForm.get('identityNumber')?.touched && registerForm.get('identityNumber')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    <div *ngIf="registerForm.get('identityNumber')?.errors?.['required']">Identity Number is required.
+                    </div>
+                    <div *ngIf="registerForm.get('identityNumber')?.errors?.['pattern']">Identity Number must be 14
+                        digits.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block font-medium mb-1">Password</label>
+                <input type="password" id="password" formControlName="password" class="w-full p-2 border rounded" />
+                <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+                    class="text-red-500 text-sm mt-1">
+                    Password is required.
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" [disabled]="registerForm.invalid"
+                class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                Register
+            </button>
+        </form>
+    </div>
+
+</div>

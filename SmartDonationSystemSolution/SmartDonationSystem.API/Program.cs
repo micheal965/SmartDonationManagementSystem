@@ -53,12 +53,22 @@ namespace SmartDonationSystem.API
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
             // Register Modules dependencies
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
+            app.UseCors();
             //  await SeedingData.SeedDataAsync(app);
-
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
 

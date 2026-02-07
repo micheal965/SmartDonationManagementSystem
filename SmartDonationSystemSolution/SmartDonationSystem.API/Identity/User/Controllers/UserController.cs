@@ -21,7 +21,8 @@ namespace SmartDonationSystem.API.Identity.User.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordRequestDto changePasswordRequestDto)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var changePasswordResponse = await _userServices.ChangePasswordAsync(userId, changePasswordRequestDto.OldPassword, changePasswordRequestDto.NewPassword);
+            var changePasswordResponse = await _userServices.ChangePasswordAsync(userId, changePasswordRequestDto.OldPassword
+                                                                                            , changePasswordRequestDto.NewPassword);
             return StatusCode((int)changePasswordResponse.statusCode, changePasswordResponse);
         }
         [HttpPost("set-profile-picture")]

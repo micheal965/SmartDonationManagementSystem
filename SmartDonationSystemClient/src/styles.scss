@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dark-blue: #07004d;
+  --bright-blue: #2d82b7;
+  --light-gray: #f2f2f7;
+  --light-beige: #f3dfbf;
+  --soft-red: #eb8a90;
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 text-white  hover:bg-blue-600;
+  }
+}
