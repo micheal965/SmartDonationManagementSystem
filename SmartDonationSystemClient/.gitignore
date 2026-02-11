@@ -6,6 +6,7 @@
 /out-tsc
 /bazel-out
 
+.vs/
 # Node
 /node_modules
 npm-debug.log
@@ -40,3 +41,24 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Visual Studio temporary files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+/bin/
+/obj/
+/*.dll
+/*.exe
+/*.pdb
+
+# Node package lock is optional to ignore if you want to avoid LF->CRLF warnings
+# package-lock.json
+
+# Ignore Copilot and VS cache indices
+.vs/SmartDonationSystemSolution/CopilotIndices/
+.vs/SmartDonationSystemSolution/FileContentIndex/
+.vs/SmartDonationSystemSolution/DesignTimeBuild/

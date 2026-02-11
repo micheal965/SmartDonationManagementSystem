@@ -1,6 +1,5 @@
-using System.ComponentModel.DataAnnotations;
-using SmartDonationSystem.Shared.Enums;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartDonationSystem.Core.DTOs;
 
@@ -14,9 +13,6 @@ public class RegisterRequestDto
     public required string FullName { get; set; }
     [Required]
     public DateOnly BirthDate { get; set; }
-
-    [Required]
-    public required IFormFile IdentityCard { get; set; }
 
     //General Data
     [Required]

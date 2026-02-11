@@ -51,11 +51,11 @@ public class AuthServices : IAuthServices
                             .Include(u => u.RefreshTokens)
                             .FirstOrDefaultAsync(u => u.IdentityNumber.Equals(loginRequestDto.IdentityNumber));
         if (user == null || user.IsSoftDeleted)
-            return Result<LoginOrRotateTokenResponseDto>.Unauthorized("Invalid login attempt!");
+            return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid login attempt!");
 
         SignInResult checkPasswordResult = await _signInManager.CheckPasswordSignInAsync(user, loginRequestDto.Password, false);
         if (!checkPasswordResult.Succeeded)
-            return Result<LoginOrRotateTokenResponseDto>.Unauthorized("Invalid login attempt!");
+            return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid login attempt!");
 
         //Track IPAddress in UserLoginHistory table
         await SaveLoginAttemptAsync(loginRequestDto.IdentityNumber);

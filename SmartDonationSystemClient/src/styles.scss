@@ -1,3 +1,4 @@
+@use "ngx-toastr/toastr";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +7,23 @@
   --dark-blue: #07004d;
   --bright-blue: #2d82b7;
   --light-gray: #f2f2f7;
-  --light-beige: #f3dfbf;
+  --light-beige: rgb(243, 223, 191);
   --soft-red: #eb8a90;
+  --light-green: #42e2b8;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.text-primary {
+  color: var(--dark-blue);
+}
+
+
+.app-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 @layer components {

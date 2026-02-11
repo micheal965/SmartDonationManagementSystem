@@ -65,11 +65,6 @@
         "IsRequired": false
       },
       {
-        "Name": "IdentityCard",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      },
-      {
         "Name": "Password",
         "Type": "System.String",
         "IsRequired": false

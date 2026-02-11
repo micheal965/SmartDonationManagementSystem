@@ -1,93 +1,318 @@
-<div class="flex items-center">
-    <div class="relative w-5/12 ">
-        <div class="absolute inset-0 bg-gradient-to-t from-[#42E2B8] to-white opacity-50"></div>
-        <img src="../../../../../assets/signup-photo.png" alt="signup photo" class="w-100">
-    </div>
-    <div class="w-7/12 ">
+<div class="flex max-w-7xl mx-auto bg-gray-50 m-4 rounded-xl shadow-xl">
+    <!-- Left Side -->
+    <div class="lg:w-6/12  mx-auto p-8 pb-4">
+        <div class="flex flex-col gap-2">
+            <h1 class="text-4xl text-primary font-bold">Sign Up</h1>
+            <h3>Join our community to make an impact or receive support</h3>
+            <p class="flex gap-2 items-center bg-[var(--light-gray)] p-2  rounded-full ">
+                <svg class="w-7 h-7 text-red-500 animate-stepPulse" fill="none" fill="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682 4.318 12.682a4.5 4.5 0 010-6.364z" />
+                </svg>
+                Over 10,000 donors making an impact
+            </p>
+        </div>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
-            class="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
-            <!-- Full Name -->
-            <div class="mb-4">
-                <label for="fullName" class="block font-medium mb-1">Full Name</label>
-                <input type="text" id="fullName" formControlName="fullName" class="w-full p-2 border rounded" />
-                <div *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    Full Name is required.
+            class="p-4 my-4 max-w-xl bg-white shadow-md rounded-2xl">
+            <!-- Stepper Container -->
+            <div class="flex flex-col">
+                <p class="text-lg text-[var(--dark-blue)] font-bold mb-3">
+                    Step {{ currentStep }} : {{steps[currentStep-1].label}}
+                </p>
+                <div class="flex items-center mb-6">
+                    <ng-container *ngFor="let step of steps; let i = index">
+
+                        <!-- Circle -->
+                        <div class="flex items-center justify-center w-8 h-8 rounded-full font-semibold
+                      transition-all duration-300 shrink-0" [ngClass]="{
+                    'bg-[var(--light-green)] text-lg text-[#ffffff] ': currentStep > i + 1,
+                    'bg-gray-300 text-white scale-110 animate-stepPulse': currentStep === i + 1
+                    }">
+                            {{ i + 1 }}
+                        </div>
+
+                        <!-- Line: only show if not the last circle -->
+                        <div *ngIf="i < steps.length - 1" class="flex-1 h-1 mx-2 rounded transition-all duration-300"
+                            [ngClass]="{
+                            'bg-[var(--light-green)]': currentStep > i + 1,
+                            'bg-gray-300': currentStep <= i + 1
+                            }">
+                        </div>
+
+                    </ng-container>
                 </div>
-            </div>
 
-            <!-- Birth Date -->
-            <div class="mb-4">
-                <label for="birthDate" class="block font-medium mb-1">Birth Date</label>
-                <input type="date" id="birthDate" formControlName="birthDate" class="w-full p-2 border rounded" />
-                <div *ngIf="registerForm.get('birthDate')?.touched && registerForm.get('birthDate')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    Birth Date is required.
-                </div>
             </div>
+            <!-- Step 1 -->
+            <div *ngIf="currentStep===1">
 
-            <!-- Role -->
-            <div class="mb-4">
-                <label for="role" class="block font-medium mb-1">Role</label>
-                <select id="role" formControlName="role" class="w-full p-2 border rounded">
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                    <!-- Add more roles as needed -->
-                </select>
-                <div *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    Role is required.
-                </div>
-            </div>
+                <!-- Scan -->
+                <div class="mb-4 border-2 border-dashed border-[var(--light-beige)] rounded-3xl p-4 pb-2">
+                    <div class="flex flex-col lg:flex-row items-center gap-4 text-center lg:text-start justify-center">
+                        <img src="./assets/scan.png" alt="scan icon" width="60px" class="hidden lg:block">
 
-            <!-- Phone Number -->
-            <div class="mb-4">
-                <label for="phoneNumber" class="block font-medium mb-1">Phone Number</label>
-                <input type="text" id="phoneNumber" formControlName="phoneNumber" class="w-full p-2 border rounded" />
-                <div *ngIf="registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    Phone Number is required.
-                </div>
-            </div>
-
-            <!-- Address -->
-            <div class="mb-4">
-                <label for="address" class="block font-medium mb-1">Address</label>
-                <input type="text" id="address" formControlName="address" class="w-full p-2 border rounded" />
-            </div>
-
-            <!-- Identity Number -->
-            <div class="mb-4">
-                <label for="identityNumber" class="block font-medium mb-1">Identity Number</label>
-                <input type="text" id="identityNumber" formControlName="identityNumber"
-                    class="w-full p-2 border rounded" />
-                <div *ngIf="registerForm.get('identityNumber')?.touched && registerForm.get('identityNumber')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    <div *ngIf="registerForm.get('identityNumber')?.errors?.['required']">Identity Number is required.
+                        <div class="flex flex-col justify-center">
+                            <h1 class="font-bold text-sm lg:text-md xl:text-lg">Quick Verify with AI</h1>
+                            <p class="text-black/70 text-xs">Save time by scanning your ID.</p>
+                            <p class="text-black/70 text-xs">We’ll automatically fill in your details securely</p>
+                        </div>
+                        <button class="btn btn-primary">Scan My ID Card</button>
                     </div>
-                    <div *ngIf="registerForm.get('identityNumber')?.errors?.['pattern']">Identity Number must be 14
-                        digits.
+                    <div class="flex justify-center items-center gap-1 text-gray-400 mt-4">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Lock body -->
+                            <rect x="5" y="10" width="14" height="10" rx="2" ry="2" stroke-width="2"></rect>
+                            <!-- Lock shackle -->
+                            <path d="M8 10V7a4 4 0 018 0v3" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                        <p>Secure & AI - Powered</p>
                     </div>
                 </div>
+
+                <!-- Role -->
+                <div class="mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Donor -->
+                        <div class="role-container cursor-pointer flex border-2 p-3 rounded-2xl items-center gap-2 transition-all duration-300"
+                            [ngClass]="{
+                                    'border-[var(--light-green)]': role?.value==='Donor',
+                                    'border-slate-200': role?.value!=='Donor'
+                                }" (click)="selectRole('Donor')">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" [ngClass]="{
+                                    'text-[var(--light-green)]': role?.value==='Donor',
+                                    'text-gray-400': role?.value!=='Donor'
+                                    }">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 20v-6m0 0l-3-3m3 3l3-3M8 10a4 4 0 118 0 4 4 0 01-8 0zM12 14h.01" />
+                            </svg>
+
+                            <div class="flex flex-col">
+                                <h2 class="font-bold text-primary">I want to Donate</h2>
+                                <p class="text-gray-400 text-xs">Empower Lives</p>
+                            </div>
+                        </div>
+                        <!-- Requester -->
+                        <div class="role-container cursor-pointer flex border-2 p-3 rounded-2xl items-center gap-2 transition-all duration-300"
+                            [ngClass]="{
+                                'border-[var(--light-green)]': role?.value==='Requester',
+                                'border-slate-200': role?.value!=='Requester'
+                                }" (click)="selectRole('Requester')">
+
+                            <!-- Icon -->
+                            <svg class="w-8 h-8 " fill="none" stroke="currentColor" [ngClass]="{
+                                        'text-[var(--light-green)]': role?.value==='Requester',
+                                        'text-gray-400': role?.value!=='Requester'
+                                        }" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 14l-2-2m0 0l-2-2m2 2h10m0 0l2-2m-2 2l-2 2m-6 6l4-4m-4 0l-2-2m0 0l-2-2m2 2h10" />
+                            </svg>
+
+                            <div class="flex flex-col">
+                                <h2 class="font-bold text-primary">I Need Help</h2>
+                                <p class="text-gray-400 text-xs">Request Help</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Validation message -->
+                    <small *ngIf="role?.invalid && role?.touched" class="text-red-500 text-sm mt-2 block">
+                        Role is required.
+                    </small>
+                </div>
+
+                <!-- National ID Number -->
+                <div class="mb-4">
+                    <label for="identityNumber" class="block font-medium mb-1">National ID Number</label>
+                    <div class="relative">
+                        <!-- Left Icon -->
+                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Outer card rectangle -->
+                            <rect x="2" y="4" width="20" height="16" rx="2" ry="2" stroke-width="2"></rect>
+                            <!-- User circle inside card -->
+                            <circle cx="7" cy="10" r="2" stroke-width="2"></circle>
+                            <!-- Lines for text on the card -->
+                            <line x1="11" y1="8" x2="18" y2="8" stroke-width="2" stroke-linecap="round"></line>
+                            <line x1="11" y1="12" x2="18" y2="12" stroke-width="2" stroke-linecap="round"></line>
+                        </svg>
+
+                        <input type="text" id="identityNumber" formControlName="IdentityNumber"
+                            placeholder="0000-0000-0000-0000" class="w-full pl-10 p-2 border-2 rounded-xl shadow-sm
+                  transition-colors duration-300
+                  focus:outline-none focus:border-blue-500
+                  " [class.border-red-500]="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)" />
+                    </div>
+
+                    <div *ngIf="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)"
+                        class="text-red-500 text-md mt-1">
+                        <small *ngIf="identityNumber?.errors?.['required']">National ID Number is required.</small>
+                        <small *ngIf="identityNumber?.errors?.['pattern']">National ID Number must be 14
+                            digits.</small>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="block font-medium mb-1">Secure Password</label>
+                    <div class="relative">
+                        <!-- Left icon: lock -->
+                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Lock body -->
+                            <rect x="5" y="10" width="14" height="10" rx="2" ry="2" stroke-width="2"></rect>
+                            <!-- Lock shackle -->
+                            <path d="M8 10V7a4 4 0 018 0v3" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+
+                        <input type="password" id="password" formControlName="Password"
+                            placeholder="At least 8 characters" class="w-full pl-10 p-2 border-2 rounded-xl shadow-sm
+                  transition-colors duration-300
+                  focus:outline-none focus:border-blue-500"
+                            [class.border-red-500]="password?.invalid && (password?.touched || password?.dirty)" />
+                    </div>
+
+                    <!-- Validation errors -->
+                    <div *ngIf="password?.invalid && (password?.touched || password?.dirty)"
+                        class="flex flex-col text-red-500 text-md mt-1">
+                        <small *ngIf="password?.errors?.['required']">Password is required.</small>
+                        <small *ngIf="password?.errors?.['minlength']">Password must be at least 8
+                            characters.</small>
+                        <small *ngIf="password?.getError('noUpperCase')">{{ password?.getError('noUpperCase')}}</small>
+                        <small *ngIf="password?.getError('noLowerCase')">{{ password?.getError('noLowerCase')}}</small>
+                    </div>
+                </div>
+
+                <button type="button" (click)="next()" class="w-full flex items-center justify-center gap-2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors duration-300
+                      group">
+                    Continue to Personal Details
+                    <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
 
-            <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="block font-medium mb-1">Password</label>
-                <input type="password" id="password" formControlName="password" class="w-full p-2 border rounded" />
-                <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
-                    class="text-red-500 text-sm mt-1">
-                    Password is required.
+            <!-- Step 2 -->
+            <div *ngIf="currentStep===2">
+                <!-- Profile Picture -->
+                <div class="mb-4 ">
+                    <label for="profilePicture" class="block font-medium mb-1">Profile Picture</label>
+                    <div class="flex justify-center ">
+                        <div class="relative rounded-full border-2 border-[var(--light-beige)] border-dashed cursor-pointer"
+                            (click)="fileInput.click()">
+
+                            <!-- Show image preview if exists -->
+                            <img *ngIf="imagePreview" [src]="imagePreview"
+                                class="w-32 h-32 rounded-full object-cover" />
+                            <svg *ngIf="!imagePreview" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 24 24" class="w-32 h-32 p-4 text-gray-400">
+                                <path
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="absolute bottom-0 right-0 w-8 h-8 text-black bg-[var(--light-green)] rounded-full p-1">
+                                <path fill="currentColor"
+                                    d="M20 5h-3.17l-1.84-2H8.99L7.15 5H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-8 12a4 4 0 110-8 4 4 0 010 8z" />
+                                <circle fill="currentColor" cx="12" cy="12" r="2" />
+                            </svg>
+
+                        </div>
+                    </div>
+                    <input type="file" id="profilePicture" #fileInput accept="image/*" class="hidden"
+                        (change)="onFileSelected($event)" />
+                    <div *ngIf="profilePicture?.invalid && (profilePicture?.touched || profilePicture?.dirty)"
+                        class="text-red-500 text-sm mt-1">
+                        Profile Picture is required.
+                    </div>
+                </div>
+                <!-- Full Name -->
+                <div class="mb-4">
+                    <label for="FullName" class="block font-medium mb-1">Full Name</label>
+                    <input type="text" id="FullName" formControlName="FullName" placeholder="Enter your Full name"
+                        class="w-full p-2 border-2 rounded-xl shadow-sm
+                  transition-colors duration-300
+                  focus:outline-none focus:border-blue-500
+                  " [class.border-red-500]="fullName?.invalid && (fullName?.touched || fullName?.dirty)" />
+                    <div *ngIf="fullName?.invalid && (fullName?.touched || fullName?.dirty)"
+                        class="text-red-500 text-sm mt-1">
+                        Full Name is required.
+                    </div>
+                </div>
+
+                <!-- Birth Date -->
+                <div class="mb-4">
+                    <label for="BirthDate" class="block font-medium mb-1">Birth Date</label>
+                    <input type="date" id="BirthDate" formControlName="BirthDate"
+                        class="w-full p-2 border-2 rounded-xl shadow-sm transition-colors duration-300 focus:outline-none focus:border-blue-500"
+                        [class.border-red-500]="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)" />
+                    <div *ngIf="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)"
+                        class="text-red-500 text-sm mt-1">
+                        Birth Date is required.
+                    </div>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-4">
+                    <label for="PhoneNumber" class="block font-medium mb-1">Phone Number</label>
+                    <input type="text" id="PhoneNumber" formControlName="PhoneNumber"
+                        class="w-full p-2 border-2 rounded-xl shadow-sm transition-colors duration-300 focus:outline-none focus:border-blue-500"
+                        [class.border-red-500]="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
+                        placeholder="+20 01201605049" />
+                    <div *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
+                        class="text-red-500 text-sm mt-1">
+                        Phone Number is required.
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-4">
+                    <label for="Address" class="block font-medium mb-1">Address</label>
+                    <input type="text" id="Address" formControlName="Address" placeholder="Enter your address"
+                        class="w-full p-2 border-2 rounded-xl shadow-sm transition-colors duration-300 focus:outline-none focus:border-blue-500" />
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col">
+                    <div class="flex flex-col md:flex-row gap-4 mt-4">
+                        <!-- Prev button -->
+                        <button type="button" (click)="prev()" class="w-full md:w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 p-3 rounded-full font-semibold
+                 hover:bg-gray-300 transition-colors duration-300 group ">
+                            <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Prev
+                        </button>
+                        <!-- Register button -->
+                        <button type="submit" [disabled]="registerForm.invalid || isLoading" class="flex justify-center items-center w-full gap-2 md:w-1/2 bg-blue-500 text-white p-3 rounded-full font-semibold
+                 hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed
+                 transition-colors duration-300">
+                            Sign Up
+                            <svg *ngIf="isLoading" class="w-5 h-5 animate-spin text-white" viewBox="0 0 24 24"
+                                fill="none">
+                                <circle class="opacity-30" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="3" />
+                                <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="text-sm text-black mx-auto mt-2">By signing up, you agree to our <a href=""
+                            class="underline">Terms of Service</a> </p>
                 </div>
             </div>
-
-            <!-- Submit Button -->
-            <button type="submit" [disabled]="registerForm.invalid"
-                class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-                Register
-            </button>
         </form>
     </div>
 
+    <!-- Right Side -->
+    <div class="relative w-0 lg:w-6/12 m-0">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#42E2B8] to-white opacity-50 rounded-r-lg shadow-inner">
+        </div>
+        <img src="./assets/signup-photo.png" alt="signup photo"
+            class="w-full h-full object-cover shadow-xl rounded-r-lg">
+    </div>
 </div>

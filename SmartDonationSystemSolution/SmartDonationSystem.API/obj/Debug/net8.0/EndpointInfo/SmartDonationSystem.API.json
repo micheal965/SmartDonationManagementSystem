@@ -75,15 +75,10 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "IdentityCard",
                   "ProfilePicture"
                 ],
                 "type": "object",
                 "properties": {
-                  "IdentityCard": {
-                    "type": "string",
-                    "format": "binary"
-                  },
                   "ProfilePicture": {
                     "type": "string",
                     "format": "binary"
@@ -91,9 +86,6 @@
                 }
               },
               "encoding": {
-                "IdentityCard": {
-                  "style": "form"
-                },
                 "ProfilePicture": {
                   "style": "form"
                 }
