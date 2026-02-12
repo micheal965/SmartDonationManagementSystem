@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.API.Identity;
 using SmartDonationSystem.Core.Cloud;
@@ -31,6 +32,7 @@ namespace SmartDonationSystem.API.Extensions
                 };
             });
 
+            services.AddHangfireServer();
             services.AddIdentityModule();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
             return services;

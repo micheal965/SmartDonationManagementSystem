@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Middlewares\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\temp\" />
   </ItemGroup>
 
 </Project>

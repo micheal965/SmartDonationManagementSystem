@@ -1,4 +1,6 @@
+using Hangfire;
 using Mapster;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.Core.Auth.DTOs;
 using SmartDonationSystem.Core.Auth.Interfaces;
 using SmartDonationSystem.Core.Auth.Models;
-using SmartDonationSystem.Core.Cloud;
 using SmartDonationSystem.Core.DTOs;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
@@ -21,29 +22,29 @@ namespace SmartDonationSystem.Services.Identity;
 public class AuthServices : IAuthServices
 {
     private static readonly HashSet<string> BlacklistedTokens = new();
+    private readonly IWebHostEnvironment _env;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ApplicationDbContext _applicationDbContext;
-    private readonly ICloudinaryServices _cloudinaryServices;
 
-    public AuthServices(IConfiguration configuration,
+    public AuthServices(IWebHostEnvironment env,
+                        IConfiguration configuration,
                         IHttpContextAccessor httpContextAccessor,
                         UserManager<ApplicationUser> userManager,
                         RoleManager<IdentityRole> roleManager,
                         SignInManager<ApplicationUser> signInManager,
-                        ApplicationDbContext applicationDbContext,
-                        ICloudinaryServices cloudinaryServices)
+                        ApplicationDbContext applicationDbContext)
     {
+        _env = env;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
         _roleManager = roleManager;
         _signInManager = signInManager;
         _applicationDbContext = applicationDbContext;
-        _cloudinaryServices = cloudinaryServices;
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> LoginAsync(LoginRequestDto loginRequestDto)
     {
@@ -90,9 +91,6 @@ public class AuthServices : IAuthServices
                                         .FirstOrDefaultAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
         if (existingUser != null) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
 
-        //Upload profile picture on cloudinary
-        var uploadResult = await _cloudinaryServices.UploadImageAsync(requestDto.ProfilePicture);
-
         ApplicationUser applicationUser = new ApplicationUser()
         {
             IdentityNumber = requestDto.IdentityNumber,
@@ -101,7 +99,7 @@ public class AuthServices : IAuthServices
             BirthDate = requestDto.BirthDate,
             PhoneNumber = requestDto.PhoneNumber,
             Address = requestDto.Address,
-            PictureUrl = uploadResult.isSucceded ? uploadResult.url : null,
+            PictureUrl = null,
         };
 
         //Check if the role exists
@@ -126,6 +124,22 @@ public class AuthServices : IAuthServices
             return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description).ToList());
         }
         await transaction.CommitAsync();
+
+        //Upload image on cloudinary as background job for debounce
+        if (requestDto.ProfilePicture != null)
+        {
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(requestDto.ProfilePicture.FileName)}";
+            var relativePath = Path.Combine("temp", fileName);
+            var fullPath = Path.Combine(_env.WebRootPath, relativePath);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+
+            await using var stream = new FileStream(fullPath, FileMode.Create);
+            await requestDto.ProfilePicture.CopyToAsync(stream);
+
+            BackgroundJob.Enqueue<ProfileImageJob>(job => job.Handle(applicationUser.Id, relativePath));
+        }
+
         return Result<RegisterResultDto>.Created(applicationUser.Adapt<RegisterResultDto>());
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> RotateRefreshTokenAsync(string? token)
