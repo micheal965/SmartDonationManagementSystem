@@ -4,26 +4,20 @@ import { guestGuard } from './core/guards/guest.guard';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
-  },
-  {
-    path: '',
-    loadComponent: () =>
-      import('./layouts/user/user.component').then(
-        (m) => m.UserLayoutComponent,
-      ),
-    children: [],
-  },
-  {
-    path: '',
     loadComponent: () =>
       import('./layouts/auth/auth.component').then(
         (m) => m.AuthLayoutComponent,
       ),
     canActivateChild: [guestGuard],
     children: [
-      { path: '', redirectTo: 'signin', pathMatch: 'full' },
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/home/pages/landing-page/landing-page.component').then(
+            (m) => m.LandingPageComponent,
+          ),
+        title: 'Home',
+      },
       {
         path: 'signin',
         loadComponent: () =>
@@ -43,6 +37,14 @@ export const routes: Routes = [
     ],
   },
   {
+    path: '',
+    loadComponent: () =>
+      import('./layouts/user/user.component').then(
+        (m) => m.UserLayoutComponent,
+      ),
+    children: [],
+  },
+  {
     path: 'admin',
     loadComponent: () =>
       import('./layouts/admin/admin.component').then(
@@ -51,7 +53,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home',
-    title: 'Not Found Page',
+    redirectTo: '',
   },
 ];

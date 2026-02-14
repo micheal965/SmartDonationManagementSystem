@@ -1,6 +1,16 @@
-.bg-main {
-  background-color: var(--dark-blue);
+nav a {
+  color: var(--dark-blue);
+  transition: color 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
 }
-.text-main {
-  color: var(--light-gray);
+nav a:hover {
+  color: var(--light-green);
+}
+
+.active-link {
+  color: var(--light-green) !important;
+  font-weight: bold;
+  border-bottom: 2px solid var(--light-green);
+  transition: all 0.3s ease;
 }

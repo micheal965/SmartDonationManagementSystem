@@ -1,11 +1,91 @@
-<header class="flex justify-between px-10 py-2 bg-main font-header">
-    <a class="flex items-center" routerLink="./">
-        <img width="80px" src="./assets/logo.png" alt="logo photo">
-        <h1 class="text-xl font-bold text-main">Help Hand</h1>
-    </a>
-    <div class="flex flex-col md:flex-row items-center gap-4 text-white text-lg">
-        <a href="">How it works</a>
-        <a href="">About Us</a>
-        <a href="" class="btn btn-primary rounded-full">Donate Now!</a>
+<header
+    class="max-w-7xl mx-auto sticky top-0 w-full bg-white border-b border-light-green/10 z-50 transition-all duration-300 font-header px-4 xl:px-0">
+    <div class="h-20 flex items-center justify-between">
+        <div class="flex items-center justify-center gap-2 cursor-pointer" [routerLink]="['/']" >
+            <img class="w-10 h-10 md:w-12 md:h-12" src="./assets/logo.png" alt="logo">
+            <span class="text-xl md:text-2xl text-dark-blue font-extrabold">Help Hand</span>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-8">
+            <a [routerLink]="['/']" fragment="hero" [ngClass]="{'active-link':currentFragment==='hero'}">Home</a>
+            <a [routerLink]="['/']" fragment="about" [ngClass]="{'active-link':currentFragment==='about'}">About Us</a>
+            <a [routerLink]="['/']" fragment="how-it-works"
+                [ngClass]="{'active-link':currentFragment==='how-it-works'}">How It Works</a>
+            <a [routerLink]="['/']" fragment="team" [ngClass]="{'active-link':currentFragment==='team'}">Our Team</a>
+        </nav>
+
+        <div class="hidden lg:flex items-center gap-2">
+            <button
+                class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold text-dark-blue hover:scale-95 transition-all"
+                routerLink="/signin">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 3h7a2 2 0 012 2v14a2 2 0 01-2 2H6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 12h8m0 0l-3-3m3 3l-3 3" />
+                </svg>
+                Sign In</button>
+            <button
+                class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold bg-light-green text-white rounded-3xl shadow-lg shadow-light-green/20 hover:brightness-105 hover:scale-95 transition-all"
+                routerLink="/signup">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="7" r="4" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" />
+
+                    <path d="M2 21V19C2 16.7909 3.79086 15 6 15H12C14.2091 15 16 16.7909 16 19V21" stroke="#FFFFFF"
+                        stroke-width="2" stroke-linecap="round" />
+
+                    <rect x="14" y="7" width="10" height="10" rx="5" fill="#42E2B8" />
+                    <path d="M19 9V15M16 12H22" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Sign Up</button>
+        </div>
+        <button (click)="isMenuOpen = !isMenuOpen"
+            class="lg:hidden p-2 text-dark-blue hover:text-light-green/70 focus:outline-none ">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16m-7 6h7" />
+                <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <div *ngIf="isMenuOpen"
+        class="lg:hidden absolute left-0 right-0 bg-white border-b border-gray-100 shadow-xl p-4 space-y-4 duration-300">
+        <nav class="flex flex-col gap-4 text-center font-semibold">
+            <a (click)="isMenuOpen = false" [routerLink]="['/']" fragment="hero" class="py-2"
+                [ngClass]="{'active-link':currentFragment==='hero'}">Home</a>
+            <a (click)="isMenuOpen = false" [routerLink]="['/']" fragment="about" class="py-2"
+                [ngClass]="{'active-link':currentFragment==='about'}">About Us</a>
+            <a (click)="isMenuOpen = false" [routerLink]="['/']" fragment="how-it-works" class="py-2"
+                [ngClass]="{'active-link':currentFragment==='how-it-works'}">How It Works</a>
+            <a (click)="isMenuOpen = false" [routerLink]="['/']" fragment="campaigns" class="py-2"
+                [ngClass]="{'active-link':currentFragment==='campaigns'}">Campaigns</a>
+        </nav>
+        <div class="flex flex-col gap-3 pt-4 border-t border-gray-100">
+            <button (click)="isMenuOpen = false"
+                class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold border border-dark-blue text-dark-blue rounded-md hover:bg-dark-blue hover:text-white active:scale-95 transition-all"
+                routerLink="/signin">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 3h7a2 2 0 012 2v14a2 2 0 01-2 2H6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 12h8m0 0l-3-3m3 3l-3 3" />
+                </svg>
+                Sign In</button>
+            <button (click)="isMenuOpen = false"
+                class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold bg-light-green text-dark-blue rounded-md shadow-lg shadow-light-green/20 hover:brightness-105 active:scale-95 transition-all"
+                routerLink="/signup">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="7" r="4" stroke="#07004D" stroke-width="2" stroke-linejoin="round" />
+
+                    <path d="M2 21V19C2 16.7909 3.79086 15 6 15H12C14.2091 15 16 16.7909 16 19V21" stroke="#07004D"
+                        stroke-width="2" stroke-linecap="round" />
+
+                    <rect x="14" y="7" width="10" height="10" rx="5" fill="#42E2B8" />
+                    <path d="M19 9V15M16 12H22" stroke="#07004D" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Sign Up</button>
+        </div>
     </div>
 </header>

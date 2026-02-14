@@ -11,6 +11,9 @@
   --soft-red: #eb8a90;
   --light-green: #42e2b8;
 }
+html {
+  scroll-behavior: smooth;
+}
 * {
   padding: 0;
   margin: 0;
@@ -20,7 +23,6 @@
 .text-primary {
   color: var(--dark-blue);
 }
-
 
 .app-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -32,6 +34,17 @@
   }
 
   .btn-primary {
-    @apply bg-blue-500 text-white  hover:bg-blue-600;
+    @apply gap-2 px-6 py-3 
+               bg-indigo-600 text-white font-bold rounded-xl
+               shadow-lg shadow-indigo-200
+               hover:bg-indigo-700 hover:-translate-y-0.5
+               active:scale-[0.98]
+               disabled:bg-indigo-300 disabled:translate-y-0 disabled:shadow-none disabled:cursor-not-allowed
+               transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-indigo-500/30;
+  }
+  input {
+    @apply w-full pl-10 p-2 border-2 rounded-xl shadow-sm
+                  transition-colors duration-300
+                  focus:outline-none focus:border-light-green;
   }
 }

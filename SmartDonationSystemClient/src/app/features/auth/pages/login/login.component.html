@@ -1,9 +1,9 @@
-<div class="flex max-w-7xl mx-auto bg-gray-50 m-4 rounded-xl shadow-xl">
+<div class="flex max-w-7xl mx-auto bg-gray-50 m-4 rounded-xl shadow-2xl my-12">
     <!-- Left Side -->
-    <div class="lg:w-6/12  mx-auto p-8 pb-4">
+    <div class="lg:w-6/12 mx-auto p-8 pb-4">
         <div class="flex flex-col gap-2">
-            <h1 class="text-4xl text-primary font-bold">Welcome Back!</h1>
-            <h3>Continue your journey of impact with our community</h3>
+            <h1 class="text-4xl text-dark-blue font-bold">Welcome Back!</h1>
+            <h3 class="text-md">Continue your journey of impact with our community</h3>
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"
             class="p-4 my-4 max-w-xl bg-white shadow-md rounded-2xl text-xs md:text-sm lg:text-md">
@@ -25,10 +25,8 @@
                     </svg>
 
                     <input type="text" id="identityNumber" formControlName="identityNumber"
-                        placeholder="0000-0000-0000-0000" class="w-full pl-10 p-2 border-2 rounded-xl shadow-sm
-                  transition-colors duration-300
-                  focus:outline-none focus:border-blue-500
-                  " [class.border-red-500]="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)" />
+                        placeholder="0000-0000-0000-0000" class="input"
+                        [class.border-red-500]="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)" />
                 </div>
 
                 <div *ngIf="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)"
@@ -43,7 +41,7 @@
             <div class="mb-4">
                 <div class="flex justify-between">
                     <label for="password" class="block font-medium mb-1">Secure Password</label>
-                    <a href="" class="text-[var(--bright-blue)]">Forget Password?</a>
+                    <a [routerLink]="['forget-password']" class="text-bright-blue">Forget Password?</a>
                 </div>
                 <div class="relative">
                     <!-- Left icon: lock -->
@@ -75,18 +73,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5
-       c4.478 0 8.268 2.943 9.542 7
-       -1.274 4.057-5.064 7-9.542 7
-       -4.477 0-8.268-2.943-9.542-7z" />
+                        c4.478 0 8.268 2.943 9.542 7
+                        -1.274 4.057-5.064 7-9.542 7
+                        -4.477 0-8.268-2.943-9.542-7z" />
 
                         <!-- Slash -->
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
                     </svg>
 
                     <input type="password" id="password" formControlName="password" placeholder="At least 8 characters"
-                        [type]="showPassword ? 'text':'password' " class="w-full pl-10 p-2 border-2 rounded-xl shadow-sm
-                  transition-colors duration-300
-                  focus:outline-none focus:border-blue-500"
+                        [type]="showPassword ? 'text':'password' " class="input"
                         [class.border-red-500]="password?.invalid && (password?.touched || password?.dirty)" />
                 </div>
 
@@ -100,10 +96,10 @@
             </div>
 
             <!-- Last Donate -->
-            <div class="mb-2 flex border-l-2 border-[var(--soft-red)] bg-beige-light p-3 rounded-lg gap-3 ">
-                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--light-beige)] ">
-                    <svg class="w-7 h-7 rounded-full text-[var(--soft-red)] bg-[var(--light-beige)] animate-stepPulse"
-                        fill="none" fill="currentColor" viewBox="0 0 24 24">
+            <div class="mb-2 flex border-l-2 border-light-green bg-light-green/10 p-3 rounded-lg gap-3 ">
+                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-light-green/15 ">
+                    <svg class="w-7 h-7 rounded-full text-light-green animate-stepPulse" fill="none" fill="#42e2b8"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682 4.318 12.682a4.5 4.5 0 010-6.364z" />
                     </svg>
@@ -120,14 +116,14 @@
             <div class="mb-3 p-2 md:p-4">
                 <ul class="list-disc">
                     <li class="mb-4 ml-3 md:ml-0">
-                        <h1 class="text-primary font-bold">Today's Milestones</h1>
+                        <h1 class="text-dark-blue font-bold">Today's Milestones</h1>
                     </li>
                     <li class="list-none">
                         <ul
-                            class="grid grid-cols-2  md:flex justify-around items-center bg-[var(--light-gray)] p-3 rounded-2xl gap-4">
+                            class="grid grid-cols-2 md:flex justify-around items-center bg-light-gray p-3 rounded-2xl gap-4">
                             <li class="flex place-items-center flex-col gap-2 ">
-                                <img src="../../../../../assets/Vector.png" alt="vector 1" width="24px">
-                                <p class="text-primary font-bold">5.420</p>
+                                <img src="./assets/Vector.png" alt="vector 1" width="24px">
+                                <p class="text-dark-blue font-bold">5.420</p>
                                 <p class="flex flex-col place-items-center text-gray-400 text-xs ">
                                     <span>Meals</span>
                                     <span>Delivered</span>
@@ -137,8 +133,8 @@
                             <div class="hidden md:block h-24 w-px bg-gray-300"></div>
 
                             <li class="flex place-items-center flex-col gap-2 ">
-                                <img src="../../../../../assets/Vector2.png" alt="vector 1" width="32px">
-                                <p class="text-primary font-bold">12</p>
+                                <img src="./assets/Vector2.png" alt="vector 1" width="32px">
+                                <p class="text-dark-blue font-bold">12</p>
                                 <p class="flex flex-col place-items-center text-gray-400 text-xs ">
                                     <span>Classrooms</span>
                                     <span>Built</span>
@@ -148,9 +144,9 @@
                             <div class="hidden md:block h-24 w-px bg-gray-300"></div>
 
                             <li
-                                class=" flex place-items-center flex-col gap-2 col-span-2 justify-self-center md:justify-self-auto">
-                                <img src="../../../../../assets/Vector3.png" alt="vector 1" width="19px">
-                                <p class="text-primary font-bold">850L</p>
+                                class="flex place-items-center flex-col gap-2 col-span-2 justify-self-center md:justify-self-auto">
+                                <img src="./assets/Vector3.png" alt="vector 1" width="19px">
+                                <p class="text-dark-blue font-bold">850L</p>
                                 <p class="text-gray-400 text-xs text-center">Clean Water</p>
                             </li>
                         </ul>
@@ -160,34 +156,33 @@
 
             <!-- Submit -->
             <div class="flex flex-col">
-                <button type="submit" [disabled]="loginForm.invalid || isLoading" class="w-full flex items-center justify-center gap-2 bg-blue-500 text-white p-3 rounded-full font-semibold
-                 hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed
-                 transition-colors duration-300">
-                    Sign In
-                    <svg *ngIf="!isLoading" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <!-- Door frame -->
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary group relative w-full flex items-center justify-center">
+
+                    <span>{{ isLoading ? 'Processing' : 'Sign In' }}</span>
+
+                    <svg *ngIf="!isLoading" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M6 3h7a2 2 0 012 2v14a2 2 0 01-2 2H6" />
-                        <!-- Arrow entering -->
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M1 12h8m0 0l-3-3m3 3l-3 3" />
                     </svg>
 
                     <svg *ngIf="isLoading" class="w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
-                        <circle class="opacity-30" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
-                        <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round" />
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                 </button>
-                <p class="text-sm text-black mx-auto mt-2">Don’t have an account? <a routerLink="/signup"
-                        class="font-semibold text-[var(--bright-blue)]">Sign Up here</a> </p>
+                <p class="text-sm text-black mx-auto mt-4">Don’t have an account? <a routerLink="/signup"
+                        class="font-semibold text-bright-blue">Sign Up here</a> </p>
             </div>
         </form>
     </div>
 
     <!-- Right Side -->
     <div class="relative w-0 lg:w-6/12 m-0">
-        <div class="absolute inset-0 bg-gradient-to-t from-[#42E2B8] to-white opacity-50 rounded-r-lg shadow-inner">
+        <div class="absolute inset-0 bg-gradient-to-t from-light-green via-transparent to-white opacity-50 rounded-r-lg shadow-inner">
         </div>
         <img src="./assets/signin-photo.png" alt="signup photo"
             class="w-full h-full object-cover shadow-xl rounded-r-lg">

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
-using SmartDonationSystem.API.Filters;
 using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Auth.Models;
 using SmartDonationSystem.DataAccess;
@@ -26,11 +25,8 @@ namespace SmartDonationSystem.API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddHangfire(config =>
-                config.UseSqlServerStorage(
-                    builder.Configuration.GetConnectionString("DefaultConnection")
-                )
-            );
+            builder.Services.AddHangfire(options =>
+                options.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -76,10 +72,12 @@ namespace SmartDonationSystem.API
 
             var app = builder.Build();
 
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireAuthorizationFilter() }
-            });
+            //app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            //{
+            //    Authorization = new[] { new HangfireAuthorizationFilter() }
+            //});
+
+            app.UseHangfireDashboard();
             app.UseCors();
             //  await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();
