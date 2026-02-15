@@ -11,6 +11,8 @@ import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
+import { CloudService } from '../../services/cloud.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -22,8 +24,10 @@ import { passwordStrengthValidator } from '../../../../shared/validators/passwor
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private cloudService = inject(CloudService);
   private router = inject(Router);
   private toastr = inject(ToastrService);
+  isImageUploading: boolean = false;
   isLoading: boolean = false;
   currentStep = 1;
   totalSteps = 2;
@@ -35,14 +39,18 @@ export class RegisterComponent {
     IdentityNumber: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]],
     Password: [
       '',
-      [Validators.required, Validators.minLength(8), passwordStrengthValidator()],
+      [
+        Validators.required,
+        Validators.minLength(8),
+        passwordStrengthValidator(),
+      ],
     ],
     //Step 2
     FullName: ['', [Validators.required]],
     BirthDate: ['', [Validators.required]],
     PhoneNumber: ['', [Validators.required]],
     Address: [''],
-    ProfilePicture: [null, Validators.required],
+    ProfilePictureUrl: [null, Validators.required],
   });
 
   //Step 1
@@ -66,7 +74,7 @@ export class RegisterComponent {
     return this.registerForm.get('PhoneNumber');
   }
   get profilePicture() {
-    return this.registerForm.get('profilePicture');
+    return this.registerForm.get('ProfilePictureUrl');
   }
 
   selectRole(role: 'Requester' | 'Donor') {
@@ -85,29 +93,42 @@ export class RegisterComponent {
     if (!input.files?.length) return;
 
     const file = input.files[0];
-    (this.registerForm as any).patchValue({ ProfilePicture: file });
-    this.profilePicture?.updateValueAndValidity();
 
-    // Preview
+    // 1. Preview للصورة (زي ما إنت عامل)
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result;
     };
     reader.readAsDataURL(file);
+
+    this.isImageUploading = true;
+
+    this.cloudService
+      .getCloudinarySignature('user_profile_pictures')
+      .pipe(finalize(() => (this.isImageUploading = false)))
+      .subscribe({
+        next: (sigData) => {
+          this.cloudService
+            .uploadToCloudinary(file, sigData)
+            .pipe(finalize(() => (this.isImageUploading = false)))
+            .subscribe({
+              next: (event: any) => {
+                if (event.type === HttpEventType.Response) {
+                  this.profilePicture?.patchValue(event.body.secure_url);
+                  this.isImageUploading = false;
+                }
+              },
+            });
+        },
+      });
   }
 
   onSubmit() {
     if (this.registerForm.invalid) return;
 
     this.isLoading = true;
-    const formData = new FormData();
-    Object.entries(this.registerForm.value).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        formData.append(key, value as any);
-      }
-    });
     this.authService
-      .register(formData)
+      .register(this.registerForm.value)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => {

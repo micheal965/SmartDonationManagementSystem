@@ -2,8 +2,11 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { apiBaseUrl } from '../utils/app.config';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  if (!req.url.includes(apiBaseUrl)) return next(req);
+  
   const authService = inject(AuthService);
   const token = authService.getAccessToken();
   let authReq = req;

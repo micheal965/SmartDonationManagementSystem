@@ -3,7 +3,7 @@ using SmartDonationSystem.Core.Auth.MapsterConfigurations;
 using SmartDonationSystem.Core.User.Interfaces;
 using SmartDonationSystem.Services.Identity;
 
-namespace SmartDonationSystem.API.Identity
+namespace SmartDonationSystem.API.Modules.Identity
 {
     public static class IdentityModuleExtensions
     {

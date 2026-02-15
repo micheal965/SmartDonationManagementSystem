@@ -4,7 +4,7 @@ using SmartDonationSystem.Core.User.DTOs;
 using SmartDonationSystem.Core.User.Interfaces;
 using System.Security.Claims;
 
-namespace SmartDonationSystem.API.Identity.User.Controllers
+namespace SmartDonationSystem.API.Modules.Identity.User.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

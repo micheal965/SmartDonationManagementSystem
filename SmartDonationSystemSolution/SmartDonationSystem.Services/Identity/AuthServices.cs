@@ -1,4 +1,3 @@
-using Hangfire;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -99,7 +98,7 @@ public class AuthServices : IAuthServices
             BirthDate = requestDto.BirthDate,
             PhoneNumber = requestDto.PhoneNumber,
             Address = requestDto.Address,
-            PictureUrl = null,
+            PictureUrl = requestDto.ProfilePictureUrl,
         };
 
         //Check if the role exists
@@ -124,22 +123,6 @@ public class AuthServices : IAuthServices
             return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description).ToList());
         }
         await transaction.CommitAsync();
-
-        //Upload image on cloudinary as background job for debounce
-        if (requestDto.ProfilePicture != null)
-        {
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(requestDto.ProfilePicture.FileName)}";
-            var relativePath = Path.Combine("temp", fileName);
-            var fullPath = Path.Combine(_env.WebRootPath, relativePath);
-
-            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-
-            await using var stream = new FileStream(fullPath, FileMode.Create);
-            await requestDto.ProfilePicture.CopyToAsync(stream);
-
-            BackgroundJob.Enqueue<ProfileImageJob>(job => job.Handle(applicationUser.Id, relativePath));
-        }
-
         return Result<RegisterResultDto>.Created(applicationUser.Adapt<RegisterResultDto>());
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> RotateRefreshTokenAsync(string? token)

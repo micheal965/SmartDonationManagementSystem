@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartDonationSystem.Core.DTOs;
@@ -20,7 +19,7 @@ public class RegisterRequestDto
     [Required]
     public required string Role { get; set; }
     [Required]
-    public required IFormFile ProfilePicture { get; set; }
+    public required string ProfilePictureUrl { get; set; }
     [Required]
     public required string PhoneNumber { get; set; }
     public string? Address { get; set; }

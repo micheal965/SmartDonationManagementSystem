@@ -184,7 +184,7 @@
                 </div>
 
                 <button type="button" (click)="next()"
-                    class="btn-primary w-full flex justify-center items-center group my-2">
+                    class="btn-primary w-full flex justify-center items-center group my-2 text-sm  md:text-lg">
                     Continue to Personal Details
                     <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -283,8 +283,8 @@
                             Prev
                         </button>
                         <!-- Register button -->
-                        <button type="submit" [disabled]="registerForm.invalid || isLoading"
-                            class="flex justify-center items-center gap-2 w-1/2 btn-primary rounded-3xl">
+                        <button type="submit" [disabled]="registerForm.invalid || isLoading || isImageUploading"
+                            class="flex justify-center items-center gap-2 w-full md:w-1/2 btn-primary rounded-3xl">
 
                             <span> {{isLoading? 'Processing' :'Sign Up'}}</span>
 

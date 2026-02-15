@@ -63,8 +63,7 @@ namespace SmartDonationSystem.API
                 {
                     policy.AllowAnyOrigin()
                           .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials();
+                          .AllowAnyMethod();
                 });
             });
             // Register Modules dependencies
