@@ -19,8 +19,12 @@ html {
   margin: 0;
   box-sizing: border-box;
 }
-
-.text-primary {
+::selection {
+  background-color: color-mix(in srgb, var(--light-green), transparent 30%);
+  color: var(--dark-blue);
+}
+::-moz-selection {
+  background-color: color-mix(in srgb, var(--light-green), transparent 30%);
   color: var(--dark-blue);
 }
 
