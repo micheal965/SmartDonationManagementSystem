@@ -47,8 +47,8 @@ export class LoginComponent {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
-          //navigate
           this.toastr.success('Logged in successfully');
+          //navigate
           this.router.navigate(['/home']);
         },
       });

@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
 import { CloudService } from '../../services/cloud.service';
 import { HttpEventType } from '@angular/common/http';
+import { AiService } from '../../../../core/services/ai.service';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cloudService = inject(CloudService);
+  private aiService = inject(AiService);
   private router = inject(Router);
   private toastr = inject(ToastrService);
   isImageUploading: boolean = false;
@@ -88,7 +90,7 @@ export class RegisterComponent {
       this.currentStep++;
     }
   }
-  onFileSelected(event: Event) {
+  onProfilePictureSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
 
@@ -121,6 +123,22 @@ export class RegisterComponent {
             });
         },
       });
+  }
+
+  onFileSelected(event: any) {
+    this.isLoading = true;
+    const file = event.target.files[0];
+    if (file) {
+      this.aiService.extractIdData(file).then((data) => {
+        this.registerForm.patchValue({
+          FullName: data.full_name,
+          IdentityNumber: data.identity_number,
+          BirthDate: data.birth_date,
+          Address: data.address,
+        });
+        this.isLoading = false;
+      });
+    }
   }
 
   onSubmit() {

@@ -20,11 +20,11 @@ html {
   box-sizing: border-box;
 }
 ::selection {
-  background-color: color-mix(in srgb, var(--light-green), transparent 30%);
+  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
   color: var(--dark-blue);
 }
 ::-moz-selection {
-  background-color: color-mix(in srgb, var(--light-green), transparent 30%);
+  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
   color: var(--dark-blue);
 }
 
