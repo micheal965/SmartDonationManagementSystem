@@ -1,44 +1,54 @@
-<footer class="relative p-10 border-t border-gray-100 bg-gradient-to-tl from-white to-light-green/40">
+<footer class="relative pt-20 pb-10 border-t border-gray-100 bg-gradient-to-tl from-white to-light-green/20">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div class="grid md:grid-cols-4 gap-12 mb-16">
+
             <div class="col-span-1">
-                <p class="text-2xl font-extrabold text-[var(--dark-blue)] tracking-tight mb-4">Help Hand</p>
-                <p class="text-md text-dark-blue/70 leading-relaxed">
-                    The future of philanthropy. Built with precision, data, and a commitment to radical
-                    transparency.
+                <div class="flex items-center gap-2 mb-6">
+                    <img class="w-10 h-10" src="./assets/logo.png" alt="logo">
+                    <p class="text-lg lg:text-2xl font-extrabold text-dark-blue tracking-tight">Help Hand</p>
+                </div>
+                <p class="text-md text-dark-blue/70 leading-relaxed mb-6">
+                    The future of philanthropy. Built with precision, data, and a commitment to radical transparency.
                 </p>
             </div>
 
             <div>
-                <h5 class="font-bold text-dark-blue mb-6 ">Company</h5>
-                <ul class="space-y-4 text-sm text-dark-blue/80">
-                    <li><a [routerLink]="['/']" fragment="about">About Us</a></li>
-                    <li><a [routerLink]="['/']" fragment="team">Our Team</a></li>
+                <h5 class="font-bold text-dark-blue mb-6 uppercase text-xs tracking-widest">Company</h5>
+                <ul class="space-y-4 text-sm text-dark-blue/70">
+                    <li><a [routerLink]="['/']" fragment="about" class="hover:text-light-green transition-colors">About
+                            Us</a></li>
+                    <li><a [routerLink]="['/']" fragment="how-it-works"
+                            class="hover:text-light-green transition-colors">How it Works</a></li>
+                    <li><a [routerLink]="['/']" fragment="team" class="hover:text-light-green transition-colors">Our
+                            Team</a></li>
+                    <li><a href="#" class="hover:text-light-green transition-colors">Career</a></li>
                 </ul>
             </div>
 
             <div>
-                <h5 class="font-bold text-dark-blue mb-6 ">Support</h5>
-                <ul class="space-y-4 text-sm text-dark-blue/80">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Transparency Report</a></li>
-                    <li><a href="#">API Docs</a></li>
-                    <li><a href="#">Contact</a></li>
+                <h5 class="font-bold text-dark-blue mb-6 uppercase text-xs tracking-widest">Resources</h5>
+                <ul class="space-y-4 text-sm text-dark-blue/70">
+                    <li><a href="#" class="hover:text-light-green transition-colors">Help Center</a></li>
+                    <li><a href="#" class="hover:text-light-green transition-colors">Transparency Report</a></li>
+                    <li><a href="#" class="hover:text-light-green transition-colors">Smart Routing Docs</a></li>
+                    <li><a href="#" class="hover:text-light-green transition-colors">Contact Support</a></li>
                 </ul>
             </div>
 
             <div>
-                <h5 class="font-bold text-dark-blue mb-6">Newsletter</h5>
-                <p class="text-sm text-dark-blue/80 mb-4">Stay updated with our impact stories.</p>
+                <h5 class="font-bold text-dark-blue mb-6 uppercase text-xs tracking-widest">Stay Connected</h5>
+                <p class="text-sm text-dark-blue/70 mb-4">Get notified about urgent cases and system updates.</p>
                 <form class="flex items-center gap-2 w-full">
-                    <input type="text" placeholder="National Id Number"
-                        class="flex-1 p-3 border-2 border-dark-blue/10 rounded-xl shadow-sm transition-all focus:outline-none focus:border-bright-blue bg-white/80 backdrop-blur-sm" />
+                    <div class="relative flex-1">
+                        <input type="text" placeholder="National ID Number"
+                            class="w-full p-3 pl-4 text-sm border border-dark-blue/10 rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-light-green/20 focus:border-light-green bg-white/80 backdrop-blur-sm" />
+                    </div>
 
                     <button type="submit"
-                        class="group flex items-center justify-center p-2 bg-dark-blue rounded-xl transition-all hover:bg-bright-blue/40 active:scale-95 shadow-lg">
-                        <svg class="w-8 h-8 transition-transform group-hover:translate-x-1" viewBox="0 0 100 100"
-                            fill="none">
-                            <path d="M25 30L85 50L25 70V53L65 50L25 47V30Z" fill="#FFFFFF" />
+                        class="group p-3 bg-dark-blue text-white rounded-xl transition-all hover:bg-light-green hover:text-dark-blue active:scale-95 shadow-md">
+                        <svg class="w-5 h-5 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </button>
                 </form>
@@ -46,12 +56,12 @@
         </div>
 
         <div
-            class="pt-8 border-t border-dark-blue/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest font-bold text-darborder-dark-blue/50">
-            <div>© 2026 Help Hand Inc. Built for Impact.</div>
+            class="pt-8 border-t border-dark-blue/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-dark-blue/50">
+            <div>© 2026 Help Hand Inc. Engineering Better Futures.</div>
             <div class="flex gap-8">
-                <a class="hover:text-darborder-dark-blue transition-colors" href="#">Privacy Policy</a>
-                <a class="hover:text-darborder-dark-blue transition-colors" href="#">Terms</a>
-                <a class="hover:text-darborder-dark-blue transition-colors" href="#">Cookies</a>
+                <a class="hover:text-light-green transition-colors" href="#">Privacy Policy</a>
+                <a class="hover:text-light-green transition-colors" href="#">Terms of Service</a>
+                <a class="hover:text-light-green transition-colors" href="#">Security</a>
             </div>
         </div>
     </div>
