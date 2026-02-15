@@ -1,23 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AiEnvironment } from '../utils/app.config';
-import { map, Observable } from 'rxjs';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AiService {
+export class GeminiService {
   private genAI = new GoogleGenerativeAI(AiEnvironment.apiKey);
   private model = this.genAI.getGenerativeModel({
     model: 'gemini-3-flash-preview',
     generationConfig: {
-      responseMimeType: 'application/json', // ده بيجبر الموديل يطلع JSON بس
+      responseMimeType: 'application/json',
     },
   });
 
   async extractIdData(file: File) {
-    // 1. تحويل الصورة لـ Base64
     const base64Data = await this.fileToGenerativePart(file);
 
     const prompt = `

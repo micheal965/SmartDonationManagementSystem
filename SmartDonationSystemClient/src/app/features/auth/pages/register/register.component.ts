@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
 import { CloudService } from '../../services/cloud.service';
 import { HttpEventType } from '@angular/common/http';
-import { AiService } from '../../../../core/services/ai.service';
+import { GeminiService } from '../../../../core/services/gemini.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cloudService = inject(CloudService);
-  private aiService = inject(AiService);
+  private aiService = inject(GeminiService);
   private router = inject(Router);
   private toastr = inject(ToastrService);
   isImageUploading: boolean = false;
