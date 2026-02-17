@@ -19,14 +19,7 @@ html {
   margin: 0;
   box-sizing: border-box;
 }
-::selection {
-  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
-  color: var(--dark-blue);
-}
-::-moz-selection {
-  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
-  color: var(--dark-blue);
-}
+
 
 .app-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;

@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
 import { AuthHeaderComponent } from './auth-header/auth-header.component';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { AuthFooterComponent } from './auth-footer/auth-footer.component';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [
-    AuthHeaderComponent,
-    FooterComponent,
-    RouterOutlet,
-    FooterComponent,
-  ],
+  imports: [AuthHeaderComponent, RouterOutlet, AuthFooterComponent],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })

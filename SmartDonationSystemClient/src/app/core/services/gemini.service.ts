@@ -40,7 +40,6 @@ export class GeminiService {
     }
   }
 
-  // Helper function لتحويل الملف لـ format بيفهمه Gemini
   private async fileToGenerativePart(file: File): Promise<any> {
     const base64Promise = new Promise((resolve) => {
       const reader = new FileReader();

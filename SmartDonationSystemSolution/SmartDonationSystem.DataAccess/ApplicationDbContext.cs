@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SmartDonationSystem.Core.Auth.Models;
+using SmartDonationSystem.Core.Modules.Auth.Models;
 
 namespace SmartDonationSystem.DataAccess;
 

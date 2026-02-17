@@ -23,7 +23,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                    <button
+                    <button [routerLink]="['./feed']"
                         class="group w-full sm:w-auto px-8 py-4 bg-light-green text-white text-lg font-bold rounded-3xl shadow-xl shadow-light-green/20 hover:brightness-105 transition-all flex items-center justify-center gap-2 group">
                         Explore Cases
                         <svg class="w-6 h-6 group-hover:translate-x-1 duration-300" viewBox="0 0 24 24" fill="none"
@@ -33,7 +33,15 @@
                         </svg>
                     </button>
                     <button
+                    [routerLink]="['/']" fragment="how-it-works"
                         class="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-bright-blue/20 text-lg font-bold rounded-3xl hover:bg-bright-blue/5 transition-all flex items-center justify-center gap-2">
+                        <svg class="w-6 h-6 group-hover:rotate-12 duration-300" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                                stroke="var(--bright-blue)" stroke-width="2" />
+                            <path d="M10 8l6 4-6 4V8z" stroke="var(--bright-blue)" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                         How it Works
                     </button>
                 </div>

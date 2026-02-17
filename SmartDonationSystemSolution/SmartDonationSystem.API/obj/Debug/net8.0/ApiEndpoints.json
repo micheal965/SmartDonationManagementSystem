@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "loginDto",
-        "Type": "SmartDonationSystem.Core.Auth.DTOs.LoginRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.Auth.DTOs.LoginRequestDto",
         "IsRequired": true
       }
     ],
@@ -51,7 +51,7 @@
     "Parameters": [
       {
         "Name": "registerRequestDto",
-        "Type": "SmartDonationSystem.Core.DTOs.RegisterRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.Auth.DTOs.RegisterRequestDto",
         "IsRequired": true
       }
     ],
@@ -93,7 +93,7 @@
     "Parameters": [
       {
         "Name": "changePasswordRequestDto",
-        "Type": "SmartDonationSystem.Core.User.DTOs.ChangePasswordRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.User.DTOs.ChangePasswordRequestDto",
         "IsRequired": true
       }
     ],
@@ -177,7 +177,7 @@
     "Parameters": [
       {
         "Name": "updateUserRequestDto",
-        "Type": "SmartDonationSystem.Core.User.DTOs.UpdateUserRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.User.DTOs.UpdateUserRequestDto",
         "IsRequired": true
       }
     ],

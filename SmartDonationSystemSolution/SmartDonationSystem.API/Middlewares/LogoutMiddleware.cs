@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using SmartDonationSystem.Core.Auth.Interfaces;
+using SmartDonationSystem.Core.Modules.Auth.Interfaces;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.API.Middlewares;

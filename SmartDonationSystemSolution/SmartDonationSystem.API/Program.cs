@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
 using SmartDonationSystem.API.Middlewares;
-using SmartDonationSystem.Core.Auth.Models;
+using SmartDonationSystem.Core.Modules.Auth.Models;
 using SmartDonationSystem.DataAccess;
 using System.Text;
 

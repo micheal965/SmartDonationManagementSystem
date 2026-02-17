@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cloud\" />
+    <Folder Include="Modules\Cloud\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDonationSystem.Core.Auth.Models;
+using SmartDonationSystem.Core.Modules.Auth.Models;
 
 namespace SmartDonationSystem.DataAccess.Configurations;
 

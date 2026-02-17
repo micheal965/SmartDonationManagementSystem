@@ -3,5 +3,5 @@ export const apiBaseUrl =
 // 'https://localhost:7190/api';
 
 export const AiEnvironment = {
-  apiKey: 'AIzaSyAbIOy0X0LKeA4RkJJmuDb7-kdVxx7n8fE',
+  apiKey: 'AIzaSyDSJXuan4aG7VM0lfV8NAhGExe6rsuCWVI',
 };

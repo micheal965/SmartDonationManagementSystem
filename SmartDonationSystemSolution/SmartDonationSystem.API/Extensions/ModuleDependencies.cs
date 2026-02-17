@@ -1,8 +1,8 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.API.Modules.Identity;
-using SmartDonationSystem.Core.Cloud;
-using SmartDonationSystem.Services.Cloud;
+using SmartDonationSystem.Core.Modules.Cloud;
+using SmartDonationSystem.Services.Modules.Cloud;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.API.Extensions

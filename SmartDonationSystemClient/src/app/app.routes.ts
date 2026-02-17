@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -42,7 +43,15 @@ export const routes: Routes = [
       import('./layouts/user/user.component').then(
         (m) => m.UserLayoutComponent,
       ),
-    children: [],
+    canActivateChild: [authGuard],
+    children: [
+      {
+        path: 'feed',
+        loadComponent: () =>
+          import('./features/feed/feed.component').then((m) => m.FeedComponent),
+      },
+      { path: '', redirectTo: 'feed', pathMatch: 'full' },
+    ],
   },
   {
     path: 'admin',

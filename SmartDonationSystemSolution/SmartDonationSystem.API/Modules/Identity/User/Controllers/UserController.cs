@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDonationSystem.Core.User.DTOs;
-using SmartDonationSystem.Core.User.Interfaces;
+using SmartDonationSystem.Core.Modules.User.DTOs;
+using SmartDonationSystem.Core.Modules.User.Interfaces;
 using System.Security.Claims;
 
 namespace SmartDonationSystem.API.Modules.Identity.User.Controllers

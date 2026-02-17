@@ -1,0 +1,14 @@
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+
+namespace SmartDonationSystem.Core.Modules.Cloud;
+
+public interface ICloudinaryServices
+{
+    Task<(bool isSucceded, List<string> urls)> UploadImagesAsync(List<IFormFile> files);
+    Task<(bool isSucceded, string? url)> UploadImageAsync(IFormFile file);
+    Task<bool> DeleteImagesAsync(List<string> imagesUrls);
+    Task<bool> DeleteImageAsync(string imageUrl);
+    Task<List<string>> UploadFilesAsync(List<IFormFile> files, string category);
+    Task<string> GetImageAsync(string ImageUrl);
+}

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SmartDonationSystem.Core.Auth.Models;
+using SmartDonationSystem.Core.Modules.Auth.Models;
 using SmartDonationSystem.Shared.Enums;
 
 namespace SmartDonationSystem.DataAccess.Seed;

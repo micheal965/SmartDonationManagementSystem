@@ -49,7 +49,7 @@ export class LoginComponent {
         next: () => {
           this.toastr.success('Logged in successfully');
           //navigate
-          this.router.navigate(['/home']);
+          this.router.navigate(['/feed']);
         },
       });
   }
