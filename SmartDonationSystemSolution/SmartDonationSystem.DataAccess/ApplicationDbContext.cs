@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SmartDonationSystem.Core.Modules.Auth.Models;
+using SmartDonationSystem.Core.Common.Models;
 
 namespace SmartDonationSystem.DataAccess;
 
@@ -10,6 +10,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<UserLoginHistory> UserLoginsHistory { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<PostAttachment> PostAttachments { get; set; }
+    public DbSet<Reaction> Reactions { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

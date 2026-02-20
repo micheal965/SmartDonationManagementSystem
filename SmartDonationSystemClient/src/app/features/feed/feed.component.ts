@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { CardComponent } from "../card/card.component";
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [],
+  imports: [ CardComponent],
   templateUrl: './feed.component.html',
-  styleUrl: './feed.component.scss'
+  styleUrl: './feed.component.scss',
 })
-export class FeedComponent {
-
-}
+export class FeedComponent {}

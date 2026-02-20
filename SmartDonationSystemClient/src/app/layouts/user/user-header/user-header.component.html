@@ -17,9 +17,9 @@
         <nav class="hidden lg:flex items-center gap-6 p-3">
             <a *ngFor="let item of navItems" [routerLink]="[item.link]" routerLinkActive="text-black"
                 class="text-gray-500 hover:text-black transition-colors min-w-[64px] text-center">
-                <svg class="w-8 h-8 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                    <path [attr.d]="item.iconPath" />
-                </svg>
+                <mat-icon class="w-8 h-8 mx-auto text-dark-blue">
+                    {{ item.iconName }}
+                </mat-icon>
                 <span class="text-[11px] font-medium block">{{item.label}}</span>
             </a>
 
@@ -58,9 +58,9 @@
         <div class="absolute right-0 top-0 h-full w-64 bg-white shadow-2xl p-6 flex flex-col gap-6">
             <a *ngFor="let item of navItems" [routerLink]="[item.link]" (click)="isMenuOpen = false"
                 class="flex items-center gap-4 text-gray-600">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path [attr.d]="item.iconPath" />
-                </svg>
+                <mat-icon class="w-8 h-8 mx-auto text-dark-blue">
+                    {{ item.iconName }}
+                </mat-icon>
                 <span class="font-medium">{{item.label}}</span>
             </a>
             <hr>

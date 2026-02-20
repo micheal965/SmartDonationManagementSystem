@@ -1,6 +1,95 @@
 [
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Auth.Controllers.AuthController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "Method": "CreateCategory",
+    "RelativePath": "api/admin/Category/create-category",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "Method": "DeleteCategory",
+    "RelativePath": "api/admin/Category/delete-category",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "Method": "GetCategories",
+    "RelativePath": "api/admin/Category/get-categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "Method": "UpdateCategory",
+    "RelativePath": "api/admin/Category/update-category",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateCategoryDto",
+        "Type": "SmartDonationSystem.Core.Modules.Admin.CategoryManagement.DTOs.UpdateCategoryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostController",
+    "Method": "GetPendingFreezedPosts",
+    "RelativePath": "api/admin/Post/posts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostController",
+    "Method": "UpdatePostStatus",
+    "RelativePath": "api/admin/Post/update-post-status",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "action",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -16,17 +105,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Auth.Controllers.AuthController",
-    "Method": "GetLoginHistory",
-    "RelativePath": "api/Auth/login-history",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Auth.Controllers.AuthController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Controllers.AuthController",
     "Method": "Logout",
     "RelativePath": "api/Auth/logout",
     "HttpMethod": "POST",
@@ -42,7 +121,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Auth.Controllers.AuthController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Controllers.AuthController",
     "Method": "Register",
     "RelativePath": "api/Auth/register",
     "HttpMethod": "POST",
@@ -58,7 +137,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Auth.Controllers.AuthController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Controllers.AuthController",
     "Method": "RotateRefreshToken",
     "RelativePath": "api/Auth/rotate-refresh-token",
     "HttpMethod": "POST",
@@ -84,25 +163,77 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
+    "Method": "CreatePost",
+    "RelativePath": "api/Post/create-post",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "content",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "attachments",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
+    "Method": "GetPosts",
+    "RelativePath": "api/Post/get-posts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "ChangePassword",
-    "RelativePath": "api/User/change-password",
+    "RelativePath": "api/UserProfile/change-password",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "changePasswordRequestDto",
-        "Type": "SmartDonationSystem.Core.Modules.User.DTOs.ChangePasswordRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.User.Profile.DTOs.ChangePasswordRequestDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "DeleteProfilePicture",
-    "RelativePath": "api/User/delete-profile-picture",
+    "RelativePath": "api/UserProfile/delete-profile-picture",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -110,9 +241,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "DeleteUserSoft",
-    "RelativePath": "api/User/delete-user-soft",
+    "RelativePath": "api/UserProfile/delete-user-soft",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -120,9 +251,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "GetProfilePicture",
-    "RelativePath": "api/User/get-profile-picture",
+    "RelativePath": "api/UserProfile/get-profile-picture",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -136,9 +267,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "GetUserData",
-    "RelativePath": "api/User/get-user-data",
+    "RelativePath": "api/UserProfile/get-user-data",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -152,9 +283,19 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
+    "Method": "GetLoginHistory",
+    "RelativePath": "api/UserProfile/login-history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "SetProfilePicture",
-    "RelativePath": "api/User/set-profile-picture",
+    "RelativePath": "api/UserProfile/set-profile-picture",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -168,16 +309,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Identity.User.Controllers.UserController",
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "UpdateUserData",
-    "RelativePath": "api/User/update-user",
+    "RelativePath": "api/UserProfile/update-user",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "updateUserRequestDto",
-        "Type": "SmartDonationSystem.Core.Modules.User.DTOs.UpdateUserRequestDto",
+        "Type": "SmartDonationSystem.Core.Modules.User.Profile.DTOs.UpdateUserRequestDto",
         "IsRequired": true
       }
     ],

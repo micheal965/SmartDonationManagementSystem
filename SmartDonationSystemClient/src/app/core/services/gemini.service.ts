@@ -31,11 +31,9 @@ export class GeminiService {
       const response = await result.response;
       const text = response.text();
 
-      // تنظيف الـ JSON من أي كلام زيادة
       const jsonString = text.replace(/```json|```/g, '');
       return JSON.parse(jsonString);
     } catch (error) {
-      console.error('Gemini Error:', error);
       throw error;
     }
   }

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Auth.DTOs;
 using SmartDonationSystem.Core.Modules.Auth.Interfaces;
-using SmartDonationSystem.Core.Modules.Auth.Models;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,7 +17,7 @@ using System.Text;
 
 namespace SmartDonationSystem.Services.Modules.Identity;
 
-public class AuthServices : IAuthServices
+public class AuthServices : IAuthService
 {
     private static readonly HashSet<string> BlacklistedTokens = new();
     private readonly IWebHostEnvironment _env;
@@ -203,13 +203,6 @@ public class AuthServices : IAuthServices
             });
             await _applicationDbContext.SaveChangesAsync();
         }
-    }
-    public async Task<Result<IReadOnlyList<UserLoginsHistoryResponseDto>>> GetLoginHistoryAsync(string userId)
-    {
-        IReadOnlyList<UserLoginHistory> userLoginsHistory = await _applicationDbContext.UserLoginsHistory
-                                                                    .Where(lg => lg.ApplicationUserId == userId)
-                                                                    .OrderByDescending(l => l.LoginTime).ToListAsync();
-        return Result<IReadOnlyList<UserLoginsHistoryResponseDto>>.Ok(userLoginsHistory.Adapt<IReadOnlyList<UserLoginsHistoryResponseDto>>());
     }
 
     //Token Aggregate

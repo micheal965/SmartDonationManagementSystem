@@ -6,7 +6,11 @@ import { apiBaseUrl } from '../utils/app.config';
 
 let activeRequests = 0;
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
-  if (!req.url.includes(apiBaseUrl)) return next(req);
+  if (
+    (req.url.includes(apiBaseUrl) && req.url.includes('signature')) ||
+    !req.url.includes(apiBaseUrl)
+  )
+    return next(req);
 
   const ngxSpinnerService = inject(NgxSpinnerService);
   activeRequests++;

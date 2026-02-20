@@ -24,7 +24,7 @@ public class LogoutMiddleware
 
             if (!string.IsNullOrEmpty(jwtToken))
             {
-                var authService = context.RequestServices.GetRequiredService<IAuthServices>();
+                var authService = context.RequestServices.GetRequiredService<IAuthService>();
 
                 if (await authService.IsTokenBlacklistedAsync(jwtToken))
                 {

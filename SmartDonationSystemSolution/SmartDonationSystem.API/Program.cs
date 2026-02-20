@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
 using SmartDonationSystem.API.Middlewares;
-using SmartDonationSystem.Core.Modules.Auth.Models;
+using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using System.Text;
 
 namespace SmartDonationSystem.API
@@ -76,7 +77,17 @@ namespace SmartDonationSystem.API
             //    Authorization = new[] { new HangfireAuthorizationFilter() }
             //});
 
+            #region Hangfire Dashboard with its use cases
             app.UseHangfireDashboard();
+
+
+            var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+            recurringJobManager.AddOrUpdate<PostClassifierService>(
+                "classify-posts-job",
+                job => job.RunClassificationJobAsync(),
+                Cron.HourInterval(1)
+            );
+            #endregion
             app.UseCors();
             //  await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();

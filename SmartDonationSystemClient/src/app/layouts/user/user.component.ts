@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { UserHeaderComponent } from './user-header/user-header.component';
 import { RouterOutlet } from '@angular/router';
-import { UserFooterComponent } from './user-footer/user-footer.component';
-import { UserIdentityCardComponent } from './user-identity-card/user-identity-card.component';
+import { UserLeftSidebarComponent } from './user-left-sidebar/user-left-sidebar.component';
+import { UserRightSidebarComponent } from './user-right-sidebar/user-right-sidebar.component';
 
 @Component({
   selector: 'app-user',
@@ -10,8 +10,8 @@ import { UserIdentityCardComponent } from './user-identity-card/user-identity-ca
   imports: [
     UserHeaderComponent,
     RouterOutlet,
-    UserFooterComponent,
-    UserIdentityCardComponent,
+    UserLeftSidebarComponent,
+    UserRightSidebarComponent,
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',

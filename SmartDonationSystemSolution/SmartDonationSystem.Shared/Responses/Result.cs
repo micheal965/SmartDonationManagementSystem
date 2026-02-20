@@ -32,6 +32,7 @@ namespace SmartDonationSystem.Shared.Responses
                 HttpStatusCode.Unauthorized => "Unauthorized",
                 HttpStatusCode.Forbidden => "Forbidden",
                 HttpStatusCode.NotFound => "Not Found",
+                HttpStatusCode.UnsupportedMediaType => "Unsupported Media Type",
                 HttpStatusCode.InternalServerError => "Internal Server Error",
                 _ => "An error occurred"
             };
@@ -77,6 +78,12 @@ namespace SmartDonationSystem.Shared.Responses
         /// Returns a failure result when a resource is not found.
         /// </summary>
         public static Result<T> NotFound(string? message = null, object? errors = null) => Create(false, HttpStatusCode.NotFound, message, default, errors);
+
+        /// <summary>
+        /// Returns a failure result for media not supported errors.
+        /// </summary>
+        public static Result<T> UnsupportedMediaType(string? message = null, object? errors = null) => Create(false, HttpStatusCode.UnsupportedMediaType, message, default, errors);
+
         /// <summary>
         /// Returns a failure result for internal server errors.
         /// </summary>
@@ -108,6 +115,8 @@ namespace SmartDonationSystem.Shared.Responses
                     return Forbidden(message, errors);
                 case HttpStatusCode.NotFound:
                     return NotFound(message, errors);
+                case HttpStatusCode.UnsupportedMediaType:
+                    return UnsupportedMediaType(message, errors);
                 default:
                     return ServerError(message, errors);
             }

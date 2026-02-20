@@ -7,7 +7,7 @@
   --dark-blue: #07004d;
   --bright-blue: #2d82b7;
   --light-gray: #f2f2f7;
-  --light-beige: rgb(243, 223, 191);
+  --light-beige: #f3dfbf;
   --soft-red: #eb8a90;
   --light-green: #42e2b8;
 }
@@ -19,7 +19,14 @@ html {
   margin: 0;
   box-sizing: border-box;
 }
-
+::selection {
+  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
+  color: var(--dark-blue);
+}
+::-moz-selection {
+  background-color: color-mix(in srgb, var(--light-green), transparent 50%);
+  color: var(--dark-blue);
+}
 
 .app-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -44,4 +51,13 @@ html {
                   transition-colors duration-300
                   focus:outline-none focus:border-light-green;
   }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

@@ -1,0 +1,34 @@
+<nav class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-72 bg-dark-blue text-white p-8">
+    <div class="space-y-1 flex-1 ">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-light-green hover:text-dark-blue transition-colors" href="#"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
+            <mat-icon>home</mat-icon>
+            <span>Home Feed</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-light-green hover:text-dark-blue transition-colors" href="#"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
+            <mat-icon>favorite</mat-icon>
+            <span>My Donations</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-light-green hover:text-dark-blue transition-colors" href="#"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
+            <mat-icon>grid_view</mat-icon>
+            <span>Categories</span>
+        </a>
+        <div class="pt-6 pb-2">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 px-4">Insights</p>
+        </div>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-3xl hover:bg-light-green hover:text-dark-blue transition-colors" href="#"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
+            <mat-icon>analytics</mat-icon>
+            <span>Activity Reports</span>
+        </a>
+    </div>
+    <div class="fixed bottom-5 bg-white/5 rounded-3xl p-4 border border-white/10">
+        <p class="text-xs text-white/60 mb-3 leading-relaxed">Ready to make a bigger difference?</p>
+        <button
+            class="w-full py-3 bg-light-green text-dark-blue font-bold rounded-xl text-sm hover:scale-[1.02] active:scale-[0.98] transition-all">
+            Start Fundraiser
+        </button>
+    </div>
+</nav>

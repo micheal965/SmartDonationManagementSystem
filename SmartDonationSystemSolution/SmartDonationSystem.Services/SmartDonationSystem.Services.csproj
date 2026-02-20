@@ -14,13 +14,20 @@
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.27.9" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.4.1" />
     <PackageReference Include="Hangfire" Version="1.8.23" />
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.23" />
+    <PackageReference Include="itext7" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Modules\Admin\ReportsManagement\" />
+    <Folder Include="Modules\Admin\UserManagement\" />
     <Folder Include="Modules\Cloud\" />
+    <Folder Include="Modules\User\Donation\" />
+    <Folder Include="Modules\User\PostAggregate\Comment\" />
+    <Folder Include="Modules\User\PostAggregate\Reaction\" />
   </ItemGroup>
 
   <ItemGroup>

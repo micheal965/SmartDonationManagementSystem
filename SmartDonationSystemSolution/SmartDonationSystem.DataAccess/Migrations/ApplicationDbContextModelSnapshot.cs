@@ -155,7 +155,7 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -245,7 +245,125 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.RefreshToken", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AiSummary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FreezedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FreezedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("ImpactScore")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsFreezed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastScoredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PriorityLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.PostAttachment", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PostId", "AttachmentUrl");
+
+                    b.ToTable("PostAttachments");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Reaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PostId", "ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("Reactions");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +395,7 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.UserLoginHistory", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserLoginHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -314,7 +432,7 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", null)
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,7 +441,7 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", null)
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -338,7 +456,7 @@ namespace SmartDonationSystem.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", null)
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -347,16 +465,65 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", null)
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.RefreshToken", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Category", "Category")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.PostAttachment", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
+                        .WithMany("PostAttachments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Reaction", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Reactions")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
+                        .WithMany("Reactions")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.RefreshToken", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -365,9 +532,9 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.UserLoginHistory", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserLoginHistory", b =>
                 {
-                    b.HasOne("SmartDonationSystem.Core.Auth.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("UserLoginsHistory")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -376,11 +543,27 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("SmartDonationSystem.Core.Auth.Models.ApplicationUser", b =>
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Posts");
+
+                    b.Navigation("Reactions");
+
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("UserLoginsHistory");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Category", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
+                {
+                    b.Navigation("PostAttachments");
+
+                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }

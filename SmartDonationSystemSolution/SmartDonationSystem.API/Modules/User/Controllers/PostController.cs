@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.DTOs;
+using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.Interfaces;
+using System.Security.Claims;
+
+namespace SmartDonationSystem.API.Modules.User.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+    public class PostController : ControllerBase
+    {
+        private readonly IPostService _postService;
+
+        public PostController(IPostService postService)
+        {
+            _postService = postService;
+        }
+
+        [HttpPost("create-post")]
+        public async Task<IActionResult> CreatePost([FromForm] CreatePostDto createPostDto)
+        {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _postService.CreatePostAsync(createPostDto, userId);
+            return StatusCode((int)result.statusCode, result);
+        }
+        [HttpGet("get-posts")]
+        public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+        {
+            var result = await _postService.GetPostsAsync(pageNumber, pageSize);
+            return StatusCode((int)result.statusCode, result);
+        }
+
+    }
+}

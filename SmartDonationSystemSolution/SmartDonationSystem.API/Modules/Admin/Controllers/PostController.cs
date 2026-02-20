@@ -1,0 +1,33 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
+using SmartDonationSystem.Shared.Enums;
+using System.Security.Claims;
+
+namespace SmartDonationSystem.API.Modules.Admin.Controllers
+{
+    [Route("api/admin/[controller]")]
+    [ApiController]
+    [Authorize(Roles = AppRoles.Admin)]
+    public class PostController : ControllerBase
+    {
+        private readonly IPostManagementService _postService;
+        public PostController(IPostManagementService postService)
+        {
+            _postService = postService;
+        }
+        [HttpGet("posts")]
+        public async Task<IActionResult> GetPendingFreezedPosts()
+        {
+            var result = await _postService.GetPendingAndFreezedPostsAsync();
+            return StatusCode((int)result.statusCode, result);
+        }
+        [HttpPatch("update-post-status")]
+        public async Task<IActionResult> UpdatePostStatus([FromQuery] int postId, [FromQuery] string action)
+        {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _postService.ApproveOrFreezePostAsync(postId, action, userId);
+            return StatusCode((int)result.statusCode, result);
+        }
+    }
+}

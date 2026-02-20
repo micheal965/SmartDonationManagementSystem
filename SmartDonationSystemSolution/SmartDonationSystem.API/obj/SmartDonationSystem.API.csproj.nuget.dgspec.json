@@ -336,6 +336,10 @@
               "target": "Package",
               "version": "[1.27.9, )"
             },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.4.1, )"
+            },
             "Hangfire": {
               "target": "Package",
               "version": "[1.8.23, )"
@@ -347,6 +351,10 @@
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.3.1, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

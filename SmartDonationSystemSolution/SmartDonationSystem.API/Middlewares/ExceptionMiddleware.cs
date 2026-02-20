@@ -1,5 +1,5 @@
-using System.Net;
 using SmartDonationSystem.Shared.Responses;
+using System.Net;
 
 namespace SmartDonationSystem.API.Middlewares;
 
@@ -48,7 +48,10 @@ public class ExceptionMiddleware
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 statusCode = HttpStatusCode.NotFound;
                 break;
-
+            case NotSupportedException:
+                context.Response.StatusCode = (int)HttpStatusCode.UnsupportedMediaType;
+                statusCode = HttpStatusCode.UnsupportedMediaType;
+                break;
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 statusCode = HttpStatusCode.InternalServerError;

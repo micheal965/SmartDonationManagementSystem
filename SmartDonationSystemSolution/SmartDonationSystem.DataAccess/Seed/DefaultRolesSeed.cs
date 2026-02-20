@@ -10,7 +10,7 @@ public static class DefaultRolesSeed
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        foreach (var role in Enum.GetNames(typeof(UserRole)))
+        foreach (var role in Enum.GetNames(typeof(AppRoles)))
         {
             if (!await roleManager.RoleExistsAsync(role))
                 await roleManager.CreateAsync(new IdentityRole(role));

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SmartDonationSystem.Core.Modules.Auth.Models;
+using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Shared.Enums;
 
 namespace SmartDonationSystem.DataAccess.Seed;
@@ -18,6 +18,6 @@ public static class DefaultUsersSeed
             EmailConfirmed = true,
         };
         await userManager.CreateAsync(user, "P@$$w0rd");
-        await userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
+        await userManager.AddToRoleAsync(user, AppRoles.Admin);
     }
 }

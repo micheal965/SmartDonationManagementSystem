@@ -6,9 +6,7 @@ import { apiBaseUrl } from '../utils/app.config';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (!req.url.includes(apiBaseUrl)) return next(req);
-  if (req.url.includes('generativelanguage.googleapis.com')) {
-    return next(req);
-  }
+
   const authService = inject(AuthService);
   const token = authService.getAccessToken();
   let authReq = req;

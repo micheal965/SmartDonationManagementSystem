@@ -22,6 +22,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { toastrInterceptor } from './core/interceptors/toastr.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -52,6 +53,6 @@ export const appConfig: ApplicationConfig = {
         closeButton: true,
         progressBar: true,
       }),
-    ),
+    ), provideAnimationsAsync(),
   ],
 };

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartDonationSystem.Core.Modules.Auth.Models;
+using SmartDonationSystem.Core.Common.Models;
 
 namespace SmartDonationSystem.DataAccess.Configurations;
 
@@ -23,5 +23,17 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
                .WithOne(rf => rf.ApplicationUser)
                .HasForeignKey(rf => rf.ApplicationUserId)
                .OnDelete(DeleteBehavior.Cascade);
+
+        // 1 ApplicationUser has many posts
+        builder.HasMany(u => u.Posts)
+                .WithOne(p => p.ApplicationUser)
+                .HasForeignKey(p => p.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+        // 1 ApplicationUser has many reactions
+        builder.HasMany(u => u.Reactions)
+                .WithOne(r => r.ApplicationUser)
+                .HasForeignKey(r => r.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
     }
 }

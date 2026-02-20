@@ -91,11 +91,85 @@
         }
       }
     },
-    "/api/Auth/login-history": {
+    "/api/admin/Category/create-category": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "categoryName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/Category/get-categories": {
       "get": {
         "tags": [
-          "Auth"
+          "Category"
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/Category/delete-category": {
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/Category/update-category": {
+      "patch": {
+        "tags": [
+          "Category"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -125,10 +199,143 @@
         }
       }
     },
-    "/api/User/change-password": {
+    "/api/Post/create-post": {
       "post": {
         "tags": [
-          "User"
+          "Post"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "attachments",
+                  "categoryId",
+                  "content",
+                  "title"
+                ],
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "categoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "title": {
+                  "style": "form"
+                },
+                "content": {
+                  "style": "form"
+                },
+                "categoryId": {
+                  "style": "form"
+                },
+                "attachments": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Post/get-posts": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/Post/posts": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/Post/update-post-status": {
+      "patch": {
+        "tags": [
+          "Post"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserProfile/change-password": {
+      "post": {
+        "tags": [
+          "UserProfile"
         ],
         "requestBody": {
           "content": {
@@ -156,10 +363,10 @@
         }
       }
     },
-    "/api/User/set-profile-picture": {
+    "/api/UserProfile/set-profile-picture": {
       "post": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "requestBody": {
           "content": {
@@ -188,10 +395,10 @@
         }
       }
     },
-    "/api/User/get-profile-picture": {
+    "/api/UserProfile/get-profile-picture": {
       "get": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "parameters": [
           {
@@ -209,10 +416,10 @@
         }
       }
     },
-    "/api/User/delete-profile-picture": {
+    "/api/UserProfile/delete-profile-picture": {
       "delete": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "responses": {
           "200": {
@@ -221,10 +428,10 @@
         }
       }
     },
-    "/api/User/delete-user-soft": {
+    "/api/UserProfile/delete-user-soft": {
       "delete": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "responses": {
           "200": {
@@ -233,10 +440,10 @@
         }
       }
     },
-    "/api/User/get-user-data": {
+    "/api/UserProfile/get-user-data": {
       "get": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "parameters": [
           {
@@ -254,10 +461,10 @@
         }
       }
     },
-    "/api/User/update-user": {
+    "/api/UserProfile/update-user": {
       "put": {
         "tags": [
-          "User"
+          "UserProfile"
         ],
         "requestBody": {
           "content": {
@@ -278,6 +485,18 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserProfile/login-history": {
+      "get": {
+        "tags": [
+          "UserProfile"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -366,6 +585,24 @@
             "type": "string"
           },
           "address": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCategoryDto": {
+        "required": [
+          "newCategoryName",
+          "oldCategoryId"
+        ],
+        "type": "object",
+        "properties": {
+          "oldCategoryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "newCategoryName": {
             "type": "string",
             "nullable": true
           }

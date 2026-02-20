@@ -1,1 +1,21 @@
-<p>feed works!</p>
+<div class="flex flex-col">
+    <div class="flex items-center justify-between mb-6">
+        <p class="text-2xl text-dark-blue font-bold">Donation Feed</p>
+        <div class="flex gap-x-2">
+            <button class="bg-white rounded-xl px-3 py-2 hover:bg-light-green hover:text-dark-blue transition-colors">
+                Recent
+            </button>
+            <button class="bg-white rounded-xl px-3 py-2  hover:bg-light-green hover:text-dark-blue transition-colors">
+                Urgent
+            </button>
+        </div>
+    </div>
+    <!-- Grid container -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <app-card></app-card>
+        <app-card></app-card>
+        <app-card></app-card>
+        <app-card></app-card>
+        <!-- repeat your cards -->
+    </div>
+</div>
