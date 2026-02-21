@@ -7,20 +7,33 @@
     <div class="flex flex-1 pt-20 px-4 xl:px-8">
 
         <!-- LEFT SIDEBAR -->
-        <aside class="hidden xl:flex w-80">
+        <aside class="hidden xl:flex w-72">
             <app-user-left-sidebar />
         </aside>
 
         <!-- MAIN FEED -->
-        <main class="flex-1 p-8  bg-[#f2f2f7]">
+        <main class="flex-1 p-2 lg:py-8   bg-[#f2f2f7]">
             <router-outlet />
         </main>
 
         <!-- RIGHT SIDEBAR -->
-        <aside class="hidden xl:flex w-80">
+        <aside class="hidden lg:flex w-80">
             <app-user-right-sidebar />
         </aside>
 
+        <!-- MESSAGING -->
+        <div class="hidden lg:flex fixed bottom-0 right-4 z-50">
+            <div
+                class="bg-dark-blue text-white px-6 py-3 rounded-t-2xl shadow-2xl flex items-center justify-between w-72 cursor-pointer hover:bg-dark-blue/90 transition-all">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 bg-light-green rounded-full animate-pulse"></span>
+                    <span class="font-bold text-sm">Messaging</span>
+                </div>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M5 15l7-7 7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
     </div>
 
 </div>
