@@ -7,7 +7,6 @@ using SmartDonationSystem.API.Extensions;
 using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.DataAccess;
-using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using System.Text;
 
 namespace SmartDonationSystem.API
@@ -62,9 +61,10 @@ namespace SmartDonationSystem.API
             {
                 options.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyOrigin()
+                    policy.WithOrigins("http://localhost:4200") // frontend origin
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials(); // required for cookies
                 });
             });
             // Register Modules dependencies
@@ -82,11 +82,11 @@ namespace SmartDonationSystem.API
 
 
             var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
-            recurringJobManager.AddOrUpdate<PostClassifierService>(
-                "classify-posts-job",
-                job => job.RunClassificationJobAsync(),
-                Cron.HourInterval(1)
-            );
+            //recurringJobManager.AddOrUpdate<PostClassifierService>(
+            //    "classify-posts-job",
+            //    job => job.RunClassificationJobAsync(),
+            //    Cron.HourInterval(1)
+            //);
             #endregion
             app.UseCors();
             //  await SeedingData.SeedDataAsync(app);

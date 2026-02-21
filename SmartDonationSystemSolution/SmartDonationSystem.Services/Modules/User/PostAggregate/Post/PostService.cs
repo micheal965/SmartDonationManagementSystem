@@ -8,7 +8,6 @@ using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
-using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Pagination;
 using SmartDonationSystem.Shared.Responses;
 using PostModel = SmartDonationSystem.Core.Common.Models.Post;
@@ -70,8 +69,12 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
 
         public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(int pageNumber, int pageSize)
         {
+            //var query = _applicationDbContext.Posts
+            //                    .Where(p => p.Status == PostStatus.Approved.ToString() && p.PriorityLevel != null && p.ImpactScore != null)
+            //                    .OrderByDescending(p => p.PriorityLevel)
+            //                    .ThenByDescending(p => p.ImpactScore)
+            //                    .ThenByDescending(p => p.CreatedAt);
             var query = _applicationDbContext.Posts
-                                .Where(p => p.Status == PostStatus.Approved.ToString() && p.PriorityLevel != null && p.ImpactScore != null)
                                 .OrderByDescending(p => p.PriorityLevel)
                                 .ThenByDescending(p => p.ImpactScore)
                                 .ThenByDescending(p => p.CreatedAt);

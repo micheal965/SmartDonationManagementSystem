@@ -1,11 +1,7 @@
-import {
-  HttpErrorResponse,
-  HttpInterceptorFn,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { ApiResult } from '../../shared/models/api-result-model';
 
 export const toastrInterceptor: HttpInterceptorFn = (req, next) => {
@@ -15,20 +11,22 @@ export const toastrInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       const body = error.error as ApiResult<any>;
 
-      if (!body.success && body.errors) {
-        if (Array.isArray(body.errors)) {
-          body.errors.forEach((err: string) => toastr.error(err));
-        } else if (typeof body.errors === 'object') {
-          Object.values(body.errors).forEach((fieldErrors: any) => {
-            if (Array.isArray(fieldErrors)) {
-              fieldErrors.forEach((err: string) => toastr.error(err));
-            }
-          });
+      if (body) {
+        if (!body.success && body.errors) {
+          if (Array.isArray(body.errors)) {
+            body.errors.forEach((err: string) => toastr.error(err));
+          } else if (typeof body.errors === 'object') {
+            Object.values(body.errors).forEach((fieldErrors: any) => {
+              if (Array.isArray(fieldErrors)) {
+                fieldErrors.forEach((err: string) => toastr.error(err));
+              }
+            });
+          }
+        } else if (body.message) {
+          toastr.error(body.message);
+        } else {
+          toastr.error('Something went wrong');
         }
-      } else if (body.message) {
-        toastr.error(body.message);
-      } else {
-        toastr.error('Something went wrong');
       }
 
       return throwError(() => error);

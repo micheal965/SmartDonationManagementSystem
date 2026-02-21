@@ -52,7 +52,5 @@ namespace SmartDonationSystem.API.Modules.Identity.Controllers
             var result = await _authServices.RotateRefreshTokenAsync(token);
             return StatusCode((int)result.statusCode, result);
         }
-
-
     }
 }

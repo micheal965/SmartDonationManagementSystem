@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { ApiResult } from '../../../shared/models/api-result-model';
@@ -9,6 +9,7 @@ import { apiBaseUrl } from '../../../core/utils/app.config';
 import { JwtPayloadModel } from '../models/jwt-payload.model';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { userDataModel } from '../models/user-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class AuthService {
   private accessToken: string | null = null;
   private router = inject(Router);
   private isBrowser: boolean;
-  userData: any = null;
+  userData!: userDataModel;
 
   constructor(
     private http: HttpClient,
@@ -56,17 +57,20 @@ export class AuthService {
   }
 
   logout() {
-    this.accessToken = null;
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-    return this.http.post(`${apiBaseUrl}/Auth/logout`, {});
+    return this.http.post(`${apiBaseUrl}/Auth/logout`, {}).pipe(
+      tap(() => {
+        this.accessToken = null;
+        localStorage.removeItem('token');
+        this.router.navigate(['/signin']);
+      }),
+    );
   }
 
   refreshToken() {
     return this.http
       .post<
         ApiResult<{ token: string }>
-      >(`${apiBaseUrl}/Auth/rotate-refresh-token`, {})
+      >(`${apiBaseUrl}/Auth/rotate-refresh-token`, {}, { withCredentials: true })
       .pipe(tap((res) => (this.accessToken = res.data?.token ?? null)));
   }
 

@@ -11,7 +11,7 @@ import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
-import { CloudService } from '../../services/cloud.service';
+import { CloudService } from '../../../../core/services/cloud.service';
 import { HttpEventType } from '@angular/common/http';
 import { GeminiService } from '../../../../core/services/gemini.service';
 

@@ -26,8 +26,8 @@
             <div class="relative border-l border-gray-300 pl-4 mx-3">
                 <button (click)="toggleMe()"
                     class="flex flex-col justify-center items-center text-gray-500 hover:text-black transition-colors">
-                    <img class="w-10 h-10 rounded-full border-2 border-light-green" src="./assets/our-team/micheal.jpeg"
-                        alt="user">
+                    <img class="w-10 h-10 rounded-full border-2 border-light-green"
+                        [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" alt="user">
                     <span class="flex items-center text-[11px] font-medium mt-1">
                         Me <svg class="w-3 h-3 ml-0.5 transition-transform" [class.rotate-180]="isMeClicked"
                             fill="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,8 @@
                     class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-xl py-2 animate-in fade-in slide-in-from-top-2">
                     <a routerLink="/profile" class="block px-4 py-2 text-sm hover:bg-gray-100">View Profile</a>
                     <hr class="my-1">
-                    <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</button>
+                    <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        (click)="onLogout()">Logout</button>
                 </div>
             </div>
         </nav>
@@ -69,7 +70,7 @@
             <div class="flex flex-col gap-6 p-4">
                 <a routerLink="/profile" (click)="isMenuOpen = false"
                     class="font-medium text-gray-500 hover:text-gray-00">View Profile</a>
-                <button class="text-left font-medium text-red-600">Logout</button>
+                <button class="text-left font-medium text-red-600" (click)="onLogout()">Logout</button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { apiBaseUrl } from '../../../core/utils/app.config';
+import { apiBaseUrl } from '../utils/app.config';
 
 @Injectable({ providedIn: 'root' })
 export class CloudService {

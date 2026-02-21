@@ -11,6 +11,7 @@ import {
   provideHttpClient,
   withFetch,
   withInterceptors,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
   BrowserAnimationsModule,
@@ -35,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(),
     provideHttpClient(
+      withInterceptorsFromDi(),
       withFetch(),
       withInterceptors([
         authInterceptor,
@@ -53,6 +55,7 @@ export const appConfig: ApplicationConfig = {
         closeButton: true,
         progressBar: true,
       }),
-    ), provideAnimationsAsync(),
+    ),
+    provideAnimationsAsync(),
   ],
 };
