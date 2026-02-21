@@ -3,12 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { apiBaseUrl } from '../utils/app.config';
-export interface UserProfile {
-  id: string;
-  fullName: string;
-  pictureUrl: string;
-  birthDate?: string;
-}
+import { UserProfile } from '../../shared/models/user-profile.model';
 
 @Injectable({
   providedIn: 'root',
