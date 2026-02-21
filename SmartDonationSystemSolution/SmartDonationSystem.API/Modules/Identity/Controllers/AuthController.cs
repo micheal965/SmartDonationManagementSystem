@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.Modules.Auth.DTOs;
 using SmartDonationSystem.Core.Modules.Auth.Interfaces;
@@ -30,7 +29,6 @@ namespace SmartDonationSystem.API.Modules.Identity.Controllers
             return StatusCode((int)loginResponse.statusCode, loginResponse);
         }
 
-        [Authorize]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromHeader] string Authorization)
         {
@@ -46,9 +44,9 @@ namespace SmartDonationSystem.API.Modules.Identity.Controllers
         }
 
         [HttpPost("rotate-refresh-token")]
-        public async Task<IActionResult> RotateRefreshToken()
+        public async Task<IActionResult> RotateRefreshToken(RefreshRequestDto request)
         {
-            var token = Request.Cookies["refreshToken"];
+            var token = request.refreshToken ?? Request.Cookies["refreshToken"];
             var result = await _authServices.RotateRefreshTokenAsync(token);
             return StatusCode((int)result.statusCode, result);
         }

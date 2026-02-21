@@ -1,6 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { ApiResult } from '../../../shared/models/api-result-model';
@@ -10,6 +22,7 @@ import { JwtPayloadModel } from '../models/jwt-payload.model';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { userDataModel } from '../models/user-data.model';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -28,12 +41,18 @@ export class AuthService {
 
     if (this.isBrowser) {
       const token = localStorage.getItem('token');
-      if (token) this.setSession(token);
+      if (token) {
+        this.accessToken = token;
+        this.decodeToken();
+      }
     }
   }
 
   getAccessToken() {
     return this.accessToken;
+  }
+  getRefreshToken() {
+    return sessionStorage.getItem('refreshToken');
   }
   isAuthenticated(): boolean {
     return !!this.accessToken;
@@ -44,14 +63,11 @@ export class AuthService {
   }
   login(data: LoginRequest): Observable<void> {
     return this.http
-      .post<ApiResult<{ token: string }>>(`${apiBaseUrl}/Auth/login`, data)
+      .post<
+        ApiResult<{ token: string; refreshToken: string }>
+      >(`${apiBaseUrl}/Auth/login`, data)
       .pipe(
-        map((res) => res.data?.token),
-        tap((token) => {
-          if (!token) throw new Error('Token missing');
-          localStorage.setItem('token', token);
-          this.setSession(token);
-        }),
+        tap((res) => this.setTokens(res.data.token, res.data.refreshToken)),
         map(() => void 0),
       );
   }
@@ -61,22 +77,37 @@ export class AuthService {
       tap(() => {
         this.accessToken = null;
         localStorage.removeItem('token');
+        sessionStorage.removeItem('refreshToken');
         this.router.navigate(['/signin']);
       }),
     );
   }
 
-  refreshToken() {
+  rotateRefreshToken() {
     return this.http
       .post<
-        ApiResult<{ token: string }>
-      >(`${apiBaseUrl}/Auth/rotate-refresh-token`, {}, { withCredentials: true })
-      .pipe(tap((res) => (this.accessToken = res.data?.token ?? null)));
-  }
+        ApiResult<{ token: string; refreshToken: string }>
+      >(`${apiBaseUrl}/Auth/rotate-refresh-token`, { refreshToken: this.getRefreshToken() }, { withCredentials: true })
+      .pipe(
+        tap((res) => this.setTokens(res.data.token, res.data.refreshToken)),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 400)
+            return this.logout().pipe(switchMap(() => throwError(() => error)));
 
-  private setSession(token: string) {
+          return throwError(() => error);
+        }),
+      );
+  }
+  private setTokens(token: string, refreshToken: string) {
+    localStorage.setItem('token', token);
+    sessionStorage.setItem('refreshToken', refreshToken);
     this.accessToken = token;
-    const decoded = jwtDecode<JwtPayloadModel>(token);
+    this.decodeToken();
+  }
+  private decodeToken() {
+    if (this.accessToken == null) return;
+
+    const decoded = jwtDecode<JwtPayloadModel>(this.accessToken);
     this.userData = {
       id: decoded[
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'

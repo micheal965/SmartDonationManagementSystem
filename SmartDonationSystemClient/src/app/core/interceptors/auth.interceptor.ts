@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       // 401 => means Access token expired
       if (err instanceof HttpErrorResponse && err.status === 401) {
         // rotate refresh token
-        return authService.refreshToken().pipe(
+        return authService.rotateRefreshToken().pipe(
           switchMap(() => {
             const newToken = authService.getAccessToken();
             const newReq = req.clone({

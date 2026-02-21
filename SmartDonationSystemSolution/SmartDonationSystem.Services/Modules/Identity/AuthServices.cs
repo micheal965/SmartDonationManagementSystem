@@ -20,7 +20,6 @@ namespace SmartDonationSystem.Services.Modules.Identity;
 public class AuthServices : IAuthService
 {
     private static readonly HashSet<string> BlacklistedTokens = new();
-    private readonly IWebHostEnvironment _env;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -36,7 +35,6 @@ public class AuthServices : IAuthService
                         SignInManager<ApplicationUser> signInManager,
                         ApplicationDbContext applicationDbContext)
     {
-        _env = env;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
@@ -67,20 +65,19 @@ public class AuthServices : IAuthService
         {
             //if there is no active RefreshToken for that user so generate new one 
             RefreshTokenObj = GenerateRefreshTokenObject();
-            user.RefreshTokens.Add(RefreshTokenObj);
-            await _userManager.UpdateAsync(user);
+            RefreshTokenObj.ApplicationUserId = user.Id;
+            await _applicationDbContext.RefreshTokens.AddAsync(RefreshTokenObj);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         //set refresh token if not empty in the cookies 
         if (!string.IsNullOrEmpty(RefreshTokenObj?.Token))
             AppendRefreshTokenInCookies(RefreshTokenObj.Token, RefreshTokenObj.expiryDate);
 
-        //Get user Roles
-        var roles = await _userManager.GetRolesAsync(user);
-
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto()
         {
             Token = await CreateJwtWebTokenAsync(user),
+            refreshToken = RefreshTokenObj.Token,
         });
     }
     public async Task<Result<RegisterResultDto>> RegisterAsync(RegisterRequestDto requestDto)
@@ -142,8 +139,9 @@ public class AuthServices : IAuthService
         refreshToken.revokedOn = DateTime.UtcNow;
 
         var newRefreshTokenObj = GenerateRefreshTokenObject();
-        user.RefreshTokens.Add(newRefreshTokenObj);
-        await _userManager.UpdateAsync(user);
+        newRefreshTokenObj.ApplicationUserId = user.Id;
+        await _applicationDbContext.RefreshTokens.AddAsync(newRefreshTokenObj);
+        await _applicationDbContext.SaveChangesAsync();
 
         //Delete old RefreshToken and save the new refresh token into cookies=>(Append)
         AppendRefreshTokenInCookies(newRefreshTokenObj.Token, newRefreshTokenObj.expiryDate);
@@ -153,6 +151,7 @@ public class AuthServices : IAuthService
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto
         {
             Token = await CreateJwtWebTokenAsync(user),
+            refreshToken = newRefreshTokenObj.Token,
         }, "Token Rotated successfully!");
     }
 
@@ -252,14 +251,14 @@ public class AuthServices : IAuthService
     }
     private void AppendRefreshTokenInCookies(string token, DateTime expires)
     {
-        var cookieOptions = new CookieOptions()
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, new CookieOptions()
         {
+            Expires = expires,
             HttpOnly = true,//csrf
             Secure = true,
-            Expires = expires,
-            SameSite = SameSiteMode.Strict,
-        };
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, cookieOptions);
+            IsEssential = true,
+            SameSite = SameSiteMode.None,
+        });
     }
     private void DeleteRefreshTokenFromCookies()
     {

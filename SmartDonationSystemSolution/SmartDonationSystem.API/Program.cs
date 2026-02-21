@@ -59,18 +59,19 @@ namespace SmartDonationSystem.API
             });
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(policy =>
+                options.AddPolicy("FrontendPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200") // frontend origin
+                    policy.WithOrigins("http://localhost:4200", "https://smart-donation-management-system.vercel.app")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowCredentials(); // required for cookies
+                          .AllowCredentials();
                 });
             });
             // Register Modules dependencies
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
+            app.UseCors("FrontendPolicy");
 
             //app.UseHangfireDashboard("/hangfire", new DashboardOptions
             //{
@@ -88,7 +89,6 @@ namespace SmartDonationSystem.API
             //    Cron.HourInterval(1)
             //);
             #endregion
-            app.UseCors();
             //  await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
