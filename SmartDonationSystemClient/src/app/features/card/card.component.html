@@ -1,10 +1,15 @@
-<div class="bg-white shadow-sm rounded-3xl p-4 ">
+<div class="relative bg-white shadow-sm rounded-3xl p-4 cursor-pointer" (click)="goToDetails()">
+    <span
+        class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-2 py-1 rounded-full text-xs z-10"
+        [ngClass]="getPriorityClass(post().priorityLevel)">
+        {{ getPriorityLabel( post().priorityLevel )}}
+    </span>
     <div class="flex justify-between mb-8">
         <div class="flex items-center justify-center gap-2">
-            <img class="w-8 h-8 rounded-full" src="./../../../assets/our-team/micheal.jpeg" alt="requester">
+            <img class="w-8 h-8 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
             <div class="flex flex-col">
-                <span class="text-md text-dark-blue font-bold">Micheal Ghobrial</span>
-                <span class="text-xs text-gray-400">Posted 2 hours ago</span>
+                <span class="text-md text-dark-blue font-bold">{{post().fullName}}</span>
+                <span class="text-xs text-gray-400">Posted {{post().createdAt | timeAgo}}</span>
             </div>
         </div>
         <div>
@@ -21,40 +26,42 @@
             </span>
         </div>
     </div>
-    <div class="relative rounded-lg overflow-hidden aspect-[16/9] mb-5">
-        <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-            data-alt="Group of volunteers planting trees in a degraded forest area"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU41GbiR39a5uxWegb1Ie_92I1I7Mh_YCaS4RdCNU3yNxG3_eagNSEBsW86kfmqNfWxK_N7_lCNPTwYCPAO1lwk2Xh5YSz-fQqbNHrOcbkGjjQgogOpgbbSknKLhdQ0Wa7vLwCKQHLpQIbEqA3IJTtJollm3Nq6QHjqVn3hgBcu53F1FqLSY6qexu9qdK8p_2UamK81xARrOp1rFpHkzEiwLJhagdkQmvr4ipx8PHXKem3Rzp-H34ekVAEnaqE4DsL0wufHEQ6EwIa" />
+    <div class="rounded-lg mb-5">
+        <iframe class="w-full h-full border rounded-lg" [src]="getSafeUrl(post().attachments[0])">
+        </iframe>
     </div>
-    <h2 class="text-xl font-bold text-dark-blue mb-3">Restore the Amazon Rainforest: 10,000 Tree Initiative</h2>
-    <p class="text-slate-600 text-sm leading-relaxed mb-6">
-        We're on a mission to reforest critical areas of the Amazon. Every $10 plants a tree and provides
-        sustainable
-        jobs for local indigenous communities. Join us in the fight against climate change.
-    </p>
-    <!-- Smart Progress Bar -->
-    <div class="space-y-2 mb-6">
-        <div class="flex justify-between items-end">
-            <div>
-                <span class="text-xl font-black text-dark-blue">$42,850</span>
-                <span class="text-slate-400 text-xs font-medium ml-1">raised of $60,000</span>
-            </div>
-            <span class="text-sm font-bold text-light-green">71%</span>
-        </div>
-        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
-            <div class="h-full bg-light-green rounded-full transition-all duration-1000" style="width: 71%"></div>
-        </div>
-    </div>
+    <h2 class="text-xl font-bold text-dark-blue mb-3">{{post().title}}</h2>
+    <p class="text-slate-600 text-sm leading-relaxed mb-6">{{post().content.split(' ').slice(0,27).join(' ')}}</p>
     <!-- Buttons -->
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3 items-center">
+        <!-- Donate Now Button -->
         <button
-            class="flex-1 bg-light-green text-dark-blue py-3 rounded-xl font-bold text-sm shadow-lg shadow-light-green/20 hover:shadow-light-green/30 hover:-translate-y-0.5 transition-all">
+            class="flex-1 flex items-center justify-center gap-2 bg-light-green font-bold text-dark-blue text-sm py-3 rounded-xl shadow-lg shadow-light-green/30 hover:shadow-light-green/40 active:scale-95 transition-all">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 15.5V17.5C21 18.8807 19.8807 20 18.5 20H5.5C4.11929 20 3 18.8807 3 17.5V14.5C3 13.3954 3.89543 12.5 5 12.5H18C19.1046 12.5 20 13.3954 20 14.5L21 15.5Z"
+                    fill="var(--dark-blue)" />
+                <rect x="5" y="11" width="3" height="6" rx="1.5" fill="var(--dark-blue)" />
+
+                <path
+                    d="M17.5 4C15.8 4 14.5 5.5 14 6C13.5 5.5 12.2 4 10.5 4C8.5 4 7 5.5 7 7.5C7 11 14 14.5 14 14.5C14 14.5 21 11 21 7.5C21 5.5 19.5 4 17.5 4Z"
+                    fill="var(--dark-blue)" stroke="white" stroke-width="1.5" />
+            </svg>
             Donate Now
         </button>
+
+        <!-- Message Button -->
         <button
-            class="px-6 border-2 border-slate-100 text-secondary py-3 rounded-xl font-bold text-sm hover:bg-secondary hover:-translate-y-0.5  hover:border-secondary transition-all flex items-center gap-2">
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 font-bold text-dark-blue text-sm border-2 border-slate-100 rounded-xl hover:bg-gray-100 transition-all ">
             <mat-icon>message</mat-icon>
             Message
+        </button>
+
+        <!-- Like Button -->
+        <button
+            class="w-full sm:w-auto flex items-center justify-center gap-1 px-6 py-3 font-bold border-2 text-red-500 text-sm border-red-100 rounded-xl hover:bg-red-100 hover:border-red-400/5 transition-all">
+            <mat-icon>favorite</mat-icon>
+            <span>1232</span>
         </button>
     </div>
 </div>

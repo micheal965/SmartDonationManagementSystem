@@ -4,4 +4,8 @@ export interface Post {
   content: string;
   createdAt: string;
   priorityLevel: number;
+  userId: string;
+  fullName: string;
+  pictureUrl: string;
+  attachments: string[];
 }

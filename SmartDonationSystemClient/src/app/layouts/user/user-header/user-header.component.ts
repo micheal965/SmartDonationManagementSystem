@@ -1,5 +1,5 @@
 import { UserService } from './../../../core/services/user.service';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-header',
   standalone: true,
-  imports: [RouterLink, NgIf, NgFor, MatIconModule, RouterLinkActive],
+  imports: [RouterLink, NgIf, NgFor, MatIconModule, RouterLinkActive, NgClass],
   templateUrl: './user-header.component.html',
   styleUrl: './user-header.component.scss',
 })

@@ -69,15 +69,23 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
 
         public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(int pageNumber, int pageSize)
         {
-            //var query = _applicationDbContext.Posts
-            //                    .Where(p => p.Status == PostStatus.Approved.ToString() && p.PriorityLevel != null && p.ImpactScore != null)
-            //                    .OrderByDescending(p => p.PriorityLevel)
-            //                    .ThenByDescending(p => p.ImpactScore)
-            //                    .ThenByDescending(p => p.CreatedAt);
             var query = _applicationDbContext.Posts
+            //                    .Where(p => p.Status == PostStatus.Approved.ToString() && p.PriorityLevel != null && p.ImpactScore != null)
                                 .OrderByDescending(p => p.PriorityLevel)
                                 .ThenByDescending(p => p.ImpactScore)
-                                .ThenByDescending(p => p.CreatedAt);
+                                .ThenByDescending(p => p.CreatedAt)
+                                .Select(p => new PostToReturnDto()
+                                {
+                                    id = p.Id,
+                                    title = p.Title,
+                                    content = p.Content,
+                                    createdAt = p.CreatedAt,
+                                    priorityLevel = p.PriorityLevel,
+                                    userId = p.ApplicationUserId,
+                                    fullName = p.ApplicationUser.FullName,
+                                    attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
+                                    pictureUrl = p.ApplicationUser.PictureUrl
+                                });
 
             var totalCount = await query.CountAsync();
 

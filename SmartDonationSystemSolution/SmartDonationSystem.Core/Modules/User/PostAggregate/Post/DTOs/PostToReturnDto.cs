@@ -2,10 +2,15 @@
 {
     public class PostToReturnDto
     {
-        public required int Id { get; set; }
-        public required string Title { get; set; }
-        public required string Content { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int? PriorityLevel { get; set; }
+        public required int id { get; set; }
+        public required string title { get; set; }
+        public required string content { get; set; }
+        public DateTime createdAt { get; set; }
+        public int? priorityLevel { get; set; }
+
+        public required string userId { get; set; }
+        public required string fullName { get; set; }
+        public required string pictureUrl { get; set; }
+        public List<string> attachments { get; set; }
     }
 }
