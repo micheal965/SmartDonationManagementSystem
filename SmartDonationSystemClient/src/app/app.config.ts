@@ -24,6 +24,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { toastrInterceptor } from './core/interceptors/toastr.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { credentialsInterceptor } from './core/interceptors/credentials.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi(),
       withFetch(),
       withInterceptors([
+        credentialsInterceptor,
         authInterceptor,
         toastrInterceptor,
         loadingInterceptor,

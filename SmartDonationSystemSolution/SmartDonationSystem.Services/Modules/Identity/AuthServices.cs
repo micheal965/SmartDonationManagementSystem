@@ -77,7 +77,6 @@ public class AuthServices : IAuthService
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto()
         {
             Token = await CreateJwtWebTokenAsync(user),
-            refreshToken = RefreshTokenObj.Token,
         });
     }
     public async Task<Result<RegisterResultDto>> RegisterAsync(RegisterRequestDto requestDto)
@@ -143,15 +142,12 @@ public class AuthServices : IAuthService
         await _applicationDbContext.RefreshTokens.AddAsync(newRefreshTokenObj);
         await _applicationDbContext.SaveChangesAsync();
 
-        //Delete old RefreshToken and save the new refresh token into cookies=>(Append)
+        //Delete old RefreshToken and save the new refresh token into cookies => (Append)
         AppendRefreshTokenInCookies(newRefreshTokenObj.Token, newRefreshTokenObj.expiryDate);
 
-        //get roles from db for that user
-        var roles = await _userManager.GetRolesAsync(user);
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto
         {
             Token = await CreateJwtWebTokenAsync(user),
-            refreshToken = newRefreshTokenObj.Token,
         }, "Token Rotated successfully!");
     }
 
@@ -161,11 +157,13 @@ public class AuthServices : IAuthService
         await Task.Delay(100);  // Simulate async I/O operation to add token to blacklist
         BlacklistedTokens.Add(token);
         var refreshTokenFromCookies = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-        DeleteRefreshTokenFromCookies();
 
         //Revoke RefreshToken in the Database
         var refreshTokenObj = await _applicationDbContext.RefreshTokens
                                     .FirstOrDefaultAsync(rf => rf.Token == refreshTokenFromCookies);
+
+        DeleteRefreshTokenFromCookies();
+
         if (refreshTokenObj == null || refreshTokenObj.isExpired) return;
 
         refreshTokenObj.revokedOn = DateTime.UtcNow;
@@ -251,17 +249,22 @@ public class AuthServices : IAuthService
     }
     private void AppendRefreshTokenInCookies(string token, DateTime expires)
     {
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, new CookieOptions()
-        {
-            Expires = expires,
-            HttpOnly = true,//csrf
-            Secure = true,
-            IsEssential = true,
-            SameSite = SameSiteMode.None,
-        });
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, GetRefreshTokenCookieOptions());
     }
     private void DeleteRefreshTokenFromCookies()
     {
-        _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken");
+        _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken", GetRefreshTokenCookieOptions());
+    }
+    private CookieOptions GetRefreshTokenCookieOptions(DateTime? expires = null)
+    {
+        return new CookieOptions
+        {
+            Expires = expires,
+            HttpOnly = true,
+            Secure = true,
+            IsEssential = true,
+            SameSite = SameSiteMode.None,
+            Path = "/"
+        };
     }
 }

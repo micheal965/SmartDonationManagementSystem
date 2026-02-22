@@ -44,9 +44,9 @@ namespace SmartDonationSystem.API.Modules.Identity.Controllers
         }
 
         [HttpPost("rotate-refresh-token")]
-        public async Task<IActionResult> RotateRefreshToken(RefreshRequestDto request)
+        public async Task<IActionResult> RotateRefreshToken()
         {
-            var token = request.refreshToken ?? Request.Cookies["refreshToken"];
+            var token = Request.Cookies["refreshToken"];
             var result = await _authServices.RotateRefreshTokenAsync(token);
             return StatusCode((int)result.statusCode, result);
         }
