@@ -1,26 +1,40 @@
+import { UserService } from './../../core/services/user.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { FeedService } from './services/feed.service';
 import { Post } from './models/post.model';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
+import { CreatePostComponent } from '../create-post/create-post.component';
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [CardComponent, NgFor, InfiniteScrollDirective, NgClass],
+  imports: [
+    CardComponent,
+    NgIf,
+    NgFor,
+    InfiniteScrollDirective,
+    NgClass,
+    CreatePostComponent,
+  ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
 })
 export class FeedComponent implements OnInit {
+  UserService = inject(UserService);
   private feedService = inject(FeedService);
   posts: Post[] = [];
   pageNumber = 1;
   pageSize = 4;
+
   loading = false;
   hasNext = true;
+
   filter: 'All' | 'Medical' | 'Jobs' = 'All';
   filters: ('All' | 'Medical' | 'Jobs')[] = ['All', 'Medical', 'Jobs'];
   sort: 'Recent' | 'Urgent' = 'Urgent';
+
+  isModalOpen = false;
 
   ngOnInit(): void {
     this.loadPosts();
@@ -59,5 +73,12 @@ export class FeedComponent implements OnInit {
     this.posts = [];
     this.loadPosts();
   }
-  
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 }

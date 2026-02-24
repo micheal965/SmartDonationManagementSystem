@@ -1,0 +1,42 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-24 z-50">
+    <div class="flex flex-col bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 relative">
+
+        <!-- Close Button -->
+        <div class="flex items-center justify-between mb-8">
+            <span class="text-lg font-semibold">Create a Post</span>
+            <button (click)="closeModal()"
+                class="flex items-center justify-center bg-blue-600/10 hover:bg-blue-600/20 p-3 w-10 h-10 rounded-full transition-all duration-300 ">&times;</button>
+        </div>
+
+        <form [formGroup]="postForm" (ngSubmit)="submit()" class="space-y-4">
+
+            <input formControlName="title" placeholder="Title" class="input pl-3" />
+
+            <textarea formControlName="content" placeholder="What do you want to share?" rows="4"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-light-green resize-y max-h-96"
+                required></textarea>
+
+            <div class="file-input-wrapper">
+                <!-- Hidden native input -->
+                <input type="file" id="fileUpload" multiple class="file-input-hidden" (change)="onFileChange($event)" />
+
+                <!-- Custom styled label -->
+                <label for="fileUpload" class="file-input-label">
+                    <mat-icon class="w-5 h-5 mr-2 text-gray-500">
+                        upload
+                    </mat-icon>
+                    Upload Files
+                </label>
+
+                <!-- Display selected file names -->
+                <div *ngIf="attachments.length > 0" class="file-input-names">
+                    <p *ngFor="let file of attachments">{{ file.name }}</p>
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="isSubmitting || postForm.invalid" class="btn-primary w-full">
+                {{ isSubmitting ? 'Posting...' : 'Post' }}
+            </button>
+        </form>
+    </div>
+</div>

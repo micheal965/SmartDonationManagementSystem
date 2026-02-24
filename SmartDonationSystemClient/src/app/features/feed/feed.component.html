@@ -1,5 +1,22 @@
 <div class="flex flex-col">
-    <div class="flex items-center justify-center mb-3">
+    <!-- Create Post -->
+    <div class="flex items-center justify-center w-full mb-8">
+        <div class="bg-white/60 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
+            (click)="openModal()">
+
+            <img [src]="this.UserService.profile()?.pictureUrl || './assets/avatar.png'" alt="requester"
+                class="w-14 h-14 rounded-full" />
+
+            <input type="text" placeholder="Start a post"
+                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30"
+                readonly />
+        </div>
+
+        <app-create-post *ngIf="isModalOpen" (close)="closeModal()" />
+    </div>
+
+    <!-- Filter -->
+    <div class="flex items-center justify-center mb-6 md:mb-3">
         <div class="flex gap-x-3">
             <button *ngFor="let f of filters" (click)="onFilterClick(f)" [ngClass]="filter === f
       ? 'bg-light-green/20 '
@@ -8,25 +25,36 @@
             </button>
         </div>
     </div>
-    <div class="flex items-center justify-between mb-6">
-        <p class="text-xl lg:text-2xl text-dark-blue font-bold">Donation Feed</p>
-        <div class="flex gap-x-2">
+
+    <!-- Sort By -->
+    <div class="relative flex items-center mb-8">
+
+        <div class="flex-1 h-[2px] bg-slate-200 relative translate-y-2">
+            <span class="absolute -top-5 right-0 text-sm font-medium text-dark-blue/60">
+                Sort By
+            </span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-x-2 ml-4">
             <button (click)="onSortClick('Recent')" [ngClass]="{
-            'bg-light-green/20 text-dark-blue': sort === 'Recent',
-            'bg-white text-gray-800': sort !== 'Recent'
-          }" class="rounded-xl px-3 py-2 transition-colors">
+              'bg-light-green/20 text-dark-blue': sort === 'Recent',
+              'bg-white text-gray-800': sort !== 'Recent'
+            }" class="rounded-xl px-3 py-2 transition-colors">
                 Recent
             </button>
 
             <button (click)="onSortClick('Urgent')" [ngClass]="{
-            'bg-light-green/20 text-dark-blue': sort === 'Urgent',
-            'bg-white text-gray-800': sort !== 'Urgent'
-          }" class="rounded-xl px-3 py-2 transition-colors">
+              'bg-light-green/20 text-dark-blue': sort === 'Urgent',
+              'bg-white text-gray-800': sort !== 'Urgent'
+            }" class="rounded-xl px-3 py-2 transition-colors">
                 Urgent
             </button>
         </div>
+
     </div>
-    <!-- Grid container -->
+
+    <!--Posts  -->
     <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6">
         <div *ngFor="let post of posts; trackBy:trackById">
             <app-card [post]="post" />

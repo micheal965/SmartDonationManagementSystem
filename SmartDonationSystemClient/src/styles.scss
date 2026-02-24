@@ -53,6 +53,23 @@ html {
   }
 }
 
+// Global file style
+.file-input-wrapper {
+  @apply relative w-full;
+}
+
+.file-input-label {
+  @apply flex items-center justify-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 text-gray-700 transition-colors;
+}
+
+.file-input-hidden {
+  @apply hidden;
+}
+
+.file-input-names {
+  @apply mt-2 text-sm text-gray-600;
+}
+
 html,
 body {
   height: 100%;
