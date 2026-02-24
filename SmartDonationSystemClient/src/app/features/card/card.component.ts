@@ -4,6 +4,8 @@ import { Post } from '../feed/models/post.model';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgClass } from '@angular/common';
+import { FeedService } from '../feed/services/feed.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-card',
@@ -13,8 +15,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
+  private feedService = inject(FeedService);
   private sanitizer = inject(DomSanitizer);
   post = input.required<Post>();
+
   getSafeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
@@ -40,4 +44,24 @@ export class CardComponent {
     }
   }
   goToDetails() {}
+  onLike(post: Post) {
+    if (post.isReacting) return;
+    post.isReacting = true;
+
+    const previousState = {
+      hasReacted: post.hasReacted,
+      likesCount: post.likesCount,
+    };
+    post.hasReacted = !post.hasReacted;
+    post.likesCount += post.hasReacted ? 1 : -1;
+
+    this.feedService.reactToPost(post.id).subscribe({
+      next: () => (post.isReacting = false),
+      error: () => {
+        post.hasReacted = previousState.hasReacted;
+        post.likesCount = previousState.likesCount;
+        post.isReacting = false;
+      },
+    });
+  }
 }

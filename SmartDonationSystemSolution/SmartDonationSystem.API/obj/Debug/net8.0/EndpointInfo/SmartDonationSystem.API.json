@@ -270,8 +270,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 1
+              "format": "int32"
             }
           },
           {
@@ -279,8 +278,21 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 5
+              "format": "int32"
+            }
+          },
+          {
+            "name": "categoryName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PostSortBy"
             }
           }
         ],
@@ -322,6 +334,28 @@
             "in": "query",
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Reaction/react": {
+      "post": {
+        "tags": [
+          "Reaction"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -542,6 +576,14 @@
           }
         },
         "additionalProperties": false
+      },
+      "PostSortBy": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "RegisterRequestDto": {
         "required": [

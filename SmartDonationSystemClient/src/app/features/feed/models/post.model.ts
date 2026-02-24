@@ -8,4 +8,7 @@ export interface Post {
   fullName: string;
   pictureUrl: string;
   attachments: string[];
+  likesCount: number;
+  hasReacted: boolean;
+  isReacting: boolean;
 }

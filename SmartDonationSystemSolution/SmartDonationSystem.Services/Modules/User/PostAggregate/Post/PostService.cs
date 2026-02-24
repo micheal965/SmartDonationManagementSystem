@@ -1,5 +1,4 @@
 ﻿using Hangfire;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Cloud;
@@ -8,8 +7,10 @@ using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
+using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Pagination;
 using SmartDonationSystem.Shared.Responses;
+using System.Diagnostics;
 using PostModel = SmartDonationSystem.Core.Common.Models.Post;
 using PostToReturnDto = SmartDonationSystem.Core.Modules.User.PostAggregate.Post.DTOs.PostToReturnDto;
 
@@ -67,34 +68,46 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             return Result<object>.Created(null, "Post created successfully");
         }
 
-        public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(int pageNumber, int pageSize)
+        public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(string userId, int pageNumber, int pageSize, string? categoryName, PostSortBy sortBy)
         {
+            if (!Enum.IsDefined(typeof(PostSortBy), sortBy))
+                return Result<PaginatedList<PostToReturnDto>>.BadRequest($"Invalid sort type: {sortBy}");
+
             var query = _applicationDbContext.Posts
-            //                    .Where(p => p.Status == PostStatus.Approved.ToString() && p.PriorityLevel != null && p.ImpactScore != null)
-                                .OrderByDescending(p => p.PriorityLevel)
-                                .ThenByDescending(p => p.ImpactScore)
-                                .ThenByDescending(p => p.CreatedAt)
-                                .Select(p => new PostToReturnDto()
-                                {
-                                    id = p.Id,
-                                    title = p.Title,
-                                    content = p.Content,
-                                    createdAt = p.CreatedAt,
-                                    priorityLevel = p.PriorityLevel,
-                                    userId = p.ApplicationUserId,
-                                    fullName = p.ApplicationUser.FullName,
-                                    attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
-                                    pictureUrl = p.ApplicationUser.PictureUrl
-                                });
+                          .Where(p => (string.IsNullOrEmpty(categoryName) || p.Category.Name == categoryName));
+            //&& p.Status == PostStatus.Approved.ToString());
+
+            query = sortBy switch
+            {
+                PostSortBy.Urgent => query.OrderByDescending(p => p.PriorityLevel)
+                                        .ThenByDescending(p => p.ImpactScore)
+                                        .ThenByDescending(p => p.CreatedAt),
+                PostSortBy.Recent => query.OrderByDescending(p => p.CreatedAt),
+
+                _ => throw new UnreachableException()
+            };
+
 
             var totalCount = await query.CountAsync();
 
-            var posts = await query
+            var postsToReturnDto = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(p => new PostToReturnDto
+                {
+                    id = p.Id,
+                    title = p.Title,
+                    content = p.Content,
+                    createdAt = p.CreatedAt,
+                    priorityLevel = p.PriorityLevel,
+                    attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
+                    likesCount = p.Reactions.Count(),
+                    hasReacted = p.Reactions.Any(r => r.ApplicationUserId == userId),
+                    userId = p.ApplicationUserId,
+                    fullName = p.ApplicationUser.FullName,
+                    pictureUrl = p.ApplicationUser.PictureUrl,
+                })
                 .ToListAsync();
-
-            var postsToReturnDto = posts.Adapt<List<PostToReturnDto>>();
 
             var result = new PaginatedList<PostToReturnDto>(postsToReturnDto, pageNumber, pageSize, totalCount);
             return Result<PaginatedList<PostToReturnDto>>.Ok(result);

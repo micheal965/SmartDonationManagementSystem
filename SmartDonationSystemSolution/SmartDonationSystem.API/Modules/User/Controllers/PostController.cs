@@ -26,11 +26,13 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             return StatusCode((int)result.statusCode, result);
         }
         [HttpGet("get-posts")]
-        public async Task<IActionResult> GetPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+        public async Task<IActionResult> GetPosts([FromQuery] PostQueryParams postQueryParams)
         {
-            var result = await _postService.GetPostsAsync(pageNumber, pageSize);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _postService
+                .GetPostsAsync(userId, postQueryParams.pageNumber, postQueryParams.pageSize, postQueryParams.categoryName, postQueryParams.sortBy);
+
             return StatusCode((int)result.statusCode, result);
         }
-
     }
 }

@@ -1,5 +1,4 @@
 using Mapster;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +26,7 @@ public class AuthServices : IAuthService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ApplicationDbContext _applicationDbContext;
 
-    public AuthServices(IWebHostEnvironment env,
-                        IConfiguration configuration,
+    public AuthServices(IConfiguration configuration,
                         IHttpContextAccessor httpContextAccessor,
                         UserManager<ApplicationUser> userManager,
                         RoleManager<IdentityRole> roleManager,
@@ -134,16 +132,6 @@ public class AuthServices : IAuthService
         if (!refreshToken.isActive)
             return Result<LoginOrRotateTokenResponseDto>.BadRequest("Invalid Token");
 
-        //revoke that token and generate new one
-        refreshToken.revokedOn = DateTime.UtcNow;
-
-        var newRefreshTokenObj = GenerateRefreshTokenObject();
-        newRefreshTokenObj.ApplicationUserId = user.Id;
-        await _applicationDbContext.RefreshTokens.AddAsync(newRefreshTokenObj);
-        await _applicationDbContext.SaveChangesAsync();
-
-        //Delete old RefreshToken and save the new refresh token into cookies => (Append)
-        AppendRefreshTokenInCookies(newRefreshTokenObj.Token, newRefreshTokenObj.expiryDate);
 
         return Result<LoginOrRotateTokenResponseDto>.Ok(new LoginOrRotateTokenResponseDto
         {
@@ -157,12 +145,11 @@ public class AuthServices : IAuthService
         await Task.Delay(100);  // Simulate async I/O operation to add token to blacklist
         BlacklistedTokens.Add(token);
         var refreshTokenFromCookies = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+        DeleteRefreshTokenFromCookies();
 
         //Revoke RefreshToken in the Database
         var refreshTokenObj = await _applicationDbContext.RefreshTokens
                                     .FirstOrDefaultAsync(rf => rf.Token == refreshTokenFromCookies);
-
-        DeleteRefreshTokenFromCookies();
 
         if (refreshTokenObj == null || refreshTokenObj.isExpired) return;
 
@@ -249,7 +236,7 @@ public class AuthServices : IAuthService
     }
     private void AppendRefreshTokenInCookies(string token, DateTime expires)
     {
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, GetRefreshTokenCookieOptions());
+        _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", token, GetRefreshTokenCookieOptions(expires));
     }
     private void DeleteRefreshTokenFromCookies()
     {

@@ -15,10 +15,18 @@ export class FeedService {
   getPosts(
     pageNumber: number,
     pageSize: number,
+    categoryName: string | null,
+    sortBy: string,
   ): Observable<{ items: Post[]; hasNext: boolean }> {
-    const params = new HttpParams()
-      .set('pageNumber', pageNumber)
-      .set('pageSize', pageSize);
+    const paramsObj: any = {
+      pageNumber,
+      pageSize,
+      sortBy,
+    };
+
+    if (categoryName) paramsObj.categoryName = categoryName;
+
+    const params = new HttpParams({ fromObject: paramsObj });
 
     return this.http
       .get<
@@ -33,5 +41,15 @@ export class FeedService {
           };
         }),
       );
+  }
+  reactToPost(postId: number) {
+    var params = new HttpParams().set('postId', postId);
+    return this.http.post<ApiResult<object>>(
+      `${apiBaseUrl}/Reaction/react`,
+      {},
+      {
+        params,
+      },
+    );
   }
 }

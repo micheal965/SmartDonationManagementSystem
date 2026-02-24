@@ -1,18 +1,27 @@
 <div class="flex flex-col">
-    <div class="flex items-center justify-center mb-1">
+    <div class="flex items-center justify-center mb-3">
         <div class="flex gap-x-3">
-            <button class="category-btn">All</button>
-            <button class="category-btn">Medical </button>
-            <button class="category-btn">Jobs</button>
+            <button *ngFor="let f of filters" (click)="onFilterClick(f)" [ngClass]="filter === f
+      ? 'bg-light-green/20 '
+      : 'category-btn'" class="rounded-3xl px-3 py-2 border transition-colors">
+                {{ f }}
+            </button>
         </div>
     </div>
     <div class="flex items-center justify-between mb-6">
         <p class="text-xl lg:text-2xl text-dark-blue font-bold">Donation Feed</p>
         <div class="flex gap-x-2">
-            <button class="bg-white rounded-xl px-3 py-2 hover:bg-light-green hover:text-dark-blue transition-colors">
+            <button (click)="onSortClick('Recent')" [ngClass]="{
+            'bg-light-green/20 text-dark-blue': sort === 'Recent',
+            'bg-white text-gray-800': sort !== 'Recent'
+          }" class="rounded-xl px-3 py-2 transition-colors">
                 Recent
             </button>
-            <button class="bg-white rounded-xl px-3 py-2  hover:bg-light-green hover:text-dark-blue transition-colors">
+
+            <button (click)="onSortClick('Urgent')" [ngClass]="{
+            'bg-light-green/20 text-dark-blue': sort === 'Urgent',
+            'bg-white text-gray-800': sort !== 'Urgent'
+          }" class="rounded-xl px-3 py-2 transition-colors">
                 Urgent
             </button>
         </div>

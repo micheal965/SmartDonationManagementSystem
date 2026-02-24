@@ -45,7 +45,7 @@
 
                 <path
                     d="M17.5 4C15.8 4 14.5 5.5 14 6C13.5 5.5 12.2 4 10.5 4C8.5 4 7 5.5 7 7.5C7 11 14 14.5 14 14.5C14 14.5 21 11 21 7.5C21 5.5 19.5 4 17.5 4Z"
-                    fill="var(--dark-blue)" stroke="white" stroke-width="1.5" />
+                    fill="white" stroke="var(--dark-blue)" stroke-width="1.5" />
             </svg>
             Donate Now
         </button>
@@ -59,9 +59,10 @@
 
         <!-- Like Button -->
         <button
-            class="w-full sm:w-auto flex items-center justify-center gap-1 px-6 py-3 font-bold border-2 text-red-500 text-sm border-red-100 rounded-xl hover:bg-red-100 hover:border-red-400/5 transition-all">
+            class="w-full sm:w-auto flex items-center justify-center gap-1 px-6 py-3 font-bold border-2 text-red-500 text-sm border-red-100 rounded-xl hover:bg-red-100 hover:border-red-400/5 transition-all"
+            [ngClass]="{'bg-red-100 border-red-400/5 ':post().hasReacted}" (click)="onLike(post())">
             <mat-icon>favorite</mat-icon>
-            <span>1232</span>
+            <span>{{post().likesCount}}</span>
         </button>
     </div>
 </div>
