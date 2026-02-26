@@ -8,6 +8,7 @@ export function passwordStrengthValidator(): ValidatorFn {
 
     const hasUpperCase = /[A-Z]/.test(value);
     const hasLowerCase = /[a-z]/.test(value);
+    const hasNumber = /[0-9]/.test(value); // ✅ new check
 
     const errors: ValidationErrors = {};
 
@@ -18,6 +19,9 @@ export function passwordStrengthValidator(): ValidatorFn {
     if (!hasLowerCase)
       errors['noLowerCase'] =
         'Password must have at least one lowercase letter';
+
+    if (!hasNumber)
+      errors['noNumber'] = 'Password must have at least one number';
 
     return Object.keys(errors).length ? errors : null;
   };

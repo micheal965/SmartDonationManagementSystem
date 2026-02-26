@@ -6,6 +6,7 @@ import { Post } from './models/post.model';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 import { CreatePostComponent } from '../create-post/create-post.component';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-feed',
   standalone: true,
@@ -23,6 +24,7 @@ import { CreatePostComponent } from '../create-post/create-post.component';
 export class FeedComponent implements OnInit {
   UserService = inject(UserService);
   private feedService = inject(FeedService);
+  private toastr = inject(ToastrService);
   posts: Post[] = [];
   pageNumber = 1;
   pageSize = 4;
@@ -34,7 +36,7 @@ export class FeedComponent implements OnInit {
   filters: ('All' | 'Medical' | 'Jobs')[] = ['All', 'Medical', 'Jobs'];
   sort: 'Recent' | 'Urgent' = 'Urgent';
 
-  isModalOpen = false;
+  isModalOpen = true;
 
   ngOnInit(): void {
     this.loadPosts();
@@ -54,26 +56,41 @@ export class FeedComponent implements OnInit {
         this.loading = false;
       });
   }
+  onCreatePost(formData: any) {
+    this.feedService
+      .createPost(
+        formData.title,
+        formData.content,
+        formData.categoryId,
+        formData.attachments,
+      )
+      .subscribe({
+        next: () => {
+          this.toastr.success('Post created successfully!');
+          this.closeModal();
+        },
+      });
+  }
   trackById(index: number, item: Post) {
     return item.id;
   }
 
   onFilterClick(filter: 'All' | 'Medical' | 'Jobs') {
     this.filter = filter;
-    this.pageNumber = 1;
-    this.hasNext = true;
-    this.posts = [];
+    this.reset();
     this.loadPosts();
   }
 
   onSortClick(sort: 'Recent' | 'Urgent') {
     this.sort = sort;
+    this.reset();
+    this.loadPosts();
+  }
+  private reset() {
     this.pageNumber = 1;
     this.hasNext = true;
     this.posts = [];
-    this.loadPosts();
   }
-
   openModal() {
     this.isModalOpen = true;
   }

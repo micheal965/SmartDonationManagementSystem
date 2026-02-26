@@ -12,6 +12,27 @@ import { Post } from '../models/post.model';
 export class FeedService {
   constructor(private http: HttpClient) {}
 
+  createPost(
+    title: string,
+    content: string,
+    categoryId: string,
+    attachments?: File[],
+  ): Observable<ApiResult<object>> {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('categoryId', categoryId);
+    if (attachments && attachments.length > 0) {
+      attachments.forEach((file, index) => {
+        formData.append('attachments', file);
+      });
+    }
+    return this.http.post<ApiResult<object>>(
+      `${apiBaseUrl}/Post/create-post`,
+      formData,
+    );
+  }
+
   getPosts(
     pageNumber: number,
     pageSize: number,
@@ -42,6 +63,7 @@ export class FeedService {
         }),
       );
   }
+
   reactToPost(postId: number) {
     var params = new HttpParams().set('postId', postId);
     return this.http.post<ApiResult<object>>(

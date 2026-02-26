@@ -63,8 +63,8 @@
                             class="btn bg-light-green text-white shadow-lg shadow-light-green/20 hover:brightness-105 disabled:bg-gray-400 disabled:shadow-none">
                             <span class="flex items-center gap-2">
                                 <span>{{isLoading?'Scanning':'Scan My ID Card'}}</span>
-                                <svg *ngIf="isLoading" class="animate-spin h-4 w-4 text-light-green" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24">
+                                <svg *ngIf="isLoading" class="animate-spin h-4 w-4 text-light-green"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                         stroke-width="4"></circle>
                                     <path class="opacity-75" fill="#FFFFFF"
@@ -193,6 +193,7 @@
                             characters.</small>
                         <small *ngIf="password?.getError('noUpperCase')">{{ password?.getError('noUpperCase')}}</small>
                         <small *ngIf="password?.getError('noLowerCase')">{{ password?.getError('noLowerCase')}}</small>
+                        <small *ngIf="password?.getError('noNumber')">{{ password?.getError('noNumber')}}</small>
                     </div>
                 </div>
 

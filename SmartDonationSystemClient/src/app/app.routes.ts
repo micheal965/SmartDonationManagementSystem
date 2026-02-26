@@ -49,6 +49,7 @@ export const routes: Routes = [
         path: 'feed',
         loadComponent: () =>
           import('./features/feed/feed.component').then((m) => m.FeedComponent),
+        title: 'Feed',
       },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],

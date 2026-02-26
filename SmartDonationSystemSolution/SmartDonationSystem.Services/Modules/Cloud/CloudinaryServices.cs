@@ -1,4 +1,3 @@
-using System.Net;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -126,6 +125,7 @@ public class CloudinaryServices : ICloudinaryServices
         Uri uri = new Uri(url);
         return Path.GetFileNameWithoutExtension(uri.AbsolutePath);
     }
+
     private bool IsValidImageFile(IFormFile file)
     {
         var allowedExtensions = new HashSet<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };

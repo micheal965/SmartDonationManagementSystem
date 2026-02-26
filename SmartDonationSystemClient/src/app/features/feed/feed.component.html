@@ -8,11 +8,10 @@
                 class="w-14 h-14 rounded-full" />
 
             <input type="text" placeholder="Start a post"
-                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30"
-                readonly />
+                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30" readonly />
         </div>
 
-        <app-create-post *ngIf="isModalOpen" (close)="closeModal()" />
+        <app-create-post *ngIf="isModalOpen" (closed)="closeModal()" (submitted)="onCreatePost($event)" />
     </div>
 
     <!-- Filter -->

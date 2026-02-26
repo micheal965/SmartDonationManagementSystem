@@ -1,42 +1,109 @@
-<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-24 z-50">
-    <div class="flex flex-col bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 relative">
+<div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+    <form [formGroup]="form" (ngSubmit)="submit()"
+        class="bg-white w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh]">
 
-        <!-- Close Button -->
-        <div class="flex items-center justify-between mb-8">
-            <span class="text-lg font-semibold">Create a Post</span>
-            <button (click)="closeModal()"
-                class="flex items-center justify-center bg-blue-600/10 hover:bg-blue-600/20 p-3 w-10 h-10 rounded-full transition-all duration-300 ">&times;</button>
+        <!-- Header -->
+        <div class="px-6 py-5 border-b flex justify-between items-center">
+            <h2 class="text-2xl font-bold">Create New Entry</h2>
+            <button type="button" (click)="close()">
+                <mat-icon>close</mat-icon>
+            </button>
         </div>
 
-        <form [formGroup]="postForm" (ngSubmit)="submit()" class="space-y-4">
+        <!-- Body -->
+        <div class="p-6 space-y-6 overflow-y-auto">
 
-            <input formControlName="title" placeholder="Title" class="input pl-3" />
+            <!-- Title -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold">Title</label>
+                <input formControlName="title" class="pl-2 border rounded-lg p-2" placeholder="Enter entry title..." />
+                <small *ngIf="f.title.invalid && (f.title.touched || f.title.dirty)" class="text-red-500">
+                    <span *ngIf="f.title.errors?.['required']">Title is required.</span>
+                    <span *ngIf="f.title.errors?.['minlength']">Title must be at least 3 characters.</span>
+                </small>
+            </div>
 
-            <textarea formControlName="content" placeholder="What do you want to share?" rows="4"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-light-green resize-y max-h-96"
-                required></textarea>
+            <!-- Category -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold">Category</label>
+                <div class="relative">
+                    <select formControlName="categoryId" class="w-full appearance-none border rounded-lg p-2">
+                        <option value="" disabled>Select Category</option>
+                        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                    </select>
 
-            <div class="file-input-wrapper">
-                <!-- Hidden native input -->
-                <input type="file" id="fileUpload" multiple class="file-input-hidden" (change)="onFileChange($event)" />
+                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <mat-icon>expand_more</mat-icon>
+                    </div>
+                </div>
+                <small *ngIf="f.categoryId.invalid && (f.categoryId.touched || f.categoryId.dirty)"
+                    class="text-red-500">
+                    Category is required.
+                </small>
+            </div>
 
-                <!-- Custom styled label -->
-                <label for="fileUpload" class="file-input-label">
-                    <mat-icon class="w-5 h-5 mr-2 text-gray-500">
-                        upload
-                    </mat-icon>
-                    Upload Files
+            <!-- Content -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold">Content</label>
+                <textarea formControlName="content" class="w-full rounded-lg p-3 resize-y min-h-[140px] max-h-96"
+                    placeholder="Describe your entry..."></textarea>
+                <small *ngIf="f.content.invalid && (f.content.touched || f.content.dirty)" class="text-red-500">
+                    <span *ngIf="f.content.errors?.['required']">Content is required.</span>
+                    <span *ngIf="f.content.errors?.['minlength']">Content must be at least 10 characters.</span>
+                </small>
+            </div>
+
+            <!-- Attachments -->
+            <div class="flex flex-col gap-3">
+                <label class="text-sm font-semibold">Attachments
+                    <span class="text-gray-400 text-sm font-light" *ngIf="isAttachmentsOptional">(optional)</span>
                 </label>
 
-                <!-- Display selected file names -->
-                <div *ngIf="attachments.length > 0" class="file-input-names">
-                    <p *ngFor="let file of attachments">{{ file.name }}</p>
+                <label class="border-2 border-dashed rounded-lg p-8 flex flex-col items-center cursor-pointer">
+                    <input type="file" multiple hidden (change)="onFileChange($event)" accept=".pdf,.doc,.docx,.txt" />
+                    <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <mat-icon>add</mat-icon>
+                    </div>
+                    <p class="text-sm mt-2">Drag files or browse</p>
+                </label>
+
+                <!-- Validation message -->
+                <small *ngIf="attachmentsControl.invalid && (attachmentsControl.touched || attachmentsControl.dirty)"
+                    class="text-red-500">
+                    <span *ngIf="attachmentsControl.getError('minFiles')">
+                        Please attach at least {{ attachmentsControl.getError('minFiles').required }} file(s).
+                    </span>
+                    <span *ngIf="attachmentsControl.getError('maxFiles')">
+                        You can attach at most {{ attachmentsControl.getError('maxFiles').allowed }} file(s).
+                    </span>
+                </small>
+
+                <!-- Files List -->
+                <div *ngFor="let file of attachmentsControl.value; let i = index"
+                    class="bg-gray-50 p-3 rounded flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <mat-icon>description</mat-icon>
+                        <span class="text-sm">{{ file.name }}</span>
+                    </div>
+
+                    <button type="button" (click)="removeFile(i)">
+                        <mat-icon>close</mat-icon>
+                    </button>
                 </div>
             </div>
 
-            <button type="submit" [disabled]="isSubmitting || postForm.invalid" class="btn-primary w-full">
-                {{ isSubmitting ? 'Posting...' : 'Post' }}
+        </div>
+
+        <!-- Footer -->
+        <div class="p-6 border-t flex justify-end gap-3">
+            <button type="button" (click)="close()"
+                class="px-6 py-2.5 rounded-lg border border-accent-danger/30 text-accent-danger font-semibold hover:bg-slate-200 transition-colors">
+                Cancel
             </button>
-        </form>
-    </div>
+
+            <button type="submit" [disabled]="form.invalid || isLoading" class="btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
 </div>

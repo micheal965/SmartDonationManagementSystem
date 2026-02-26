@@ -8,5 +8,5 @@ export const guestGuard: CanActivateFn = (route, state) => {
 
   if (!authService.isAuthenticated()) return true;
 
-  return router.navigate(['/feed']);
+  return router.createUrlTree(['/feed']);
 };
