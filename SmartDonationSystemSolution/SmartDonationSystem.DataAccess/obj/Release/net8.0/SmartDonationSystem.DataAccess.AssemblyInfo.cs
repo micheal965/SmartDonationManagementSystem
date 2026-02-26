@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartDonationSystem.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9b8e82c9947f4279fd89d18adcd57c3dac54712e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adf7918a20e19294fb19e7d4e923ce9424d60169")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartDonationSystem.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartDonationSystem.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

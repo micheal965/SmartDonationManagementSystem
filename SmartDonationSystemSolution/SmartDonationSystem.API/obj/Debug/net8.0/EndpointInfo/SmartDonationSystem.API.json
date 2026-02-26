@@ -91,6 +91,18 @@
         }
       }
     },
+    "/api/Category/get-categories": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/admin/Category/create-category": {
       "post": {
         "tags": [
@@ -209,7 +221,6 @@
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "attachments",
                   "categoryId",
                   "content",
                   "title"

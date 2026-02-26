@@ -147,6 +147,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CategoryController",
+    "Method": "GetCategories",
+    "RelativePath": "api/Category/get-categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.Cloud.Controllers.CloudController",
     "Method": "GetSignature",
     "RelativePath": "api/Cloud/signature",

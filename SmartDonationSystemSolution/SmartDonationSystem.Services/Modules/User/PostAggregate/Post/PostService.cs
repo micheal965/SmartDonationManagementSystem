@@ -43,21 +43,24 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                 (createPostDto.attachments == null || !createPostDto.attachments.Any()))
                 return Result<object>.BadRequest("At least one attachment is required for Medical category.");
 
-            var attachmentsUrls = await _cloudinaryServices.UploadFilesAsync(createPostDto.attachments, "post_attachments");
-            if (attachmentsUrls == null)
-                return Result<object>.ServerError("Failed to upload attachments");
-
             PostModel post = new PostModel
             {
                 ApplicationUserId = applicationUserId,
                 Title = createPostDto.title,
                 Content = createPostDto.content,
                 CategoryId = createPostDto.categoryId,
-                PostAttachments = attachmentsUrls.Select(url => new PostAttachment
+            };
+            if (createPostDto.attachments != null)
+            {
+                var attachmentsUrls = await _cloudinaryServices.UploadFilesAsync(createPostDto.attachments, "post_attachments");
+                if (attachmentsUrls == null)
+                    return Result<object>.ServerError("Failed to upload attachments");
+
+                post.PostAttachments = attachmentsUrls.Select(url => new PostAttachment
                 {
                     AttachmentUrl = url
-                }).ToList()
-            };
+                }).ToList();
+            }
 
             await _applicationDbContext.Posts.AddAsync(post);
             await _applicationDbContext.SaveChangesAsync();
