@@ -36,7 +36,7 @@ export class FeedComponent implements OnInit {
   filters: ('All' | 'Medical' | 'Jobs')[] = ['All', 'Medical', 'Jobs'];
   sort: 'Recent' | 'Urgent' = 'Urgent';
 
-  isModalOpen = true;
+  isModalOpen = false;
 
   ngOnInit(): void {
     this.loadPosts();

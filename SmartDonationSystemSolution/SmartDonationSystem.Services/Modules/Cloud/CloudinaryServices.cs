@@ -94,6 +94,9 @@ public class CloudinaryServices : ICloudinaryServices
         {
             if (file.Length == 0) continue; // Skip empty files
 
+            if (!IsValidDocumentFile(file))
+                throw new Exception($"Invalid file type: {file.FileName}. Only PDF, Word, or TXT are allowed.");
+
             await using var stream = file.OpenReadStream();
             var uploadParams = new RawUploadParams()
             {
@@ -130,6 +133,32 @@ public class CloudinaryServices : ICloudinaryServices
     {
         var allowedExtensions = new HashSet<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
         var allowedMimeTypes = new HashSet<string> { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp" };
+
+        // Check MIME type
+        if (!allowedMimeTypes.Contains(file.ContentType.ToLower()))
+            return false;
+
+        // Check file extension
+        var extension = Path.GetExtension(file.FileName).ToLower();
+        if (!allowedExtensions.Contains(extension))
+            return false;
+
+        return true;
+    }
+
+    private bool IsValidDocumentFile(IFormFile file)
+    {
+        // Allowed extensions
+        var allowedExtensions = new HashSet<string> { ".pdf", ".doc", ".docx", ".txt" };
+
+        // Allowed MIME types
+        var allowedMimeTypes = new HashSet<string>
+    {
+        "application/pdf",
+        "application/msword", // .doc
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "text/plain" // .txt
+    };
 
         // Check MIME type
         if (!allowedMimeTypes.Contains(file.ContentType.ToLower()))

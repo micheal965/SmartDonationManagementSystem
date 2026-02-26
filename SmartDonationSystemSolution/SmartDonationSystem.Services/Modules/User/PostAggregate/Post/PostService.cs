@@ -32,9 +32,16 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             if (User == null)
                 return Result<object>.BadRequest("User not found");
 
-            bool categoryExists = await _applicationDbContext.Categories.AnyAsync(c => c.Id == createPostDto.categoryId);
-            if (!categoryExists)
+            Category? category = await _applicationDbContext.Categories.FindAsync(createPostDto.categoryId);
+            if (category == null)
                 return Result<object>.BadRequest("Category not found");
+
+            if (createPostDto.attachments != null && createPostDto.attachments.Count > 5)
+                return Result<object>.BadRequest("You can upload a maximum of 5 attachments.");
+
+            if (string.Equals(category.Name, "Medical", StringComparison.OrdinalIgnoreCase) &&
+                (createPostDto.attachments == null || !createPostDto.attachments.Any()))
+                return Result<object>.BadRequest("At least one attachment is required for Medical category.");
 
             var attachmentsUrls = await _cloudinaryServices.UploadFilesAsync(createPostDto.attachments, "post_attachments");
             if (attachmentsUrls == null)
