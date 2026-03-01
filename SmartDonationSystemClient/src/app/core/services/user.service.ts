@@ -70,7 +70,23 @@ export class UserService {
       >(`${apiBaseUrl}/userProfile/get-user-reactions`, { params })
       .pipe(map((res) => res.data));
   }
+  deleteUserProfilePicture(): Observable<object> {
+    return this.http.delete<ApiResult<UserReactionsDto>>(
+      `${apiBaseUrl}/userProfile/delete-profile-picture`,
+    );
+  }
+  updateProfilePicture(
+    profilePicture: File,
+  ): Observable<{ pictureUrl: string }> {
+    const formData = new FormData();
+    formData.append('profilePicture', profilePicture);
 
+    return this.http
+      .post<
+        ApiResult<{ pictureUrl: string }>
+      >(`${apiBaseUrl}/userProfile/set-profile-picture`, formData)
+      .pipe(map((res) => res.data));
+  }
   loadProfile(): void {
     const currentUserId = this.authService.userData.id;
 

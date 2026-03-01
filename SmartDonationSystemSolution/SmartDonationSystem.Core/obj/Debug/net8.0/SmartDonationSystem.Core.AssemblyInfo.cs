@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartDonationSystem.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ea6ffcdb422c30aa969df4889226da6bdf7c905")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e84709fb01683fb2c3d1e8e3aefe4cf6194f6b09")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartDonationSystem.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartDonationSystem.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

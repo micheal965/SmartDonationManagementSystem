@@ -1,12 +1,12 @@
-<main class="max-w-full bg-white shadow-sm overflow-hidden bg-light-gray/20 pb-10 ">
+<main class="max-w-full bg-white shadow-sm overflow-hidden bg-light-gray/20 pb-10">
     <section class="relative">
-        <div class="h-36 md:h-64 w-full bg-slate-200 overflow-hidden lg:rounded-b-xl relative">
-            <div class="absolute inset-0 bg-gradient-to-r from-light-/10 to-bright-blue/10"></div>
+        <div class="h-36 md:h-64 w-auto bg-slate-200 overflow-hidden">
         </div>
         <div class="px-6 -mt-20 relative z-10">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div class="flex flex-col md:flex-row md:items-end gap-6">
-                    <div class="w-40 h-40 rounded-full border-[6px] border-white shadow-xl overflow-hidden bg-white">
+                    <div class="w-40 h-40 rounded-full border-[6px] border-white shadow-xl overflow-hidden bg-white cursor-pointer"
+                        (click)="showProfilePictureModal=true">
                         <img class="w-full h-full object-cover" data-alt="User main profile circular portrait"
                             [src]="user.pictureUrl || './assets/avatar.png'" />
                     </div>
@@ -147,4 +147,8 @@
     <app-edit-profile *ngIf="showEditModal" [user]="user" (save)="updateUser($event)" (cancel)="showEditModal = false"
         (deleteAccount)="deleteUser()">
     </app-edit-profile>
+
+    <app-profile-picture-modal [isOpen]="showProfilePictureModal" [isCurrentMainProfile]="isCurrentUserProfile"
+        [imageUrl]="user.pictureUrl" (close)="showProfilePictureModal = false" (update)="onUpdatePhoto($event)"
+        (delete)="onDeletePhoto()" />
 </main>

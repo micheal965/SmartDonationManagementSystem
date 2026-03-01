@@ -57,7 +57,7 @@ public class UserProfileServices : IUserProfileService
         if (!updateResult.Succeeded)
             return Result<object>.BadRequest("Failed to update user profile", updateResult.Errors);
 
-        return Result<object>.Ok("Profile picture updated successfully");
+        return Result<object>.Ok(new { pictureUrl = uploadResult.url }, "Profile picture updated successfully");
     }
     public async Task<Result<string>> GetProfilePictureAsync(string userId)
     {

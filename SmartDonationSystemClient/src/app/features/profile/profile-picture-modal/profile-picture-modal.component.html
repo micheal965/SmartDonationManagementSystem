@@ -1,0 +1,33 @@
+<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+
+    <!-- Overlay -->
+    <div class="absolute inset-0" (click)="closeModal()"></div>
+
+    <!-- Modal -->
+    <div class="relative flex flex-col gap-4 z-10 bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 p-8 pb-4">
+        <!-- Close -->
+        <button class="absolute top-3 right-3 text-gray-500 hover:text-black text-xl" (click)="closeModal()">
+            ✕
+        </button>
+
+        <!-- Image -->
+        <img [src]="imageUrl || './assets/avatar.png'"
+            class="max-h-[80vh] w-72 h-72 mx-auto rounded-full object-contain" />
+
+        <!-- Actions -->
+        <div class="flex justify-evenly items-end border-t-2 border-slate-200 w-full pt-4" *ngIf="isCurrentMainProfile">
+            <button class="flex flex-col justify-center items-center gap-2 hover:bg-slate-100 p-4 rounded-md transition"
+                (click)="fileInput.click()">
+                <mat-icon>photo_camera</mat-icon>
+                <span>Update Photo</span>
+                <input #fileInput type="file" accept="image/*" class="hidden" (change)="onUpdate($event)">
+            </button>
+
+            <button class="flex flex-col justify-center items-center gap-2 hover:bg-slate-100 p-4 rounded-md transition"
+                (click)="onDelete()">
+                <mat-icon>delete</mat-icon>
+                <span>Delete Photo</span>
+            </button>
+        </div>
+    </div>
+</div>
