@@ -9,11 +9,11 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
     [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = AppRoles.Admin)]
-    public class CategoryController : ControllerBase
+    public class CategoryManagementController : ControllerBase
     {
         private readonly ICategoryManagementService _categoryService;
 
-        public CategoryController(ICategoryManagementService categoryService)
+        public CategoryManagementController(ICategoryManagementService categoryService)
         {
             _categoryService = categoryService;
         }

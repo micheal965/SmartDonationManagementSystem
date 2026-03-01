@@ -116,11 +116,38 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
+                    categoryName = p.Category.Name
                 })
                 .ToListAsync();
 
             var result = new PaginatedList<PostToReturnDto>(postsToReturnDto, pageNumber, pageSize, totalCount);
             return Result<PaginatedList<PostToReturnDto>>.Ok(result);
+        }
+        public async Task<Result<PostDetailsToReturnDto>> GetPostAsync(int postId)
+        {
+            PostDetailsToReturnDto? post = await _applicationDbContext.Posts
+                .Where(p => p.Id == postId)
+                .Select(p => new PostDetailsToReturnDto
+                {
+                    id = p.Id,
+                    title = p.Title,
+                    content = p.Content,
+                    createdAt = p.CreatedAt,
+                    priorityLevel = p.PriorityLevel,
+                    attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
+                    likesCount = p.Reactions.Count(),
+
+                    userId = p.ApplicationUserId,
+                    fullName = p.ApplicationUser.FullName,
+                    pictureUrl = p.ApplicationUser.PictureUrl,
+                    categoryName = p.Category.Name
+                })
+                .FirstOrDefaultAsync();
+
+            if (post == null)
+                return Result<PostDetailsToReturnDto>.NotFound("Post not found");
+
+            return Result<PostDetailsToReturnDto>.Ok(post);
         }
     }
 }

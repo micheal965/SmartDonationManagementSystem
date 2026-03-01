@@ -1,7 +1,7 @@
-<div class="flex flex-col">
+<div class="flex flex-col px-2">
     <!-- Create Post -->
     <div class="flex items-center justify-center w-full mb-8">
-        <div class="bg-white/60 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
+        <div class="bg-white/60 -mt-1 sm:mt-0 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
             (click)="openModal()">
 
             <img [src]="this.UserService.profile()?.pictureUrl || './assets/avatar.png'" alt="requester"
@@ -28,7 +28,7 @@
     <!-- Sort By -->
     <div class="relative flex items-center mb-8">
 
-        <div class="flex-1 h-[2px] bg-slate-200 relative translate-y-2">
+        <div class="flex-1 h-[2px] bg-slate-300/40 relative translate-y-2">
             <span class="absolute -top-5 right-0 text-sm font-medium text-dark-blue/60">
                 Sort By
             </span>

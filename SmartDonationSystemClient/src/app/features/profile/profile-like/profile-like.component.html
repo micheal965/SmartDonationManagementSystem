@@ -1,0 +1,24 @@
+<div class="bg-white rounded-2xl shadow-sm border p-5 
+    transition-all duration-200 
+    hover:shadow-md hover:-translate-y-1 
+    hover:bg-slate-50 cursor-pointer" [routerLink]="['/posts', like.postId]">
+
+    <div class="flex items-center justify-between">
+
+        <!-- Left Content -->
+        <div>
+            <h3 class="text-lg font-semibold text-gray-800">
+                {{ like.postTitle }}
+            </h3>
+
+            <p class="text-sm text-gray-500 mt-1">
+                You liked this post
+            </p>
+        </div>
+
+        <!-- Right Icon -->
+        <div class="flex items-center justify-center w-8 h-8 rounded-full">
+            <mat-icon class="text-red-500 animate-stepPulse">favorite</mat-icon>
+        </div>
+    </div>
+</div>

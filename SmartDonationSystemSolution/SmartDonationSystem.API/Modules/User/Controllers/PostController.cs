@@ -31,8 +31,14 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var result = await _postService
                 .GetPostsAsync(userId, postQueryParams.pageNumber, postQueryParams.pageSize, postQueryParams.categoryName, postQueryParams.sortBy);
-
             return StatusCode((int)result.statusCode, result);
         }
+        [HttpGet("get-post/{postId}")]
+        public async Task<IActionResult> GetPost(int postId)
+        {
+            var result = await _postService.GetPostAsync(postId);
+            return StatusCode((int)result.statusCode, result);
+        }
+
     }
 }

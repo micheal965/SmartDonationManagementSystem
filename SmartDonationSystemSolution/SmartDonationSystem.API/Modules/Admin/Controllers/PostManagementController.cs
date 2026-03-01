@@ -9,10 +9,10 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
     [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = AppRoles.Admin)]
-    public class PostController : ControllerBase
+    public class PostManagementController : ControllerBase
     {
         private readonly IPostManagementService _postService;
-        public PostController(IPostManagementService postService)
+        public PostManagementController(IPostManagementService postService)
         {
             _postService = postService;
         }

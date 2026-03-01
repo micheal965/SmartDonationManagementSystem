@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction;
+using SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction.interfaces;
 using System.Security.Claims;
 
 namespace SmartDonationSystem.API.Modules.User.Controllers

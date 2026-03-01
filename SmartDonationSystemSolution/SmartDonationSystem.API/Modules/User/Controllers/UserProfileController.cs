@@ -61,6 +61,19 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var getUserDataResponse = await _userProfileServices.GetSpecificUserAsync(userId);
             return StatusCode((int)getUserDataResponse.statusCode, getUserDataResponse);
         }
+        [HttpGet("get-user-posts")]
+        public async Task<IActionResult> GetUserPosts([FromQuery] string userId)
+        {
+            var getUserPostsResponse = await _userProfileServices.GetUserPostsAsync(userId);
+            return StatusCode((int)getUserPostsResponse.statusCode, getUserPostsResponse);
+        }
+        [HttpGet("get-user-reactions")]
+        public async Task<IActionResult> GetUserReactions([FromQuery] string userId)
+        {
+            var getUserReactionsResponse = await _userProfileServices.GetUserReactionsAsync(userId);
+            return StatusCode((int)getUserReactionsResponse.statusCode, getUserReactionsResponse);
+        }
+
         [HttpPut("update-user")]
         [Authorize]
         public async Task<IActionResult> UpdateUserData(UpdateUserRequestDto updateUserRequestDto)
@@ -77,5 +90,6 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var historyListResult = await _userProfileServices.GetLoginHistoryAsync(userId);
             return StatusCode((int)historyListResult.statusCode, historyListResult);
         }
+
     }
 }

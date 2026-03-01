@@ -103,10 +103,10 @@
         }
       }
     },
-    "/api/admin/Category/create-category": {
+    "/api/admin/CategoryManagement/create-category": {
       "post": {
         "tags": [
-          "Category"
+          "CategoryManagement"
         ],
         "parameters": [
           {
@@ -124,10 +124,10 @@
         }
       }
     },
-    "/api/admin/Category/get-categories": {
+    "/api/admin/CategoryManagement/get-categories": {
       "get": {
         "tags": [
-          "Category"
+          "CategoryManagement"
         ],
         "responses": {
           "200": {
@@ -136,10 +136,10 @@
         }
       }
     },
-    "/api/admin/Category/delete-category": {
+    "/api/admin/CategoryManagement/delete-category": {
       "delete": {
         "tags": [
-          "Category"
+          "CategoryManagement"
         ],
         "parameters": [
           {
@@ -158,10 +158,10 @@
         }
       }
     },
-    "/api/admin/Category/update-category": {
+    "/api/admin/CategoryManagement/update-category": {
       "patch": {
         "tags": [
-          "Category"
+          "CategoryManagement"
         ],
         "requestBody": {
           "content": {
@@ -314,10 +314,21 @@
         }
       }
     },
-    "/api/admin/Post/posts": {
+    "/api/Post/get-post/{postId}": {
       "get": {
         "tags": [
           "Post"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -326,10 +337,22 @@
         }
       }
     },
-    "/api/admin/Post/update-post-status": {
+    "/api/admin/PostManagement/posts": {
+      "get": {
+        "tags": [
+          "PostManagement"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/PostManagement/update-post-status": {
       "patch": {
         "tags": [
-          "Post"
+          "PostManagement"
         ],
         "parameters": [
           {
@@ -486,6 +509,48 @@
       }
     },
     "/api/UserProfile/get-user-data": {
+      "get": {
+        "tags": [
+          "UserProfile"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserProfile/get-user-posts": {
+      "get": {
+        "tags": [
+          "UserProfile"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserProfile/get-user-reactions": {
       "get": {
         "tags": [
           "UserProfile"
@@ -663,15 +728,24 @@
         "additionalProperties": false
       },
       "UpdateUserRequestDto": {
+        "required": [
+          "address",
+          "birthDate",
+          "phoneNumber"
+        ],
         "type": "object",
         "properties": {
-          "fullName": {
-            "type": "string",
-            "nullable": true
-          },
           "phoneNumber": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "address": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "birthDate": {
             "type": "string",
-            "nullable": true
+            "format": "date"
           }
         },
         "additionalProperties": false

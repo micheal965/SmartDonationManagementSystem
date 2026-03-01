@@ -107,22 +107,68 @@ public class UserProfileServices : IUserProfileService
     {
         ApplicationUser? user = await _userManager.FindByIdAsync(userId);
         if (user == null) return Result<UserToReturnDto>.NotFound("User not found");
+        var userDto = user.Adapt<UserToReturnDto>();
+        userDto.role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "User";
+        return Result<UserToReturnDto>.Ok(userDto, "User retrieved successfully");
+    }
+    public async Task<Result<UserPostsToReturnDto>> GetUserPostsAsync(string userId)
+    {
+        bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
+        if (!userExists) return Result<UserPostsToReturnDto>.NotFound("User not found");
 
-        return Result<UserToReturnDto>.Ok(user.Adapt<UserToReturnDto>(), "User retrieved successfully");
+        var posts = await _applicationDbContext.Posts.Include(p => p.Reactions).Where(p => p.ApplicationUserId == userId).ToListAsync();
+
+        var postsDto = posts.Select(p => new UserPostDto
+        {
+            id = p.Id,
+            title = p.Title,
+            content = p.Content,
+            likesCount = p.Reactions.Count()
+        }).ToList();
+
+        var dto = new UserPostsToReturnDto
+        {
+            totalPostsCount = postsDto.Count(),
+            posts = postsDto
+        };
+
+        return Result<UserPostsToReturnDto>.Ok(dto, "Posts retrieved successfully");
+    }
+    public async Task<Result<UserReactionsToReturnDto>> GetUserReactionsAsync(string userId)
+    {
+        bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
+        if (!userExists) return Result<UserReactionsToReturnDto>.NotFound("User not found");
+
+        var reactionsDto = await _applicationDbContext.Reactions.Where(r => r.ApplicationUserId == userId).Select(r => new UserReactionDto
+        {
+            PostId = r.PostId,
+            PostTitle = r.Post.Title,
+            CreatedAt = r.CreatedAt
+        }).ToListAsync();
+
+
+        var dto = new UserReactionsToReturnDto
+        {
+            totalLikesCount = reactionsDto.Count,
+            reactions = reactionsDto
+        };
+
+        return Result<UserReactionsToReturnDto>.Ok(dto, "Reactions retrieved successfully");
     }
     public async Task<Result<object>> UpdateUserAsync(string? userId, UpdateUserRequestDto updateUserRequestDto)
     {
         ApplicationUser? user = await _userManager.FindByIdAsync(userId);
         if (user == null) return Result<object>.NotFound("User not found");
 
-        user.FullName = updateUserRequestDto.FullName ?? user.FullName;
-        user.PhoneNumber = updateUserRequestDto.PhoneNumber ?? user.PhoneNumber;
+        user.Address = updateUserRequestDto.address;
+        user.PhoneNumber = updateUserRequestDto.phoneNumber;
+        user.BirthDate = updateUserRequestDto.birthDate ?? user.BirthDate;
 
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
             return Result<object>.BadRequest("Failed to update user", updateResult.Errors);
 
-        return Result<object>.Ok("User updated successfully");
+        return Result<object>.Ok(null, "User updated successfully");
     }
     public async Task<Result<IReadOnlyList<UserLoginsHistoryResponseDto>>> GetLoginHistoryAsync(string userId)
     {

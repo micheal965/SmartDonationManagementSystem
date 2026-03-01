@@ -1,0 +1,58 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-xl w-full max-w-md relative flex flex-col max-h-[90vh] overflow-hidden">
+
+    <h2 class="text-xl font-bold mb-4 p-6">Edit Profile</h2>
+
+    <!-- Scrollable form container -->
+    <div class="flex-1 overflow-y-auto px-6">
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSave()">
+
+        <!-- Full Name -->
+        <label class="block mb-2 text-sm font-medium">Full Name</label>
+        <input type="text" formControlName="fullName" readonly class="w-full border rounded px-3 py-2 mb-3" />
+
+        <!-- Role -->
+        <label class="block mb-2 text-sm font-medium">Role</label>
+        <input type="text" formControlName="role" readonly class="w-full border rounded px-3 py-2 mb-3" />
+
+        <!-- Birth Date -->
+        <label class="block mb-2 text-sm font-medium">Birth Date</label>
+        <input type="date" formControlName="birthDate" class="w-full border rounded px-3 py-2 mb-3" />
+
+        <div class="text-red-500 text-sm mb-3" *ngIf="editProfileForm.get('birthDate')?.errors">
+          <span *ngIf="editProfileForm.get('birthDate')?.hasError('futureDate')">
+            Birth date cannot be in the future.
+          </span>
+          <span *ngIf="editProfileForm.get('birthDate')?.hasError('tooYoung')">
+            You must be at least {{ editProfileForm.get('birthDate')?.getError('tooYoung').requiredAge }} years old.
+          </span>
+        </div>
+        <!-- PhoneNumber -->
+        <label class="block mb-2 text-sm font-medium">Phone Number</label>
+        <input type="text" formControlName="phoneNumber" class="w-full border rounded px-3 py-2 mb-3" />
+
+        <!-- Address -->
+        <label class="block mb-2 text-sm font-medium">Address</label>
+        <input type="text" formControlName="address" class="w-full border rounded px-3 py-2 mb-3" />
+
+      </form>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex flex-col-reverse sm:flex-row w-full justify-between items-center my-3 gap-3 px-6 pb-6">
+      <!-- Delete Account -->
+      <button type="button" (click)="onDeleteAccount()"
+        class="px-4 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-all w-full">
+        Delete Account
+      </button>
+
+      <div class="flex w-full gap-3 sm:w-auto">
+        <button type="button" (click)="onCancel()"
+          class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 w-full sm:w-auto">Cancel</button>
+        <button type="submit" (click)="onSave()" [disabled]="this.editProfileForm.invalid"
+          class="btn-primary px-4 py-2 rounded-lg font-bold w-full sm:w-auto">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>

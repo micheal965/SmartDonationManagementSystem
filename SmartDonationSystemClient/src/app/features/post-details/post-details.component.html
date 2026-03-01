@@ -1,0 +1,183 @@
+<article
+    class="max-w-7xl mx-auto py-8 my-8 bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+    <div class="p-8 md:p-12">
+        <!-- Author and Meta Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+            <div class="flex items-center gap-4">
+                <img alt="Post author" class="w-14 h-14 rounded-full object-cover" [src]="post.pictureUrl" />
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 class="font-bold text-lg text-dark-blue dark:text-slate-100 leading-tight">
+                            {{post.fullName}}</h3>
+                        <mat-icon matTooltip="Verified Organizer" class="text-light-green">
+                            verified
+                        </mat-icon>
+                    </div>
+                    <p class="text-slate-500 text-sm">Organizing for <span class="font-medium text-slate-700">Village X
+                            Foundation</span> • {{post.createdAt |
+                        timeAgo}}</p>
+                </div>
+            </div>
+            <!-- Priority Badge -->
+            <div class="px-4 py-2 rounded-xl flex items-center gap-2 " [ngClass]="post.priorityLevel | priorityClass">
+                <span class="relative flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                </span>
+                <span class="text-sm font-bold uppercase tracking-wide">{{post.priorityLevel |
+                    priorityLabel}}
+                    Priority</span>
+            </div>
+        </div>
+        <!-- Post Title -->
+        <h1 class="text-4xl md:text-5xl font-black text-dark-blue dark:text-slate-100 mb-8 leading-[1.1]">
+            {{post.title}}
+        </h1>
+        <div class="flex flex-wrap items-center gap-4 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
+            <button *ngIf="post.categoryName==='Medical'"
+                class="flex-1 flex items-center justify-center gap-2 bg-light-green font-bold text-dark-blue text-sm py-3 rounded-xl shadow-lg shadow-light-green/30 hover:shadow-light-green/40 active:scale-95 transition-all">
+                <mat-icon>favorite</mat-icon>
+                Donate Now
+            </button>
+            <button
+                class="h-14 px-6 bg-slate-50 dark:bg-slate-800 text-dark-blue dark:text-slate-200 font-bold rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-2">
+                <mat-icon>message</mat-icon>
+                Message
+            </button>
+        </div>
+        <!-- Main Description -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="lg:col-span-2">
+                <div class="prose prose-slate max-w-none">
+                    <p class="text-lg leading-relaxed text-slate-600 dark:text-slate-400 mb-6">
+                        {{post.content}}
+                    </p>
+                </div>
+                <!-- Comments Section Placeholder -->
+                <section class="mt-16">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-bold text-dark-blue">Community Thoughts
+                            (24)</h3>
+                        <button class="text-sm font-bold text-light-green hover:underline">View all</button>
+                    </div>
+                    <!-- Comment Input -->
+                    <div class="flex items-center gap-4 mb-10">
+                        <img alt="Current user" class="w-10 h-10 rounded-full object-cover"
+                            data-alt="User profile avatar"
+                            [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" />
+                        <div class="flex-1 relative">
+                            <textarea
+                                class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl py-3 px-4 focus:ring-primary focus:border-primary  placeholder:text-slate-400"
+                                placeholder="Share your support..." rows="1"></textarea>
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-light-green">
+                                <mat-icon matTooltip="Send message">
+                                    send
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Individual Comment -->
+                    <div class="space-y-8">
+                        <div class="flex gap-4">
+                            <img alt="Commenter" class="w-10 h-10 rounded-full object-cover"
+                                data-alt="Avatar of Robert Fox"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3WfkNqaL-Y5A3efD8MzaCavVP-cS5_XM29uMol6pJ6oBwvRO995kZ7hbH4W0FnCL1HFyhh6YAVjfteVHbKdjIq0sOwCmaP3cS3aFznj62vye3QwjYMTJr87eJYVzrkj82OE9TMGCxxlIpx90Nx2LoGOZL_0rcShmYtrVOR56ySp-Gc3th7LmSytFL7epTs4nOcEcsr0sRdR8YFKb9jY24DaYxLdbsIp61Lnc-mKOZjslzh_B8P3iheZGJKc34-MkZAMSJl6iHtW8y" />
+                            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-bold text-dark-blue dark:text-slate-200">Robert Fox</span>
+                                    <span class="text-xs text-slate-400">1 hour ago</span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">This is
+                                    such a vital project. I've donated and shared with my network! Good luck
+                                    Village X!</p>
+                                <div class="flex gap-4 mt-3">
+                                    <button
+                                        class="text-xs font-bold text-slate-400 hover:text-primary transition-colors uppercase tracking-wider">Helpful
+                                        (4)</button>
+                                    <button
+                                        class="text-xs font-bold text-slate-400 hover:text-primary transition-colors uppercase tracking-wider">Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Sidebar Info -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-28 space-y-6">
+                    <!-- Progress Card -->
+                    <div
+                        class="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700">
+                        <div class="mb-4">
+                            <span class="text-3xl font-black text-dark-blue dark:text-slate-100">$12,450</span>
+                            <span class="text-slate-500 text-sm"> raised of $20,000</span>
+                        </div>
+                        <div class="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full mb-6 overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 62%;"></div>
+                        </div>
+                        <div
+                            class="flex justify-between items-center text-sm font-bold text-slate-700 dark:text-slate-300">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-primary text-base">group</span>
+                                142 Backers
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-primary text-base">schedule</span>
+                                12 Days left
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Recent Activity -->
+                    <div class="p-6">
+                        <h5 class="font-bold text-dark-blue dark:text-slate-200 mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">bolt</span>
+                            Recent Activity
+                        </h5>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-sm">favorite</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400">
+                                    <span class="font-bold">Emily S.</span> donated $50
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-500">
+                                    <span class="material-symbols-outlined text-sm">share</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400">
+                                    <span class="font-bold">Mark R.</span> shared this project
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined text-sm">favorite</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400">
+                                    <span class="font-bold">Anonymous</span> donated $200
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Map Placeholder -->
+                    <div class="rounded-2xl overflow-hidden h-48 bg-slate-100 relative group">
+                        <div class="absolute inset-0 bg-slate-200 flex items-center justify-center grayscale"
+                            data-location="Kampala, Uganda"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASfrKeC9WL7qdAwz9leRrUNC-WwnK8fQb5Ov2KF2bNwHRjjHlkesmkOtBZ3KbN0hJs2xwI6r_rIrnCH3OB1Xw8xLroPGSjtYyF8aU90dMdqKFHszEeLfD_YxC52G4vyPjOzIAnkz6tr3eU42Z3unOWoXDqdS8PfPQ4gEuQtnwfdcMjvmrtQTyU_qjtymSWKvBQpautU2Zxm2wEXPmjO9ZBU64miFIvRNedE0CX_JIGIS58wB22zwVFCb6SMDSQafVds-Em_9ssCBRu'); background-size: cover;">
+                            <span class="material-symbols-outlined text-primary text-4xl">location_on</span>
+                        </div>
+                        <div
+                            class="absolute bottom-2 left-2 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-bold text-dark-blue shadow-sm">
+                            VILLAGE X, SUB-SAHARAN REGION
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

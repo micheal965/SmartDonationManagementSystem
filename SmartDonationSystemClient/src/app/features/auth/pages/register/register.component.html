@@ -259,8 +259,12 @@
                     <input type="date" id="BirthDate" formControlName="BirthDate" class="input pl-2"
                         [class.border-red-500]="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)" />
                     <div *ngIf="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)"
-                        class="text-red-500 text-sm mt-1">
-                        Birth Date is required.
+                        class="text-red-500 text-sm mb-3">
+                        <span *ngIf="birthDate?.errors?.['required']">Birth Date is required.</span>
+                        <span *ngIf="birthDate?.errors?.['futureDate']">Birth date cannot be in the future. </span>
+                        <span *ngIf="birthDate?.errors?.['tooYoung']">
+                            You must be at least {{ birthDate?.errors?.['tooYoung'].requiredAge }} years old.
+                        </span>
                     </div>
                 </div>
 

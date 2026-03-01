@@ -1,3 +1,4 @@
+using SmartDonationSystem.API.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartDonationSystem.Core.Modules.Auth.DTOs;
@@ -11,6 +12,8 @@ public class RegisterRequestDto
     [Required]
     public required string FullName { get; set; }
     [Required]
+    [DataType(DataType.Date)]
+    [BirthDateValidation(ErrorMessage = "Birth date must be in the past")]
     public DateOnly BirthDate { get; set; }
 
     //General Data

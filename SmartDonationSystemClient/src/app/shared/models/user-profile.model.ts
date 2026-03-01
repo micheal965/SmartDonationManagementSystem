@@ -3,4 +3,7 @@ export interface UserProfile {
   fullName: string;
   pictureUrl: string;
   birthDate?: string;
+  address: string;
+  phoneNumber: string;
+  role: string;
 }

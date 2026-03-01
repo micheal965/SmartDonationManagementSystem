@@ -62,7 +62,6 @@ export class AuthService {
       tap(() => {
         this.accessToken = null;
         localStorage.removeItem('token');
-        sessionStorage.removeItem('refreshToken');
         this.router.navigate(['/signin']);
       }),
     );

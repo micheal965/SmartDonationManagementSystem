@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction;
+using SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction.interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
 using React = SmartDonationSystem.Core.Common.Models.Reaction;

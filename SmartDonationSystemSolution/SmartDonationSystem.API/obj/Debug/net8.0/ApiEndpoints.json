@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryManagementController",
     "Method": "CreateCategory",
-    "RelativePath": "api/admin/Category/create-category",
+    "RelativePath": "api/admin/CategoryManagement/create-category",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -16,9 +16,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryManagementController",
     "Method": "DeleteCategory",
-    "RelativePath": "api/admin/Category/delete-category",
+    "RelativePath": "api/admin/CategoryManagement/delete-category",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -32,9 +32,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryManagementController",
     "Method": "GetCategories",
-    "RelativePath": "api/admin/Category/get-categories",
+    "RelativePath": "api/admin/CategoryManagement/get-categories",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -42,9 +42,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryManagementController",
     "Method": "UpdateCategory",
-    "RelativePath": "api/admin/Category/update-category",
+    "RelativePath": "api/admin/CategoryManagement/update-category",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -58,9 +58,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostManagementController",
     "Method": "GetPendingFreezedPosts",
-    "RelativePath": "api/admin/Post/posts",
+    "RelativePath": "api/admin/PostManagement/posts",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -68,9 +68,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostController",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostManagementController",
     "Method": "UpdatePostStatus",
-    "RelativePath": "api/admin/Post/update-post-status",
+    "RelativePath": "api/admin/PostManagement/update-post-status",
     "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
@@ -205,6 +205,22 @@
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
+    "Method": "GetPost",
+    "RelativePath": "api/Post/get-post/{postId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
     "Method": "GetPosts",
     "RelativePath": "api/Post/get-posts",
     "HttpMethod": "GET",
@@ -306,6 +322,38 @@
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "GetUserData",
     "RelativePath": "api/UserProfile/get-user-data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
+    "Method": "GetUserPosts",
+    "RelativePath": "api/UserProfile/get-user-posts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
+    "Method": "GetUserReactions",
+    "RelativePath": "api/UserProfile/get-user-reactions",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

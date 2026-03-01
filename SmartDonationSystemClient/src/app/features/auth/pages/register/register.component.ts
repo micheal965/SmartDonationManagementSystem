@@ -14,6 +14,7 @@ import { passwordStrengthValidator } from '../../../../shared/validators/passwor
 import { CloudService } from '../../../../core/services/cloud.service';
 import { HttpEventType } from '@angular/common/http';
 import { GeminiService } from '../../../../core/services/gemini.service';
+import { birthDateValidator } from '../../../../shared/validators/BirthDate.validator';
 
 @Component({
   selector: 'app-register',
@@ -49,7 +50,7 @@ export class RegisterComponent {
     ],
     //Step 2
     FullName: ['', [Validators.required]],
-    BirthDate: ['', [Validators.required]],
+    BirthDate: ['', [Validators.required, birthDateValidator(18)]],
     PhoneNumber: ['', [Validators.required]],
     Address: [''],
     ProfilePictureUrl: [null, Validators.required],

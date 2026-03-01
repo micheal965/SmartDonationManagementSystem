@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ApiResult } from '../../../shared/models/api-result-model';
 import { PaginatedResponse } from '../../../shared/models/paginated-response.model';
 import { apiBaseUrl } from '../../../core/utils/app.config';
@@ -44,7 +44,6 @@ export class FeedService {
       pageSize,
       sortBy,
     };
-
     if (categoryName) paramsObj.categoryName = categoryName;
 
     const params = new HttpParams({ fromObject: paramsObj });
@@ -62,6 +61,16 @@ export class FeedService {
           };
         }),
       );
+  }
+
+  getPostById(id: number): Observable<Post> {
+    return this.http
+      .get<ApiResult<Post>>(`${apiBaseUrl}/Post/get-post/${id}`)
+      .pipe(map((res) => res.data));
+  }
+  updatePost(id: number, data: any): Observable<Post> {
+    return this.http.put<Post>(`${apiBaseUrl}/${id}`, data);
+    // .pipe(map((res) => res.data));
   }
 
   reactToPost(postId: number) {

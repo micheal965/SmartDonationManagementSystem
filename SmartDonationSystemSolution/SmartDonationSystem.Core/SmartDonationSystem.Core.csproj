@@ -22,6 +22,7 @@
     <Folder Include="Modules\Cloud\" />
     <Folder Include="Modules\User\Donation\" />
     <Folder Include="Modules\User\PostAggregate\Comment\" />
+    <Folder Include="Modules\User\PostAggregate\Reaction\DTOs\" />
   </ItemGroup>
 
 </Project>

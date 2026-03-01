@@ -38,7 +38,8 @@
 
                 <div *ngIf="isMeClicked"
                     class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-xl py-2 animate-in fade-in slide-in-from-top-2">
-                    <a routerLink="/profile" class="block px-4 py-2 text-sm hover:bg-gray-100">View Profile</a>
+                    <a [routerLink]="['/profile' ,this.userService.profile()?.id]"
+                        class="block px-4 py-2 text-sm hover:bg-gray-100">View Profile</a>
                     <hr class="my-1">
                     <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         (click)="onLogout()">Logout</button>
@@ -68,7 +69,7 @@
             </a>
             <hr>
             <div class="flex flex-col gap-6 p-4">
-                <a routerLink="/profile" (click)="isMenuOpen = false"
+                <a [routerLink]="['/profile' ,this.userService.profile()?.id]" (click)="isMenuOpen = false"
                     class="font-medium text-gray-500 hover:text-gray-00">View Profile</a>
                 <button class="text-left font-medium text-red-600" (click)="onLogout()">Logout</button>
             </div>

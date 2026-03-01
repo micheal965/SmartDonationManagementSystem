@@ -11,4 +11,5 @@ export interface Post {
   likesCount: number;
   hasReacted: boolean;
   isReacting: boolean;
+  categoryName: string;
 }

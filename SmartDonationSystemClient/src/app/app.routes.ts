@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest.guard';
 import { authGuard } from './core/guards/auth.guard';
+import { postDetailsResolver } from './features/post-details/post-details.resolver';
+import { profileResolver } from './features/profile/profile.resolver';
 
 export const routes: Routes = [
   {
@@ -47,9 +49,25 @@ export const routes: Routes = [
     children: [
       {
         path: 'feed',
+        title: 'Feed | Help Hand',
         loadComponent: () =>
           import('./features/feed/feed.component').then((m) => m.FeedComponent),
-        title: 'Feed',
+      },
+      {
+        path: 'posts/:id',
+        resolve: { post: postDetailsResolver },
+        loadComponent: () =>
+          import('./features/post-details/post-details.component').then(
+            (m) => m.PostDetailsComponent,
+          ),
+      },
+      {
+        path: 'profile/:id',
+        resolve: { user: profileResolver },
+        loadComponent: () =>
+          import('./features/profile/profile.component').then(
+            (m) => m.ProfileComponent,
+          ),
       },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],

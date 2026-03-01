@@ -71,6 +71,7 @@ export class FeedComponent implements OnInit {
         },
       });
   }
+
   trackById(index: number, item: Post) {
     return item.id;
   }

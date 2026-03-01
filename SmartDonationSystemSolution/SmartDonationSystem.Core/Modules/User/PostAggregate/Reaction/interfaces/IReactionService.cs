@@ -1,6 +1,6 @@
 ﻿using SmartDonationSystem.Shared.Responses;
 
-namespace SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction
+namespace SmartDonationSystem.Core.Modules.User.PostAggregate.Reaction.interfaces
 {
     public interface IReactionService
     {

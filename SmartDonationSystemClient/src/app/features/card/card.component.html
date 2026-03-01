@@ -1,14 +1,15 @@
 <div class="relative bg-white shadow-sm rounded-3xl p-4 cursor-pointer" (click)="goToDetails()">
     <span
         class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-2 py-1 rounded-full text-xs z-10"
-        [ngClass]="getPriorityClass(post().priorityLevel)">
-        {{ getPriorityLabel( post().priorityLevel )}}
+        [ngClass]="post().priorityLevel | priorityClass">
+        {{post().priorityLevel | priorityLabel}}
     </span>
     <div class="flex justify-between mb-8">
         <div class="flex items-center justify-center gap-2">
             <img class="w-8 h-8 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
             <div class="flex flex-col">
-                <span class="text-md text-dark-blue font-bold">{{post().fullName}}</span>
+                <a [routerLink]="['/profile',post().userId]" (click)="$event.stopPropagation()"
+                    class="text-md text-dark-blue font-bold hover:underline z-5">{{post().fullName}}</a>
                 <span class="text-xs text-gray-400">Posted {{post().createdAt | timeAgo}}</span>
             </div>
         </div>
@@ -26,16 +27,16 @@
             </span>
         </div>
     </div>
-    <div class="rounded-lg mb-5">
+    <div class="rounded-lg mb-5" *ngIf="post().attachments.length > 0">
         <iframe class="w-full h-full border rounded-lg" [src]="getSafeUrl(post().attachments[0])">
         </iframe>
     </div>
     <h2 class="text-xl font-bold text-dark-blue mb-3">{{post().title}}</h2>
     <p class="text-slate-600 text-sm leading-relaxed mb-6">{{post().content.split(' ').slice(0,27).join(' ')}}</p>
     <!-- Buttons -->
-    <div class="flex flex-wrap gap-3 items-center">
+    <div class="flex flex-wrap items-center justify-center gap-3">
         <!-- Donate Now Button -->
-        <button
+        <button *ngIf="post().categoryName==='Medical'" (click)="$event.stopPropagation()"
             class="flex-1 flex items-center justify-center gap-2 bg-light-green font-bold text-dark-blue text-sm py-3 rounded-xl shadow-lg shadow-light-green/30 hover:shadow-light-green/40 active:scale-95 transition-all">
             <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -51,14 +52,14 @@
         </button>
 
         <!-- Message Button -->
-        <button
+        <button (click)="$event.stopPropagation()"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 font-bold text-dark-blue text-sm border-2 border-slate-100 rounded-xl hover:bg-gray-100 transition-all ">
             <mat-icon>message</mat-icon>
             Message
         </button>
 
         <!-- Like Button -->
-        <button
+        <button (click)="$event.stopPropagation()"
             class="w-full sm:w-auto flex items-center justify-center gap-1 px-6 py-3 font-bold border-2 text-red-500 text-sm border-red-100 rounded-xl hover:bg-red-100 hover:border-red-400/5 transition-all"
             [ngClass]="{'bg-red-100 border-red-400/5 ':post().hasReacted}" (click)="onLike(post())">
             <mat-icon>favorite</mat-icon>
