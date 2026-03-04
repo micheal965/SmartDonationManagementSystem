@@ -54,6 +54,14 @@ export const routes: Routes = [
           import('./features/feed/feed.component').then((m) => m.FeedComponent),
       },
       {
+        path: 'categories',
+        title: 'Categories | Help Hand',
+        loadComponent: () =>
+          import('./features/categories/categories.component').then(
+            (m) => m.CategoriesComponent,
+          ),
+      },
+      {
         path: 'posts/:id',
         resolve: { post: postDetailsResolver },
         loadComponent: () =>
