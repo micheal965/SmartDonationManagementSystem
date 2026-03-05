@@ -9,6 +9,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   if (
     (req.url.includes(apiBaseUrl) && req.url.includes('signature')) ||
     (req.url.includes(apiBaseUrl) && req.url.includes('react')) ||
+    (req.url.includes(apiBaseUrl) && req.url.includes('get-posts')) ||
     !req.url.includes(apiBaseUrl)
   )
     return next(req);

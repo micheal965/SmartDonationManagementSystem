@@ -7,6 +7,8 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 import { CreatePostComponent } from '../create-post/create-post.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatIcon } from '@angular/material/icon';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @Component({
   selector: 'app-feed',
   standalone: true,

@@ -54,9 +54,17 @@
     </div>
 
     <!--Posts  -->
-    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6 mb-2">
         <div *ngFor="let post of posts; trackBy:trackById">
             <app-card [post]="post" />
+        </div>
+
+        <div class="flex justify-center py-4 col-span-2" *ngIf="loading">
+            <svg class="animate-spin h-6 w-6 text-gray-400" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                    stroke-dasharray="60" stroke-dashoffset="20">
+                </circle>
+            </svg>
         </div>
         <div appInfiniteScroll (scrolled)="loadPosts()" style="height: 1px;">
         </div>
