@@ -14,6 +14,12 @@ namespace SmartDonationSystem.DataAccess.Configurations
                 .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // 1 Post has many Comments
+            builder.HasMany(p => p.Comments)
+                .WithOne(r => r.Post)
+                .HasForeignKey(r => r.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // 1 Post has many attachments
             builder.HasMany(p => p.PostAttachments)
                 .WithOne(pa => pa.Post)

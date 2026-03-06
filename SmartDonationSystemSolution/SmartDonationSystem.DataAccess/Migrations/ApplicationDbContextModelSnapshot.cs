@@ -262,6 +262,66 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ParentCommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.CommentTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MentionedUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("MentionedUserId");
+
+                    b.ToTable("CommentTags");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -472,6 +532,51 @@ namespace SmartDonationSystem.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Comment", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Comment", "ParentComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("ParentComment");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.CommentTag", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Comment", "Comment")
+                        .WithMany("Mentions")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "MentionedUser")
+                        .WithMany("CommentTags")
+                        .HasForeignKey("MentionedUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("MentionedUser");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
@@ -545,6 +650,10 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("CommentTags");
+
+                    b.Navigation("Comments");
+
                     b.Navigation("Posts");
 
                     b.Navigation("Reactions");
@@ -559,8 +668,17 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("Posts");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Comment", b =>
+                {
+                    b.Navigation("Mentions");
+
+                    b.Navigation("Replies");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("PostAttachments");
 
                     b.Navigation("Reactions");

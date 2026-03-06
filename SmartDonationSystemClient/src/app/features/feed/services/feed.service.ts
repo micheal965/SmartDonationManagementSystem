@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { ApiResult } from '../../../shared/models/api-result-model';
 import { PaginatedResponse } from '../../../shared/models/paginated-response.model';
 import { apiBaseUrl } from '../../../core/utils/app.config';
 import { Post } from '../models/post.model';
+import { CreateCommentDto } from '../models/create-comment.model';
+import { Comment } from '../models/post-comments.model';
 
 @Injectable({
   providedIn: 'root',
@@ -82,5 +84,16 @@ export class FeedService {
         params,
       },
     );
+  }
+
+  addComment(comment: CreateCommentDto): Observable<Comment> {
+    return this.http
+      .post<ApiResult<Comment>>(`${apiBaseUrl}/Comment/create-comment`, comment)
+      .pipe(map((res) => res.data));
+  }
+  getPostCommentsById(id: number): Observable<any> {
+    return this.http
+      .get<ApiResult<any>>(`${apiBaseUrl}/Comment/get-post-comments/${id}`)
+      .pipe(map((res) => res.data));
   }
 }

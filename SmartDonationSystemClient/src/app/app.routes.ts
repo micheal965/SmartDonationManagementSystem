@@ -3,6 +3,7 @@ import { guestGuard } from './core/guards/guest.guard';
 import { authGuard } from './core/guards/auth.guard';
 import { postDetailsResolver } from './features/post-details/post-details.resolver';
 import { profileResolver } from './features/profile/profile.resolver';
+import { postCommentsResolver } from './features/post-details/post-comments.resolver';
 
 export const routes: Routes = [
   {
@@ -63,7 +64,7 @@ export const routes: Routes = [
       },
       {
         path: 'posts/:id',
-        resolve: { post: postDetailsResolver },
+        resolve: { post: postDetailsResolver, comments: postCommentsResolver },
         loadComponent: () =>
           import('./features/post-details/post-details.component').then(
             (m) => m.PostDetailsComponent,

@@ -26,7 +26,6 @@
     <Folder Include="Modules\Admin\UserManagement\" />
     <Folder Include="Modules\Cloud\" />
     <Folder Include="Modules\User\Donation\" />
-    <Folder Include="Modules\User\PostAggregate\Comment\" />
   </ItemGroup>
 
   <ItemGroup>

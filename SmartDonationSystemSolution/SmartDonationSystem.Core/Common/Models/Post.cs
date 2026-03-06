@@ -29,6 +29,7 @@ namespace SmartDonationSystem.Core.Common.Models
         public Category Category { get; set; }
 
         public List<Reaction>? Reactions { get; set; } = new List<Reaction>();
+        public List<Comment>? Comments { get; set; } = new List<Comment>();
         public List<PostAttachment>? PostAttachments { get; set; } = new List<PostAttachment>();
     }
 }

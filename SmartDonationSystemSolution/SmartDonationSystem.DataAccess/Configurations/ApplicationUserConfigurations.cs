@@ -35,5 +35,17 @@ public class ApplicationUserConfigurations : IEntityTypeConfiguration<Applicatio
                 .WithOne(r => r.ApplicationUser)
                 .HasForeignKey(r => r.ApplicationUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+        // 1 ApplicationUser has many Comments
+        builder.HasMany(u => u.Comments)
+                .WithOne(r => r.ApplicationUser)
+                .HasForeignKey(r => r.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        // 1 ApplicationUser has many CommentTags
+        builder.HasMany(u => u.CommentTags)
+                .WithOne(r => r.MentionedUser)
+                .HasForeignKey(r => r.MentionedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
     }
 }

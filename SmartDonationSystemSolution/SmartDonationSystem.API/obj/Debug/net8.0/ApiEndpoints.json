@@ -173,6 +173,75 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CommentController",
+    "Method": "CreateComment",
+    "RelativePath": "api/Comment/create-comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.DTOs.CreateCommentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CommentController",
+    "Method": "DeleteComment",
+    "RelativePath": "api/Comment/delete-comment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CommentController",
+    "Method": "GetPostComments",
+    "RelativePath": "api/Comment/get-post-comments/{postId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CommentController",
+    "Method": "UpdateComment",
+    "RelativePath": "api/Comment/update-comment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.DTOs.UpdateCommentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
     "Method": "CreatePost",
     "RelativePath": "api/Post/create-post",
