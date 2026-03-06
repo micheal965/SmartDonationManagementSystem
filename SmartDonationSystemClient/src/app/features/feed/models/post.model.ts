@@ -6,6 +6,7 @@ export interface Post {
   priorityLevel: number;
   userId: string;
   fullName: string;
+  phoneNumber: string;
   pictureUrl: string;
   attachments: string[];
   likesCount: number;

@@ -1,5 +1,5 @@
 <article
-    class="max-w-7xl mx-2 md:mx-auto px-4 py-6 my-6 md:my-8 lg:my-10 bg-white rounded-2xl shadow-md  overflow-hidden">
+    class="max-w-7xl mx-2 md:mx-auto px-4 py-6 md:py-0 my-6 md:my-8 lg:my-10 bg-white rounded-2xl shadow-sm  overflow-hidden">
     <div class="p-4 sm:p-6 md:p-10 lg:p-14">
 
         <!-- Author Header -->
@@ -21,6 +21,7 @@
                     </div>
 
                     <p class="text-slate-500 text-xs sm:text-sm">
+                        <span class="text-dark-blue font-medium text-md">{{post.phoneNumber}}</span>
                         • {{post.createdAt | timeAgo}}
                     </p>
                 </div>
@@ -63,7 +64,7 @@
             </button>
 
             <button class="h-12 sm:h-14 px-6 bg-slate-50 text-dark-blue 
-        dark:text-slate-200 font-bold rounded-xl 
+       font-bold rounded-xl 
         hover:bg-slate-100 transition-colors 
         flex items-center justify-center gap-2">
 
@@ -99,31 +100,29 @@
 
                     <!-- Comment Input -->
                     <div
-                        class="relative flex flex-col md:flex-row items-start gap-3 sm:gap-4 mb-8 sm:mb-10 w-full md:w-11/12 mx-auto">
+                        class="relative flex flex-col items-start md:flex-row md:items-center gap-3 sm:gap-4 mb-8 sm:mb-10 w-full md:w-11/12 mx-auto">
 
-                        <img alt="Current user" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover"
+                        <img alt="Current user" class="w-11 h-11 rounded-full object-cover"
                             [src]="userService.profile()?.pictureUrl || './assets/avatar.png'" />
 
-                        <div class="flex-1 relative bg-slate-50 border border-slate-200 
-              rounded-2xl sm:rounded-3xl px-4 py-2 
-              focus-within:ring-2 focus-within:ring-light-green transition w-full">
+                        <!-- textarea container -->
+                        <div class="flex justify-center items-center w-full relative bg-slate-50 border border-slate-200
+                                     focus-within:ring-2 focus-within:ring-light-green transition p-2 rounded-2xl">
 
                             <textarea [(ngModel)]="newComment.Content" (input)="autoResize($event)" rows="1"
-                                placeholder="Share your support..." class="w-full resize-none bg-transparent outline-none 
-                placeholder:text-slate-400 text-sm 
-                text-slate-700 
-                max-h-32 overflow-y-auto pr-10 ">
-              </textarea>
+                                placeholder="Share your comment..." class="w-full resize-none outline-none bg-transparent
+                            placeholder:text-slate-400 text-sm text-slate-700
+                            max-h-24 overflow-y-auto">
+                            </textarea>
 
-                            <button (click)="sendComment()" [disabled]="!newComment.Content.trim()" class="absolute right-2 bottom-1/2 translate-y-1/2 text-light-green 
-                hover:text-green-600 disabled:opacity-50 transition" matTooltip="Send comment">
-
-                                <mat-icon>send</mat-icon>
+                            <button (click)="sendComment()" [disabled]="!newComment.Content.trim()"
+                                class="flex justify-center items-center text-light-green hover:text-green-600 disabled:opacity-50 transition">
+                                <mat-icon class="ms-2">send</mat-icon>
                             </button>
 
                         </div>
-                    </div>
 
+                    </div>
                     <!-- Comments List -->
                     <div class="space-y-6 sm:space-y-8">
                         <ng-container *ngFor="let comment of displayedComments">

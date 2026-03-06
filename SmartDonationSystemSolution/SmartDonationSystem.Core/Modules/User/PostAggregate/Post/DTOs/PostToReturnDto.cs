@@ -15,5 +15,6 @@
         public required string userId { get; set; }
         public required string fullName { get; set; }
         public required string pictureUrl { get; set; }
+        public string phoneNumber { get; set; }
     }
 }

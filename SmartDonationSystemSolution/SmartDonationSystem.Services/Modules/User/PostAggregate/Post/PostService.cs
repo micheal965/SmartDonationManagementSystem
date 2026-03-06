@@ -123,11 +123,11 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             var result = new PaginatedList<PostToReturnDto>(postsToReturnDto, pageNumber, pageSize, totalCount);
             return Result<PaginatedList<PostToReturnDto>>.Ok(result);
         }
-        public async Task<Result<PostDetailsToReturnDto>> GetPostAsync(int postId)
+        public async Task<Result<PostToReturnDto>> GetPostAsync(int postId)
         {
-            PostDetailsToReturnDto? post = await _applicationDbContext.Posts
+            PostToReturnDto? post = await _applicationDbContext.Posts
                 .Where(p => p.Id == postId)
-                .Select(p => new PostDetailsToReturnDto
+                .Select(p => new PostToReturnDto
                 {
                     id = p.Id,
                     title = p.Title,
@@ -140,14 +140,15 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
+                    phoneNumber = p.ApplicationUser.PhoneNumber,
                     categoryName = p.Category.Name
                 })
                 .FirstOrDefaultAsync();
 
             if (post == null)
-                return Result<PostDetailsToReturnDto>.NotFound("Post not found");
+                return Result<PostToReturnDto>.NotFound("Post not found");
 
-            return Result<PostDetailsToReturnDto>.Ok(post);
+            return Result<PostToReturnDto>.Ok(post);
         }
     }
 }

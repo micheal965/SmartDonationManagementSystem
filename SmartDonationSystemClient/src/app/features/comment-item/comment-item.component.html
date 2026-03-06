@@ -1,6 +1,6 @@
 <div class="flex flex-col md:flex-row gap-2 mb-6 w-full md:w-11/12 mx-auto">
     <img class="w-10 h-10 rounded-full object-cover" [src]="comment.creatorPictureUrl || './assets/avatar.png'" />
-    <div class=" bg-slate-50 rounded-2xl p-4 flex-1 max-w-full">
+    <div class="bg-slate-50 rounded-2xl p-4 flex-1 max-w-full">
         <div class="flex  items-center justify-between mb-1">
             <span class="font-bold text-dark-blue">{{ comment.userName }}</span>
             <span class="text-xs text-slate-400">{{ comment.createdAt | timeAgo }}</span>
@@ -23,15 +23,14 @@
 
         <!-- Reply input -->
         <div *ngIf="showReplyInput"
-            class="mt-2 flex-1 relative bg-slate-50 border border-slate-200 rounded-3xl p-2 focus-within:ring-2 focus-within:ring-light-green transition">
+            class="flex mt-2 flex-1 bg-slate-50 border border-slate-200 rounded-2xl p-2 focus-within:ring-2 focus-within:ring-light-green transition">
             <textarea [(ngModel)]="replyContent" (input)="autoResize($event)" rows="1"
                 placeholder="Share your support..."
-                class="w-11/12 resize-none bg-transparent outline-none placeholder:text-slate-400 text-sm text-slate-700 max-h-32 overflow-y-auto pr-10"></textarea>
+                class="w-full resize-none bg-transparent outline-none placeholder:text-slate-400 text-sm text-slate-700 max-h-32 overflow-y-auto"></textarea>
 
             <button (click)="submitReply()" [disabled]="!replyContent.trim()"
-                class="absolute right-2 bottom-2 text-light-green hover:text-green-600 disabled:opacity-50 transition"
-                matTooltip="Send comment">
-                <mat-icon>send</mat-icon>
+                class="flex items-center justify-center text-light-green hover:text-green-600 disabled:opacity-50 transition">
+                <mat-icon class="ms-2">send</mat-icon>
             </button>
 
         </div>
@@ -39,7 +38,7 @@
 </div>
 
 <!-- Nested replies -->
-<div class="ml-12 mt-2 space-y-4 transition-all duration-300" *ngIf="comment.showReplies">
+<div class="ml-8 md:ml-12 mt-2 space-y-4 transition-all duration-300 text-sm" *ngIf="comment.showReplies">
     <ng-container *ngFor="let reply of comment.replies">
         <app-comment-item [comment]="reply" (replyAdded)="replyAdded.emit($event)" [isReply]="true" />
     </ng-container>
