@@ -4,7 +4,9 @@ using SmartDonationSystem.Core.Modules.AI.DTOs;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Shared.Enums;
+using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule
 {
@@ -19,70 +21,110 @@ namespace SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule
             _dbContext = dbContext;
         }
 
-        public async Task RunClassificationJobAsync()
+        public async Task RunClassificationJobByCategoryAsync()
         {
-            var postsToScore = await _dbContext.Posts
-                .Where(p => (p.Status == PostStatus.Approved.ToString()) && (p.LastScoredAt == null || p.LastScoredAt < DateTime.UtcNow.AddMinutes(-10)))
-                .ToListAsync();
+            var categories = await _dbContext.Categories.ToListAsync();
 
-            foreach (var post in postsToScore)
-                await ClassifyPostAsync(post);
+            foreach (var category in categories)
+            {
+                var postsToScore = await _dbContext.Posts
+                    .Where(p => p.CategoryId == category.Id &&
+                                p.Status == PostStatus.Approved.ToString() &&
+                                (p.LastScoredAt == null || p.LastScoredAt < DateTime.UtcNow.AddMinutes(-10)))
+                    .ToListAsync();
 
-            await _dbContext.SaveChangesAsync();
+                // Classify all posts in this category at once
+                await ClassifyPostsAsync(postsToScore, category.Name);
+
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
-        // Classify a single post using Gemini AI
-        private async Task ClassifyPostAsync(Post post)
+        private async Task ClassifyPostsAsync(List<Post> posts, string categoryName)
         {
-            // Build the prompt
-            var prompt = $@"
-                        You are an AI expert in donation management systems.
+            if (!posts.Any()) return;
 
-                        Your task is to classify the donation post and provide an impact score and priority level. Focus on the AI-generated summary, title, and content.
+            var promptBuilder = new StringBuilder();
+            promptBuilder.AppendLine("You are an AI expert in donation management systems.");
+            promptBuilder.AppendLine($"Your task is to classify posts in the '{categoryName}' category by importance.");
+            promptBuilder.AppendLine("Use the following order of priority when evaluating each post:");
+            promptBuilder.AppendLine("1. AI Summary (most important)");
+            promptBuilder.AppendLine("2. Content (medium importance)");
+            promptBuilder.AppendLine("3. Title (least importance)");
+            promptBuilder.AppendLine("For each post, provide an ImpactScore (0-100) and PriorityLevel (1-5).");
+            promptBuilder.AppendLine("Respond ONLY in JSON like this example:");
+            promptBuilder.AppendLine(@"[{ ""PostId"": 123, ""ImpactScore"": 85, ""PriorityLevel"": 3 }, ...]");
 
-                        Post Details:
-                        Title: {post.Title}
-                        Content: {post.Content}
-                        AI Summary: {post.AiSummary}
-
-                        Respond ONLY in JSON like this example:
-                        {{ ""ImpactScore"": 85, ""PriorityLevel"": 3 }}
-                        ";
-
-            // Send to Gemini
-            var responseBody = await _gemini.GenerateAsync(prompt);
-            var responseText = ExtractScoreFromResponse(responseBody);
-            var result = JsonSerializer.Deserialize<ClassificationResult>(responseText);
-
-            if (result != null)
+            promptBuilder.AppendLine("\nPosts:");
+            foreach (var post in posts)
             {
-                post.ImpactScore = result.ImpactScore;
-                post.PriorityLevel = result.PriorityLevel;
-                post.LastScoredAt = DateTime.UtcNow;
+                promptBuilder.AppendLine($"Id: {post.Id}");
+                promptBuilder.AppendLine($"AI Summary: {post.AiSummary}");
+                promptBuilder.AppendLine($"Content: {post.Content}");
+                promptBuilder.AppendLine($"Title: {post.Title}");
+                promptBuilder.AppendLine();
             }
-            if (post.PriorityLevel < 1) post.PriorityLevel = 1;
-            if (post.PriorityLevel > 5) post.PriorityLevel = 5;
+
+            var responseBody = await _gemini.GenerateAsync(promptBuilder.ToString());
+
+            var responseText = ExtractScoreFromResponse(responseBody);
+
+            var results = JsonSerializer.Deserialize<List<ClassificationResult>>(responseText);
+
+            if (results != null)
+            {
+                foreach (var result in results)
+                {
+                    var post = posts.FirstOrDefault(p => p.Id == result.PostId);
+                    if (post != null)
+                    {
+                        post.ImpactScore = result.ImpactScore;
+                        post.PriorityLevel = Math.Clamp(result.PriorityLevel, 1, 5);
+                        post.LastScoredAt = DateTime.UtcNow;
+                    }
+                }
+            }
         }
         private string ExtractScoreFromResponse(string responseBody)
         {
-            using var doc = JsonDocument.Parse(responseBody);
+            if (string.IsNullOrWhiteSpace(responseBody))
+                return "[]";
 
-            // جلب الـ object داخل parts
-            var partObject = doc.RootElement
-                .GetProperty("candidates")[0]
-                .GetProperty("content")
-                .GetProperty("parts")[0];
+            try
+            {
+                using var doc = JsonDocument.Parse(responseBody);
 
-            // جلب الـ text
-            var responseText = partObject.GetProperty("text").GetString() ?? "";
+                var partText = doc.RootElement
+                    .GetProperty("candidates")[0]
+                    .GetProperty("content")
+                    .GetProperty("parts")[0]
+                    .GetProperty("text")
+                    .GetString() ?? "";
 
-            // إزالة Markdown ```json و ```
-            var jsonText = responseText
-                .Replace("```json", "")
-                .Replace("```", "")
-                .Trim();
+                // Remove markdown ```json and ``` and trim
+                var jsonText = partText
+                    .Replace("```json", "")
+                    .Replace("```", "")
+                    .Trim();
 
-            return jsonText;
+                // Remove any extra line breaks
+                jsonText = Regex.Replace(jsonText, @"^\s+|\s+$", "");
+                jsonText = Regex.Replace(jsonText, @"\r\n|\r|\n", "");
+
+                // Ensure it’s a valid JSON array (starts with [)
+                if (!jsonText.StartsWith("["))
+                {
+                    Console.WriteLine("Warning: AI response does not start with '['. Returning empty array.");
+                    return "[]";
+                }
+
+                return jsonText;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to extract JSON from AI response: " + ex.Message);
+                return "[]";
+            }
         }
     }
 }

@@ -85,8 +85,8 @@ namespace SmartDonationSystem.API
             var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
             //recurringJobManager.AddOrUpdate<PostClassifierService>(
             //    "classify-posts-job",
-            //    job => job.RunClassificationJobAsync(),
-            //    Cron.HourInterval(1)
+            //    job => job.RunClassificationJobByCategoryAsync(),
+            //    Cron.MinuteInterval(1)
             //);
             #endregion
             //  await SeedingData.SeedDataAsync(app);

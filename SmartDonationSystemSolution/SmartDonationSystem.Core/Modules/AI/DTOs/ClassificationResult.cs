@@ -2,7 +2,8 @@
 {
     public class ClassificationResult
     {
-        public double ImpactScore { get; set; }
+        public int PostId { get; set; }
+        public int ImpactScore { get; set; }
         public int PriorityLevel { get; set; }
     }
 }

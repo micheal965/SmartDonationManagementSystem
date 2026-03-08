@@ -4,7 +4,6 @@ using SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.DTOs;
 using SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
-using System.Text.RegularExpressions;
 using CommentModel = SmartDonationSystem.Core.Common.Models.Comment;
 namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
 {
@@ -24,18 +23,29 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
                 PostId = dto.PostId,
                 ParentCommentId = dto.ParentCommentId,
                 ApplicationUserId = userId,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
 
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
 
-            await HandleTags(dto.Content, comment.Id);
-            var user = await _context.Users.Where(u => u.Id == userId).Select(u => new
-            {
-                u.FullName,
-                u.PictureUrl
-            }).FirstOrDefaultAsync();
+            // handle mentions
+            await HandleTags(dto.MentionedUserIds, comment.Id);
+
+            // reload comment with mentions
+            var commentWithMentions = await _context.Comments
+                .Include(c => c.Mentions)
+                    .ThenInclude(m => m.MentionedUser)
+                .FirstAsync(c => c.Id == comment.Id);
+
+            var user = await _context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new
+                {
+                    u.FullName,
+                    u.PictureUrl
+                })
+                .FirstAsync();
 
             return Result<CommentDto>.Ok(new CommentDto
             {
@@ -44,17 +54,39 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
                 CreatedAt = comment.CreatedAt,
                 UserName = user.FullName,
                 creatorPictureUrl = user.PictureUrl,
+                Mentions = commentWithMentions.Mentions.Select(ct => new MentionDto
+                {
+                    UserId = ct.MentionedUserId,
+                    UserName = ct.MentionedUser.FullName
+                }).ToList()
             }, "Comment added successfully");
         }
         public async Task<Result<List<CommentDto>>> GetPostCommentsAsync(int postId)
         {
             var comments = await _context.Comments
                 .Where(c => c.PostId == postId)
-                .OrderByDescending(c => c.CreatedAt)
                 .Include(c => c.ApplicationUser)
+                .Include(c => c.Mentions)
+                    .ThenInclude(ct => ct.MentionedUser)
+                .OrderByDescending(c => c.CreatedAt)
                 .ToListAsync();
 
-            return Result<List<CommentDto>>.Ok(BuildCommentTree(comments), "Comments retrieved successfully");
+            var commentDtos = BuildCommentTree(comments);
+
+            foreach (var c in commentDtos)
+            {
+                var original = comments.FirstOrDefault(x => x.Id == c.Id);
+                if (original != null && original.Mentions != null)
+                {
+                    c.Mentions = original.Mentions.Select(ct => new MentionDto
+                    {
+                        UserId = ct.MentionedUserId,
+                        UserName = ct.MentionedUser.FullName
+                    }).ToList();
+                }
+            }
+
+            return Result<List<CommentDto>>.Ok(commentDtos, "Comments retrieved successfully");
         }
         public async Task<Result<object>> DeleteCommentAsync(int commentId, string userId)
         {
@@ -80,35 +112,27 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
             comment.Content = dto.Content;
             await _context.SaveChangesAsync();
 
-            await HandleTags(dto.Content, comment.Id);
+            await HandleTags(dto.MentionedUserIds, comment.Id);
 
             return Result<object>.NoContent("Comment updated successfully");
         }
 
 
         // Helpers
-        private async Task HandleTags(string content, int commentId)
+        private async Task HandleTags(List<string> mentionedUserIds, int commentId)
         {
-            var matches = Regex.Matches(content, @"@(\w+)");
+            if (mentionedUserIds == null || !mentionedUserIds.Any())
+                return;
 
-            foreach (Match match in matches)
-            {
-                var username = match.Groups[1].Value;
-
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.FullName == username);
-
-                if (user != null)
+            var tags = mentionedUserIds
+                .Distinct()
+                .Select(userId => new CommentTag
                 {
-                    var tag = new CommentTag
-                    {
-                        CommentId = commentId,
-                        MentionedUserId = user.Id
-                    };
+                    CommentId = commentId,
+                    MentionedUserId = userId
+                }).ToList();
 
-                    await _context.CommentTags.AddAsync(tag);
-                }
-            }
-
+            await _context.CommentTags.AddRangeAsync(tags);
             await _context.SaveChangesAsync();
         }
         private List<CommentDto> BuildCommentTree(List<CommentModel> comments)

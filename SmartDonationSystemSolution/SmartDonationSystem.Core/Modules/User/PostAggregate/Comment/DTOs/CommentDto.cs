@@ -8,5 +8,7 @@
         public string creatorPictureUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<CommentDto> Replies { get; set; }
+        public List<MentionDto> Mentions { get; set; } = new List<MentionDto>();
     }
+
 }

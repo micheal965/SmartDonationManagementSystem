@@ -109,8 +109,8 @@
                         <div class="flex justify-center items-center w-full relative bg-slate-50 border border-slate-200
                                      focus-within:ring-2 focus-within:ring-light-green transition p-2 rounded-2xl">
 
-                            <textarea [(ngModel)]="newComment.Content" (input)="autoResize($event)" rows="1"
-                                placeholder="Share your comment..." class="w-full resize-none outline-none bg-transparent
+                            <textarea #commentTextarea contenteditable="true" [(ngModel)]="newComment.Content"
+                                (input)="autoResize($event)" rows="1" placeholder="Share your comment..." class="comment-box w-full resize-none outline-none bg-transparent
                             placeholder:text-slate-400 text-sm text-slate-700
                             max-h-24 overflow-y-auto">
                             </textarea>

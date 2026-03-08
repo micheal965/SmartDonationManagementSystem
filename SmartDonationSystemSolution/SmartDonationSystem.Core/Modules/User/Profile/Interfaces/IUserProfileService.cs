@@ -13,6 +13,7 @@ public interface IUserProfileService
     Task<Result<string>> GetProfilePictureAsync(string userId);
     Task<Result<object>> DeleteUserSoftAsync(string userId);
     Task<Result<UserToReturnDto>> GetSpecificUserAsync(string userId);
+    Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query);
     Task<Result<UserPostsToReturnDto>> GetUserPostsAsync(string userId);
     Task<Result<UserReactionsToReturnDto>> GetUserReactionsAsync(string userId);
     Task<Result<object>> UpdateUserAsync(string? userId, UpdateUserRequestDto updateUserRequestDto);

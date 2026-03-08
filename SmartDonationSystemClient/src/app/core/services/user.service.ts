@@ -29,7 +29,11 @@ export class UserService {
       >(`${apiBaseUrl}/userProfile/get-user-data`, { params })
       .pipe(map((res) => res.data));
   }
-
+  searchUsers(query: string): Observable<any[]> {
+    return this.http
+      .get<ApiResult<any[]>>(`${apiBaseUrl}/userProfile/search-user?query=${query}`)
+      .pipe(map((res) => res.data));
+  }
   deleteUserSoft(): Observable<object> {
     return this.http
       .delete<ApiResult<object>>(`${apiBaseUrl}/userProfile/delete-user-soft`)

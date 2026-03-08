@@ -447,6 +447,22 @@
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
+    "Method": "Search",
+    "RelativePath": "api/UserProfile/search-user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "SetProfilePicture",
     "RelativePath": "api/UserProfile/set-profile-picture",
     "HttpMethod": "POST",

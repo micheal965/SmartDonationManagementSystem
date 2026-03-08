@@ -61,6 +61,13 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var getUserDataResponse = await _userProfileServices.GetSpecificUserAsync(userId);
             return StatusCode((int)getUserDataResponse.statusCode, getUserDataResponse);
         }
+
+        [HttpGet("search-user")]
+        public async Task<IActionResult> Search([FromQuery] string query)
+        {
+            var result = await _userProfileServices.SearchUsersByNameAsync(query);
+            return StatusCode((int)result.statusCode, result);
+        }
         [HttpGet("get-user-posts")]
         public async Task<IActionResult> GetUserPosts([FromQuery] string userId)
         {

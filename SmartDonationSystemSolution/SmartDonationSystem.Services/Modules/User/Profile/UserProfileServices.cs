@@ -111,6 +111,24 @@ public class UserProfileServices : IUserProfileService
         userDto.role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "User";
         return Result<UserToReturnDto>.Ok(userDto, "User retrieved successfully");
     }
+    public async Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return Result<List<UserSearchDto>>.Ok(new List<UserSearchDto>());
+
+        var users = await _applicationDbContext.Users
+            .Where(u => u.FullName.Contains(query))
+            .Select(u => new UserSearchDto
+            {
+                key = u.Id,
+                value = u.FullName,
+                avatar = u.PictureUrl
+            })
+            .Take(10)
+            .ToListAsync();
+
+        return Result<List<UserSearchDto>>.Ok(users);
+    }
     public async Task<Result<UserPostsToReturnDto>> GetUserPostsAsync(string userId)
     {
         bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);

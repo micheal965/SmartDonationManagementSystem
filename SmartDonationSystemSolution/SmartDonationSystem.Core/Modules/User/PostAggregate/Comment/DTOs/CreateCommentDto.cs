@@ -9,5 +9,6 @@ namespace SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.DTOs
         [Required]
         public int PostId { get; set; }
         public int? ParentCommentId { get; set; }
+        public List<string>? MentionedUserIds { get; set; }
     }
 }
