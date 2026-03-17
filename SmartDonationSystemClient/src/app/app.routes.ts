@@ -4,6 +4,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { postDetailsResolver } from './features/post-details/post-details.resolver';
 import { profileResolver } from './features/profile/profile.resolver';
 import { postCommentsResolver } from './features/post-details/post-comments.resolver';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -12,7 +13,6 @@ export const routes: Routes = [
       import('./layouts/auth/auth.component').then(
         (m) => m.AuthLayoutComponent,
       ),
-    canActivateChild: [guestGuard],
     children: [
       {
         path: '',
@@ -24,6 +24,7 @@ export const routes: Routes = [
       },
       {
         path: 'signin',
+        canActivate: [guestGuard],
         loadComponent: () =>
           import('./features/auth/pages/login/login.component').then(
             (m) => m.LoginComponent,
@@ -32,6 +33,7 @@ export const routes: Routes = [
       },
       {
         path: 'signup',
+        canActivate: [guestGuard],
         loadComponent: () =>
           import('./features/auth/pages/register/register.component').then(
             (m) => m.RegisterComponent,
@@ -83,6 +85,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [adminGuard],
     loadComponent: () =>
       import('./layouts/admin/admin.component').then(
         (m) => m.AdminLayoutComponent,

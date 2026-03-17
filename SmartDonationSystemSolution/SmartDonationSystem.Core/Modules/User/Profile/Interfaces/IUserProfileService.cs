@@ -15,6 +15,7 @@ public interface IUserProfileService
     Task<Result<UserToReturnDto>> GetSpecificUserAsync(string userId);
     Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query);
     Task<Result<UserPostsToReturnDto>> GetUserPostsAsync(string userId);
+    Task<Result<UserCommentsToReturnDto>> GetUserCommentsAsync(string userId);
     Task<Result<UserReactionsToReturnDto>> GetUserReactionsAsync(string userId);
     Task<Result<object>> UpdateUserAsync(string? userId, UpdateUserRequestDto updateUserRequestDto);
     Task<Result<IReadOnlyList<UserLoginsHistoryResponseDto>>> GetLoginHistoryAsync(string userId);

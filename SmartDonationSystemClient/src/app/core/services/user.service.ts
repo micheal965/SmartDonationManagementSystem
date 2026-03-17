@@ -8,6 +8,7 @@ import { UserProfile } from '../../shared/models/user-profile.model';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { UserPostsDto } from '../../features/profile/models/user-posts.model';
 import { UserReactionsDto } from '../../features/profile/models/user-reactions.model';
+import { UserCommentsDto } from '../../features/profile/models/user-comments.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,9 @@ export class UserService {
   }
   searchUsers(query: string): Observable<any[]> {
     return this.http
-      .get<ApiResult<any[]>>(`${apiBaseUrl}/userProfile/search-user?query=${query}`)
+      .get<
+        ApiResult<any[]>
+      >(`${apiBaseUrl}/userProfile/search-user?query=${query}`)
       .pipe(map((res) => res.data));
   }
   deleteUserSoft(): Observable<object> {
@@ -55,12 +58,12 @@ export class UserService {
       .pipe(map((res) => res.data));
   }
 
-  getUserComments(userId: string): Observable<UserProfile> {
+  getUserComments(userId: string): Observable<UserCommentsDto> {
     const params = new HttpParams().set('UserId', userId);
 
     return this.http
       .get<
-        ApiResult<UserProfile>
+        ApiResult<UserCommentsDto>
       >(`${apiBaseUrl}/userProfile/get-user-comments`, { params })
       .pipe(map((res) => res.data));
   }

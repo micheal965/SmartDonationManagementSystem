@@ -1,6 +1,15 @@
 import { FormsModule } from '@angular/forms';
 import { Comment } from './../feed/models/post-comments.model';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,9 +36,9 @@ export class CommentItemComponent {
     private sanitizer: DomSanitizer,
     private router: Router,
   ) {}
+
   formatContent(): SafeHtml {
     let formatted = this.comment.content;
-
     if (this.comment.mentions?.length) {
       this.comment.mentions.forEach((m) => {
         const regex = new RegExp(`@${m.userName}`, 'g');
@@ -46,9 +55,7 @@ export class CommentItemComponent {
   onMentionClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const userId = target.getAttribute('data-userid');
-    if (userId) {
-      this.goToProfile(userId);
-    }
+    if (userId) this.goToProfile(userId);
   }
 
   toggleReplies() {
@@ -72,7 +79,6 @@ export class CommentItemComponent {
   }
 
   private goToProfile(userId: string) {
-    console.log('userid' + userId);
     this.router.navigate(['/profile', userId]);
   }
 }

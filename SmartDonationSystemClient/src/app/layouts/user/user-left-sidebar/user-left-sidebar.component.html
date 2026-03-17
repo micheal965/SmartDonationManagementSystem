@@ -6,7 +6,8 @@
             <mat-icon>home</mat-icon>
             <span>Home</span>
         </a>
-        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
+        <a *ngIf="authService.isDonor()"
+            class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
             href="#" [routerLinkActive]="['bg-light-green','text-dark-blue']">
             <mat-icon>favorite</mat-icon>
             <span>My Donations</span>
@@ -16,14 +17,25 @@
             <mat-icon>grid_view</mat-icon>
             <span>Categories</span>
         </a>
-        <div class="pt-6 pb-2">
-            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 px-4">Insights</p>
-        </div>
-        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
-            href="#" [routerLinkActive]="['bg-light-green','text-dark-blue']">
-            <mat-icon>analytics</mat-icon>
-            <span>Activity Reports</span>
+        <a *ngIf="authService.isAdmin()"
+            class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
+            [routerLink]="['/admin']" [routerLinkActive]="['bg-light-green','text-dark-blue']">
+            <mat-icon>dashboard</mat-icon>
+            <span>Admin Dashboard</span>
         </a>
+        <div class="pt-6 pb-2">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 px-4">
+                Platform
+            </p>
+        </div>
+
+        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
+            [routerLink]="['/']" [routerLinkActive]="['bg-light-green','text-dark-blue']"
+            [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon>info</mat-icon>
+            <span>About Us</span>
+        </a>
+
     </div>
     <div class="mx-auto bg-white/5 rounded-3xl p-4 border border-white/10">
         <p class="text-xs text-white/60 mb-3 leading-relaxed">Ready to make a bigger difference?</p>

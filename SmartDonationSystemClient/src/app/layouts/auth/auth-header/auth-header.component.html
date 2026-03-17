@@ -14,7 +14,7 @@
             <a [routerLink]="['/']" fragment="team" [ngClass]="{'active-link':currentFragment==='team'}">Our Team</a>
         </nav>
 
-        <div class="hidden lg:flex items-center gap-2">
+        <div *ngIf="!authService.isAuthenticated()" class="hidden lg:flex items-center gap-2">
             <button
                 class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold text-dark-blue hover:scale-95 transition-all"
                 routerLink="/signin">
@@ -38,6 +38,15 @@
                     <path d="M19 9V15M16 12H22" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
                 Sign Up</button>
+        </div>
+        <div *ngIf="authService.isAuthenticated()" class="hidden lg:flex items-center gap-2">
+            <button
+                class="flex justify-center items-center gap-2 px-6 py-2.5 text-sm font-bold bg-light-green text-white rounded-3xl shadow-lg shadow-light-green/20 hover:brightness-105 hover:scale-95 transition-all"
+                routerLink="/feed">
+                <mat-icon>favorite</mat-icon>
+                <span *ngIf="authService.isRequester()">Find Help</span>
+                <span *ngIf="!authService.isRequester()">Help Someone</span>
+            </button>
         </div>
         <button (click)="isMenuOpen = !isMenuOpen"
             class="lg:hidden p-2 text-dark-blue hover:text-light-green/70 focus:outline-none ">
@@ -63,7 +72,7 @@
                 [ngClass]="{'active-link':currentFragment==='team'}">Our Team</a>
 
         </nav>
-        <div class="flex flex-col gap-3 pt-4 border-t border-gray-100">
+        <div *ngIf="!authService.isAuthenticated()" class="flex flex-col gap-3 pt-4 border-t border-gray-100">
             <button (click)="isMenuOpen = false"
                 class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold border border-dark-blue text-dark-blue rounded-md hover:bg-dark-blue hover:text-white active:scale-95 transition-all"
                 routerLink="/signin">
@@ -88,5 +97,15 @@
                 </svg>
                 Sign Up</button>
         </div>
+        <div *ngIf="authService.isAuthenticated()" class="pt-4 border-t border-gray-100">
+            <button
+                class="flex justify-center items-center gap-2 px-6 py-2.5 text-sm font-bold bg-light-green text-white w-full rounded-3xl shadow-lg shadow-light-green/20 hover:brightness-105 hover:scale-95 transition-all"
+                routerLink="/feed">
+                <mat-icon>favorite</mat-icon>
+                <span *ngIf="authService.isRequester()">Find Help</span>
+                <span *ngIf="!authService.isRequester()">Help Someone</span>
+            </button>
+        </div>
+
     </div>
 </header>

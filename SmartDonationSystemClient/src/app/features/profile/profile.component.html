@@ -37,7 +37,7 @@
         <!-- Stats Bar -->
         <section class="lg:px-12 mt-10">
             <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-light-gray dark:border-slate-800 shadow-sm">
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-light-gray shadow-sm">
 
                 <!-- Total Posts -->
                 <div (click)="setTab('posts')"
@@ -47,7 +47,7 @@
                         <mat-icon class="text-2xl">dynamic_feed</mat-icon>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-dark-blue dark:text-slate-100 tracking-tight">
+                        <p class="text-2xl font-bold text-dark-blue tracking-tight">
                             {{ userPostsDto?.totalPostsCount}}
                         </p>
                         <p class="text-sm text-slate-500 font-medium">Posts</p>
@@ -63,7 +63,7 @@
                     </div>
                     <div>
                         <p class="text-2xl font-bold text-dark-blue tracking-tight">
-                            <!-- {{ user().totalCommentsCount }} --> 10
+                            {{ userCommentsDto?.totalCommentsCount}}
                         </p>
                         <p class="text-sm text-slate-500 font-medium">Comments</p>
                     </div>

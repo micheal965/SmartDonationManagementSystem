@@ -5,7 +5,7 @@
             <span class="font-bold text-dark-blue">{{ comment.userName }}</span>
             <span class="text-xs text-slate-400">{{ comment.createdAt | timeAgo }}</span>
         </div>
-        <p class="text-slate-600 text-sm leading-relaxed break-words whitespace-pre-wrap" [innerHTML]="formatContent()"
+        <p  class="text-slate-600 text-sm leading-relaxed break-words whitespace-pre-wrap" [innerHTML]="formatContent()"
             (click)="onMentionClick($event)"></p>
 
         <div *ngIf="!isReply" class="flex justify-between gap-4 mt-3 ">

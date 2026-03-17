@@ -9,6 +9,8 @@ import { CreatePostComponent } from '../create-post/create-post.component';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthService } from '../auth/services/auth.service';
+import { CdkAriaLive } from '../../../../node_modules/@angular/cdk/a11y/index';
 @Component({
   selector: 'app-feed',
   standalone: true,
@@ -25,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 })
 export class FeedComponent implements OnInit {
   UserService = inject(UserService);
+  authService = inject(AuthService);
   private feedService = inject(FeedService);
   private toastr = inject(ToastrService);
   posts: Post[] = [];

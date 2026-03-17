@@ -389,6 +389,22 @@
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
+    "Method": "GetUserComments",
+    "RelativePath": "api/UserProfile/get-user-comments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "GetUserData",
     "RelativePath": "api/UserProfile/get-user-data",
     "HttpMethod": "GET",

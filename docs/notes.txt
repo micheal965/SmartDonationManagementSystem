@@ -1,0 +1,8 @@
+1) user when registration will be asked his interest category 
+and will be asked also if notify if any of new posts in that category has been created
+
+2) asking for country and will filtration in the front if need posts in the same country 
+
+3) whatever the category they will be donation with money 
+
+4) if donor cannot donate to specific one he can donor to the organization itself and we donate it to the needer itself

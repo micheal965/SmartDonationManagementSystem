@@ -690,6 +690,27 @@
         }
       }
     },
+    "/api/UserProfile/get-user-comments": {
+      "get": {
+        "tags": [
+          "UserProfile"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/UserProfile/get-user-reactions": {
       "get": {
         "tags": [

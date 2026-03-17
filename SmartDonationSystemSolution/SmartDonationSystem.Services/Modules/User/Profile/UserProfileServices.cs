@@ -152,6 +152,28 @@ public class UserProfileServices : IUserProfileService
 
         return Result<UserPostsToReturnDto>.Ok(dto, "Posts retrieved successfully");
     }
+    public async Task<Result<UserCommentsToReturnDto>> GetUserCommentsAsync(string userId)
+    {
+        bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
+        if (!userExists) return Result<UserCommentsToReturnDto>.NotFound("User not found");
+
+        var commentsDto = await _applicationDbContext.Comments.Where(r => r.ApplicationUserId == userId).Select(c => new UserCommentDto
+        {
+            PostId = c.PostId,
+            Content = c.Content,
+            CreatedAt = c.CreatedAt
+        }).ToListAsync();
+
+
+        var dto = new UserCommentsToReturnDto
+        {
+            totalCommentsCount = commentsDto.Count,
+            comments = commentsDto
+        };
+
+        return Result<UserCommentsToReturnDto>.Ok(dto, "Comments retrieved successfully");
+    }
+
     public async Task<Result<UserReactionsToReturnDto>> GetUserReactionsAsync(string userId)
     {
         bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);

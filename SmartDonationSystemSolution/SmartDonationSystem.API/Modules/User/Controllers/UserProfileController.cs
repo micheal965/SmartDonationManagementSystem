@@ -74,6 +74,12 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var getUserPostsResponse = await _userProfileServices.GetUserPostsAsync(userId);
             return StatusCode((int)getUserPostsResponse.statusCode, getUserPostsResponse);
         }
+        [HttpGet("get-user-comments")]
+        public async Task<IActionResult> GetUserComments([FromQuery] string userId)
+        {
+            var getUserCommentsResponse = await _userProfileServices.GetUserCommentsAsync(userId);
+            return StatusCode((int)getUserCommentsResponse.statusCode, getUserCommentsResponse);
+        }
         [HttpGet("get-user-reactions")]
         public async Task<IActionResult> GetUserReactions([FromQuery] string userId)
         {

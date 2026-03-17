@@ -42,7 +42,15 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.accessToken;
   }
-
+  isAdmin(): boolean {
+    return this.userData.role === 'Admin';
+  }
+  isRequester(): boolean {
+    return this.userData.role === 'Requester';
+  }
+  isDonor(): boolean {
+    return this.userData.role === 'Donor';
+  }
   register(data: any): Observable<ApiResult<any>> {
     return this.http.post<ApiResult<any>>(`${apiBaseUrl}/Auth/register`, data);
   }

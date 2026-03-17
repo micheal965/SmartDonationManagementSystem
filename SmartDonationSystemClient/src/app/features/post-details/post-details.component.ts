@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
@@ -54,6 +54,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   private feedService = inject(FeedService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
+  private router = inject(Router);
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);
   }
@@ -104,12 +105,11 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
       PostId: this.post.id,
       MentionedUserIds: this.mentionedUserIds,
     };
-
     this.feedService.addComment(dto).subscribe({
       next: (comment) => {
         this.comments = [comment, ...this.comments];
         this.newComment.Content = '';
-
+        
         this.mentionedUserIds = [];
       },
     });

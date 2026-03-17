@@ -14,6 +14,7 @@ import { ProfileLikeComponent } from './profile-like/profile-like.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EditUserModel } from './models/edit-user-profile.model';
 import { ProfilePictureModalComponent } from './profile-picture-modal/profile-picture-modal.component';
+import { UserCommentsDto } from './models/user-comments.model';
 
 @Component({
   selector: 'app-profile',
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit {
 
   userReactionsDto: UserReactionsDto | null = null;
   userPostsDto: UserPostsDto | null = null;
+  userCommentsDto: UserCommentsDto | null = null;
   user!: UserProfile;
   currentUser!: UserProfile;
   activeTab: 'posts' | 'likes' | 'comments' = 'posts';
@@ -59,6 +61,9 @@ export class ProfileComponent implements OnInit {
       });
       this.userService.getUserPosts(user.id).subscribe({
         next: (postsDto) => (this.userPostsDto = postsDto),
+      });
+      this.userService.getUserComments(user.id).subscribe({
+        next: (commentsDto) => (this.userCommentsDto = commentsDto),
       });
       this.titleService.setTitle(`${this.user.fullName.split(' ')[0]} Profile`);
     });
