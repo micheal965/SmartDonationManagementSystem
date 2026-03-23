@@ -1,58 +1,58 @@
-<main class="flex flex-col ml-64 p-10 bg-gradient-to-br from-white to-slate-50 min-h-screen">
+<main class="flex flex-col ml-64 p-10 rounded-3xl bg-white min-h-screen">
     <!-- Welcome Section -->
     <section class="mb-10">
         <div class="flex flex-col gap-1">
-            <h2 class="text-3xl font-black tracking-tighter text-slate-900">Welcome back, Alex!</h2>
+            <h2 class="text-3xl font-black tracking-tighter text-slate-900">Welcome back, {{adminName}} !</h2>
             <p class="text-slate-500 font-medium">Your editorial performance is up 12% this week. Keep it up!</p>
         </div>
     </section>
 
     <!-- Metrics Row -->
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div [routerLink]="['/admin/posts']"
-            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-indigo-600 hover:shadow-lg  transition-all duration-300 group cursor-pointer">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                    <mat-icon class="text-indigo-600 text-xl">article</mat-icon>
-                </div>
-                <span
-                    class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">+4.2%</span>
-            </div>
-            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Articles</p>
-            <h3 class="text-2xl font-black text-slate-900">1,284</h3>
-        </div>
-
-        <div [routerLink]="['/admin/categories']"
-            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-emerald-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
-            <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
-                    <mat-icon class="text-emerald-500 text-xl">category</mat-icon>
-                </div>
-                <span
-                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-1 rounded-full">Stable</span>
-            </div>
-            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Active Categories</p>
-            <h3 class="text-2xl font-black text-slate-900">42</h3>
-        </div>
-
         <div [routerLink]="['/admin/users']"
-            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-blue-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+            class="p-6 shadow-md rounded-xl border-l-4 border-blue-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
             <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500">
-                    <mat-icon class="text-blue-500 text-xl">people</mat-icon>
+                <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500">
+                    <mat-icon class="text-blue-500 ">people</mat-icon>
                 </div>
                 <span
-                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-1 rounded-full">Stable</span>
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-200 px-2 py-1 rounded-full">Stable</span>
             </div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Users</p>
             <h3 class="text-2xl font-black text-slate-900">84.2K</h3>
         </div>
 
-        <div [routerLink]="['/admin/notifications']"
-            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-rose-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+        <div [routerLink]="['/admin/categories']"
+            class=" p-6 shadow-md rounded-xl border-l-4 border-emerald-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
             <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-500">
-                    <mat-icon class="text-rose-500 text-xl">notifications</mat-icon>
+                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                    <mat-icon class="text-emerald-500">category</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-200 px-2 py-1 rounded-full">Stable</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Active Categories</p>
+            <h3 class="text-2xl font-black text-slate-900">42</h3>
+        </div>
+
+        <div [routerLink]="['/admin/posts']"
+            class="p-6 shadow-md rounded-xl border-l-4 border-indigo-600 hover:shadow-lg  transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <mat-icon class="text-indigo-600">article</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">+4.2%</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Published Posts</p>
+            <h3 class="text-2xl font-black text-slate-900">1,284</h3>
+        </div>
+
+        <div [routerLink]="['/admin/notifications']"
+            class="p-6 shadow-md rounded-xl border-l-4 border-rose-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+                    <mat-icon class="text-rose-500">notifications</mat-icon>
                 </div>
                 <span
                     class="text-[10px] font-extrabold uppercase tracking-widest text-rose-600 bg-rose-100 px-2 py-1 rounded-full">Needs
@@ -66,7 +66,7 @@
     <!-- Main Bento Grid -->
     <div class="grid grid-cols-12 gap-6">
         <!-- Performance Chart -->
-        <div class="col-span-12 lg:col-span-8 glass-panel rounded-xl p-8 border-white">
+        <div class="col-span-12 lg:col-span-8 shadow-md rounded-3xl p-8">
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <h3 class="text-xl font-bold text-slate-900 mb-1">Performance Overview</h3>
@@ -136,13 +136,12 @@
 
         <!-- Side Activity Section -->
         <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
-            <!-- System Activity -->
-            <div class="glass-panel rounded-xl p-6 flex-1 border-white">
+            <div class="rounded-3xl p-6 shadow-md">
                 <h3 class="text-lg font-bold text-slate-900 mb-6">Recent Activity</h3>
                 <div class="space-y-6">
                     <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center shrink-0">
-                            <mat-icon class="text-indigo-600 text-sm">edit</mat-icon>
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-indigo-600">edit</mat-icon>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-slate-900">Post Published</p>
@@ -151,8 +150,8 @@
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                            <mat-icon class="text-emerald-500 text-sm">person_add</mat-icon>
+                        <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-emerald-500">person_add</mat-icon>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-slate-900">New Contributor</p>
@@ -161,8 +160,8 @@
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
-                            <mat-icon class="text-rose-500 text-sm">warning</mat-icon>
+                        <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-rose-500">warning</mat-icon>
                         </div>
                         <div>
                             <p class="text-sm font-bold text-slate-900">Server Alert</p>
