@@ -1,0 +1,177 @@
+<main class="flex flex-col ml-64 p-10 bg-gradient-to-br from-white to-slate-50 min-h-screen">
+    <!-- Welcome Section -->
+    <section class="mb-10">
+        <div class="flex flex-col gap-1">
+            <h2 class="text-3xl font-black tracking-tighter text-slate-900">Welcome back, Alex!</h2>
+            <p class="text-slate-500 font-medium">Your editorial performance is up 12% this week. Keep it up!</p>
+        </div>
+    </section>
+
+    <!-- Metrics Row -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div [routerLink]="['/admin/posts']"
+            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-indigo-600 hover:shadow-lg  transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <mat-icon class="text-indigo-600 text-xl">article</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">+4.2%</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Articles</p>
+            <h3 class="text-2xl font-black text-slate-900">1,284</h3>
+        </div>
+
+        <div [routerLink]="['/admin/categories']"
+            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-emerald-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
+                    <mat-icon class="text-emerald-500 text-xl">category</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-1 rounded-full">Stable</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Active Categories</p>
+            <h3 class="text-2xl font-black text-slate-900">42</h3>
+        </div>
+
+        <div [routerLink]="['/admin/users']"
+            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-blue-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-500">
+                    <mat-icon class="text-blue-500 text-xl">people</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-100 px-2 py-1 rounded-full">Stable</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Users</p>
+            <h3 class="text-2xl font-black text-slate-900">84.2K</h3>
+        </div>
+
+        <div [routerLink]="['/admin/notifications']"
+            class="bg-slate-50 p-6 shadow-md rounded-xl border-l-4 border-rose-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-500">
+                    <mat-icon class="text-rose-500 text-xl">notifications</mat-icon>
+                </div>
+                <span
+                    class="text-[10px] font-extrabold uppercase tracking-widest text-rose-600 bg-rose-100 px-2 py-1 rounded-full">Needs
+                    Action</span>
+            </div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">New Notifications</p>
+            <h3 class="text-2xl font-black text-slate-900">156</h3>
+        </div>
+    </section>
+
+    <!-- Main Bento Grid -->
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Performance Chart -->
+        <div class="col-span-12 lg:col-span-8 glass-panel rounded-xl p-8 border-white">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-1">Performance Overview</h3>
+                    <p class="text-sm text-slate-500">Traffic analytics for the last 30 days</p>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">Views</button>
+                    <button
+                        class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 hover:bg-slate-200 transition-all">Clicks</button>
+                </div>
+            </div>
+
+            <!-- Placeholder Chart Graphic -->
+            <div class="h-[300px] w-full relative flex items-end gap-2 px-2">
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[60%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[45%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[80%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[55%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[90%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[40%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[65%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[75%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[50%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[85%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[35%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div
+                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[95%] hover:bg-indigo-600 transition-all duration-500">
+                </div>
+                <div class="absolute inset-0 flex flex-col justify-between py-2 pointer-events-none opacity-10">
+                    <div class="border-t border-slate-900 border-dashed w-full"></div>
+                    <div class="border-t border-slate-900 border-dashed w-full"></div>
+                    <div class="border-t border-slate-900 border-dashed w-full"></div>
+                    <div class="border-t border-slate-900 border-dashed w-full"></div>
+                </div>
+            </div>
+
+            <div class="flex justify-between mt-6 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                <span>Week 1</span>
+                <span>Week 2</span>
+                <span>Week 3</span>
+                <span>Week 4</span>
+            </div>
+        </div>
+
+        <!-- Side Activity Section -->
+        <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+            <!-- System Activity -->
+            <div class="glass-panel rounded-xl p-6 flex-1 border-white">
+                <h3 class="text-lg font-bold text-slate-900 mb-6">Recent Activity</h3>
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-indigo-600 text-sm">edit</mat-icon>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Post Published</p>
+                            <p class="text-xs text-slate-500">"The Future of Web3" by Sarah K.</p>
+                            <p class="text-[10px] text-indigo-600 font-bold mt-1">2m ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-emerald-500 text-sm">person_add</mat-icon>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">New Contributor</p>
+                            <p class="text-xs text-slate-500">Marcus Chen joined the editorial team.</p>
+                            <p class="text-[10px] text-indigo-600 font-bold mt-1">45m ago</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
+                            <mat-icon class="text-rose-500 text-sm">warning</mat-icon>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">Server Alert</p>
+                            <p class="text-xs text-slate-500">CPU usage exceeded 90% for 5 mins.</p>
+                            <p class="text-[10px] text-indigo-600 font-bold mt-1">2h ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -85,11 +85,65 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [adminGuard],
+    canActivateChild: [adminGuard],
     loadComponent: () =>
       import('./layouts/admin/admin.component').then(
         (m) => m.AdminLayoutComponent,
       ),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/admin/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent,
+          ),
+        title: 'Dashboard',
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('./features/admin/notifications/notifications.component').then(
+            (m) => m.NotificationsComponent,
+          ),
+        title: 'Notifications',
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./features/admin/users/users.component').then(
+            (m) => m.UsersComponent,
+          ),
+        title: 'Users',
+      },
+      {
+        path: 'posts',
+        loadComponent: () =>
+          import('./features/admin/posts/posts.component').then(
+            (m) => m.PostsComponent,
+          ),
+        title: 'Posts',
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('./features/admin/categories/categories.component').then(
+            (m) => m.CategoriesComponent,
+          ),
+        title: 'Categories',
+      },
+      {
+        path: 'analytics',
+        loadComponent: () =>
+          import('./features/admin/analytics/analytics.component').then(
+            (m) => m.AnalyticsComponent,
+          ),
+        title: 'Analytics',
+      },
+      {
+        path: '**',
+        redirectTo: 'dashboard',
+      },
+    ],
   },
   {
     path: '**',

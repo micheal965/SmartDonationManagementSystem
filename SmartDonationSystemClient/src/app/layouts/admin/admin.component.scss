@@ -1,0 +1,12 @@
+/* Custom text selection styling */
+::selection {
+  background-color: rgba(173, 216, 230, 0.5); /* light blue with 50% opacity */
+  color: #1e3a8a; /* bright blue */
+  text-shadow: none; /* ensures clear text */
+}
+
+::-moz-selection {
+  background-color: rgba(173, 216, 230, 0.5);
+  color: #1e3a8a;
+  text-shadow: none;
+}

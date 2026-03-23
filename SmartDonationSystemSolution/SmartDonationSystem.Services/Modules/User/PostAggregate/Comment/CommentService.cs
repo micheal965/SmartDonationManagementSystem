@@ -30,7 +30,7 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
             await _context.SaveChangesAsync();
 
             // handle mentions
-            await HandleTags(dto.MentionedUserIds, comment.Id);
+            await HandleTagsAsync(dto.MentionedUserIds, comment.Id);
 
             // reload comment with mentions
             var commentWithMentions = await _context.Comments
@@ -112,14 +112,14 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
             comment.Content = dto.Content;
             await _context.SaveChangesAsync();
 
-            await HandleTags(dto.MentionedUserIds, comment.Id);
+            await HandleTagsAsync(dto.MentionedUserIds, comment.Id);
 
             return Result<object>.NoContent("Comment updated successfully");
         }
 
 
         // Helpers
-        private async Task HandleTags(List<string> mentionedUserIds, int commentId)
+        private async Task HandleTagsAsync(List<string> mentionedUserIds, int commentId)
         {
             if (mentionedUserIds == null || !mentionedUserIds.Any())
                 return;

@@ -1,24 +1,22 @@
 <nav
     class="fixed left-0 top-20 h-[calc(100vh-5rem)] bg-gradient-to-bl from-dark-blue to-bright-blue text-white p-8 flex flex-col z-30">
     <div class="space-y-2 flex-1 ">
-        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
-            [routerLink]="['/feed']" [routerLinkActive]="['bg-light-green','text-dark-blue']">
+        <a class="flex items-center gap-3 p-3 rounded-2xl  transition-colors" [routerLink]="['/feed']"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
             <mat-icon>home</mat-icon>
             <span>Home</span>
         </a>
-        <a *ngIf="authService.isDonor()"
-            class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
+        <a *ngIf="!authService.isRequester()" class="flex items-center gap-3 p-3 rounded-2xl  transition-colors"
             href="#" [routerLinkActive]="['bg-light-green','text-dark-blue']">
             <mat-icon>favorite</mat-icon>
             <span>My Donations</span>
         </a>
-        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
-            [routerLink]="['/categories']" [routerLinkActive]="['bg-light-green','text-dark-blue']">
+        <a class="flex items-center gap-3 p-3 rounded-2xl  transition-colors" [routerLink]="['/categories']"
+            [routerLinkActive]="['bg-light-green','text-dark-blue']">
             <mat-icon>grid_view</mat-icon>
             <span>Categories</span>
         </a>
-        <a *ngIf="authService.isAdmin()"
-            class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
+        <a *ngIf="authService.isAdmin()" class="flex items-center gap-3 p-3 rounded-2xl  transition-colors"
             [routerLink]="['/admin']" [routerLinkActive]="['bg-light-green','text-dark-blue']">
             <mat-icon>dashboard</mat-icon>
             <span>Admin Dashboard</span>
@@ -29,11 +27,10 @@
             </p>
         </div>
 
-        <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-light-green hover:text-dark-blue transition-colors"
-            [routerLink]="['/']" [routerLinkActive]="['bg-light-green','text-dark-blue']"
-            [routerLinkActiveOptions]="{ exact: true }">
-            <mat-icon>info</mat-icon>
-            <span>About Us</span>
+        <a [routerLink]="['/']" [fragment]="'about'" class="flex items-center gap-3 p-3 rounded-2xl transition-colors"
+            routerLinkActive="bg-light-green text-dark-blue" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon class="text-xl">info</mat-icon>
+            <span class="font-medium">About Us</span>
         </a>
 
     </div>

@@ -84,8 +84,8 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                 return Result<PaginatedList<PostToReturnDto>>.BadRequest($"Invalid sort type: {sortBy}");
 
             var query = _applicationDbContext.Posts
-                          .Where(p => (string.IsNullOrEmpty(categoryName) || p.Category.Name == categoryName));
-            //&& p.Status == PostStatus.Approved.ToString());
+                          .Where(p => p.Status == PostStatus.Approved.ToString()
+                          && (string.IsNullOrEmpty(categoryName) || p.Category.Name == categoryName));
 
             query = sortBy switch
             {
@@ -142,8 +142,7 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     pictureUrl = p.ApplicationUser.PictureUrl,
                     phoneNumber = p.ApplicationUser.PhoneNumber,
                     categoryName = p.Category.Name
-                })
-                .FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync();
 
             if (post == null)
                 return Result<PostToReturnDto>.NotFound("Post not found");

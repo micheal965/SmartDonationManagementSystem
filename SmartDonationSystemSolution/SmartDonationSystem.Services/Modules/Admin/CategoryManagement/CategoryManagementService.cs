@@ -50,7 +50,8 @@ namespace SmartDonationSystem.Services.Modules.Admin.CategoryManagement
             Category? category = await _applicationDbContext.Categories.FindAsync(oldCategoryId);
             if (category == null) return Result<object>.NotFound("Category not found");
 
-            bool exists = await _applicationDbContext.Categories.AnyAsync(c => c.Name.ToLower() == newCategoryName.ToLower() && c.Id != oldCategoryId);
+            bool exists = await _applicationDbContext.Categories.AnyAsync(c => c.Name.ToLower() == newCategoryName.ToLower()
+                                                                        && c.Id != oldCategoryId);
             if (exists)
                 return Result<object>.BadRequest("Another category with this name already exists.");
 
