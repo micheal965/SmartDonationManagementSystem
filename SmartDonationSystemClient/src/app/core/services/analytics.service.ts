@@ -11,13 +11,9 @@ export class AnalyticsService {
   private httpClient = inject(HttpClient);
   trackEntrance() {
     if (typeof window === 'undefined') return;
+
     // Only track once per session
     if (sessionStorage.getItem('entranceTracked')) return;
-
-    const referrer = document.referrer;
-    const isExternal = referrer && !referrer.includes(window.location.hostname);
-
-    if (!isExternal) return; // Only track external visits
 
     this.httpClient.post(`${apiBaseUrl}/track-page`, {}).subscribe({
       next: () => sessionStorage.setItem('entranceTracked', 'true'),
