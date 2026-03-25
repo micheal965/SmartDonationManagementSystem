@@ -10,6 +10,7 @@ using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
 using System.Text;
+using System.Threading.RateLimiting;
 
 namespace SmartDonationSystem.API
 {
@@ -19,7 +20,24 @@ namespace SmartDonationSystem.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
+            builder.Services.AddRateLimiter(options =>
+            {
+                options.AddPolicy("TrackPagePolicy", context =>
+                {
+                    // Ensure RemoteIpAddress is not null
+                    var ip = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                    return RateLimitPartition.GetFixedWindowLimiter(ip, _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 3,
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        QueueLimit = 0
+                    });
+                });
+            });
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -73,6 +91,7 @@ namespace SmartDonationSystem.API
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
+            app.UseRateLimiter();
 
             app.MapPost("/api/track-page", async (IAnalyticsService service, HttpContext httpContext) =>
             {
@@ -83,7 +102,7 @@ namespace SmartDonationSystem.API
                 await service.TrackPageViewAsync();
 
                 return Results.Ok(new { message = "Page tracked successfully" });
-            });
+            }).RequireRateLimiting("TrackPagePolicy");
 
             app.UseCors("FrontendPolicy");
 

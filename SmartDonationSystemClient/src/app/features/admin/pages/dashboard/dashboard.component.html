@@ -8,7 +8,7 @@
     </section>
 
     <!-- Metrics Row -->
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <section class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mb-10">
         <div [routerLink]="['/admin/users']"
             class="p-6 shadow-md rounded-xl border-l-4 border-blue-500 hover:shadow-lg transition-all duration-300 group cursor-pointer">
             <div class="flex justify-between items-start mb-4">
@@ -19,7 +19,7 @@
                     class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-200 px-2 py-1 rounded-full">Stable</span>
             </div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Users</p>
-            <h3 class="text-2xl font-black text-slate-900">84.2K</h3>
+            <h3 class="text-2xl font-black text-slate-900">{{dashboard?.totalUsers | shortNumber}}</h3>
         </div>
 
         <div [routerLink]="['/admin/categories']"
@@ -32,7 +32,7 @@
                     class="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 bg-slate-200 px-2 py-1 rounded-full">Stable</span>
             </div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Active Categories</p>
-            <h3 class="text-2xl font-black text-slate-900">42</h3>
+            <h3 class="text-2xl font-black text-slate-900">{{dashboard?.totalCategories}}</h3>
         </div>
 
         <div [routerLink]="['/admin/posts']"
@@ -45,7 +45,7 @@
                     class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">+4.2%</span>
             </div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Published Posts</p>
-            <h3 class="text-2xl font-black text-slate-900">1,284</h3>
+            <h3 class="text-2xl font-black text-slate-900">{{dashboard?.totalPublishedPosts}}</h3>
         </div>
 
         <div [routerLink]="['/admin/notifications']"
@@ -59,6 +59,7 @@
                     Action</span>
             </div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">New Notifications</p>
+            <!-- Should be changed -->
             <h3 class="text-2xl font-black text-slate-900">156</h3>
         </div>
     </section>
@@ -66,76 +67,11 @@
     <!-- Main Bento Grid -->
     <div class="grid grid-cols-12 gap-6">
         <!-- Performance Chart -->
-        <div class="col-span-12 lg:col-span-8 shadow-md rounded-3xl p-8">
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-1">Performance Overview</h3>
-                    <p class="text-sm text-slate-500">Traffic analytics for the last 30 days</p>
-                </div>
-                <div class="flex gap-2">
-                    <button
-                        class="px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">Views</button>
-                    <button
-                        class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 hover:bg-slate-200 transition-all">Clicks</button>
-                </div>
-            </div>
-
-            <!-- Placeholder Chart Graphic -->
-            <div class="h-[300px] w-full relative flex items-end gap-2 px-2">
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[60%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[45%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[80%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[55%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[90%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[40%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[65%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[75%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[50%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[85%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[35%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div
-                    class="flex-1 bg-indigo-600/20 rounded-t-lg h-[95%] hover:bg-indigo-600 transition-all duration-500">
-                </div>
-                <div class="absolute inset-0 flex flex-col justify-between py-2 pointer-events-none opacity-10">
-                    <div class="border-t border-slate-900 border-dashed w-full"></div>
-                    <div class="border-t border-slate-900 border-dashed w-full"></div>
-                    <div class="border-t border-slate-900 border-dashed w-full"></div>
-                    <div class="border-t border-slate-900 border-dashed w-full"></div>
-                </div>
-            </div>
-
-            <div class="flex justify-between mt-6 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-                <span>Week 1</span>
-                <span>Week 2</span>
-                <span>Week 3</span>
-                <span>Week 4</span>
-            </div>
+        <div class="col-span-12 2xl:col-span-8 shadow-md rounded-3xl p-8 bg-white border border-slate-100">
+            <app-visits-chart [rawData]="dashboard?.analytics" [usersCount]="dashboard?.totalUniqueUsers" />
         </div>
-
         <!-- Side Activity Section -->
-        <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+        <div class="col-span-12 2xl:col-span-4 flex flex-col gap-6">
             <div class="rounded-3xl p-6 shadow-md">
                 <h3 class="text-lg font-bold text-slate-900 mb-6">Recent Activity</h3>
                 <div class="space-y-6">

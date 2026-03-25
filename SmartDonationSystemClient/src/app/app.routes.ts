@@ -94,7 +94,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/admin/dashboard/dashboard.component').then(
+          import('./features/admin/pages/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent,
           ),
         title: 'Dashboard',
@@ -102,7 +102,7 @@ export const routes: Routes = [
       {
         path: 'notifications',
         loadComponent: () =>
-          import('./features/admin/notifications/notifications.component').then(
+          import('./features/admin/pages/notifications/notifications.component').then(
             (m) => m.NotificationsComponent,
           ),
         title: 'Notifications',
@@ -110,7 +110,7 @@ export const routes: Routes = [
       {
         path: 'users',
         loadComponent: () =>
-          import('./features/admin/users/users.component').then(
+          import('./features/admin/pages/users/users.component').then(
             (m) => m.UsersComponent,
           ),
         title: 'Users',
@@ -118,7 +118,7 @@ export const routes: Routes = [
       {
         path: 'posts',
         loadComponent: () =>
-          import('./features/admin/posts/posts.component').then(
+          import('./features/admin/pages/posts/posts.component').then(
             (m) => m.PostsComponent,
           ),
         title: 'Posts',
@@ -126,7 +126,7 @@ export const routes: Routes = [
       {
         path: 'categories',
         loadComponent: () =>
-          import('./features/admin/categories/categories.component').then(
+          import('./features/admin/pages/categories/categories.component').then(
             (m) => m.CategoriesComponent,
           ),
         title: 'Categories',
@@ -134,7 +134,7 @@ export const routes: Routes = [
       {
         path: 'analytics',
         loadComponent: () =>
-          import('./features/admin/analytics/analytics.component').then(
+          import('./features/admin/pages/analytics/analytics.component').then(
             (m) => m.AnalyticsComponent,
           ),
         title: 'Analytics',

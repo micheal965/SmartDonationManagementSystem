@@ -25,9 +25,11 @@ import { toastrInterceptor } from './core/interceptors/toastr.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { credentialsInterceptor } from './core/interceptors/credentials.interceptor';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideCharts(withDefaultRegisterables()),
     provideRouter(
       routes,
       withInMemoryScrolling({

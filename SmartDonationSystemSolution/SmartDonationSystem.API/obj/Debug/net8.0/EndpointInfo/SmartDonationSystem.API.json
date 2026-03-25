@@ -330,7 +330,7 @@
         }
       }
     },
-    "/api/DashboardManagement/last-30-days": {
+    "/api/DashboardManagement/dashboard": {
       "get": {
         "tags": [
           "DashboardManagement"

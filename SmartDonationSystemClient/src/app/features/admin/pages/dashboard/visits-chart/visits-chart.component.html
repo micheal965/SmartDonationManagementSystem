@@ -1,0 +1,20 @@
+<div class="flex items-start justify-between mb-10">
+    <div>
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Audience Metrics</p>
+        <h3 class="text-4xl font-black text-slate-900 tracking-tight">{{ usersCount |shortNumber }}</h3>
+        <p class="text-sm text-slate-500 mt-1 font-medium">Unique visits this month</p>
+    </div>
+
+    <div class="px-4 py-2 text-xs font-bold text-slate-900 shadow-sm lex bg-slate-50 p-1 rounded-xl">30 Days</div>
+</div>
+
+<div class="h-[250px] w-full relative">
+    <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [plugins]="[tooltipLinePlugin]"
+        [type]="'line'">
+    </canvas>
+</div>
+
+<div
+    class="flex justify-between mt-8 pt-6 border-t border-slate-50 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+    <span *ngFor="let label of footerLabels">{{ label }}</span>
+</div>

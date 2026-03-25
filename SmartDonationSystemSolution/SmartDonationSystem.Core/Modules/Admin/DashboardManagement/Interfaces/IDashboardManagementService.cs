@@ -5,6 +5,6 @@ namespace SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces
 {
     public interface IDashboardManagementService
     {
-        Task<Result<List<AnalyticsDto>>> GetLast30DaysAsync();
+        Task<Result<DashboardToReturnDto>> GetDashboardData();
     }
 }

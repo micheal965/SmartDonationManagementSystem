@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { UserProfile } from '../../../shared/models/user-profile.model';
@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './admin-aside.component.html',
   styleUrl: './admin-aside.component.scss',
 })
-export class AdminAsideComponent {
+export class AdminAsideComponent implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private toastr = inject(ToastrService);

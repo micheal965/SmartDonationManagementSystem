@@ -10,10 +10,10 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
     [Authorize(Roles = AppRoles.Admin)]
     public class DashboardManagementController(IDashboardManagementService _dashboardService) : ControllerBase
     {
-        [HttpGet("last-30-days")]
-        public async Task<IActionResult> GetLast30Days()
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
         {
-            var result = await _dashboardService.GetLast30DaysAsync();
+            var result = await _dashboardService.GetDashboardData();
             return StatusCode((int)result.statusCode, result);
         }
     }

@@ -243,8 +243,8 @@
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.DashboardManagementController",
-    "Method": "GetLast30Days",
-    "RelativePath": "api/DashboardManagement/last-30-days",
+    "Method": "GetDashboard",
+    "RelativePath": "api/DashboardManagement/dashboard",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -347,7 +347,7 @@
   },
   {
     "ContainingType": "SmartDonationSystem.API.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_6",
+    "Method": "\u003CMain\u003Eb__0_7",
     "RelativePath": "api/track-page",
     "HttpMethod": "POST",
     "IsController": false,
