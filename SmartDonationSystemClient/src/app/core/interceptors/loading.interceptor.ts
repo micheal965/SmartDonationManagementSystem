@@ -11,6 +11,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     (req.url.includes(apiBaseUrl) && req.url.includes('react')) ||
     (req.url.includes(apiBaseUrl) && req.url.includes('get-posts')) ||
     (req.url.includes(apiBaseUrl) && req.url.includes('search-user')) ||
+    (req.url.includes(apiBaseUrl) && req.url.includes('track-page')) ||
     !req.url.includes(apiBaseUrl)
   )
     return next(req);

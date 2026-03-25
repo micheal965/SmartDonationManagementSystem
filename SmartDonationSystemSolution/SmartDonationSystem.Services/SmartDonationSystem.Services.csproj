@@ -22,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Admin\ReportsManagement\" />
-    <Folder Include="Modules\Admin\UserManagement\" />
     <Folder Include="Modules\Cloud\" />
     <Folder Include="Modules\User\Donation\" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartDonationSystem.Services.Modules.Admin.UserManagement
+namespace SmartDonationSystem.Services.Modules.Admin
 {
     internal class UserManagementService
     {

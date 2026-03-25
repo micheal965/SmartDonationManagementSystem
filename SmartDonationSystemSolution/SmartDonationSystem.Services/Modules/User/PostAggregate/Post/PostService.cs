@@ -93,7 +93,8 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                                         .ThenByDescending(p => p.ImpactScore)
                                         .ThenByDescending(p => p.CreatedAt),
                 PostSortBy.Recent => query.OrderByDescending(p => p.CreatedAt),
-
+                PostSortBy.MostViewed => query.OrderByDescending(p => p.AnalyticsEvents!.Count())
+                                              .ThenByDescending(p => p.CreatedAt),
                 _ => throw new UnreachableException()
             };
 
@@ -113,6 +114,7 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
                     likesCount = p.Reactions.Count(),
                     hasReacted = p.Reactions.Any(r => r.ApplicationUserId == userId),
+                    viewCount = p.AnalyticsEvents!.Count(),
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
@@ -148,6 +150,19 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                 return Result<PostToReturnDto>.NotFound("Post not found");
 
             return Result<PostToReturnDto>.Ok(post);
+        }
+
+        public async Task TrackPostViewAsync(int postId)
+        {
+            var ev = new AnalyticsEvent
+            {
+                Type = AnalyticsEventType.PostView,
+                PostId = postId,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await _applicationDbContext.AnalyticsEvents.AddAsync(ev);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

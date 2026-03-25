@@ -155,6 +155,34 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.AnalyticsEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("AnalyticsEvents");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -532,6 +560,16 @@ namespace SmartDonationSystem.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.AnalyticsEvent", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
+                        .WithMany("AnalyticsEvents")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Comment", b =>
                 {
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
@@ -677,6 +715,8 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
+                    b.Navigation("AnalyticsEvents");
+
                     b.Navigation("Comments");
 
                     b.Navigation("PostAttachments");

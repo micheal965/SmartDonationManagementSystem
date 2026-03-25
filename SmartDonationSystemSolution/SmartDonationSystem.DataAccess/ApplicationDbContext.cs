@@ -16,6 +16,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Reaction> Reactions { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<CommentTag> CommentTags { get; set; }
+    public DbSet<AnalyticsEvent> AnalyticsEvents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

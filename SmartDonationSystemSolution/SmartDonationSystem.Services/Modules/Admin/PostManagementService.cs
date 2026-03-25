@@ -7,7 +7,7 @@ using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Responses;
 
-namespace SmartDonationSystem.Services.Modules.Admin.PostManagement
+namespace SmartDonationSystem.Services.Modules.Admin
 {
     public class PostManagementService : IPostManagementService
     {

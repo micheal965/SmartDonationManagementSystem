@@ -242,6 +242,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.DashboardManagementController",
+    "Method": "GetLast30Days",
+    "RelativePath": "api/DashboardManagement/last-30-days",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
     "Method": "CreatePost",
     "RelativePath": "api/Post/create-post",
@@ -334,6 +344,22 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Program\u002B\u003C\u003Ec",
+    "Method": "\u003CMain\u003Eb__0_6",
+    "RelativePath": "api/track-page",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",

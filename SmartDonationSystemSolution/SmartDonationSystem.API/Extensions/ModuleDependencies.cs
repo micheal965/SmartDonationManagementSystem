@@ -4,11 +4,13 @@ using SmartDonationSystem.API.Modules.Admin;
 using SmartDonationSystem.API.Modules.Identity;
 using SmartDonationSystem.API.Modules.User;
 using SmartDonationSystem.Core.Modules.AI;
+using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.Core.Modules.Cloud;
 using SmartDonationSystem.Core.Modules.FileExtractionModule;
 using SmartDonationSystem.Services.Modules.AI;
 using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
+using SmartDonationSystem.Services.Modules.Analytics;
 using SmartDonationSystem.Services.Modules.Cloud;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
 using SmartDonationSystem.Shared.Responses;
@@ -45,6 +47,7 @@ namespace SmartDonationSystem.API.Extensions
             services.AddUserModule();
             services.AddAdminModule();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
+            services.AddScoped<IAnalyticsService, AnalyticsService>();
 
             #region Summarization Module
             services.AddScoped<ChunkingService>();

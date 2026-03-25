@@ -5,7 +5,7 @@ using SmartDonationSystem.Core.Modules.Admin.CategoryManagement.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Responses;
 
-namespace SmartDonationSystem.Services.Modules.Admin.CategoryManagement
+namespace SmartDonationSystem.Services.Modules.Admin
 {
     public class CategoryManagementService : ICategoryManagementService
     {

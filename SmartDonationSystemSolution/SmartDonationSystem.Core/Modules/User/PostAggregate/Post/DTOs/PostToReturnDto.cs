@@ -11,7 +11,7 @@
         public List<string> attachments { get; set; }
         public bool hasReacted { get; set; }
         public required string categoryName { get; set; }
-
+        public int viewCount { get; set; }
         public required string userId { get; set; }
         public required string fullName { get; set; }
         public required string pictureUrl { get; set; }

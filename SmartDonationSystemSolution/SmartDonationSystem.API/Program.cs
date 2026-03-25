@@ -6,7 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
 using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Common.Models;
+using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Shared.Enums;
 using System.Text;
 
 namespace SmartDonationSystem.API
@@ -71,6 +73,18 @@ namespace SmartDonationSystem.API
             builder.Services.AddModulesDependencies();
 
             var app = builder.Build();
+
+            app.MapPost("/api/track-page", async (IAnalyticsService service, HttpContext httpContext) =>
+            {
+                var user = httpContext.User;
+                if (user.Identity?.IsAuthenticated == true && user.IsInRole(AppRoles.Admin))
+                    return Results.Ok(new { message = "Admin page not tracked" });
+
+                await service.TrackPageViewAsync();
+
+                return Results.Ok(new { message = "Page tracked successfully" });
+            });
+
             app.UseCors("FrontendPolicy");
 
             //app.UseHangfireDashboard("/hangfire", new DashboardOptions

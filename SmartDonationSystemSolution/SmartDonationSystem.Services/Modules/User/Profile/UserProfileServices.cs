@@ -55,7 +55,7 @@ public class UserProfileServices : IUserProfileService
         user.PictureUrl = uploadResult.url;
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
-            return Result<object>.BadRequest("Failed to update user profile", updateResult.Errors);
+            return Result<object>.BadRequest("Failed to update user profile picture", updateResult.Errors);
 
         return Result<object>.Ok(new { pictureUrl = uploadResult.url }, "Profile picture updated successfully");
     }
@@ -84,7 +84,7 @@ public class UserProfileServices : IUserProfileService
         user.PictureUrl = null;
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
-            return Result<object>.BadRequest("Failed to update user profile", updateResult.Errors);
+            return Result<object>.BadRequest("Failed to update user profile picture", updateResult.Errors);
 
         return Result<object>.Ok("Profile picture deleted successfully");
     }
@@ -107,25 +107,26 @@ public class UserProfileServices : IUserProfileService
     {
         ApplicationUser? user = await _userManager.FindByIdAsync(userId);
         if (user == null) return Result<UserToReturnDto>.NotFound("User not found");
+
         var userDto = user.Adapt<UserToReturnDto>();
         userDto.role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "User";
+
         return Result<UserToReturnDto>.Ok(userDto, "User retrieved successfully");
     }
+
     public async Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
             return Result<List<UserSearchDto>>.Ok(new List<UserSearchDto>());
 
         var users = await _applicationDbContext.Users
-            .Where(u => u.FullName.Contains(query))
+            .Where(u => EF.Functions.Like(u.FullName, $"%{query}%"))
             .Select(u => new UserSearchDto
             {
                 key = u.Id,
                 value = u.FullName,
                 avatar = u.PictureUrl
-            })
-            .Take(10)
-            .ToListAsync();
+            }).ToListAsync();
 
         return Result<List<UserSearchDto>>.Ok(users);
     }
@@ -134,7 +135,10 @@ public class UserProfileServices : IUserProfileService
         bool userExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
         if (!userExists) return Result<UserPostsToReturnDto>.NotFound("User not found");
 
-        var posts = await _applicationDbContext.Posts.Include(p => p.Reactions).Where(p => p.ApplicationUserId == userId).ToListAsync();
+        var posts = await _applicationDbContext.Posts
+                                    .Include(p => p.Reactions)
+                                    .Where(p => p.ApplicationUserId == userId)
+                                    .ToListAsync();
 
         var postsDto = posts.Select(p => new UserPostDto
         {

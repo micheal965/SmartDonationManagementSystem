@@ -330,6 +330,18 @@
         }
       }
     },
+    "/api/DashboardManagement/last-30-days": {
+      "get": {
+        "tags": [
+          "DashboardManagement"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Post/create-post": {
       "post": {
         "tags": [
@@ -511,6 +523,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/track-page": {
+      "post": {
+        "tags": [
+          "SmartDonationSystem.API"
         ],
         "responses": {
           "200": {
@@ -847,7 +871,8 @@
       "PostSortBy": {
         "enum": [
           0,
-          1
+          1,
+          2
         ],
         "type": "integer",
         "format": "int32"

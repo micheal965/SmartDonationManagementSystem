@@ -10,5 +10,6 @@ namespace SmartDonationSystem.Core.Modules.User.PostAggregate.Post.Interfaces
         Task<Result<object>> CreatePostAsync(CreatePostDto createPostDto, string applicationUserId);
         Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(string userId, int pageNumber, int pageSize, string? categoryName, PostSortBy sortBy);
         Task<Result<PostToReturnDto>> GetPostAsync(int postId);
+        Task TrackPostViewAsync(int postId);
     }
 }

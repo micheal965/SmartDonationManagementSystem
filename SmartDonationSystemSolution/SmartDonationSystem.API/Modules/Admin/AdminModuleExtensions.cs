@@ -1,8 +1,8 @@
 ﻿using SmartDonationSystem.Core.Modules.Admin.CategoryManagement.Interfaces;
+using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.MapsterConfigurations;
-using SmartDonationSystem.Services.Modules.Admin.CategoryManagement;
-using SmartDonationSystem.Services.Modules.Admin.PostManagement;
+using SmartDonationSystem.Services.Modules.Admin;
 
 namespace SmartDonationSystem.API.Modules.Admin
 {
@@ -12,6 +12,7 @@ namespace SmartDonationSystem.API.Modules.Admin
         {
             services.AddScoped<ICategoryManagementService, CategoryManagementService>();
             services.AddScoped<IPostManagementService, PostManagementService>();
+            services.AddScoped<IDashboardManagementService, DashboardManagementService>();
             PostConfigs.PostMappings();
             return services;
         }
