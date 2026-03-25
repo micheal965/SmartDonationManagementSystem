@@ -1,6 +1,6 @@
 <div class="flex flex-col px-2" [class.mt-4]="authService.isRequester()">
     <!-- Create Post -->
-    <div *ngIf="!authService.isRequester()" class="flex items-center justify-center w-full mb-8">
+    <div *ngIf="authService.isRequester()" class="flex items-center justify-center w-full mb-8">
         <div class="bg-white/60 -mt-1 sm:mt-0 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
             (click)="openModal()">
 
@@ -8,7 +8,8 @@
                 class="w-14 h-14 rounded-full" />
 
             <input type="text" placeholder="Start a post"
-                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30 cursor-pointer" readonly />
+                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30 cursor-pointer"
+                readonly />
         </div>
 
         <app-create-post *ngIf="isModalOpen" (closed)="closeModal()" (submitted)="onCreatePost($event)" />
