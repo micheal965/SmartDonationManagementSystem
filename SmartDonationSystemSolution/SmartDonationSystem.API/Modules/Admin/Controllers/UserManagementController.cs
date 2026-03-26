@@ -9,5 +9,6 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
     [Authorize(Roles = AppRoles.Admin)]
     public class UserManagementController : ControllerBase
     {
+
     }
 }
