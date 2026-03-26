@@ -354,6 +354,7 @@
                 "required": [
                   "categoryId",
                   "content",
+                  "PostPicture",
                   "title"
                 ],
                 "type": "object",
@@ -374,6 +375,10 @@
                       "type": "string",
                       "format": "binary"
                     }
+                  },
+                  "PostPicture": {
+                    "type": "string",
+                    "format": "binary"
                   }
                 }
               },
@@ -388,6 +393,9 @@
                   "style": "form"
                 },
                 "attachments": {
+                  "style": "form"
+                },
+                "PostPicture": {
                   "style": "form"
                 }
               }
@@ -447,6 +455,29 @@
     },
     "/api/Post/get-post/{postId}": {
       "get": {
+        "tags": [
+          "Post"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Post/track-post/{postId}": {
+      "post": {
         "tags": [
           "Post"
         ],

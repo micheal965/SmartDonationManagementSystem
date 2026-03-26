@@ -1,7 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthService } from '../../features/auth/services/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { ApiResult } from '../../shared/models/api-result-model';
 import { apiBaseUrl } from '../utils/app.config';
 
 @Injectable({
@@ -18,5 +16,10 @@ export class AnalyticsService {
     this.httpClient.post(`${apiBaseUrl}/track-page`, {}).subscribe({
       next: () => sessionStorage.setItem('entranceTracked', 'true'),
     });
+  }
+  trackPostEntrance(postId: number) {
+    this.httpClient
+      .post(`${apiBaseUrl}/Post/track-post/${postId}`, {})
+      .subscribe();
   }
 }

@@ -5,7 +5,8 @@
         <!-- Header -->
         <div class="px-6 py-5 border-b flex justify-between items-center">
             <h2 class="text-2xl font-bold">Create New Entry</h2>
-            <button class="bg-slate-200  rounded-full flex items-center justify-center p-2 hover:bg-slate-300" type="button" (click)="close()">
+            <button class="bg-slate-200  rounded-full flex items-center justify-center p-2 hover:bg-slate-300"
+                type="button" (click)="close()">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
@@ -90,6 +91,48 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
+            </div>
+
+            <!-- Post Picture -->
+            <div class="flex flex-col gap-3 mb-6">
+
+                <label class="text-sm font-semibold">
+                    Post Image <span class="text-red-500">*</span>
+                </label>
+
+                <label class="border-2 border-dashed rounded-lg p-8 flex flex-col items-center cursor-pointer"
+                    [class.border-red-400]="form.controls.postPicture.invalid && (form.controls.postPicture.touched || form.controls.postPicture.dirty)">
+
+                    <input type="file" hidden accept="image/*" (change)="onImageChange($event)" />
+
+                    <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <mat-icon>image</mat-icon>
+                    </div>
+
+                    <p class="text-sm mt-2 text-gray-600">Upload post image</p>
+                </label>
+
+                <!-- Selected image preview -->
+                <div *ngIf="form.controls.postPicture.value"
+                    class="bg-gray-50 p-3 rounded flex justify-between items-center">
+
+                    <div class="flex items-center gap-2">
+                        <mat-icon>image</mat-icon>
+                        <span class="text-sm">
+                            {{ form.controls.postPicture.value.name }}
+                        </span>
+                    </div>
+
+                    <button type="button" (click)="form.controls.postPicture.setValue(null)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+
+                <!-- Error -->
+                <small class="text-red-500"
+                    *ngIf="form.controls.postPicture.invalid && (form.controls.postPicture.touched || form.controls.postPicture.dirty)">
+                    Post image is required
+                </small>
             </div>
 
         </div>

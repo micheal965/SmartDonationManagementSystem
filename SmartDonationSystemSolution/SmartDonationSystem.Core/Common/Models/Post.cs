@@ -12,6 +12,7 @@ namespace SmartDonationSystem.Core.Common.Models
         public DateTime? FreezedAt { get; set; }
         public string? FreezedBy { get; set; }
         public bool IsFreezed { get; set; } = false;
+        public required string PostPicture { get; set; }
 
         #region Ranking
         public double? ImpactScore { get; set; }

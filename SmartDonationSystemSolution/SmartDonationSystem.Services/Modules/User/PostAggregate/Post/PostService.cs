@@ -43,12 +43,15 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                 (createPostDto.attachments == null || !createPostDto.attachments.Any()))
                 return Result<object>.BadRequest("At least one attachment is required for Medical category.");
 
+            var PostPictureResult = await _cloudinaryServices.UploadImageAsync(createPostDto.PostPicture);
+
             PostModel post = new PostModel
             {
                 ApplicationUserId = applicationUserId,
                 Title = createPostDto.title,
                 Content = createPostDto.content,
                 CategoryId = createPostDto.categoryId,
+                PostPicture = PostPictureResult.url
             };
             if (createPostDto.attachments != null)
             {
@@ -94,7 +97,8 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                                         .ThenByDescending(p => p.CreatedAt),
                 PostSortBy.Recent => query.OrderByDescending(p => p.CreatedAt),
                 PostSortBy.MostViewed => query.OrderByDescending(p => p.AnalyticsEvents!.Count())
-                                              .ThenByDescending(p => p.CreatedAt),
+                                                 .ThenByDescending(p => p.ImpactScore)
+                                                  .ThenByDescending(p => p.CreatedAt),
                 _ => throw new UnreachableException()
             };
 
@@ -113,6 +117,7 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     priorityLevel = p.PriorityLevel,
                     attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
                     likesCount = p.Reactions.Count(),
+                    PostPicture = p.PostPicture,
                     hasReacted = p.Reactions.Any(r => r.ApplicationUserId == userId),
                     viewCount = p.AnalyticsEvents!.Count(),
                     userId = p.ApplicationUserId,
@@ -138,7 +143,8 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
                     priorityLevel = p.PriorityLevel,
                     attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
                     likesCount = p.Reactions.Count(),
-
+                    viewCount = p.AnalyticsEvents!.Count(),
+                    PostPicture = p.PostPicture,
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
@@ -152,17 +158,24 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             return Result<PostToReturnDto>.Ok(post);
         }
 
-        public async Task TrackPostViewAsync(int postId)
+        public async Task<Result<object>> TrackPostViewAsync(string userId, int postId)
         {
+            var exists = await _applicationDbContext.AnalyticsEvents
+                    .AnyAsync(x => x.PostId == postId && x.ApplicationUserId == userId);
+
+            if (exists) return Result<object>.NoContent();
+
             var ev = new AnalyticsEvent
             {
                 Type = AnalyticsEventType.PostView,
                 PostId = postId,
+                ApplicationUserId = userId,
                 CreatedAt = DateTime.UtcNow
             };
 
             await _applicationDbContext.AnalyticsEvents.AddAsync(ev);
             await _applicationDbContext.SaveChangesAsync();
+            return Result<object>.NoContent();
         }
     }
 }

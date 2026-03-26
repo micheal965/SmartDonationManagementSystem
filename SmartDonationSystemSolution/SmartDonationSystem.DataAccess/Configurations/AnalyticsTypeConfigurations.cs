@@ -18,6 +18,9 @@ namespace SmartDonationSystem.DataAccess.Configurations
                 .WithMany(p => p.AnalyticsEvents)
                 .HasForeignKey(a => a.PostId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasIndex(x => new { x.PostId, x.ApplicationUserId })
+                .IsUnique();
         }
     }
 }

@@ -31,6 +31,7 @@ export class CreatePostComponent {
       [],
       minMaxFilesValidator(0, 5),
     ),
+    postPicture: this.fb.control<File | null>(null, Validators.required),
   });
   categories: Category[] = [];
   isLoading: boolean = false;
@@ -122,5 +123,15 @@ export class CreatePostComponent {
 
     this.attachmentsControl.markAsTouched();
     this.attachmentsControl.updateValueAndValidity();
+  }
+
+  onImageChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+
+    this.form.controls.postPicture.setValue(file);
   }
 }

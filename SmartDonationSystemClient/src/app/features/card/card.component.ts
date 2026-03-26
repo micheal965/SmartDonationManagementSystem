@@ -19,23 +19,17 @@ import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
     NgIf,
     PriorityClassPipe,
     PriorityLabelPipe,
-    RouterLink
-],
+    RouterLink,
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
   private feedService = inject(FeedService);
-  private sanitizer = inject(DomSanitizer);
   private router = inject(Router);
   post = input.required<Post>();
 
-  getSafeUrl(url: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-
   goToDetails() {
-    console.log(this.post().id);
     this.router.navigate(['/posts', this.post().id]);
   }
   onLike(post: Post) {

@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
@@ -21,6 +21,7 @@ import { Comment } from '../feed/models/post-comments.model';
 import { CreateCommentDto } from '../feed/models/create-comment.model';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
 import Tribute from 'tributejs';
+import { AnalyticsService } from '../../core/services/analytics.service';
 
 @Component({
   selector: 'app-post-details',
@@ -34,6 +35,7 @@ import Tribute from 'tributejs';
     TimeAgoPipe,
     FormsModule,
     CommentItemComponent,
+    RouterLink,
   ],
   templateUrl: './post-details.component.html',
   styleUrl: './post-details.component.scss',
@@ -51,10 +53,10 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   showAllComments = false;
   mentionedUserIds: string[] = [];
   userService = inject(UserService);
-  private feedService = inject(FeedService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
-  private router = inject(Router);
+  private feedService = inject(FeedService);
+  private analyticsService = inject(AnalyticsService);
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);
   }
@@ -62,6 +64,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
     this.post = this.route.snapshot.data['post'];
     if (this.post) this.titleService.setTitle(this.post.title);
     this.comments = this.route.snapshot.data['comments'];
+    this.analyticsService.trackPostEntrance(this.post.id);
   }
 
   ngAfterViewInit() {
@@ -109,7 +112,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
       next: (comment) => {
         this.comments = [comment, ...this.comments];
         this.newComment.Content = '';
-        
+
         this.mentionedUserIds = [];
       },
     });
@@ -145,7 +148,19 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
+  getFileIcon(url: string): string {
+    if (!url) return 'attach_file';
 
+    const lower = url.toLowerCase();
+
+    if (lower.endsWith('.pdf')) return 'picture_as_pdf';
+    if (lower.match(/\.(jpg|jpeg|png|gif|webp)$/)) return 'image';
+    if (lower.match(/\.(doc|docx)$/)) return 'description';
+    if (lower.match(/\.(xls|xlsx)$/)) return 'table_chart';
+    if (lower.match(/\.(zip|rar)$/)) return 'folder_zip';
+
+    return 'link';
+  }
   private findCommentById(comments: Comment[], id: number): Comment | null {
     for (const comment of comments) if (comment.id === id) return comment;
     return null;

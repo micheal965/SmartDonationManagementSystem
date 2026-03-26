@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartDonationSystem.DataAccess;
 
@@ -11,9 +12,11 @@ using SmartDonationSystem.DataAccess;
 namespace SmartDonationSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260326074733_added UserId in AnalyticsEvent to track posts")]
+    partial class addedUserIdinAnalyticsEventtotrackposts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,10 +401,6 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
                     b.Property<DateTime?>("LastScoredAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("PostPicture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PriorityLevel")
                         .HasColumnType("int");

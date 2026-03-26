@@ -7,6 +7,8 @@ export interface Post {
   userId: string;
   fullName: string;
   phoneNumber: string;
+  viewCount: number;
+  postPicture: string;
   pictureUrl: string;
   attachments: string[];
   likesCount: number;

@@ -39,6 +39,13 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var result = await _postService.GetPostAsync(postId);
             return StatusCode((int)result.statusCode, result);
         }
+        [HttpPost("track-post/{postId}")]
+        public async Task<IActionResult> TrackPost(int postId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _postService.TrackPostViewAsync(userId, postId);
+            return StatusCode((int)result.statusCode);
+        }
 
     }
 }

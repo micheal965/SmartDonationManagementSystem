@@ -1,10 +1,11 @@
-<div class="relative bg-white shadow-md hover:shadow-lg transition-shadow duration-200 rounded-3xl p-4 cursor-pointer" (click)="goToDetails()">
+<div class="relative bg-white shadow-md hover:shadow-lg transition-shadow duration-200 rounded-3xl p-4 cursor-pointer"
+    (click)="goToDetails()">
     <span
         class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-2 py-1 rounded-full text-xs z-10"
         [ngClass]="post().priorityLevel | priorityClass">
         {{post().priorityLevel | priorityLabel}}
     </span>
-    <div class="flex justify-between mb-8">
+    <div class="flex justify-between mb-4">
         <div class="flex items-center justify-center gap-2">
             <img class="w-8 h-8 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
             <div class="flex flex-col">
@@ -13,7 +14,7 @@
                 <span class="text-xs text-gray-400">Posted {{post().createdAt | timeAgo}}</span>
             </div>
         </div>
-        <div>
+        <div class="flex flex-col">
             <span class="flex items-center bg-light-green/15 text-dark-blue px-4 py-1 rounded-3xl ">
                 <div class="w-5 h-5 flex items-center justify-center rounded-full ">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,18 +26,24 @@
                 </div>
                 <span class="text-xs text-light-green">Verified</span>
             </span>
+            <span
+                class="flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm font-medium mt-1 w-fit">
+                <mat-icon class="opacity-80">visibility</mat-icon>
+                <span class="tracking-tight">
+                    {{ post().viewCount }} views
+                </span>
+            </span>
         </div>
     </div>
-    <div class="rounded-lg mb-5" *ngIf="post().attachments.length > 0">
-        <iframe class="w-full h-full border rounded-lg" [src]="getSafeUrl(post().attachments[0])">
-        </iframe>
+    <div class="rounded-lg mb-5 overflow-hidden" *ngIf="post().postPicture">
+        <img class="w-full aspect-video object-cover border rounded-lg" [src]="post().postPicture" alt="Post picture" />
     </div>
     <h2 class="text-xl font-bold text-dark-blue mb-3">{{post().title}}</h2>
     <p class="text-slate-600 text-sm leading-relaxed mb-6">{{post().content.split(' ').slice(0,27).join(' ')}}</p>
     <!-- Buttons -->
     <div class="flex flex-wrap items-center justify-center gap-3">
         <!-- Donate Now Button -->
-        <button *ngIf="post().categoryName==='Medical'" (click)="$event.stopPropagation()"
+        <button (click)="$event.stopPropagation()"
             class="flex-1 flex items-center justify-center gap-2 bg-light-green font-bold text-dark-blue text-sm py-3 rounded-xl shadow-lg shadow-light-green/30 hover:shadow-light-green/40 active:scale-95 transition-all">
             <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

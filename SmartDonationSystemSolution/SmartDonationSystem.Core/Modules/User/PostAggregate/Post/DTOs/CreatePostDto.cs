@@ -12,5 +12,7 @@ namespace SmartDonationSystem.Core.Modules.User.PostAggregate.Post.DTOs
         [Required]
         public int categoryId { get; set; }
         public List<IFormFile>? attachments { get; set; }
+        [Required]
+        public IFormFile PostPicture { get; set; }
     }
 }

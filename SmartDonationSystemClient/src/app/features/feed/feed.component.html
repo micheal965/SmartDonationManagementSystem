@@ -1,4 +1,4 @@
-<div class="flex flex-col px-2" [class.mt-4]="authService.isRequester()">
+<div class="flex flex-col px-2" [class.mt-4]="!authService.isRequester()">
     <!-- Create Post -->
     <div *ngIf="authService.isRequester()" class="flex items-center justify-center w-full mb-8">
         <div class="bg-white/60 -mt-1 sm:mt-0 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
@@ -37,20 +37,27 @@
         </div>
 
         <!-- Buttons -->
-        <div class="flex gap-x-2 ml-4">
-            <button (click)="onSortClick('Recent')" [ngClass]="{
-              'bg-light-green/20 text-dark-blue': sort === 'Recent',
-              'bg-white text-gray-800': sort !== 'Recent'
-            }" class="rounded-xl px-3 py-2 transition-colors">
-                Recent
+        <div class="relative ml-4">
+            <!-- Main Button -->
+            <button (click)="toggleDropdown()"
+                class="rounded-xl  px-4 py-2 bg-white text-gray-800 flex items-center gap-2 shadow-md">
+                {{ selectedLabel }}
+                <span class="text-sm">▼</span>
             </button>
 
-            <button (click)="onSortClick('Urgent')" [ngClass]="{
-              'bg-light-green/20 text-dark-blue': sort === 'Urgent',
-              'bg-white text-gray-800': sort !== 'Urgent'
-            }" class="rounded-xl px-3 py-2 transition-colors">
-                Urgent
-            </button>
+            <!-- Dropdown -->
+            <ul *ngIf="isOpen" class="absolute mt-2 w-40 bg-white shadow-lg rounded-xl overflow-hidden z-50">
+
+                <li *ngFor="let item of sortOptions">
+                    <button (click)="selectSort(item)"
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors" [ngClass]="{
+          'bg-light-green/20 text-dark-blue': sort === item.value
+        }">
+                        {{ item.label }}
+                    </button>
+                </li>
+
+            </ul>
         </div>
 
     </div>

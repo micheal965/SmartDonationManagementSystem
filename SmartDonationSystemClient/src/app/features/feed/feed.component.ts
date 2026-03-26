@@ -36,12 +36,17 @@ export class FeedComponent implements OnInit {
 
   loading = false;
   hasNext = true;
+  isOpen = false;
+  isModalOpen = false;
 
   filter: 'All' | 'Medical' | 'Jobs' = 'All';
   filters: ('All' | 'Medical' | 'Jobs')[] = ['All', 'Medical', 'Jobs'];
-  sort: 'Recent' | 'Urgent' = 'Urgent';
-
-  isModalOpen = false;
+  sort: 'Recent' | 'Urgent' | 'MostViewed' = 'Urgent';
+  sortOptions = [
+    { label: 'Recent', value: 'Recent' },
+    { label: 'Urgent', value: 'Urgent' },
+    { label: 'Most Viewed', value: 'MostViewed' },
+  ];
 
   ngOnInit(): void {
     this.loadPosts();
@@ -67,6 +72,7 @@ export class FeedComponent implements OnInit {
         formData.title,
         formData.content,
         formData.categoryId,
+        formData.postPicture,
         formData.attachments,
       )
       .subscribe({
@@ -87,7 +93,7 @@ export class FeedComponent implements OnInit {
     this.loadPosts();
   }
 
-  onSortClick(sort: 'Recent' | 'Urgent') {
+  onSortClick(sort: 'Recent' | 'Urgent' | 'MostViewed') {
     this.sort = sort;
     this.reset();
     this.loadPosts();
@@ -103,5 +109,19 @@ export class FeedComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  get selectedLabel() {
+    return this.sortOptions.find((x) => x.value === this.sort)?.label;
+  }
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
+
+  selectSort(item: any) {
+    this.sort = item.value;
+    this.isOpen = false;
+    this.onSortClick(item.value);
   }
 }
