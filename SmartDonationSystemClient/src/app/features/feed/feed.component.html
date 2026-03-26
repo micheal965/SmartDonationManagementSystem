@@ -1,4 +1,4 @@
-<div class="flex flex-col px-2" [class.mt-4]="!authService.isRequester()">
+<div class="flex flex-col px-2" [class.mt-5]="!authService.isRequester()">
     <!-- Create Post -->
     <div *ngIf="authService.isRequester()" class="flex items-center justify-center w-full mb-8">
         <div class="bg-white/60 -mt-1 sm:mt-0 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
@@ -20,7 +20,7 @@
         <div class="flex gap-x-3">
             <button *ngFor="let f of filters" (click)="onFilterClick(f)" [ngClass]="filter === f
       ? 'bg-light-green/20 '
-      : 'category-btn'" class="rounded-3xl px-3 py-2 border transition-colors">
+      : 'category-btn'" class="rounded-3xl px-3 py-2 border transition-colors shadow-sm">
                 {{ f }}
             </button>
         </div>
