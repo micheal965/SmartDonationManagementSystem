@@ -7,7 +7,7 @@
     </span>
     <div class="flex justify-between mb-4">
         <div class="flex items-center justify-center gap-2">
-            <img class="w-8 h-8 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
+            <img class="w-10 h-10 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
             <div class="flex flex-col">
                 <a [routerLink]="['/profile',post().userId]" (click)="$event.stopPropagation()"
                     class="text-md text-dark-blue font-bold hover:underline z-5">{{post().fullName}}</a>
