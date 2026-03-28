@@ -19,9 +19,9 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
         }
 
         [HttpPost("create-category")]
-        public async Task<IActionResult> CreateCategory([FromQuery] string categoryName)
+        public async Task<IActionResult> CreateCategory([FromQuery] string categoryName, [FromQuery] string description)
         {
-            var result = await _categoryService.CreateCategoryAsync(categoryName);
+            var result = await _categoryService.CreateCategoryAsync(categoryName, description);
             return StatusCode((int)result.statusCode, result);
         }
         [HttpGet("get-categories")]
@@ -39,7 +39,9 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
         [HttpPatch("update-category")]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            var result = await _categoryService.UpdateCategoryAsync(updateCategoryDto.oldCategoryId, updateCategoryDto.newCategoryName);
+            var result = await _categoryService.UpdateCategoryAsync(updateCategoryDto.oldCategoryId,
+                                                                    updateCategoryDto.newCategoryName,
+                                                                    updateCategoryDto.newDescription);
             return StatusCode((int)result.statusCode, result);
         }
     }

@@ -1,0 +1,37 @@
+<div *ngIf="isOpen" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" (click)="close()">
+
+    <!-- Modal -->
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-xl p-6 shadow-lg" (click)="$event.stopPropagation()">
+
+        <h2 class="text-lg font-semibold mb-4">
+            Update Item
+        </h2>
+
+        <!-- Form -->
+        <form (ngSubmit)="submit()">
+
+            <label class="text-sm">Name</label>
+            <input [(ngModel)]="formData.name" name="name" class="w-full mt-1 mb-3 p-2 border rounded"
+                placeholder="Enter name" />
+
+            <label class="text-sm">Description</label>
+            <textarea [(ngModel)]="formData.description" name="description" class="w-full mt-1 mb-4 p-2 border rounded"
+                placeholder="Enter description"></textarea>
+
+            <!-- Buttons -->
+            <div class="flex justify-end gap-2">
+                <button type="button" (click)="close()"
+                    class="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition">
+                    Update
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

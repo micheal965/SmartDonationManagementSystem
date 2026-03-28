@@ -15,15 +15,23 @@ namespace SmartDonationSystem.Services.Modules.Admin
         {
             _applicationDbContext = applicationDbContext;
         }
-        public async Task<Result<object>> CreateCategoryAsync(string categoryName)
+        public async Task<Result<CategoryToReturnDto>> CreateCategoryAsync(string categoryName, string description)
         {
             bool exists = await _applicationDbContext.Categories.AnyAsync(c => c.Name.ToLower() == categoryName.ToLower());
             if (exists)
-                return Result<object>.BadRequest("Category already exists");
+                return Result<CategoryToReturnDto>.BadRequest("Category already exists");
 
-            await _applicationDbContext.Categories.AddAsync(new Category { Name = categoryName.Trim() });
+            var category = new Category { Name = categoryName.Trim(), Description = description.Trim() };
+            await _applicationDbContext.Categories.AddAsync(category);
             await _applicationDbContext.SaveChangesAsync();
-            return Result<object>.Created("Category created successfully");
+            var categoryDto = new CategoryToReturnDto()
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                TotalPosts = 0
+            };
+            return Result<CategoryToReturnDto>.Created(categoryDto, "Category created successfully");
         }
 
         public async Task<Result<object>> DeleteCategoryAsync(int categoryId)
@@ -38,14 +46,15 @@ namespace SmartDonationSystem.Services.Modules.Admin
 
             _applicationDbContext.Categories.Remove(category);
             await _applicationDbContext.SaveChangesAsync();
-            return Result<object>.Ok("Category deleted successfully");
+            return Result<object>.Ok(category, "Category deleted successfully");
         }
 
         public async Task<Result<List<CategoryToReturnDto>>> GetAllCategoriesAsync()
             => Result<List<CategoryToReturnDto>>.Ok(await _applicationDbContext.Categories
-                                    .Select(c => new CategoryToReturnDto { Id = c.Id, Name = c.Name }).ToListAsync());
+                                    .Select(c => new CategoryToReturnDto { Id = c.Id, Name = c.Name, Description = c.Description, TotalPosts = c.Posts.Count() })
+                                    .ToListAsync());
 
-        public async Task<Result<object>> UpdateCategoryAsync(int oldCategoryId, string newCategoryName)
+        public async Task<Result<object>> UpdateCategoryAsync(int oldCategoryId, string newCategoryName, string newDescription)
         {
             Category? category = await _applicationDbContext.Categories.FindAsync(oldCategoryId);
             if (category == null) return Result<object>.NotFound("Category not found");
@@ -55,9 +64,14 @@ namespace SmartDonationSystem.Services.Modules.Admin
             if (exists)
                 return Result<object>.BadRequest("Another category with this name already exists.");
 
-            category.Name = newCategoryName.Trim();
+            if (!string.IsNullOrWhiteSpace(newCategoryName))
+                category.Name = newCategoryName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(newDescription))
+                category.Description = newDescription.Trim();
+
             await _applicationDbContext.SaveChangesAsync();
-            return Result<object>.Ok("Category updated successfully");
+            return Result<object>.Ok(null, "Category updated successfully");
         }
     }
 }

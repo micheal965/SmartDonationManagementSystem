@@ -4,13 +4,11 @@
         <h2 class="text-3xl font-extrabold text-slate-900 mb-2">User Management</h2>
         <p class="text-slate-500 font-medium">Control access levels and manage your global team members.</p>
     </div>
-
     <div class="flex gap-8 border-b border-slate-100 mb-10">
-        <button class="pb-4 text-sm font-bold text-indigo-600 border-b-2 border-indigo-600">All Users
-            (128)</button>
-        <button class="pb-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Admins</button>
-        <button class="pb-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Donors</button>
-        <button class="pb-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Requesters</button>
+        <button *ngFor="let r of roles" (click)="filterByRole(r.value)" [ngClass]="getFilterClass(r.value)"
+            class="pb-4 text-sm font-bold transition-colors">
+            {{ r.label }}
+        </button>
     </div>
 
     <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden mb-8">
@@ -30,121 +28,38 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
-                <tr class="hover:bg-slate-50/50 transition-colors">
+                <tr *ngFor="let user of PaginatedUsers?.items" class="hover:bg-slate-50/50 transition-colors">
                     <td class="px-8 py-5">
                         <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?u=alex" class="w-10 h-10 rounded-xl object-cover">
+                            <img [src]="user.pictureUrl || './assets/avatar.png '"
+                                class="w-10 h-10 rounded-full object-cover">
                             <div>
-                                <p class="text-sm font-bold text-slate-800">Alex Rivera</p>
-                                <p class="text-xs text-slate-400">Joined Oct 2023</p>
+                                <p class="text-sm font-bold text-slate-800">{{user.fullName}}</p>
+                                <p class="text-xs text-slate-400">Born {{ user.birthDate | date:'MMM yyyy' }}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">alexcompany.com</td>
+                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">{{user.identityNumber}}</td>
                     <td class="px-8 py-5 text-center">
-                        <span
-                            class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase rounded-lg">Admin</span>
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                                    'bg-indigo-100 text-indigo-600': user.role === 'Admin',
+                                    'bg-blue-100 text-blue-700': user.role === 'Requester',
+                                    'bg-green-100 text-green-700': user.role === 'Donor',
+                                    'bg-gray-100 text-gray-700': !['Admin','Requester','Donor'].includes(user.role)
+                                }">
+                            {{ user.role }}
+                        </span>
                     </td>
                     <td class="px-8 py-5 text-center">
-                        <div class="w-10 h-5 bg-indigo-600 rounded-full relative mx-auto">
-                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-8 py-5">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?u=alex" class="w-10 h-10 rounded-xl object-cover">
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">Alex Rivera</p>
-                                <p class="text-xs text-slate-400">Joined Oct 2023</p>
+                        <button (click)="toggleUserSoftDelete(user)"
+                            class="w-10 h-5 rounded-full relative mx-auto transition-all duration-300"
+                            [ngClass]="user.isSoftDeleted ? 'bg-gray-300' : 'bg-indigo-600'">
+
+                            <div class="absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300"
+                                [ngClass]="user.isSoftDeleted ? 'left-1' : 'right-1'">
                             </div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">alexcompany.com</td>
-                    <td class="px-8 py-5 text-center">
-                        <span
-                            class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase rounded-lg">Admin</span>
-                    </td>
-                    <td class="px-8 py-5 text-center">
-                        <div class="w-10 h-5 bg-indigo-600 rounded-full relative mx-auto">
-                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-8 py-5">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?u=alex" class="w-10 h-10 rounded-xl object-cover">
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">Alex Rivera</p>
-                                <p class="text-xs text-slate-400">Joined Oct 2023</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">alexcompany.com</td>
-                    <td class="px-8 py-5 text-center">
-                        <span
-                            class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase rounded-lg">Admin</span>
-                    </td>
-                    <td class="px-8 py-5 text-center">
-                        <div class="w-10 h-5 bg-indigo-600 rounded-full relative mx-auto">
-                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-8 py-5">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?u=alex" class="w-10 h-10 rounded-xl object-cover">
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">Alex Rivera</p>
-                                <p class="text-xs text-slate-400">Joined Oct 2023</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">alexcompany.com</td>
-                    <td class="px-8 py-5 text-center">
-                        <span
-                            class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase rounded-lg">Admin</span>
-                    </td>
-                    <td class="px-8 py-5 text-center">
-                        <div class="w-10 h-5 bg-indigo-600 rounded-full relative mx-auto">
-                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="px-8 py-5">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/150?u=jordan2" class="w-10 h-10 rounded-xl object-cover">
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">Jordan Smith</p>
-                                <p class="text-xs text-slate-400">Joined Jan 2024</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">jordancompany.com</td>
-                    <td class="px-8 py-5 text-center">
-                        <span
-                            class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase rounded-lg">Editor</span>
-                    </td>
-                    <td class="px-8 py-5 text-center">
-                        <div class="w-10 h-5 bg-indigo-600 rounded-full relative mx-auto">
-                            <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                        </div>
+
+                        </button>
                     </td>
                     <td class="px-8 py-5 text-right">
                         <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
@@ -152,16 +67,38 @@
                 </tr>
             </tbody>
         </table>
-
         <div class="px-8 py-5 border-t border-slate-50 flex items-center justify-between">
-            <p class="text-xs font-bold text-slate-400">Showing 1 to 10 of 128 results</p>
-            <div class="flex gap-2">
-                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg">Previous</button>
-                <button
-                    class="w-8 h-8 flex items-center justify-center text-xs font-bold bg-indigo-600 text-white rounded-lg">1</button>
-                <button
-                    class="w-8 h-8 flex items-center justify-center text-xs font-bold text-slate-500 hover:bg-slate-50 rounded-lg">2</button>
-                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg">Next</button>
+
+            <!-- Showing -->
+            <p class="text-xs font-bold text-slate-400">
+                Showing {{ (pageNumber - 1) * pageSize + 1 }}
+                to {{ getTo() }}
+                of {{ PaginatedUsers?.totalCount }} results
+            </p>
+
+            <!-- Controls -->
+            <div class="flex gap-2 items-center">
+
+                <!-- Previous -->
+                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg disabled:opacity-50"
+                    (click)="prevPage()" [disabled]="pageNumber === 1">
+                    Previous
+                </button>
+
+                <!-- Pages -->
+                <button *ngFor="let p of pages" (click)="changePageNumber(p)"
+                    class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg" [ngClass]="p === pageNumber
+        ? 'bg-indigo-600 text-white'
+        : 'text-slate-500 hover:bg-slate-50'">
+                    {{ p }}
+                </button>
+
+                <!-- Next -->
+                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg disabled:opacity-50"
+                    (click)="nextPage()" [disabled]="pageNumber === totalPages">
+                    Next
+                </button>
+
             </div>
         </div>
     </div>

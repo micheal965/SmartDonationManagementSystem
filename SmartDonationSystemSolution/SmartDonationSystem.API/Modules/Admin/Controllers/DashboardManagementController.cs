@@ -5,7 +5,7 @@ using SmartDonationSystem.Shared.Enums;
 
 namespace SmartDonationSystem.API.Modules.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = AppRoles.Admin)]
     public class DashboardManagementController(IDashboardManagementService _dashboardService) : ControllerBase

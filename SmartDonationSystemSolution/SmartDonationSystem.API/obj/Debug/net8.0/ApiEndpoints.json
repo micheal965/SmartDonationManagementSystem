@@ -11,6 +11,11 @@
         "Name": "categoryName",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "description",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -58,13 +63,39 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostManagementController",
-    "Method": "GetPendingFreezedPosts",
-    "RelativePath": "api/admin/PostManagement/posts",
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.DashboardManagementController",
+    "Method": "GetDashboard",
+    "RelativePath": "api/admin/DashboardManagement/dashboard",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostManagementController",
+    "Method": "GetPosts",
+    "RelativePath": "api/admin/PostManagement/posts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "postStatus",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -82,6 +113,48 @@
       },
       {
         "Name": "action",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.UserManagementController",
+    "Method": "GetUsers",
+    "RelativePath": "api/admin/UserManagement/get-users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.UserManagementController",
+    "Method": "ToggleUserSoftDelete",
+    "RelativePath": "api/admin/UserManagement/toggle-user-soft-delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -242,16 +315,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.DashboardManagementController",
-    "Method": "GetDashboard",
-    "RelativePath": "api/DashboardManagement/dashboard",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
     "Method": "CreatePost",
     "RelativePath": "api/Post/create-post",
@@ -402,16 +465,6 @@
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
     "Method": "DeleteProfilePicture",
     "RelativePath": "api/UserProfile/delete-profile-picture",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",
-    "Method": "DeleteUserSoft",
-    "RelativePath": "api/UserProfile/delete-user-soft",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

@@ -11,7 +11,6 @@ public interface IUserProfileService
     Task<Result<object>> AddOrUpdateProfilePictureAsync(string userId, IFormFile profilePicture);
     Task<Result<object>> DeleteProfilePictureAsync(string userId);
     Task<Result<string>> GetProfilePictureAsync(string userId);
-    Task<Result<object>> DeleteUserSoftAsync(string userId);
     Task<Result<UserToReturnDto>> GetSpecificUserAsync(string userId);
     Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query);
     Task<Result<UserPostsToReturnDto>> GetUserPostsAsync(string userId);

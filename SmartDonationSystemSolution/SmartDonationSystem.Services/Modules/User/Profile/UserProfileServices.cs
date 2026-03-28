@@ -88,21 +88,7 @@ public class UserProfileServices : IUserProfileService
 
         return Result<object>.Ok("Profile picture deleted successfully");
     }
-    public async Task<Result<object>> DeleteUserSoftAsync(string userId)
-    {
-        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
-        if (user == null) return Result<object>.NotFound("User not found");
 
-        user.IsSoftDeleted = true;
-
-        var deleteResult = await _userManager.UpdateAsync(user);
-        if (!deleteResult.Succeeded)
-            return Result<object>.BadRequest("Failed to delete user", deleteResult.Errors);
-
-        //forces Logout on other devices.
-        await _userManager.UpdateSecurityStampAsync(user);
-        return Result<object>.Ok("User deleted successfully");
-    }
     public async Task<Result<UserToReturnDto>> GetSpecificUserAsync(string userId)
     {
         ApplicationUser? user = await _userManager.FindByIdAsync(userId);

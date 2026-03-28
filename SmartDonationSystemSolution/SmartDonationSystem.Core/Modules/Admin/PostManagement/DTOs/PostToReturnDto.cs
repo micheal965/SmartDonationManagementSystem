@@ -2,14 +2,15 @@
 {
     public class PostToReturnDto
     {
-        public required string Id { get; set; }
+        public required int Id { get; set; }
         public required string Title { get; set; }
         public required string Content { get; set; }
         public required string Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string? FreezedBy { get; set; }
+        public string PostPicture { get; set; }
         public required string CategoryName { get; set; }
         public List<string>? PostAttachments { get; set; }
-
+        public required string RequesterName { get; set; }
+        public required string RequesterPicture { get; set; }
     }
 }

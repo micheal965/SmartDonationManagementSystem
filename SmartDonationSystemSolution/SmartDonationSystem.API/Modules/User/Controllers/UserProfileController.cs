@@ -47,14 +47,7 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
             var deleteProfilePictureResponse = await _userProfileServices.DeleteProfilePictureAsync(userId);
             return StatusCode((int)deleteProfilePictureResponse.statusCode, deleteProfilePictureResponse);
         }
-        [HttpDelete("delete-user-soft")]
-        [Authorize]
-        public async Task<IActionResult> DeleteUserSoft()
-        {
-            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var deleteUserSoftResponse = await _userProfileServices.DeleteUserSoftAsync(userId);
-            return StatusCode((int)deleteUserSoftResponse.statusCode, deleteUserSoftResponse);
-        }
+
         [HttpGet("get-user-data")]
         public async Task<IActionResult> GetUserData([FromQuery] string userId)
         {

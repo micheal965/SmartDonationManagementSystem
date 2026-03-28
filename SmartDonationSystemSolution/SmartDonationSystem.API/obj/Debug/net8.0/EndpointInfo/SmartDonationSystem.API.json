@@ -115,6 +115,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -330,7 +337,7 @@
         }
       }
     },
-    "/api/DashboardManagement/dashboard": {
+    "/api/admin/DashboardManagement/dashboard": {
       "get": {
         "tags": [
           "DashboardManagement"
@@ -504,6 +511,33 @@
         "tags": [
           "PostManagement"
         ],
+        "parameters": [
+          {
+            "name": "postStatus",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PostStatus"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -566,6 +600,66 @@
       "post": {
         "tags": [
           "SmartDonationSystem.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/UserManagement/get-users": {
+      "get": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/UserManagement/toggle-user-soft-delete": {
+      "delete": {
+        "tags": [
+          "UserManagement"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -659,18 +753,6 @@
       }
     },
     "/api/UserProfile/delete-profile-picture": {
-      "delete": {
-        "tags": [
-          "UserProfile"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/UserProfile/delete-user-soft": {
       "delete": {
         "tags": [
           "UserProfile"
@@ -908,6 +990,17 @@
         "type": "integer",
         "format": "int32"
       },
+      "PostStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "RegisterRequestDto": {
         "required": [
           "birthDate",
@@ -958,7 +1051,6 @@
       },
       "UpdateCategoryDto": {
         "required": [
-          "newCategoryName",
           "oldCategoryId"
         ],
         "type": "object",
@@ -968,6 +1060,10 @@
             "format": "int32"
           },
           "newCategoryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "newDescription": {
             "type": "string",
             "nullable": true
           }

@@ -17,9 +17,9 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
             _postService = postService;
         }
         [HttpGet("posts")]
-        public async Task<IActionResult> GetPendingFreezedPosts()
+        public async Task<IActionResult> GetPosts([FromQuery] PostStatus? postStatus, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _postService.GetPendingAndFreezedPostsAsync();
+            var result = await _postService.GetPostsAsync(pageNumber, pageSize, postStatus);
             return StatusCode((int)result.statusCode, result);
         }
         [HttpPatch("update-post-status")]

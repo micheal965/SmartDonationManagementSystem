@@ -15,7 +15,7 @@ export class DashboardService {
     return this.http
       .get<
         ApiResult<DashboardModel>
-      >(`${apiBaseUrl}/DashboardManagement/dashboard`)
+      >(`${apiBaseUrl}/admin/DashboardManagement/dashboard`)
       .pipe(map((res) => res.data));
   }
 }

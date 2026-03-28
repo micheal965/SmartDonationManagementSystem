@@ -8,7 +8,12 @@ namespace SmartDonationSystem.Shared.Enums
         Pending,
         [EnumMember(Value = "Approved")]
         Approved,
+        [EnumMember(Value = "Rejected")]
+        Rejected,
         [EnumMember(Value = "Freezed")]
-        Freezed
+        Freezed,
+        [EnumMember(Value = "Completed")]
+        Completed
+
     }
 }

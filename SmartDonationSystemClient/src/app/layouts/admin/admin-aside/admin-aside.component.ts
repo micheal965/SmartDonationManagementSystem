@@ -18,12 +18,14 @@ export class AdminAsideComponent implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private toastr = inject(ToastrService);
-  user!: UserProfile;
+  user!: UserProfile | null;
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     const userId = this.authService.userData.id;
-    const user = await firstValueFrom(this.userService.getUser(userId));
-    this.user = user;
+
+    this.userService.getUser(userId).subscribe({
+      next: (user) => (this.user = user),
+    });
   }
 
   logout(): void {

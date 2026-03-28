@@ -1,14 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartDonationSystem.Core.Modules.Admin.UserManagement.Interfaces;
 using SmartDonationSystem.Shared.Enums;
 
 namespace SmartDonationSystem.API.Modules.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = AppRoles.Admin)]
-    public class UserManagementController : ControllerBase
-    {
 
+    public class UserManagementController(IUserManagementService _userManagementService) : ControllerBase
+    {
+        [HttpGet("get-users")]
+        public async Task<IActionResult> GetUsers([FromQuery] string? role, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+        {
+            var result = await _userManagementService.GetUsersAsync(pageNumber, pageSize, role);
+            return StatusCode((int)result.statusCode, result);
+        }
+        [HttpDelete("toggle-user-soft-delete")]
+        public async Task<IActionResult> ToggleUserSoftDelete([FromQuery] string userId)
+        {
+            var deleteUserSoftResponse = await _userManagementService.ToggleUserSoftDeleteAsync(userId);
+            return StatusCode((int)deleteUserSoftResponse.statusCode, deleteUserSoftResponse);
+        }
     }
 }

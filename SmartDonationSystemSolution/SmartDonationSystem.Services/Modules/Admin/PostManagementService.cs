@@ -5,6 +5,7 @@ using SmartDonationSystem.Core.Modules.Admin.PostManagement.DTOs;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
+using SmartDonationSystem.Shared.Pagination;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.Services.Modules.Admin
@@ -18,15 +19,38 @@ namespace SmartDonationSystem.Services.Modules.Admin
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<Result<List<PostToReturnDto>>> GetPendingAndFreezedPostsAsync()
+        public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(int pageNumber, int pageSize, PostStatus? postStatus)
         {
-            var filteredPosts = await _applicationDbContext.Posts
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize < 1 ? 10 : pageSize;
+            var query = _applicationDbContext.Posts
                                 .Include(p => p.Category)
                                 .Include(p => p.PostAttachments)
-                                .Where(p => p.Status == PostStatus.Freezed.ToString() || p.Status == PostStatus.Pending.ToString())
-                                .ToListAsync();
+                                .AsQueryable();
 
-            return Result<List<PostToReturnDto>>.Ok(filteredPosts.Adapt<List<PostToReturnDto>>());
+            if (postStatus.HasValue)
+                query = query.Where(p => p.Status == postStatus.Value.ToString());
+
+            int totalCount = query.Count();
+            var posts = await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize)
+                  .Select(p => new PostToReturnDto
+                  {
+                      Id = p.Id,
+                      Title = p.Title,
+                      Content = p.Content,
+                      Status = p.Status,
+                      CreatedAt = p.CreatedAt,
+                      PostPicture = p.PostPicture,
+                      PostAttachments = p.PostAttachments.Select(a => a.AttachmentUrl).ToList(),
+
+                      CategoryName = p.Category.Name,
+
+                      RequesterName = p.ApplicationUser.FullName,
+                      RequesterPicture = p.ApplicationUser.PictureUrl
+                  })
+                  .ToListAsync();
+            var PaginatedPosts = new PaginatedList<PostToReturnDto>(posts, pageNumber, pageSize, totalCount);
+            return Result<PaginatedList<PostToReturnDto>>.Ok(PaginatedPosts);
         }
         public async Task<Result<object>> ApproveOrFreezePostAsync(int postId, string action, string applicationUserId)
         {
