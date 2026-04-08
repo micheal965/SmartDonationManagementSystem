@@ -8,6 +8,7 @@ using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Services.Modules.SignalR.Hubs;
 using SmartDonationSystem.Shared.Enums;
 using System.Text;
 using System.Threading.RateLimiting;
@@ -39,6 +40,8 @@ namespace SmartDonationSystem.API
                 });
             });
             builder.Services.AddControllers();
+            builder.Services.AddSignalR();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -63,6 +66,7 @@ namespace SmartDonationSystem.API
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+            .AddCookie()
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -76,7 +80,22 @@ namespace SmartDonationSystem.API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"])),
                     ClockSkew = TimeSpan.Zero
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                            context.Token = accessToken;
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
+
+            builder.Services.AddAuthorization();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("FrontendPolicy", policy =>
@@ -112,10 +131,10 @@ namespace SmartDonationSystem.API
             //});
 
             #region Hangfire Dashboard with its use cases
-            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard();
 
 
-            var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+            //var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
             //recurringJobManager.AddOrUpdate<PostClassifierService>(
             //    "classify-posts-job",
             //    job => job.RunClassificationJobByCategoryAsync(),
@@ -138,7 +157,7 @@ namespace SmartDonationSystem.API
             app.UseAuthorization();
 
             app.MapControllers();
-
+            app.MapHub<NotificationHub>("/hubs/notifications");
             app.Run();
         }
     }

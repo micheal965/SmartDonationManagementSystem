@@ -46,6 +46,7 @@ namespace SmartDonationSystem.API.Extensions
             services.AddIdentityModule();
             services.AddUserModule();
             services.AddAdminModule();
+            services.AddNotificationModule();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
             services.AddScoped<IAnalyticsService, AnalyticsService>();
 

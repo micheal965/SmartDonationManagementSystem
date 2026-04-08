@@ -10,7 +10,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthService } from '../auth/services/auth.service';
-import { CdkAriaLive } from '../../../../node_modules/@angular/cdk/a11y/index';
 @Component({
   selector: 'app-feed',
   standalone: true,
@@ -32,7 +31,7 @@ export class FeedComponent implements OnInit {
   private toastr = inject(ToastrService);
   posts: Post[] = [];
   pageNumber = 1;
-  pageSize = 4;
+  pageSize = 6;
 
   loading = false;
   hasNext = true;

@@ -85,6 +85,7 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.IO.Packaging.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.Memory.Data.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.Net.WebSockets.WebSocketProtocol.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.Runtime.Caching.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.Security.Cryptography.Pkcs.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll

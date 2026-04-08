@@ -3,6 +3,8 @@ import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { filter } from 'rxjs';
 import { AnalyticsService } from './core/services/analytics.service';
+import { NotificationService } from './core/services/notification.service';
+import { AudioService } from './core/services/audio.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,14 @@ import { AnalyticsService } from './core/services/analytics.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+  private audioService = inject(AudioService);
   private analyticsService = inject(AnalyticsService);
+
   ngOnInit(): void {
     this.analyticsService.trackEntrance();
+    this.notificationService.startConnection();
+    //Solving voice interruption in first call
+    this.audioService.unlockAudioOnFirstInteraction();
   }
 }

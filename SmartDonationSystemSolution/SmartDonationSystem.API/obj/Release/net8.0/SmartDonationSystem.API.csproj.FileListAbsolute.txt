@@ -204,3 +204,4 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\itext.commons.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\Microsoft.DotNet.PlatformAbstractions.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\System.IO.Packaging.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

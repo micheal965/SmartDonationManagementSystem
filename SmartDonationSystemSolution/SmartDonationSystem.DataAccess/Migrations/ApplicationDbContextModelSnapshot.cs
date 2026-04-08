@@ -363,6 +363,70 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("CommentTags");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActorImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAllMarkedAsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RedirectUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("ReceiverId", "IsRead");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -638,6 +702,13 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("MentionedUser");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Notification", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
+                        .WithMany("Notifications")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>
                 {
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
@@ -714,6 +785,8 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("CommentTags");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Posts");
 
