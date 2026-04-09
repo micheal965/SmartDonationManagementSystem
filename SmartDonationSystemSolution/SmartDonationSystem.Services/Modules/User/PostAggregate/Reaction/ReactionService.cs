@@ -42,6 +42,10 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Reaction
                     ApplicationUserId = userId,
                     CreatedAt = DateTime.UtcNow
                 });
+
+                if (post.ApplicationUserId == userId)
+                    return Result<object>.Ok("Reaction updated successfully.");
+
                 // 2. Trigger notification
                 await _notificationService.CreateAsync(new CreateNotificationRequest
                 {

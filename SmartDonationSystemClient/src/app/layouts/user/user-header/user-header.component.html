@@ -24,7 +24,7 @@
                     <!-- Badge -->
                     <span *ngIf="notificationService.unreadCount() > 0"
                         class="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-7 h-5 flex items-center justify-center rounded-full">
-                        {{ notificationService.unreadCount() > 25 ? '25+' : notificationService.unreadCount() }}
+                        {{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}
                     </span>
 
                 </button>

@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
+using SmartDonationSystem.Core.Modules.Notifications.DTOs;
+using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.DTOs;
 using SmartDonationSystem.Core.Modules.User.PostAggregate.Comment.Interfaces;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Responses;
 using CommentModel = SmartDonationSystem.Core.Common.Models.Comment;
 namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
@@ -10,13 +13,23 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
     public class CommentService : ICommentService
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotificationService _notificationService;
 
-        public CommentService(ApplicationDbContext context)
+        public CommentService(ApplicationDbContext context, INotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
         public async Task<Result<CommentDto>> CreateCommentAsync(CreateCommentDto dto, string userId)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return Result<CommentDto>.BadRequest("Invalid user.");
+
+            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == dto.PostId);
+            if (post == null)
+                return Result<CommentDto>.BadRequest("Post does not exist.");
+
             var comment = new CommentModel
             {
                 Content = dto.Content,
@@ -38,14 +51,20 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
                     .ThenInclude(m => m.MentionedUser)
                 .FirstAsync(c => c.Id == comment.Id);
 
-            var user = await _context.Users
-                .Where(u => u.Id == userId)
-                .Select(u => new
-                {
-                    u.FullName,
-                    u.PictureUrl
-                })
-                .FirstAsync();
+            await _notificationService.CreateAsync(new CreateNotificationRequest
+            {
+                ReceiverId = post.ApplicationUserId,
+                ActorId = userId,
+
+                Title = "New Comment",
+                Message = $"{user.FullName} Commented on your post",
+
+                Type = NotificationType.Comment,
+                EntityId = dto.PostId,
+
+                ActorName = user.FullName,
+                ActorImage = user.PictureUrl
+            });
 
             return Result<CommentDto>.Ok(new CommentDto
             {

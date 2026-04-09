@@ -13,6 +13,9 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     (req.url.includes(apiBaseUrl) && req.url.includes('search-user')) ||
     (req.url.includes(apiBaseUrl) && req.url.includes('track-page')) ||
     (req.url.includes(apiBaseUrl) && req.url.includes('track-post')) ||
+    (req.url.includes(apiBaseUrl) &&
+      req.url.includes('get-user-notifications')) ||
+    (req.url.includes(apiBaseUrl) && req.url.includes('mark-all-read')) ||
     !req.url.includes(apiBaseUrl)
   )
     return next(req);
