@@ -80,6 +80,13 @@ export const routes: Routes = [
             (m) => m.ProfileComponent,
           ),
       },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('./features/notifications/notifications.component').then(
+            (m) => m.NotificationsComponent,
+          ),
+      },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],
   },

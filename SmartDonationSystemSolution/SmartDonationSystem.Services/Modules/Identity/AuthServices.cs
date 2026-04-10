@@ -7,7 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Auth.DTOs;
 using SmartDonationSystem.Core.Modules.Auth.Interfaces;
+using SmartDonationSystem.Core.Modules.Notifications.DTOs;
+using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Responses;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,13 +28,15 @@ public class AuthServices : IAuthService
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ApplicationDbContext _applicationDbContext;
+    private readonly INotificationService _notificationService;
 
     public AuthServices(IConfiguration configuration,
                         IHttpContextAccessor httpContextAccessor,
                         UserManager<ApplicationUser> userManager,
                         RoleManager<IdentityRole> roleManager,
                         SignInManager<ApplicationUser> signInManager,
-                        ApplicationDbContext applicationDbContext)
+                        ApplicationDbContext applicationDbContext,
+                        INotificationService notificationService)
     {
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
@@ -39,6 +44,7 @@ public class AuthServices : IAuthService
         _roleManager = roleManager;
         _signInManager = signInManager;
         _applicationDbContext = applicationDbContext;
+        _notificationService = notificationService;
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> LoginAsync(LoginRequestDto loginRequestDto)
     {
@@ -116,6 +122,10 @@ public class AuthServices : IAuthService
             return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description).ToList());
         }
         await transaction.CommitAsync();
+
+        //Notify Admins about new user registration
+        await NotifyAdminsNewUserRegistered(applicationUser);
+
         return Result<RegisterResultDto>.Created(applicationUser.Adapt<RegisterResultDto>());
     }
     public async Task<Result<LoginOrRotateTokenResponseDto>> RotateRefreshTokenAsync(string? token)
@@ -253,5 +263,25 @@ public class AuthServices : IAuthService
             SameSite = SameSiteMode.None,
             Path = "/"
         };
+    }
+
+    private async Task NotifyAdminsNewUserRegistered(ApplicationUser newUser)
+    {
+        var admins = await _userManager.GetUsersInRoleAsync("Admin");
+        if (!admins.Any()) return;
+
+        var notificationsRequests = admins.Select(admin => new CreateNotificationRequest
+        {
+            ReceiverId = admin.Id,
+            ActorId = newUser.Id,
+            Title = "New User Registered",
+            Message = $"{newUser.FullName} has just joined the platform.",
+            Type = NotificationType.UserRegistered,
+            ActorName = newUser.FullName,
+            ActorImage = newUser.PictureUrl,
+        }).ToList();
+
+        foreach (var notificationRequest in notificationsRequests)
+            await _notificationService.CreateAsync(notificationRequest);
     }
 }

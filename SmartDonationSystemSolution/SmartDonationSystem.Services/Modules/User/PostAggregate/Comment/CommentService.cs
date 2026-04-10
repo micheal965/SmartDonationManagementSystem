@@ -22,63 +22,112 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
         }
         public async Task<Result<CommentDto>> CreateCommentAsync(CreateCommentDto dto, string userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-                return Result<CommentDto>.BadRequest("Invalid user.");
+            using var transaction = await _context.Database.BeginTransactionAsync();
 
-            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == dto.PostId);
-            if (post == null)
-                return Result<CommentDto>.BadRequest("Post does not exist.");
-
-            var comment = new CommentModel
+            try
             {
-                Content = dto.Content,
-                PostId = dto.PostId,
-                ParentCommentId = dto.ParentCommentId,
-                ApplicationUserId = userId,
-                CreatedAt = DateTime.UtcNow
-            };
+                var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
 
-            await _context.Comments.AddAsync(comment);
-            await _context.SaveChangesAsync();
+                if (user == null)
+                    return Result<CommentDto>.BadRequest("Invalid user.");
 
-            // handle mentions
-            await HandleTagsAsync(dto.MentionedUserIds, comment.Id);
+                var post = await _context.Posts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == dto.PostId);
+                if (post == null)
+                    return Result<CommentDto>.BadRequest("Post does not exist.");
 
-            // reload comment with mentions
-            var commentWithMentions = await _context.Comments
-                .Include(c => c.Mentions)
-                    .ThenInclude(m => m.MentionedUser)
-                .FirstAsync(c => c.Id == comment.Id);
-
-            await _notificationService.CreateAsync(new CreateNotificationRequest
-            {
-                ReceiverId = post.ApplicationUserId,
-                ActorId = userId,
-
-                Title = "New Comment",
-                Message = $"{user.FullName} Commented on your post",
-
-                Type = NotificationType.Comment,
-                EntityId = dto.PostId,
-
-                ActorName = user.FullName,
-                ActorImage = user.PictureUrl
-            });
-
-            return Result<CommentDto>.Ok(new CommentDto
-            {
-                Id = comment.Id,
-                Content = comment.Content,
-                CreatedAt = comment.CreatedAt,
-                UserName = user.FullName,
-                creatorPictureUrl = user.PictureUrl,
-                Mentions = commentWithMentions.Mentions.Select(ct => new MentionDto
+                // 1. Create Comment
+                var comment = new CommentModel
                 {
-                    UserId = ct.MentionedUserId,
-                    UserName = ct.MentionedUser.FullName
-                }).ToList()
-            }, "Comment added successfully");
+                    Content = dto.Content,
+                    PostId = dto.PostId,
+                    ParentCommentId = dto.ParentCommentId,
+                    ApplicationUserId = userId,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                await _context.Comments.AddAsync(comment);
+                await _context.SaveChangesAsync(); // needed to generate Comment.Id
+
+                // 2. Handle Mentions (NO SaveChanges here)
+                await HandleTagsAsync(dto.MentionedUserIds, comment.Id);
+
+                // 3. Prepare Notification Receivers
+                var receivers = dto.MentionedUserIds?
+                    .Where(id => id != userId)
+                    .ToHashSet() ?? new HashSet<string>();
+
+                // Add post owner if not self
+                if (post.ApplicationUserId != userId)
+                    receivers.Add(post.ApplicationUserId);
+
+                // 4. Build Notifications
+                var notifications = receivers.Select(receiverId =>
+                {
+                    bool isPostOwner = receiverId == post.ApplicationUserId;
+
+                    return new Notification
+                    {
+                        ReceiverId = receiverId,
+                        ActorId = userId,
+
+                        Title = isPostOwner ? "New Comment" : "New Tag",
+                        Message = isPostOwner
+                            ? $"{user.FullName} commented on your post"
+                            : $"{user.FullName} tagged you on a post",
+
+                        Type = isPostOwner ? NotificationType.Comment : NotificationType.Tag,
+                        EntityId = dto.PostId,
+
+                        ActorName = user.FullName,
+                        ActorImage = user.PictureUrl
+                    };
+                }).ToList();
+
+                if (notifications.Any())
+                    await _context.Notifications.AddRangeAsync(notifications);
+
+                // 5. Save everything once
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+
+                foreach (var notification in notifications)
+                {
+                    await _notificationService.CreateAsync(new CreateNotificationRequest
+                    {
+                        ReceiverId = notification.ReceiverId,
+                        ActorId = notification.ReceiverId,
+                        Title = notification.Title,
+                        Message = notification.Message,
+                        Type = notification.Type,
+                        EntityId = notification.EntityId,
+                        ActorName = notification.ActorName,
+                        ActorImage = notification.ActorImage,
+                    });
+                }
+                // 6. Build response (NO extra DB call)
+                var result = new CommentDto
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    CreatedAt = comment.CreatedAt,
+                    UserName = user.FullName,
+                    creatorPictureUrl = user.PictureUrl,
+                    Mentions = dto.MentionedUserIds?
+                        .Distinct()
+                        .Select(id => new MentionDto
+                        {
+                            UserId = id
+                        }).ToList() ?? new List<MentionDto>()
+                };
+
+                return Result<CommentDto>.Ok(result, "Comment added successfully");
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
         public async Task<Result<List<CommentDto>>> GetPostCommentsAsync(int postId)
         {
@@ -136,7 +185,6 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
             return Result<object>.NoContent("Comment updated successfully");
         }
 
-
         // Helpers
         private async Task HandleTagsAsync(List<string> mentionedUserIds, int commentId)
         {
@@ -149,10 +197,9 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Comment
                 {
                     CommentId = commentId,
                     MentionedUserId = userId
-                }).ToList();
+                });
 
             await _context.CommentTags.AddRangeAsync(tags);
-            await _context.SaveChangesAsync();
         }
         private List<CommentDto> BuildCommentTree(List<CommentModel> comments)
         {

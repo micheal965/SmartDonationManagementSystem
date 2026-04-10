@@ -4,6 +4,9 @@
     {
         Like,
         Comment,
-        Message
+        Message,
+        Tag,
+        PostApproval,
+        UserRegistered
     }
 }

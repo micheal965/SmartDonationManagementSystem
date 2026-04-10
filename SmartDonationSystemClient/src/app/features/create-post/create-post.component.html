@@ -1,5 +1,5 @@
-<div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-    <form [formGroup]="form" (ngSubmit)="submit()"
+<div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50" (click)="close()">
+    <form [formGroup]="form" (ngSubmit)="submit()" (click)="$event.stopPropagation()"
         class="bg-white w-full max-w-2xl rounded-xl shadow-2xl flex flex-col max-h-[90vh] ">
 
         <!-- Header -->
@@ -145,7 +145,7 @@
             </button>
 
             <button type="submit" [disabled]="form.invalid || isLoading" class="btn-primary">
-                Save
+                Post
             </button>
         </div>
     </form>

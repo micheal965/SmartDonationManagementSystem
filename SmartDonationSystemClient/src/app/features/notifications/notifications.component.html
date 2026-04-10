@@ -1,0 +1,43 @@
+<div class="max-w-4xl mx-auto m-8 border border-gray-200 rounded-xl bg-white shadow-sm">
+    <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+            Notifications
+            @if (notificationService.unreadCount() > 0) {
+            <span class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                {{ notificationService.unreadCount() }}
+            </span>
+            }
+        </h2>
+        <button (click)="markAllAsRead()" class="text-sm text-blue-600 font-medium hover:underline">
+            Mark all as read
+        </button>
+    </div>
+
+    <div class="divide-y divide-gray-100">
+        @for (n of notificationService.state()?.items; track n.id) {
+        <div (click)="goToDetails(n)" [class.bg-blue-50]="!n.isRead"
+            class="p-5 flex gap-4 hover:bg-gray-50 transition-colors group cursor-pointer">
+            <div class="h-12 w-12 rounded-full bg-white border flex items-center justify-center shadow-sm ">
+                <img class="rounded-full w-full h-full" [src]="n.actorImage" alt="Actor Image">
+            </div>
+
+            <div class="flex-1 gap-1 flex flex-col">
+                <div class="flex justify-between items-start">
+                    <p class="text-sm font-semibold text-gray-900">{{ n.title }}</p>
+                    <span *ngIf="!n.isRead" class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                    </span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-600 mt-0.5">{{ n.message }}</p>
+                    <time class="text-xs text-gray-400">{{ n.createdAt | date:'medium' }}</time>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="p-10 text-center text-gray-400">No notifications yet.</div>
+        }
+    </div>
+</div>

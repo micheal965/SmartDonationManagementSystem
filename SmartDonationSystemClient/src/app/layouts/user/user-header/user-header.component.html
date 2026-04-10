@@ -23,7 +23,7 @@
 
                     <!-- Badge -->
                     <span *ngIf="notificationService.unreadCount() > 0"
-                        class="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-7 h-5 flex items-center justify-center rounded-full">
+                        class="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full">
                         {{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}
                     </span>
 
@@ -41,65 +41,47 @@
                         </a>
                     </div>
 
-                    <!-- Body -->
-                    <div class="max-h-80 overflow-y-auto">
+                    <ng-container *ngIf="(notificationService.state()?.items?.length ?? 0) > 0; else emptyState">
 
-                        <ng-container *ngIf="(notificationService.state()?.items?.length ?? 0) > 0; else emptyState">
+                        <div class="max-h-96 overflow-y-auto">
 
-                            <div (click)="goToDetails(n)" *ngFor="let n of notificationService.state()?.items" class="flex gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer transition
-                            hover:bg-gray-50" [ngClass]="{
-                            'bg-blue-50': !n.isRead
-                            }">
+                            <div *ngFor="let n of notificationService.state()?.items" (click)="goToDetails(n)"
+                                class="flex gap-3 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
+                                [ngClass]="{ 'bg-blue-50': !n.isRead }">
 
-                                <!-- ICON -->
-                                <div class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
-                                    <img class="rounded-full" [src]="n.actorImage|| './assets/avatar.png'"
+                                <div class="w-11 h-11 flex items-center justify-center rounded-full shrink-0">
+                                    <img class="rounded-full w-full h-full"
+                                        [src]="n.actorImage || './assets/avatar.png'"
                                         [alt]="n.actorName || 'user avatar'">
                                 </div>
 
-                                <!-- CONTENT -->
                                 <div class="flex-1">
-
-                                    <!-- TOP ROW -->
                                     <div class="flex justify-between items-start gap-2">
-
-                                        <p class="text-sm font-medium text-gray-900 leading-snug">
-                                            {{ n.message }}
-                                        </p>
-
-                                        <!-- unread dot -->
-                                        <span *ngIf="!n.isRead" class="w-2 h-2 bg-blue-500 rounded-full mt-1 shrink-0">
-                                        </span>
-
+                                        <p class="text-sm font-medium text-gray-900">{{ n.message }}</p>
+                                        <span *ngIf="!n.isRead"
+                                            class="w-2 h-2 bg-blue-500 rounded-full mt-1 shrink-0"></span>
                                     </div>
 
-                                    <!-- SUB INFO -->
-                                    <div class="flex items-center justify-between mt-1">
-
-                                        <span class="text-xs text-gray-500">
-                                            {{ n.actorName || 'System' }}
-                                        </span>
-
-                                        <span class="text-xs text-gray-400">
-                                            {{ n.createdAt | date:'short' }}
-                                        </span>
-
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500">{{ n.actorName }}</span>
+                                        <span class="text-xs text-gray-400">{{ n.createdAt | date:'MMM d, h:mm a'
+                                            }}</span>
                                     </div>
-
                                 </div>
-
                             </div>
 
-                        </ng-container>
-
-                        <!-- EMPTY -->
-                        <ng-template #emptyState>
-                            <div class="p-6 text-center text-gray-500">
-                                No notifications yet
+                            <div appInfiniteScroll (scrolled)="loadMoreNotifications()" class="h-0.5">
                             </div>
-                        </ng-template>
 
-                    </div>
+                        </div>
+
+                    </ng-container>
+
+                    <ng-template #emptyState>
+                        <div class="p-6 text-center text-gray-500">
+                            No notifications yet
+                        </div>
+                    </ng-template>
                 </div>
             </div>
 

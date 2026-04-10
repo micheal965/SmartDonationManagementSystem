@@ -13,7 +13,6 @@ namespace SmartDonationSystem.Core.Modules.Notifications.DTOs
         public NotificationType Type { get; set; }
 
         public int EntityId { get; set; }
-
         public string? RedirectUrl { get; set; }
 
         public string? ActorName { get; set; }

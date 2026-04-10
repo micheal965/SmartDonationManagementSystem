@@ -18,11 +18,11 @@ namespace SmartDonationSystem.API.Modules.Notifications.Controllers
         }
 
         [HttpGet("get-user-notifications")]
-        public async Task<IActionResult> GetUserNotifications([FromQuery] int page = 1)
+        public async Task<IActionResult> GetUserNotifications([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var result = await _notificationService.GetUserNotificationsAsync(userId, page);
+            var result = await _notificationService.GetUserNotificationsAsync(userId, page, pageSize);
 
             return StatusCode((int)result.statusCode, result);
         }

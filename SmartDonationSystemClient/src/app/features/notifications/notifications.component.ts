@@ -1,14 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { NotificationService } from '../../../../core/services/notification.service';
-import { NgFor, NgIf, NgClass, DatePipe } from '@angular/common';
+import { NotificationService } from '../../core/services/notification.service';
+import { NotificationPayload } from '../../shared/models/notification-payload-model';
 import { Router } from '@angular/router';
-import { NotificationPayload } from '../../../../shared/models/notification-payload-model';
+import { CommonModule } from '@angular/common';
+import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
-  imports: [MatIcon, NgFor, NgIf, NgClass, DatePipe],
+  imports: [CommonModule, InfiniteScrollDirective],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.scss',
 })
@@ -17,35 +17,20 @@ export class NotificationsComponent implements OnInit {
   notificationService = inject(NotificationService);
   page = 1;
   pageSize = 5;
-  notificationStyle: any = {
-    PostApproval: {
-      border: 'border-emerald-500',
-      dot: 'bg-emerald-500',
-    },
-    UserRegistered: {
-      border: 'border-indigo-600',
-      dot: 'bg-indigo-600',
-    },
-    Comment: {
-      border: 'border-orange-500',
-      dot: 'bg-orange-500',
-    },
-  };
+
   ngOnInit(): void {
     this.notificationService.loadNotifications(this.page, this.pageSize);
   }
-
   goToDetails(notification: NotificationPayload) {
     this.notificationService.markAsRead(notification.id);
     this.router.navigateByUrl(notification.redirectUrl);
   }
-
+  loadMoreNotifications() {
+    this.page++;
+    this.notificationService.loadNotifications(this.page, this.pageSize);
+  }
   markAllAsRead() {
     if (this.notificationService.unreadCount() > 0)
       this.notificationService.markAllAsRead();
-  }
-  LoadMoreNotifications() {
-    this.page++;
-    this.notificationService.loadNotifications(this.page, this.pageSize);
   }
 }

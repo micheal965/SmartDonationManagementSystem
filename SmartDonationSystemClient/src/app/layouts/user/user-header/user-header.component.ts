@@ -16,6 +16,7 @@ import { AuthService } from '../../../features/auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../../core/services/notification.service';
 import { NotificationPayload } from '../../../shared/models/notification-payload-model';
+import { InfiniteScrollDirective } from '../../../shared/directives/infinite-scroll.directive';
 
 @Component({
   selector: 'app-user-header',
@@ -30,6 +31,7 @@ import { NotificationPayload } from '../../../shared/models/notification-payload
     MatMenuModule,
     MatBadgeModule,
     RouterLinkActive,
+    InfiniteScrollDirective,
   ],
   templateUrl: './user-header.component.html',
   styleUrl: './user-header.component.scss',
@@ -43,10 +45,12 @@ export class UserHeaderComponent implements OnInit {
   isMenuOpen = false; // For mobile toggle
   isMeClicked = false; // For the "Me" dropdown
   isNotificationsListOpen = false; // For the notifications dropdown
+  page = 1;
+  pageSize = 5;
 
   ngOnInit(): void {
     this.userService.loadProfile();
-    this.notificationService.loadNotifications();
+    this.notificationService.loadNotifications(this.page, this.pageSize);
   }
 
   navItems = [
@@ -104,6 +108,10 @@ export class UserHeaderComponent implements OnInit {
     this.notificationService.markAsRead(notification.id);
     this.toggleNotifications();
     this.router.navigateByUrl(notification.redirectUrl);
+  }
+  loadMoreNotifications() {
+    this.page++;
+    this.notificationService.loadNotifications(this.page, this.pageSize);
   }
   onLogout(): void {
     this.authService.logout().subscribe({

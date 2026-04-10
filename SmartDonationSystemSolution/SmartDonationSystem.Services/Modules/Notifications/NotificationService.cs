@@ -53,6 +53,7 @@ namespace SmartDonationSystem.Services.Modules.Notifications
                     Message = notification.Message,
                     EntityId = notification.EntityId,
                     RedirectUrl = notification.RedirectUrl,
+                    Type = notification.Type.ToString(),
                     ActorName = notification.ActorName,
                     ActorImage = notification.ActorImage,
                     CreatedAt = notification.CreatedAt,
@@ -60,10 +61,8 @@ namespace SmartDonationSystem.Services.Modules.Notifications
                 });
         }
 
-        public async Task<Result<object>> GetUserNotificationsAsync(string userId, int page)
+        public async Task<Result<object>> GetUserNotificationsAsync(string userId, int page, int pageSize)
         {
-            const int pageSize = 25;
-
             var query = _context.Notifications.Where(x => x.ReceiverId == userId);
 
             // 1. total count
@@ -84,6 +83,7 @@ namespace SmartDonationSystem.Services.Modules.Notifications
                     Message = x.Message,
                     EntityId = x.EntityId,
                     RedirectUrl = x.RedirectUrl,
+                    Type = x.Type.ToString(),
                     ActorName = x.ActorName,
                     ActorImage = x.ActorImage,
                     CreatedAt = x.CreatedAt,

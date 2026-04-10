@@ -1,7 +1,10 @@
 ﻿using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Cloud;
+using SmartDonationSystem.Core.Modules.Notifications.DTOs;
+using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.DTOs;
 using SmartDonationSystem.Core.Modules.User.PostAggregate.Post.Interfaces;
 using SmartDonationSystem.DataAccess;
@@ -20,11 +23,15 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly ICloudinaryServices _cloudinaryServices;
+        private readonly INotificationService _notificationService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PostService(ApplicationDbContext applicationDbContext, ICloudinaryServices cloudinaryServices)
+        public PostService(UserManager<ApplicationUser> userManager, ApplicationDbContext applicationDbContext, ICloudinaryServices cloudinaryServices, INotificationService notificationService)
         {
             _applicationDbContext = applicationDbContext;
             _cloudinaryServices = cloudinaryServices;
+            _notificationService = notificationService;
+            _userManager = userManager;
         }
         public async Task<Result<object>> CreatePostAsync(CreatePostDto createPostDto, string applicationUserId)
         {
@@ -68,6 +75,8 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             await _applicationDbContext.Posts.AddAsync(post);
             await _applicationDbContext.SaveChangesAsync();
 
+            //Notify admins for approval
+            await NotifyAdminsPostPendingApproval(post);
 
             // Step 1: Enqueue extraction
             var jobId = BackgroundJob.Enqueue<FileExtractionJob>(job => job.ExtractAndSaveTextAsync(post.Id));
@@ -176,6 +185,27 @@ namespace SmartDonationSystem.Services.Modules.User.PostAggregate.Post
             await _applicationDbContext.AnalyticsEvents.AddAsync(ev);
             await _applicationDbContext.SaveChangesAsync();
             return Result<object>.NoContent();
+        }
+
+        private async Task NotifyAdminsPostPendingApproval(PostModel post)
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("Admin");
+            if (!admins.Any()) return;
+
+            var notificationsRequests = admins.Select(admin => new CreateNotificationRequest
+            {
+                ReceiverId = admin.Id,
+                ActorId = post.ApplicationUserId,
+                Title = "New Post Waiting Approval",
+                Message = $"{post.ApplicationUser.FullName} created a new post \"{post.Title}\" and needs approval.",
+                Type = NotificationType.PostApproval,
+                EntityId = post.Id,
+                ActorName = post.ApplicationUser.FullName,
+                ActorImage = post.ApplicationUser.PictureUrl,
+            }).ToList();
+
+            foreach (var notificationRequest in notificationsRequests)
+                await _notificationService.CreateAsync(notificationRequest);
         }
     }
 }

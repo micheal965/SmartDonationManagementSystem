@@ -5,6 +5,7 @@ export interface NotificationPayload {
   entityId?: number;
   redirectUrl: string;
   actorName?: string;
+  type: string;
   actorImage?: string;
   createdAt: string;
   isRead: boolean;

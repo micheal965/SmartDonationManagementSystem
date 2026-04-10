@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AdminAsideComponent } from './admin-aside/admin-aside.component';
 import { RouterOutlet } from '@angular/router';
 

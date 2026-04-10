@@ -34,7 +34,7 @@ export class NotificationService {
   startConnection() {
     const token = this.authService.getAccessToken();
     if (this.isStarted || this.isStarting || !token) return;
-
+    this.audioService.unlockAudioOnFirstInteraction(); // ← Ensure audio is unlocked before starting connection
     this.isStarting = true;
 
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -80,15 +80,15 @@ export class NotificationService {
   stopConnection() {
     this.hubConnection?.stop();
   }
-  loadNotifications() {
+  loadNotifications(page: number = 1, pageSize: number = 10) {
     this.httpClient
       .get<ApiResult<LoadNotificationsResponse>>(
-        `${apiBaseUrl}/notification/get-user-notifications`,
+        `${apiBaseUrl}/notification/get-user-notifications?page=${page}&pageSize=${pageSize}`,
       )
       .pipe(map((res) => res.data))
       .subscribe((res) => {
         this.state.set({
-          items: res.result.items,
+          items: [...(this.state()?.items || []), ...res.result.items],
           page: res.result.pageNumber,
           pageSize: res.result.pageSize,
           totalItems: res.result.totalCount,

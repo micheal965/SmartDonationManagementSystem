@@ -10,6 +10,9 @@ namespace SmartDonationSystem.Shared.Helpers
             {
                 NotificationType.Like => $"/posts/{entityId}",
                 NotificationType.Comment => $"/posts/{entityId}",
+                NotificationType.Tag => $"/posts/{entityId}",
+                NotificationType.PostApproval => $"/admin/posts/{entityId}",
+                NotificationType.UserRegistered => $"/admin/users",
                 NotificationType.Message => "/chat",
                 _ => "/"
             };

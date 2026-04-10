@@ -15,13 +15,10 @@ import { AudioService } from './core/services/audio.service';
 })
 export class AppComponent implements OnInit {
   private notificationService = inject(NotificationService);
-  private audioService = inject(AudioService);
   private analyticsService = inject(AnalyticsService);
 
   ngOnInit(): void {
     this.analyticsService.trackEntrance();
     this.notificationService.startConnection();
-    //Solving voice interruption in first call
-    this.audioService.unlockAudioOnFirstInteraction();
   }
 }

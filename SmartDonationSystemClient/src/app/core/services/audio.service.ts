@@ -5,47 +5,71 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class AudioService {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
-  private notificationAudio: HTMLAudioElement | null = null;
-  playNotificationSound() {
-    const audio = this.getAudio();
-    if (!audio) return;
+  private audioContext: AudioContext | null = null;
+  private audioBuffer: AudioBuffer | null = null;
+  private isUnlocked = false;
+  private lastSound = 0;
+  private initPromise: Promise<void> | null = null; // ← store the promise
 
-    audio.pause();
-    audio.currentTime = 0;
-
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.warn('Audio blocked until user interaction', err);
-      });
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initPromise = this.init(); // ← save it, don't just fire and forget
     }
   }
-  unlockAudio() {
-    const audio = this.getAudio();
-    if (!audio) return;
 
-    audio.volume = 0;
-
-    audio
-      .play()
-      .then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.volume = 1;
-      })
-      .catch(() => {});
+  private async init() {
+    try {
+      this.audioContext = new AudioContext();
+      const response = await fetch('/assets/audios/notification.mp3');
+      const arrayBuffer = await response.arrayBuffer();
+      this.audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+    } catch (err) {
+      console.error('[AudioService] init failed:', err);
+    }
   }
-  private getAudio() {
-    if (typeof window === 'undefined') return null;
 
-    if (!this.notificationAudio) {
-      this.notificationAudio = new Audio('/assets/audios/notification.mp3');
-      this.notificationAudio.preload = 'auto';
+  async playNotificationSound() {
+    // ← wait for init to finish before doing anything
+    if (this.initPromise) {
+      await this.initPromise;
     }
 
-    return this.notificationAudio;
+    const now = Date.now();
+    if (now - this.lastSound < 300) return;
+    this.lastSound = now;
+
+    if (!this.audioContext || !this.audioBuffer || !this.isUnlocked) return;
+
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+    }
+
+    const source = this.audioContext.createBufferSource();
+    source.buffer = this.audioBuffer;
+
+    const gainNode = this.audioContext.createGain();
+    const currentTime = this.audioContext.currentTime;
+
+    gainNode.gain.setValueAtTime(0, currentTime);
+    gainNode.gain.linearRampToValueAtTime(1, currentTime + 0.01);
+    gainNode.gain.setValueAtTime(
+      1,
+      currentTime + this.audioBuffer.duration - 0.05,
+    );
+    gainNode.gain.linearRampToValueAtTime(
+      0,
+      currentTime + this.audioBuffer.duration,
+    );
+
+    source.connect(gainNode);
+    gainNode.connect(this.audioContext.destination);
+
+    source.onended = () => {
+      source.disconnect();
+      gainNode.disconnect();
+    };
+
+    source.start(currentTime);
   }
 
   unlockAudioOnFirstInteraction() {
@@ -53,8 +77,10 @@ export class AudioService {
 
     document.addEventListener(
       'click',
-      () => {
-        this.unlockAudio();
+      async () => {
+        if (!this.audioContext) return;
+        await this.audioContext.resume();
+        this.isUnlocked = true;
       },
       { once: true },
     );
