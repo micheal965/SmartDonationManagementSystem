@@ -92,6 +92,10 @@ export class UserHeaderComponent implements OnInit {
 
     this.isNotificationsListOpen = !this.isNotificationsListOpen;
   }
+  goToViewAll() {
+    this.router.navigateByUrl('/notifications');
+    this.isNotificationsListOpen = !this.isNotificationsListOpen;
+  }
   getIcon(type: string): string {
     switch (type) {
       case 'Like':

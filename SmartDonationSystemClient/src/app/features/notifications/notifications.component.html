@@ -39,5 +39,7 @@
         } @empty {
         <div class="p-10 text-center text-gray-400">No notifications yet.</div>
         }
+        <div appInfiniteScroll (scrolled)="loadMoreNotifications()" style="height: 1px;">
+        </div>
     </div>
 </div>
