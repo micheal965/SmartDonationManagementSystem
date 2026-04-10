@@ -34,7 +34,6 @@ export class NotificationService {
   startConnection() {
     const token = this.authService.getAccessToken();
     if (this.isStarted || this.isStarting || !token) return;
-    this.audioService.unlockAudioOnFirstInteraction(); // ← Ensure audio is unlocked before starting connection
     this.isStarting = true;
 
     this.hubConnection = new signalR.HubConnectionBuilder()
