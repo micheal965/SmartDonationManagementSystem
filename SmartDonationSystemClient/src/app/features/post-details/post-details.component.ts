@@ -22,6 +22,7 @@ import { CreateCommentDto } from '../feed/models/create-comment.model';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
 import Tribute from 'tributejs';
 import { AnalyticsService } from '../../core/services/analytics.service';
+import { ChatService } from '../../core/services/chat.service';
 
 @Component({
   selector: 'app-post-details',
@@ -57,6 +58,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   private titleService = inject(Title);
   private feedService = inject(FeedService);
   private analyticsService = inject(AnalyticsService);
+  chatService = inject(ChatService);
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);
   }

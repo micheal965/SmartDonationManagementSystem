@@ -363,6 +363,81 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("CommentTags");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Conversation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastMessage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastMessageAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("User1Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("User1UnreadCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User2Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("User2UnreadCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("User1Id", "User2Id")
+                        .IsUnique();
+
+                    b.ToTable("Conversations");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("ConversationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -702,6 +777,17 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("MentionedUser");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Message", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Conversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Notification", b =>
                 {
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", null)
@@ -807,6 +893,11 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("Mentions");
 
                     b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Conversation", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Post", b =>

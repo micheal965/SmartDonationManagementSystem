@@ -1,11 +1,10 @@
-import { map, pipe } from 'rxjs';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { map } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { apiBaseUrl, BaseUrl } from '../utils/app.config';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { ApiResult } from '../../shared/models/api-result-model';
-import { PaginatedResponse } from '../../shared/models/paginated-response.model';
 import { NotificationPayload } from '../../shared/models/notification-payload-model';
 
 import { AudioService } from './audio.service';

@@ -230,6 +230,58 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Messaging.Controllers.ChatController",
+    "Method": "GetConversations",
+    "RelativePath": "api/Chat/conversations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Messaging.Controllers.ChatController",
+    "Method": "GetMessages",
+    "RelativePath": "api/Chat/conversations/{conversationId}/messages",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "conversationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Messaging.Controllers.ChatController",
+    "Method": "Get",
+    "RelativePath": "api/Chat/conversations/get-or-create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartDonationSystem.Core.Modules.Messaging.DTOs.GetOrCreateConversationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.Cloud.Controllers.CloudController",
     "Method": "GetSignature",
     "RelativePath": "api/Cloud/signature",

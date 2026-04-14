@@ -1,0 +1,47 @@
+<ng-container *ngIf="chatService.state().conversations.length; else noConversations">
+
+    <div *ngFor="let c of chatService.state().conversations" (click)="selectConversation(c)"
+        class="flex items-start gap-3 p-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition rounded-lg">
+
+        <!-- Avatar -->
+        <img [src]="c.otherUserImage || './assets/avatar.png'"
+            class="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+
+            <div class="flex items-center justify-between gap-2">
+
+                <div class="text-sm font-semibold truncate">
+                    {{ c.otherUserName }}
+                </div>
+
+                <div class="text-[10px] text-gray-400 whitespace-nowrap">
+                    {{ c.lastMessageAt | date:'shortTime' }}
+                </div>
+
+            </div>
+
+            <div class="text-xs text-gray-500 truncate mt-0.5">
+                {{ c.lastMessage }}
+            </div>
+
+        </div>
+
+    </div>
+
+</ng-container>
+
+<ng-template #noConversations>
+    <div class="flex flex-col items-center justify-center h-full text-gray-400 py-10">
+
+        <svg class="w-10 h-10 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.2-3.2A7.962 7.962 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+
+        <div class="text-sm">No conversations yet</div>
+        <div class="text-xs text-gray-400">Start chatting with someone</div>
+
+    </div>
+</ng-template>

@@ -6,6 +6,8 @@ import { AuthService } from '../../../features/auth/services/auth.service';
 import { UserService } from '../../../core/services/user.service';
 import { firstValueFrom } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../../core/services/notification.service';
+import { ChatService } from '../../../core/services/chat.service';
 
 @Component({
   selector: 'app-admin-aside',
@@ -17,6 +19,10 @@ import { ToastrService } from 'ngx-toastr';
 export class AdminAsideComponent implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  
+  private chatService = inject(ChatService);
+  private notificationService = inject(NotificationService);
+  
   private toastr = inject(ToastrService);
   user!: UserProfile | null;
 
@@ -31,6 +37,12 @@ export class AdminAsideComponent implements OnInit {
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
+        this.notificationService.stopConnection();
+        this.notificationService.state.set(null);
+
+        this.chatService.stopConnection();
+        this.chatService.resetChatState();
+
         this.toastr.success('Logged out successfully');
       },
     });

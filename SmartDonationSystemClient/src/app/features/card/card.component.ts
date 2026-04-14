@@ -8,6 +8,7 @@ import { FeedService } from '../feed/services/feed.service';
 import { Router, RouterLink } from '@angular/router';
 import { PriorityClassPipe } from '../../shared/pipes/priority-class.pipe';
 import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
+import { ChatService } from '../../core/services/chat.service';
 
 @Component({
   selector: 'app-card',
@@ -27,6 +28,7 @@ import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 export class CardComponent {
   private feedService = inject(FeedService);
   private router = inject(Router);
+  chatService = inject(ChatService);
   post = input.required<Post>();
 
   goToDetails() {

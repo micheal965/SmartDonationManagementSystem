@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
+import { ChatService } from '../../../../core/services/chat.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +24,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+
   showPassword: boolean = false;
   isLoading: boolean = false;
 

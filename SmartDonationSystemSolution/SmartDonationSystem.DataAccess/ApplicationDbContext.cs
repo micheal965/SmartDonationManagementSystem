@@ -18,6 +18,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<CommentTag> CommentTags { get; set; }
     public DbSet<AnalyticsEvent> AnalyticsEvents { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Conversation> Conversations { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

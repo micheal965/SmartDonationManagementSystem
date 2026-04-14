@@ -2,16 +2,19 @@ using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.API.Modules.Admin;
 using SmartDonationSystem.API.Modules.Identity;
+using SmartDonationSystem.API.Modules.Messaging;
 using SmartDonationSystem.API.Modules.User;
 using SmartDonationSystem.Core.Modules.AI;
 using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.Core.Modules.Cloud;
+using SmartDonationSystem.Core.Modules.Encryption.Interfaces;
 using SmartDonationSystem.Core.Modules.FileExtractionModule;
 using SmartDonationSystem.Services.Modules.AI;
 using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Services.Modules.Analytics;
 using SmartDonationSystem.Services.Modules.Cloud;
+using SmartDonationSystem.Services.Modules.Encryption;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
 using SmartDonationSystem.Shared.Responses;
 
@@ -43,12 +46,17 @@ namespace SmartDonationSystem.API.Extensions
             });
 
             services.AddHangfireServer();
+
             services.AddIdentityModule();
             services.AddUserModule();
             services.AddAdminModule();
             services.AddNotificationModule();
+            services.AddMessagingModule();
+
+            services.AddDataProtection();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
             services.AddScoped<IAnalyticsService, AnalyticsService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
 
             #region Summarization Module
             services.AddScoped<ChunkingService>();

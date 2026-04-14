@@ -1,0 +1,71 @@
+<div class="w-80 h-[420px] flex flex-col overflow-hidden shadow-2xl">
+    <div class="p-2 border-b rounded-t-xl flex items-center justify-between bg-gray-100">
+
+        <!-- LEFT: image + name -->
+        <div class="flex items-center gap-3">
+
+            <!-- Avatar -->
+            <img [src]="chatService.state().selectedConversation?.otherUserImage || 'assets/avatar.png'"
+                class="w-9 h-9 rounded-full object-cover" alt="user" />
+
+            <!-- Name -->
+            <span class="font-semibold text-sm">
+                {{ chatService.state().selectedConversation?.otherUserName || 'User' }}
+            </span>
+
+        </div>
+
+        <!-- RIGHT: close button -->
+        <button (click)="closeChat()"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 transition">
+            ✕
+        </button>
+
+    </div>
+    <!-- Messages -->
+    <div #messagesContainer class="flex-1 overflow-y-auto px-3 py-2 space-y-3 bg-gray-50">
+        <div appInfiniteScroll (scrolled)="chatService.loadMore()" style="height: 10px;">
+        </div>
+        <div *ngFor="let msg of messages" class="flex items-end gap-2" [class.justify-end]="msg.isMine">
+            <!-- Avatar -->
+            <img *ngIf="!msg.isMine" [src]="msg.senderImage || './assets/avatar.png'"
+                class="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+
+            <!-- Bubble -->
+            <div class="max-w-[75%] px-3 py-2 rounded-2xl text-sm shadow-sm break-words"
+                [class.bg-blue-500]="msg.isMine" [class.text-white]="msg.isMine" [class.bg-white]="!msg.isMine"
+                [class.text-gray-800]="!msg.isMine" [class.rounded-br-sm]="msg.isMine"
+                [class.rounded-bl-sm]="!msg.isMine">
+
+                <!-- Message -->
+                <div>
+                    {{ msg.content }}
+                </div>
+
+                <!-- Time -->
+                <div class="text-[10px] mt-1 opacity-60 text-right">
+                    {{ msg.createdAt | date:'shortTime' }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="p-2 border-t bg-white flex items-center gap-2">
+
+        <input [(ngModel)]="newMessage" placeholder="Type a message..." (keyup.enter)="sendMessage()"
+            class="flex-1 text-sm px-4 py-2 rounded-full bg-gray-100 transition" />
+
+        <button (click)="sendMessage()" class="w-9 h-9 flex items-center justify-center 
+         rounded-full bg-light-green/90 hover:bg-light-green 
+         text-white transition shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+        </button>
+
+    </div>
+
+</div>

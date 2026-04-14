@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationService } from '../../../core/services/notification.service';
 import { NotificationPayload } from '../../../shared/models/notification-payload-model';
 import { InfiniteScrollDirective } from '../../../shared/directives/infinite-scroll.directive';
+import { ChatService } from '../../../core/services/chat.service';
 
 @Component({
   selector: 'app-user-header',
@@ -41,6 +42,7 @@ export class UserHeaderComponent implements OnInit {
   private toastr = inject(ToastrService);
   private router = inject(Router);
   public notificationService = inject(NotificationService);
+  public chatService = inject(ChatService);
   userService = inject(UserService);
   isMenuOpen = false; // For mobile toggle
   isMeClicked = false; // For the "Me" dropdown
@@ -119,7 +121,15 @@ export class UserHeaderComponent implements OnInit {
   }
   onLogout(): void {
     this.authService.logout().subscribe({
-      next: () => this.toastr.success('Logged out successfully'),
+      next: () => {
+        this.notificationService.stopConnection();
+        this.notificationService.state.set(null);
+
+        this.chatService.stopConnection();
+        this.chatService.resetChatState();
+
+        this.toastr.success('Logged out successfully');
+      },
     });
   }
 }

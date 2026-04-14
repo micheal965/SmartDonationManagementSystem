@@ -63,7 +63,7 @@
         </button>
 
         <!-- Message Button -->
-        <button (click)="$event.stopPropagation()"
+        <button (click)="chatService.openConversation(post().userId)"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 font-bold text-dark-blue text-sm border-2 border-slate-100 rounded-xl hover:bg-gray-100 transition-all ">
             <mat-icon>message</mat-icon>
             Message
