@@ -3,16 +3,11 @@ export interface MessagePayload {
   conversationId: number;
 
   senderId: string;
-  senderName: string;
-  senderImage?: string | null;
-
   receiverId: string;
-  receiverName: string;
-  receiverImage?: string | null;
-  
   content: string;
 
   createdAt: string | Date;
 
   isMine: boolean;
+  isRead: boolean;
 }

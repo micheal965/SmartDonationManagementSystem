@@ -41,18 +41,38 @@ namespace SmartDonationSystem.Services.Modules.Messaging
                     OtherUserName = otherUser?.FullName ?? "Unknown",
                     OtherUserImage = otherUser?.PictureUrl,
                     LastMessage = c.LastMessage != null ? _encryptionService.Decrypt(c.LastMessage, EncryptionPurposes.ChatMessages) : null,
-                    LastMessageAt = c.LastMessageAt
+                    LastMessageAt = c.LastMessageAt,
+                    lastMessageIsRead = c.lastMessageIsRead
                 };
+
             }).ToList();
 
             return Result<List<ConversationPayload>>.Ok(result);
         }
+        public async Task<Result<ConversationPayload>> GetOrCreateConversationAsync(string userId, string receiverId)
+        {
+            var receiver = await _context.Users.FindAsync(receiverId);
+            if (receiver == null)
+                return Result<ConversationPayload>.NotFound("Receiver not found");
+
+            var conversation = await GetOrCreateConversation(userId, receiverId);
+
+            var result = new ConversationPayload
+            {
+                Id = conversation.Id,
+                OtherUserId = receiver.Id,
+                OtherUserName = receiver?.FullName ?? "Unknown",
+                OtherUserImage = receiver?.PictureUrl,
+                LastMessage = conversation.LastMessage != null ? _encryptionService.Decrypt(conversation.LastMessage, EncryptionPurposes.ChatMessages) : null,
+                LastMessageAt = conversation.LastMessageAt
+            };
+
+            return Result<ConversationPayload>.Ok(result);
+        }
         public async Task<MessagePayload> SendMessageAsync(SendMessageRequest request)
         {
-            var conversation = await GetOrCreateConversation(
-                request.SenderId,
-                request.ReceiverId
-            );
+
+            var conversation = await GetOrCreateConversation(request.SenderId, request.ReceiverId);
 
             var encryptedContent = _encryptionService.Encrypt(
                 request.Content,
@@ -71,26 +91,18 @@ namespace SmartDonationSystem.Services.Modules.Messaging
             };
 
             await _context.Messages.AddAsync(message);
-            await _context.SaveChangesAsync();
 
-            var sender = await _context.Users.FindAsync(request.SenderId);
-            var receiver = await _context.Users.FindAsync(request.ReceiverId);
+            await _context.SaveChangesAsync();
 
             return new MessagePayload
             {
                 Id = message.Id,
-                ConversationId = conversation.Id,
-
                 SenderId = request.SenderId,
                 ReceiverId = request.ReceiverId,
-
+                ConversationId = conversation.Id,
                 Content = request.Content,
                 CreatedAt = message.CreatedAt,
-
-                SenderImage = sender?.PictureUrl,
-                SenderName = sender?.FullName,
-                ReceiverName = receiver?.FullName,
-                ReceiverImage = receiver?.PictureUrl,
+                IsRead = message.IsRead,
             };
         }
         public async Task<Result<PaginatedList<MessagePayload>>> GetMessagesAsync(
@@ -112,37 +124,25 @@ namespace SmartDonationSystem.Services.Modules.Messaging
 
             messages.Reverse();
 
-            var senderIds = messages.Select(m => m.SenderId).Distinct().ToList();
-
-            var users = await _context.Users
-                .Where(u => senderIds.Contains(u.Id))
-                .ToDictionaryAsync(u => u.Id);
-
             var payload = messages.Select(m => new MessagePayload
             {
                 Id = m.Id,
                 ConversationId = m.ConversationId,
-                SenderId = m.SenderId,
-
-                Content = _encryptionService.Decrypt(
-                    m.Content,
-                    EncryptionPurposes.ChatMessages
-                ),
-
+                Content = _encryptionService.Decrypt(m.Content, EncryptionPurposes.ChatMessages),
                 CreatedAt = m.CreatedAt,
                 IsMine = m.SenderId == userId,
+                IsRead = m.IsRead
 
-                SenderImage = users.TryGetValue(m.SenderId, out var user)
-                    ? user.PictureUrl
-                    : null
             }).ToList();
 
             return Result<PaginatedList<MessagePayload>>.Ok(
                 new PaginatedList<MessagePayload>(payload, page, pageSize, totalCount)
             );
         }
+
         public async Task<Conversation> GetOrCreateConversation(string userA, string userB)
         {
+
             var (u1, u2) = userA.CompareTo(userB) < 0
                 ? (userA, userB)
                 : (userB, userA);
@@ -165,5 +165,39 @@ namespace SmartDonationSystem.Services.Modules.Messaging
 
             return conversation;
         }
+        public async Task MarkConversationAsRead(int conversationId, string userId)
+        {
+            await _context.Messages
+                .Where(m =>
+                    m.ConversationId == conversationId &&
+                    m.SenderId != userId &&
+                    !m.IsRead)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(m => m.IsRead, true)
+                    .SetProperty(m => m.ReadAt, DateTime.UtcNow)
+                );
+
+            await _context.Conversations
+                .Where(c => c.Id == conversationId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(c => c.lastMessageIsRead, true)
+                );
+        }
+        public async Task<string> GetOtherParticipant(int conversationId, string currentUserId)
+        {
+            var conversation = await _context.Conversations
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c =>
+                    c.Id == conversationId &&
+                    (c.User1Id == currentUserId || c.User2Id == currentUserId));
+
+            if (conversation == null)
+                throw new Exception("Conversation not found or access denied");
+
+            return conversation.User1Id == currentUserId
+                ? conversation.User2Id
+                : conversation.User1Id;
+        }
+
     }
 }

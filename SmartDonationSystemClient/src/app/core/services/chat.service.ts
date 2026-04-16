@@ -8,7 +8,7 @@ import { PaginatedResponse } from '../../shared/models/paginated-response.model'
 import { MessagePayload } from '../../shared/models/message-payload-model';
 import { Conversation } from '../../shared/models/conversation-model';
 import { MessageRequest } from '../../shared/models/message-request-model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { ChatState } from '../../shared/models/chat-state-model';
 import { AudioService } from './audio.service';
@@ -19,16 +19,14 @@ import { AudioService } from './audio.service';
 export class ChatService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
-  private userService = inject(UserService);
   private audioService = inject(AudioService);
 
   private hubConnection!: signalR.HubConnection;
 
   private isStarting = false;
   private isStarted = false;
-  private _isLoadingMore = signal(false);
 
-  // expose as readonly
+  private _isLoadingMore = signal(false);
   isLoadingMore = this._isLoadingMore.asReadonly();
 
   state = signal<ChatState>({
@@ -37,12 +35,14 @@ export class ChatService {
     messages: [],
 
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     totalPages: 1,
     totalItems: 0,
   });
 
-  typingUsers = signal<Set<string>>(new Set());
+  typingUserId = signal<string | null>(null);
+  private typingTimeout: ReturnType<typeof setTimeout> | null = null;
+  private typingSoundLock = false;
 
   startConnection() {
     const token = this.auth.getAccessToken();
@@ -69,7 +69,7 @@ export class ChatService {
 
     this.hubConnection.onreconnected(() => {
       const convId = this.state()?.selectedConversation?.id;
-      if (convId) this.joinConversation(convId);
+      if (convId) this.loadMessages(convId);
     });
   }
 
@@ -91,16 +91,17 @@ export class ChatService {
 
       const isActive =
         state.selectedConversation?.id === message.conversationId;
+      if (isActive && !isMine) {
+        this.hubConnection.invoke('MarkAsRead', message.conversationId);
+      }
 
-      // 🔥 ALWAYS update conversation preview (both users)
-      this.updateConversationPreview(enriched);
+      this.updateConversationPreview(enriched, isMine);
 
       this.state.update((s) => {
         if (!s) return s;
 
-        // 🔊 sound ONLY for non-active chat
-        if (!isActive && !isMine) {
-          this.audioService.playNotificationSound();
+        if (!isActive) {
+          this.audioService.playSound('message');
           return s;
         }
 
@@ -113,60 +114,55 @@ export class ChatService {
         };
       });
     });
-  }
-  resetChatState() {
-    this.state.set({
-      conversations: [],
-      selectedConversation: null,
-      messages: [],
-      page: 1,
-      pageSize: 5,
-      totalPages: 1,
-      totalItems: 0,
+
+    this.hubConnection.on('UserTyping', (data) => {
+      const senderId = data.senderId;
+
+      this.typingUserId.set(senderId);
+
+      if (this.typingTimeout) clearTimeout(this.typingTimeout);
+      // play sound ONLY if not locked
+      if (!this.typingSoundLock && this.state()?.selectedConversation != null) {
+        this.audioService.playSound('typing');
+
+        this.typingSoundLock = true;
+
+        setTimeout(() => {
+          this.typingSoundLock = false;
+        }, 5000);
+      }
+      this.typingTimeout = setTimeout(() => {
+        if (this.typingUserId() === senderId) this.typingUserId.set(null);
+      }, 1500);
     });
-  }
-  getOrCreateConversation(receiverId: string): Observable<number> {
-    return this.http.post<number>(
-      `${apiBaseUrl}/Chat/conversations/get-or-create`,
-      { receiverId },
-    );
-  }
-  openConversation(userId: string) {
-    this.state.update((s) => ({
-      ...s!,
-      selectedConversation: null,
-      messages: [],
-    }));
-    this.userService.getUser(userId).subscribe((user) => {
-      if (!user) return;
-      this.state.update((s) => ({
-        ...s!,
-        selectedConversation: {
-          ...s!.selectedConversation,
-          otherUserId: userId,
-          otherUserName: user.fullName,
-          otherUserImage: user.pictureUrl,
-        } as Conversation,
-      }));
-    });
-    this.getOrCreateConversation(userId).subscribe((conversationId) => {
-      this.joinConversation(conversationId);
-      this.state.update((s) => ({
-        ...s!,
-        selectedConversation: {
-          ...s!.selectedConversation,
-          id: conversationId,
-        } as Conversation,
-      }));
+
+    this.hubConnection.on('MessagesRead', (data) => {
+      const { userId, conversationId } = data;
+      this.state.update((s) => {
+        const updatedConversations = s.conversations.map((c) =>
+          c.id === conversationId ? { ...c, lastMessageIsRead: true } : c,
+        );
+
+        const updatedSelectedConversation =
+          s.selectedConversation?.id === conversationId
+            ? { ...s.selectedConversation, lastMessageIsRead: true }
+            : s.selectedConversation;
+
+        const updatedMessages = s.messages.map((m) =>
+          m.senderId !== userId ? { ...m, isRead: true } : m,
+        );
+
+        return {
+          ...s,
+          conversations: updatedConversations as Conversation[],
+          selectedConversation: updatedSelectedConversation as Conversation,
+          messages: updatedMessages,
+        };
+      });
     });
   }
 
-  closeConversation() {
-    this.state.update((s) => ({
-      ...s!,
-      selectedConversation: null,
-    }));
-  }
+  //Conversations
   loadConversations() {
     this.http
       .get<ApiResult<Conversation[]>>(`${apiBaseUrl}/Chat/conversations`)
@@ -177,39 +173,59 @@ export class ChatService {
         }));
       });
   }
-
-  selectConversation(conversation: Conversation) {
-    this.state.update((state) => ({
-      ...state!,
-      selectedConversation: conversation,
+  getOrCreateConversation(receiverId: string): Observable<Conversation> {
+    return this.http
+      .post<
+        ApiResult<Conversation>
+      >(`${apiBaseUrl}/Chat/conversations/get-or-create`, { receiverId })
+      .pipe(map((res) => res.data));
+  }
+  openConversation(userId: string) {
+    this.state.update((s) => ({
+      ...s!,
+      selectedConversation: null,
       messages: [],
     }));
 
-    this.joinConversation(conversation.id);
+    this.getOrCreateConversation(userId).subscribe((conversation) => {
+      this.state.update((s) => ({
+        ...s!,
+        conversations: this.state().conversations.map((c) =>
+          c.id === conversation.id
+            ? { ...conversation, lastMessageIsRead: true }
+            : c,
+        ),
+        selectedConversation: conversation,
+      }));
+      this.hubConnection.invoke('MarkAsRead', conversation.id);
+    });
   }
-
-  joinConversation(conversationId: number) {
-    if (!this.isStarted) return;
-
-    this.hubConnection.invoke('JoinConversation', conversationId);
+  selectConversation(conversation: Conversation) {
+    if (this.state()?.selectedConversation?.id === conversation.id) return;
+    this.hubConnection.invoke('MarkAsRead', conversation.id);
 
     this.state.update((state) => ({
       ...state!,
-      selectedConversation: {
-        ...state!.selectedConversation,
-        id: conversationId,
-      } as Conversation,
+      conversations: this.state().conversations.map((c) =>
+        c.id === conversation.id
+          ? { ...conversation, lastMessageIsRead: true }
+          : c,
+      ),
+      selectedConversation: conversation,
+      messages: [],
     }));
   }
 
-  leaveConversation(conversationId: number) {
-    this.hubConnection.invoke('LeaveConversation', conversationId);
+  closeConversation() {
+    this.state.update((s) => ({
+      ...s!,
+      selectedConversation: null,
+    }));
   }
 
+  //Messages
   loadMessages(page: number = 1) {
-    const state = this.state();
-    const conversationId = state?.selectedConversation?.id;
-
+    const conversationId = this.state()?.selectedConversation?.id;
     if (!conversationId) return;
 
     this.http
@@ -233,7 +249,6 @@ export class ChatService {
         });
       });
   }
-
   loadMore() {
     if (this._isLoadingMore()) return;
 
@@ -241,77 +256,75 @@ export class ChatService {
     const nextPage = state.page + 1;
     this.loadMessages(nextPage);
   }
-
   sendMessage(newMessage: string) {
-    const state = this.state();
-    const conversation = state?.selectedConversation;
-
+    const conversation = this.state()?.selectedConversation;
     if (!conversation) return;
-
     const request: MessageRequest = {
       conversationId: conversation.id,
       receiverId: conversation.otherUserId,
       content: newMessage,
     };
-
+    this.typingUserId.set(null);
     return this.hubConnection.invoke('SendMessage', request);
   }
-
+  //Typing Indicator
   sendTyping() {
-    const conversationId = this.state()?.selectedConversation?.id;
-    if (!conversationId) return;
+    const receiverId = this.state()?.selectedConversation?.otherUserId;
+    if (!receiverId) return;
 
-    this.hubConnection.invoke('Typing', { conversationId });
+    this.hubConnection.invoke('Typing', { receiverId });
   }
-  private updateConversationPreview(message: MessagePayload) {
+
+  //Helpers
+  resetChatState() {
+    this.state.set({
+      conversations: [],
+      selectedConversation: null,
+      messages: [],
+
+      page: 1,
+      pageSize: 10,
+      totalPages: 1,
+      totalItems: 0,
+    });
+  }
+  private updateConversationPreview(message: MessagePayload, isMine: boolean) {
     this.state.update((s) => {
       if (!s) return s;
 
-      const currentUserId = this.auth.userData.id;
+      const updatedConversations = s.conversations.map((c) => {
+        if (c.id !== message.conversationId) return c;
 
-      const isMine = message.senderId === currentUserId;
+        return {
+          ...c,
+          lastMessage: message.content,
+          lastMessageAt: message.createdAt,
+          lastMessageIsRead: isMine ? true : message.isMine,
+        };
+      });
 
-      const otherUserId = isMine ? message.receiverId : message.senderId;
-
-      const otherUserName = isMine ? message.receiverName : message.senderName;
-
-      const otherUserImage = isMine
-        ? message.receiverImage
-        : message.senderImage;
-
-      const now = new Date().toISOString();
-
-      const updated: Conversation = {
-        id: message.conversationId,
-        lastMessage: message.content,
-        lastMessageAt: now,
-
-        otherUserId,
-        otherUserName,
-        otherUserImage: otherUserImage || './assets/avatar.png',
-      };
-
-      const index = s.conversations.findIndex(
+      const exists = s.conversations.some(
         (c) => c.id === message.conversationId,
       );
 
-      const conversations =
-        index === -1
-          ? [updated, ...s.conversations]
-          : [
-              updated,
-              ...s.conversations.filter((c) => c.id !== message.conversationId),
-            ];
-
-      const selectedConversation =
-        s.selectedConversation?.id === message.conversationId
-          ? updated
-          : s.selectedConversation;
+      const conversations = exists
+        ? updatedConversations.sort(
+            (a, b) =>
+              new Date(b.lastMessageAt ?? 0).getTime() -
+              new Date(a.lastMessageAt ?? 0).getTime(),
+          )
+        : [
+            {
+              id: message.conversationId,
+              lastMessage: message.content,
+              lastMessageAt: message.createdAt,
+            } as any,
+            ...s.conversations,
+          ];
 
       return {
         ...s,
         conversations,
-        selectedConversation,
       };
     });
   }

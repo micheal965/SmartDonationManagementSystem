@@ -1,11 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { filter } from 'rxjs';
 import { AnalyticsService } from './core/services/analytics.service';
 import { NotificationService } from './core/services/notification.service';
-import { AudioService } from './core/services/audio.service';
 import { ChatService } from './core/services/chat.service';
+import { AudioService } from './core/services/audio.service';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +20,8 @@ export class AppComponent implements OnInit {
   private audioService = inject(AudioService);
 
   ngOnInit(): void {
-    this.analyticsService.trackEntrance();
     this.audioService.unlockAudioOnFirstInteraction();
+    this.analyticsService.trackEntrance();
 
     this.notificationService.startConnection();
     this.chatService.startConnection();

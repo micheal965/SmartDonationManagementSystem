@@ -3,7 +3,8 @@ export interface Conversation {
 
   lastMessage: string;
   lastMessageAt: string;
-
+  lastMessageIsRead:boolean;
+  
   otherUserId: string;
   otherUserName: string;
   otherUserImage?: string;

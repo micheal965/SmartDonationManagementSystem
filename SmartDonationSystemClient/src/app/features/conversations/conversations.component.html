@@ -1,7 +1,8 @@
 <ng-container *ngIf="chatService.state().conversations.length; else noConversations">
 
-    <div *ngFor="let c of chatService.state().conversations" (click)="selectConversation(c)"
-        class="flex items-start gap-3 p-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition rounded-lg">
+    <div [class.bg-blue-100]="!c.lastMessageIsRead" *ngFor="let c of chatService.state().conversations"
+        (click)="selectConversation(c)"
+        class="flex items-start gap-3 p-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition ">
 
         <!-- Avatar -->
         <img [src]="c.otherUserImage || './assets/avatar.png'"
@@ -16,14 +17,14 @@
                     {{ c.otherUserName }}
                 </div>
 
-                <div class="text-[10px] text-gray-400 whitespace-nowrap">
+                <div class="text-[12px] text-gray-400 whitespace-nowrap">
                     {{ c.lastMessageAt | date:'shortTime' }}
                 </div>
 
             </div>
 
             <div class="text-xs text-gray-500 truncate mt-0.5">
-                {{ c.lastMessage }}
+                {{ c.lastMessage || '"No messages yet"' }}
             </div>
 
         </div>

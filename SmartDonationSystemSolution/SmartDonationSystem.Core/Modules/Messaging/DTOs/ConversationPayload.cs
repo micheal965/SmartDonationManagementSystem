@@ -10,5 +10,6 @@
 
         public string? LastMessage { get; set; }
         public DateTime? LastMessageAt { get; set; }
+        public bool lastMessageIsRead { get; set; }
     }
 }

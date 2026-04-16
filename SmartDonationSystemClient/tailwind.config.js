@@ -16,9 +16,14 @@ module.exports = {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.1)" },
         },
+        typingBounce: {
+          "0%, 80%, 100%": { transform: "translateY(0)", opacity: "0.4" },
+          "40%": { transform: "translateY(-4px)", opacity: "1" },
+        },
       },
       animation: {
         stepPulse: "stepPulse 1.2s ease-in-out infinite",
+        "typing-bounce": "typingBounce 1.4s infinite ease-in-out",
       },
       fontFamily: {
         header: ["Poppins", "sans-serif"],

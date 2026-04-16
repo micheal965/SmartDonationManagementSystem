@@ -22,8 +22,8 @@ namespace SmartDonationSystem.API.Modules.Messaging.Controllers
         public async Task<IActionResult> Get(GetOrCreateConversationRequest request)
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var conversation = await _chatService.GetOrCreateConversation(userId, request.ReceiverId);
-            return Ok(conversation.Id);
+            var result = await _chatService.GetOrCreateConversationAsync(userId, request.ReceiverId);
+            return StatusCode((int)result.statusCode, result);
         }
         [HttpGet("conversations")]
         public async Task<IActionResult> GetConversations()

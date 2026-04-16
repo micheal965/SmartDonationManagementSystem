@@ -61,7 +61,7 @@ export class NotificationService {
     this.hubConnection.on(
       'ReceiveNotification',
       (notification: NotificationPayload) => {
-        this.audioService.playNotificationSound();
+        this.audioService.playSound('notification');
         this.unreadCount.set(this.unreadCount() + 1);
         this.state.update((state) => {
           if (!state) return state;

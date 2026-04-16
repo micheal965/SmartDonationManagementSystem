@@ -22,41 +22,74 @@
         </button>
 
     </div>
+
     <!-- Messages -->
-    <div #messagesContainer class="flex-1 overflow-y-auto px-3 py-2 space-y-3 bg-gray-50">
-        <div appInfiniteScroll (scrolled)="chatService.loadMore()" style="height: 10px;">
-        </div>
-        <div *ngFor="let msg of messages" class="flex items-end gap-2" [class.justify-end]="msg.isMine">
-            <!-- Avatar -->
-            <img *ngIf="!msg.isMine" [src]="msg.senderImage || './assets/avatar.png'"
-                class="w-7 h-7 rounded-full object-cover flex-shrink-0" />
 
-            <!-- Bubble -->
-            <div class="max-w-[75%] px-3 py-2 rounded-2xl text-sm shadow-sm break-words"
-                [class.bg-blue-500]="msg.isMine" [class.text-white]="msg.isMine" [class.bg-white]="!msg.isMine"
-                [class.text-gray-800]="!msg.isMine" [class.rounded-br-sm]="msg.isMine"
-                [class.rounded-bl-sm]="!msg.isMine">
+    <ng-container *ngIf="messages.length; else noMessages">
+        <div #messagesContainer class="flex-1 overflow-y-auto px-3 py-2 space-y-3 bg-gray-50">
+            <div appInfiniteScroll (scrolled)="chatService.loadMore()" style="height: 10px;">
+            </div>
 
-                <!-- Message -->
-                <div>
-                    {{ msg.content }}
-                </div>
+            <div *ngFor="let msg of messages" class="flex items-end gap-2" [class.justify-end]="msg.isMine">
+                <!-- Avatar -->
+                <img *ngIf="!msg.isMine"
+                    [src]="chatService.state().selectedConversation?.otherUserImage || './assets/avatar.png'"
+                    class="w-7 h-7 rounded-full object-cover flex-shrink-0" />
 
-                <!-- Time -->
-                <div class="text-[10px] mt-1 opacity-60 text-right">
-                    {{ msg.createdAt | date:'shortTime' }}
+                <!-- Bubble -->
+                <div class="max-w-[75%] px-3 py-2 rounded-2xl text-sm shadow-sm break-words "
+                    [class.bg-blue-500]="msg.isMine" [class.text-white]="msg.isMine" [class.bg-white]="!msg.isMine"
+                    [class.text-gray-800]="!msg.isMine" [class.rounded-br-sm]="msg.isMine"
+                    [class.rounded-bl-sm]="!msg.isMine">
+
+                    <div> {{ msg.content }}</div>
+
+                    <div class="flex items-center justify-end gap-2 text-[10px] mt-1 opacity-60 ">
+                        {{ msg.createdAt | date:'shortTime' }}
+                        <svg *ngIf="msg.isMine" [class.text-green-500]="msg.isRead" class="w-6 h-6" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path d="M1 13l4 4L13 5" />
+                            <path d="M7 13l4 4L23 5" />
+                        </svg>
+                    </div>
                 </div>
 
             </div>
+            <div *ngIf="isTyping()" class="flex items-end gap-2">
+                <img [src]="chatService.state().selectedConversation?.otherUserImage || './assets/avatar.png'"
+                    class="w-7 h-7 rounded-full object-cover flex-shrink-0" />
+                <div
+                    class="max-w-[75%] px-4 py-3 rounded-2xl text-sm shadow-sm break-words bg-white text-gray-800 rounded-bl-sm">
+                    <div class="flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-typing-bounce"></span>
+                        <span
+                            class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-typing-bounce [animation-delay:0.2s]"></span>
+                        <span
+                            class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-typing-bounce [animation-delay:0.4s]"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #noMessages>
+        <div class="flex flex-col items-center justify-center h-full text-gray-400 py-10">
+
+            <svg class="w-10 h-10 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4-.8L3 20l1.2-3.2A7.962 7.962 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+
+            <div class="text-sm">No Messages yet</div>
+            <div class="text-xs text-gray-400">Start chatting with
+                {{chatService.state().selectedConversation?.otherUserName || 'User'}}</div>
 
         </div>
-
-    </div>
-
+    </ng-template>
     <div class="p-2 border-t bg-white flex items-center gap-2">
 
-        <input [(ngModel)]="newMessage" placeholder="Type a message..." (keyup.enter)="sendMessage()"
-            class="flex-1 text-sm px-4 py-2 rounded-full bg-gray-100 transition" />
+        <input [(ngModel)]="newMessage" placeholder="Type a message..." (input)="onInputChange($event)"
+            (keyup.enter)="sendMessage()" class="flex-1 text-sm px-4 py-2 rounded-full bg-gray-100 transition" />
 
         <button (click)="sendMessage()" class="w-9 h-9 flex items-center justify-center 
          rounded-full bg-light-green/90 hover:bg-light-green 
@@ -67,5 +100,4 @@
         </button>
 
     </div>
-
 </div>

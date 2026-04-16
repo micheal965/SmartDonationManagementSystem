@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  OnInit,
-  Output,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChatService } from '../../core/services/chat.service';
 import { CommonModule } from '@angular/common';
 import { Conversation } from '../../shared/models/conversation-model';
