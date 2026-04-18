@@ -6,6 +6,7 @@ using SmartDonationSystem.API.Modules.Messaging;
 using SmartDonationSystem.API.Modules.User;
 using SmartDonationSystem.Core.Modules.AI;
 using SmartDonationSystem.Core.Modules.Analytics;
+using SmartDonationSystem.Core.Modules.Categories.Interfaces;
 using SmartDonationSystem.Core.Modules.Cloud;
 using SmartDonationSystem.Core.Modules.Encryption.Interfaces;
 using SmartDonationSystem.Core.Modules.FileExtractionModule;
@@ -13,6 +14,7 @@ using SmartDonationSystem.Services.Modules.AI;
 using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Services.Modules.Analytics;
+using SmartDonationSystem.Services.Modules.Categories;
 using SmartDonationSystem.Services.Modules.Cloud;
 using SmartDonationSystem.Services.Modules.Encryption;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
@@ -54,6 +56,7 @@ namespace SmartDonationSystem.API.Extensions
             services.AddMessagingModule();
 
             services.AddDataProtection();
+            services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<ICloudinaryServices, CloudinaryServices>();
             services.AddScoped<IAnalyticsService, AnalyticsService>();
             services.AddScoped<IEncryptionService, EncryptionService>();

@@ -19,5 +19,6 @@ public class ApplicationUser : IdentityUser
     public List<Comment>? Comments { get; set; } = new List<Comment>();
     public List<CommentTag>? CommentTags { get; set; } = new List<CommentTag>();
     public List<Notification>? Notifications { get; set; } = new List<Notification>();
+    public List<UserCategory>? UserCategories { get; set; } = new List<UserCategory>();
 
 }

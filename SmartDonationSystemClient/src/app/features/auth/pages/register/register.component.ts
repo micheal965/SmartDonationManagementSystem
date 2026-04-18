@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -6,7 +6,7 @@ import {
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { finalize } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,8 @@ import { CloudService } from '../../../../core/services/cloud.service';
 import { HttpEventType } from '@angular/common/http';
 import { GeminiService } from '../../../../core/services/gemini.service';
 import { birthDateValidator } from '../../../../shared/validators/BirthDate.validator';
+import { CategoryService } from '../../../../core/services/category.service';
+import { Category } from '../../../../shared/models/category-model';
 
 @Component({
   selector: 'app-register',
@@ -23,19 +25,37 @@ import { birthDateValidator } from '../../../../shared/validators/BirthDate.vali
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cloudService = inject(CloudService);
   private aiService = inject(GeminiService);
+  private categoryService = inject(CategoryService);
   private router = inject(Router);
   private toastr = inject(ToastrService);
+  private platformId = inject(PLATFORM_ID);
+
   isImageUploading: boolean = false;
   isLoading: boolean = false;
   currentStep = 1;
-  totalSteps = 2;
   imagePreview: string | ArrayBuffer | null = null;
-  steps = [{ label: 'Account type & ID' }, { label: 'Personal Info' }];
+  categories: Category[] = [];
+
+  get totalSteps() {
+    return this.role?.value === 'Donor' ? 3 : 2;
+  }
+
+  get steps() {
+    const baseSteps = [
+      { label: 'Account type & ID' },
+      { label: 'Personal Info' },
+    ];
+    if (this.role?.value === 'Donor') {
+      baseSteps.push({ label: 'Interests' });
+    }
+    return baseSteps;
+  }
+
   registerForm = this.fb.group({
     //Step 1
     Role: ['', [Validators.required]],
@@ -54,7 +74,17 @@ export class RegisterComponent {
     PhoneNumber: ['', [Validators.required]],
     Address: [''],
     ProfilePictureUrl: [null, Validators.required],
+    //Step 3
+    InterestingCategoriesIds: [[] as number[]],
   });
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.categoryService.getCategories().subscribe({
+        next: (cats) => (this.categories = cats),
+      });
+    }
+  }
 
   //Step 1
   get role() {
@@ -79,8 +109,27 @@ export class RegisterComponent {
   get profilePicture() {
     return this.registerForm.get('ProfilePictureUrl');
   }
+  //Step 3
+  get interestingCategoriesIds() {
+    return this.registerForm.get('InterestingCategoriesIds');
+  }
+
+  toggleCategory(categoryId: number) {
+    const currentIds = this.interestingCategoriesIds?.value || [];
+    const index = currentIds.indexOf(categoryId);
+    if (index > -1) currentIds.splice(index, 1);
+    else currentIds.push(categoryId);
+
+    this.interestingCategoriesIds?.setValue([...currentIds]);
+  }
+
+  isCategorySelected(categoryId: number): boolean {
+    return (this.interestingCategoriesIds?.value || []).includes(categoryId);
+  }
 
   selectRole(role: 'Requester' | 'Donor') {
+    if (role == 'Requester') this.interestingCategoriesIds?.setValue(null);
+    
     this.role?.setValue(role);
   }
   prev() {
@@ -160,7 +209,14 @@ export class RegisterComponent {
   private isStepValid(): boolean {
     const stepControls: any = {
       1: ['IdentityNumber', 'Password', 'Role'],
-      2: ['FullName', 'BirthDate', 'PhoneNumber', 'Address'],
+      2: [
+        'FullName',
+        'BirthDate',
+        'PhoneNumber',
+        'Address',
+        'ProfilePictureUrl',
+      ],
+      3: [],
     };
 
     stepControls[this.currentStep].forEach((c: string) => {

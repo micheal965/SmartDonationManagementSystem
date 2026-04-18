@@ -111,8 +111,29 @@ namespace SmartDonationSystem.Services.Modules.Admin
                 EntityId = post.Id
             });
 
-            //TODO: notify user in that category later
 
+            //Notify Users that interesting in that category
+            var category = await _applicationDbContext.Categories
+                    .Where(c => c.Id == post.CategoryId)
+                    .Select(c => c.Name)
+                    .FirstOrDefaultAsync();
+
+            var userIds = await _applicationDbContext.UserCategories
+                                .Where(uc => uc.CategoryId == post.CategoryId && uc.UserId != post.ApplicationUserId)
+                                .Select(uc => uc.UserId)
+                                .ToListAsync();
+
+            foreach (var userId in userIds)
+            {
+                await _notificationService.CreateAsync(new CreateNotificationRequest
+                {
+                    ReceiverId = userId,
+                    Title = "New Post Update",
+                    Message = $"A new post in '{category}' category is now available. Click to check it out.",
+                    Type = NotificationType.PostApproval,
+                    EntityId = post.Id
+                });
+            }
             return Result<object>.Ok(null, "Post status Updated successfully");
         }
     }

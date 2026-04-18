@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { PriorityClassPipe } from '../../shared/pipes/priority-class.pipe';
 import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { ChatService } from '../../core/services/chat.service';
+import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
 
 @Component({
   selector: 'app-card',
@@ -21,6 +22,7 @@ import { ChatService } from '../../core/services/chat.service';
     PriorityClassPipe,
     PriorityLabelPipe,
     RouterLink,
+    ShortNumberPipe,
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',

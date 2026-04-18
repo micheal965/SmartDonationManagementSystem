@@ -1,0 +1,38 @@
+.category-card {
+  z-index: 1;
+}
+
+mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Staggered animation for cards
+.category-card {
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation: fadeIn 0.5s ease-out forwards;
+      animation-delay: #{$i * 0.1}s;
+      opacity: 0;
+    }
+  }
+}

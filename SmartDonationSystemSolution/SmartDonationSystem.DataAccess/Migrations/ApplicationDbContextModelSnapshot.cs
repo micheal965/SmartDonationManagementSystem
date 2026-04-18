@@ -636,6 +636,21 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserCategory", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("UserCategories");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserLoginHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -852,6 +867,25 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserCategory", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Category", "Category")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "User")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.UserLoginHistory", b =>
                 {
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "ApplicationUser")
@@ -877,12 +911,16 @@ namespace SmartDonationSystem.DataAccess.Migrations
 
                     b.Navigation("RefreshTokens");
 
+                    b.Navigation("UserCategories");
+
                     b.Navigation("UserLoginsHistory");
                 });
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Category", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("UserCategories");
                 });
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Comment", b =>

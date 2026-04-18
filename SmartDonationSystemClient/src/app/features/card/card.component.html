@@ -1,80 +1,88 @@
-<div class="relative bg-white shadow-md hover:shadow-lg transition-shadow duration-200 rounded-xl p-4 cursor-pointer"
+<div class="card-wrapper group relative bg-white rounded-3xl p-5 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-100 hover:border-bright-blue/20 overflow-hidden"
     (click)="goToDetails()">
-    <span
-        class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-2 py-1 rounded-full text-xs z-10"
-        [ngClass]="post().priorityLevel | priorityClass">
-        {{post().priorityLevel | priorityLabel}}
-    </span>
-    <div class="flex justify-between mb-4">
-        <div class="flex items-center justify-center gap-2">
-            <img class="w-10 h-10 rounded-full" [src]="post().pictureUrl ||'./assets/avatar.png'" alt="requester">
+
+    <!-- Priority Tag -->
+    <div class="absolute top-4 right-4 z-10">
+        <span class="px-3 py-1.5 rounded-xl text-xs font-bold tracking-wider uppercase shadow-sm"
+            [ngClass]="post().priorityLevel | priorityClass">
+            {{post().priorityLevel | priorityLabel}}
+        </span>
+    </div>
+
+    <!-- Header: User Info -->
+    <div class="flex items-start justify-between mb-6">
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <img class="w-12 h-12 rounded-2xl object-cover ring-2 ring-gray-50 group-hover:ring-bright-blue/20 transition-all" 
+                     [src]="post().pictureUrl || './assets/avatar.png'" alt="requester">
+                <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
+                    <mat-icon class="!text-[16px] !w-4 !h-4 text-light-green flex items-center justify-center">verified</mat-icon>
+                </div>
+            </div>
             <div class="flex flex-col">
-                <a [routerLink]="['/profile',post().userId]" (click)="$event.stopPropagation()"
-                    class="text-md text-dark-blue font-bold hover:underline z-5">{{post().fullName}}</a>
-                <span class="text-xs text-gray-400">Posted {{post().createdAt | timeAgo}}</span>
+                <a [routerLink]="['/profile', post().userId]" (click)="$event.stopPropagation()"
+                    class="text-base font-bold text-dark-blue hover:text-bright-blue transition-colors">
+                    {{post().fullName}}
+                </a>
+                <div class="flex items-center gap-2 text-xs font-medium mt-0.5">
+                    <span class="text-gray-400">{{post().createdAt | timeAgo}}</span>
+                    <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                    <span class="text-bright-blue/80">{{post().categoryName}}</span>
+                    <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                    <div class="flex items-center gap-1 text-gray-400">
+                        <mat-icon class="!text-[16px] !h-[16px] !w-[16px] opacity-60">visibility</mat-icon>
+                        <span>{{ post().viewCount | shortNumber }}</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="flex flex-col">
-            <span class="flex items-center bg-light-green/15 text-dark-blue px-4 py-1 rounded-3xl ">
-                <div class="w-5 h-5 flex items-center justify-center rounded-full ">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M10.5213 2.62368C11.3147 1.75253 12.6853 1.75253 13.4787 2.62368L14.4989 3.74391C14.8998 4.18398 15.4761 4.42283 16.0776 4.39808L17.6106 4.33501C18.8021 4.28598 19.714 5.19793 19.665 6.38939L19.6019 7.92243C19.5772 8.52387 19.816 9.10023 20.2561 9.5011L21.3763 10.5213C22.2475 11.3147 22.2475 12.6853 21.3763 13.4787L20.2561 14.4989C19.816 14.8998 19.5772 15.4761 19.6019 16.0776L19.665 17.6106C19.714 18.8021 18.8021 19.714 17.6106 19.665L16.0776 19.6019C15.4761 19.5772 14.8998 19.816 14.4989 20.2561L13.4787 21.3763C12.6853 22.2475 11.3147 22.2475 10.5213 21.3763L9.5011 20.2561C9.10023 19.816 8.52387 19.5772 7.92243 19.6019L6.38939 19.665C5.19793 19.714 4.28598 18.8021 4.33501 17.6106L4.39808 16.0776C4.42283 15.4761 4.18398 14.8998 3.74391 14.4989L2.62368 13.4787C1.75253 12.6853 1.75253 11.3147 2.62368 10.5213L3.74391 9.5011C4.18398 9.10023 4.42283 8.52387 4.39808 7.92243L4.33501 6.38939C4.28598 5.19793 5.19793 4.28598 6.38939 4.33501L7.92243 4.39808C8.52387 4.42283 9.10023 4.18398 9.5011 3.74391L10.5213 2.62368Z"
-                            fill="#42e2b8" />
-                        <path d="M9 12L11 14L15 10" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <span class="text-xs text-light-green">Verified</span>
-            </span>
-            <span
-                class="flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm font-medium mt-1 w-fit">
-
-                <mat-icon class="!text-[18px] !h-[18px] !w-[18px] flex items-center justify-center opacity-80">
-                    visibility
-                </mat-icon>
-
-                <span class="leading-none tracking-tight">
-                    {{ post().viewCount }} views
-                </span>
-            </span>
-        </div>
     </div>
-    <div class="rounded-lg mb-5 overflow-hidden" *ngIf="post().postPicture">
-        <img class="w-full aspect-video object-cover border rounded-lg" [src]="post().postPicture" alt="Post picture" />
+
+    <!-- Media Section -->
+    <div class="relative rounded-2xl mb-5 overflow-hidden group-hover:shadow-inner transition-all" *ngIf="post().postPicture">
+        <img class="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" 
+             [src]="post().postPicture" alt="Post picture" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
     </div>
-    <h2 class="text-xl font-bold text-dark-blue mb-3">{{post().title}}</h2>
-    <p class="text-slate-600 text-sm leading-relaxed mb-6">{{post().content.split(' ').slice(0,27).join(' ')}}</p>
-    <!-- Buttons -->
-    <div class="flex flex-wrap items-center justify-center gap-3">
-        <!-- Donate Now Button -->
+
+    <!-- Content Section -->
+    <div class="space-y-3 mb-8 px-1">
+        <h2 class="text-xl font-header font-bold text-dark-blue leading-tight group-hover:text-bright-blue transition-colors line-clamp-1">
+            {{post().title}}
+        </h2>
+        <p class="text-gray-500 font-content text-sm leading-relaxed line-clamp-3">
+            {{post().content}}
+        </p>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="flex flex-wrap items-center gap-3">
+        <!-- Main Action: Donate -->
         <button (click)="$event.stopPropagation()"
-            class="flex-1 flex items-center justify-center gap-2 bg-light-green font-bold text-dark-blue text-sm py-3 rounded-xl shadow-lg shadow-light-green/30 hover:shadow-light-green/40 active:scale-95 transition-all">
-            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M21 15.5V17.5C21 18.8807 19.8807 20 18.5 20H5.5C4.11929 20 3 18.8807 3 17.5V14.5C3 13.3954 3.89543 12.5 5 12.5H18C19.1046 12.5 20 13.3954 20 14.5L21 15.5Z"
-                    fill="var(--dark-blue)" />
-                <rect x="5" y="11" width="3" height="6" rx="1.5" fill="var(--dark-blue)" />
-
-                <path
-                    d="M17.5 4C15.8 4 14.5 5.5 14 6C13.5 5.5 12.2 4 10.5 4C8.5 4 7 5.5 7 7.5C7 11 14 14.5 14 14.5C14 14.5 21 11 21 7.5C21 5.5 19.5 4 17.5 4Z"
-                    fill="white" stroke="var(--dark-blue)" stroke-width="1.5" />
-            </svg>
+            class="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-bright-blue hover:bg-dark-blue text-white font-bold text-sm py-3.5 rounded-2xl shadow-lg shadow-bright-blue/20 hover:shadow-dark-blue/20 active:scale-95 transition-all duration-300">
+            <mat-icon>volunteer_activism</mat-icon>
             Donate Now
         </button>
 
-        <!-- Message Button -->
-        <button (click)="chatService.openConversation(post().userId)" (click)="$event.stopPropagation()"
-            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 font-bold text-dark-blue text-sm border-2 border-slate-100 rounded-xl hover:bg-gray-100 transition-all ">
-            <mat-icon>message</mat-icon>
-            Message
+        <!-- Secondary: Message -->
+        <button (click)="chatService.openConversation(post().userId); $event.stopPropagation()"
+            class="p-3.5 bg-gray-50 text-dark-blue rounded-2xl hover:bg-bright-blue/10 hover:text-bright-blue transition-all duration-300 border border-transparent hover:border-bright-blue/10"
+            title="Message requester">
+            <mat-icon class="!flex !items-center !justify-center">chat_bubble_outline</mat-icon>
         </button>
 
-        <!-- Like Button -->
-        <button (click)="$event.stopPropagation()"
-            class="w-full sm:w-auto flex items-center justify-center gap-1 px-6 py-3 font-bold border-2 text-red-500 text-sm border-red-100 rounded-xl hover:bg-red-100 hover:border-red-400/5 transition-all"
-            [ngClass]="{'bg-red-100 border-red-400/5 ':post().hasReacted}" (click)="onLike(post())">
-            <mat-icon>favorite</mat-icon>
-            <span>{{post().likesCount}}</span>
+        <!-- Interaction: Like -->
+        <button (click)="onLike(post()); $event.stopPropagation()"
+            class="flex items-center gap-2 px-5 py-3.5 font-bold rounded-2xl transition-all duration-300 border"
+            [ngClass]="post().hasReacted 
+                ? 'bg-soft-red text-white border-soft-red shadow-lg shadow-soft-red/20' 
+                : 'bg-white text-soft-red border-soft-red/20 hover:bg-soft-red/5'"
+            [disabled]="post().isReacting">
+            <mat-icon class="transition-transform" 
+                      [ngClass]="{'scale-125 active-heart': post().hasReacted}">
+                {{ post().hasReacted ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+            <span class="text-sm">{{post().likesCount}}</span>
         </button>
     </div>
 </div>

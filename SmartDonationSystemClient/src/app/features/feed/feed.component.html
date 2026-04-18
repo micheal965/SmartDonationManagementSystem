@@ -1,88 +1,104 @@
-<div class="flex flex-col px-2" [class.mt-5]="!authService.isRequester()">
-    <!-- Create Post -->
-    <div *ngIf="authService.isRequester()" class="flex items-center justify-center w-full mb-8">
-        <div class="bg-white/60 -mt-1 sm:mt-0 p-2 sm:p-6 rounded-t-none rounded-2xl shadow-md flex items-center space-x-2 sm:space-x-4  w-full max-w-4xl h-24"
+<div class="feed-container max-w-5xl mx-auto px-4 py-8" [class.mt-5]="!authService.isRequester()">
+
+    <!-- Modal Teleport (Logical) -->
+    <app-create-post *ngIf="isModalOpen" (closed)="closeModal()" (submitted)="onCreatePost($event)" />
+
+    <!-- Create Post Section -->
+    <div *ngIf="authService.isRequester()" class="mb-10 animate-fade-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer"
             (click)="openModal()">
-
-            <img [src]="this.UserService.profile()?.pictureUrl || './assets/avatar.png'" alt="requester"
-                class="w-14 h-14 rounded-full" />
-
-            <input type="text" placeholder="Start a post"
-                class="flex-1 bg-gray-100 rounded-full px-6 py-3 text-lg focus:border-light-green/30 cursor-pointer"
-                readonly />
+            <div class="relative">
+                <img [src]="this.UserService.profile()?.pictureUrl || './assets/avatar.png'" alt="profile"
+                    class="w-12 h-12 rounded-full object-cover ring-2 ring-light-green/20" />
+                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+            </div>
+            <div class="flex-1 bg-gray-50 hover:bg-gray-100 rounded-full px-6 py-3 text-gray-500 transition-colors">
+                What's on your mind? Start a donation post...
+            </div>
+            <div class="flex items-center gap-2 text-bright-blue font-medium  sm:flex">
+                <mat-icon>add_circle</mat-icon>
+                <span>Post</span>
+            </div>
         </div>
-
-        <app-create-post *ngIf="isModalOpen" (closed)="closeModal()" (submitted)="onCreatePost($event)" />
     </div>
 
-    <!-- Filter -->
-    <div class="flex items-center justify-center mb-6 md:mb-3">
-        <div class="flex gap-x-3">
-            <button *ngFor="let f of filters" (click)="onFilterClick(f)" [ngClass]="filter === f
-      ? 'bg-light-green/20 '
-      : 'category-btn'" class="rounded-3xl px-3 py-2 border transition-colors shadow-sm">
-                {{ f }}
+    <!-- Header & Sort -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+        <div>
+            <h1 class="text-3xl font-header font-bold text-dark-blue mb-2">Donation Feed</h1>
+            <p class="text-gray-500 font-content">Explore and support causes that matter to you.</p>
+        </div>
+
+        <div class="relative flex items-center gap-3 self-end md:self-auto">
+            <span class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Sort by:</span>
+            <div class="relative">
+                <button (click)="toggleDropdown()"
+                    class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 hover:border-bright-blue/30 text-dark-blue font-medium transition-all min-w-[140px] justify-between">
+                    {{ selectedLabel }}
+                    <mat-icon class="text-gray-400 !text-lg !w-auto !h-auto">expand_more</mat-icon>
+                </button>
+
+                <ul *ngIf="isOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-xl rounded-2xl overflow-hidden z-50 border border-gray-50 animate-slide-down">
+                    <li *ngFor="let item of sortOptions">
+                        <button (click)="selectSort(item)"
+                            class="w-full text-left px-5 py-3 hover:bg-light-gray flex items-center justify-between transition-colors" 
+                            [ngClass]="{'bg-bright-blue/5 text-bright-blue font-bold': sort === item.value}">
+                            {{ item.label }}
+                            <mat-icon *ngIf="sort === item.value" class="!text-sm">check</mat-icon>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Category Filter -->
+    <div class="mb-10 sticky top-4 z-40">
+        <div class="flex items-center gap-3 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 mask-fade">
+            <button (click)="onFilterClick('All')" 
+                    [ngClass]="filter === 'All' ? 'active-chip' : 'inactive-chip'" 
+                    class="filter-chip">
+                <mat-icon class="!text-lg">apps</mat-icon>
+                <span>All Categories</span>
+            </button>
+            
+            <button *ngFor="let cat of categories" (click)="onFilterClick(cat.name)" 
+                    [ngClass]="filter === cat.name ? 'active-chip' : 'inactive-chip'" 
+                    class="filter-chip">
+                <mat-icon class="!text-lg">{{ getCategoryIcon(cat.name) }}</mat-icon>
+                <span>{{ cat.name }}</span>
             </button>
         </div>
     </div>
 
-
-    <!-- Sort By -->
-    <div class="relative flex items-center mb-8">
-
-        <div class="flex-1 relative translate-y-2">
-            <span class="absolute -top-5 right-0 text-sm font-medium text-dark-blue/60">
-                Sort By
-            </span>
-        </div>
-
-        <!-- Buttons -->
-        <div class="relative ml-4">
-            <!-- Main Button -->
-            <button (click)="toggleDropdown()"
-                class="rounded-xl  px-4 py-2 bg-white text-gray-800 flex items-center gap-2 shadow-md">
-                {{ selectedLabel }}
-                <span class="text-sm">▼</span>
-            </button>
-
-            <!-- Dropdown -->
-            <ul *ngIf="isOpen" class="absolute mt-2 w-40 bg-white shadow-lg rounded-xl overflow-hidden z-50">
-
-                <li *ngFor="let item of sortOptions">
-                    <button (click)="selectSort(item)"
-                        class="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors" [ngClass]="{
-          'bg-light-green/20 text-dark-blue': sort === item.value
-        }">
-                        {{ item.label }}
-                    </button>
-                </li>
-
-            </ul>
-        </div>
-
-    </div>
-
-    <div class="relative mb-8 text-center text-3xl font-bold">
-        <h1 class="text-dark-blue">Donation Feed</h1>
-    </div>
-
-    <!--Posts  -->
-    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6  mb-2">
-        <div *ngFor="let post of posts; trackBy:trackById" [ngClass]="{
-                'col-span-2': loading,
-                '2xl:col-span-1': loading
-            }">
+    <!-- Posts Grid -->
+    <div class="grid grid-cols-1 xl:grid-cols-2  gap-8 mb-12">
+        <div *ngFor="let post of posts; trackBy:trackById" class="animate-fade-in-up">
             <app-card [post]="post" />
         </div>
 
-        <div class="flex justify-center py-4 col-span-2" *ngIf="loading">
-            <svg class="animate-spin h-6 w-6 text-gray-400" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                    stroke-dasharray="60" stroke-dashoffset="20">
-                </circle>
-            </svg>
+        <!-- Loading State -->
+        <div class="col-span-full py-10 flex flex-col items-center justify-center text-gray-400" *ngIf="loading">
+            <div class="loader-dots flex space-x-2 mb-4">
+                <div class="w-3 h-3 bg-bright-blue rounded-full animate-bounce"></div>
+                <div class="w-3 h-3 bg-bright-blue rounded-full animate-bounce delay-100"></div>
+                <div class="w-3 h-3 bg-bright-blue rounded-full animate-bounce delay-200"></div>
+            </div>
+            <p class="font-medium">Finding more stories...</p>
         </div>
-        <div appInfiniteScroll (scrolled)="loadPosts()" style="height: 1px;">
+
+        <!-- Infinite Scroll Trigger -->
+        <div appInfiniteScroll (scrolled)="loadPosts()" class="h-4 col-span-full"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && posts.length === 0" class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-100 animate-fade-in">
+        <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
+            <mat-icon class="!text-5xl !w-auto !h-auto">volunteer_activism</mat-icon>
         </div>
+        <h3 class="text-2xl font-header font-bold text-dark-blue mb-2">No posts found</h3>
+        <p class="text-gray-500 max-w-sm mx-auto font-content">
+            We couldn't find any donation posts in this category yet. Be the first to start a movement!
+        </p>
     </div>
 </div>

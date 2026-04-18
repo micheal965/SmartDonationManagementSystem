@@ -310,7 +310,7 @@ export class ChatService {
           ...c,
           lastMessage: message.content,
           lastMessageAt: message.createdAt,
-          lastMessageIsRead: isMine ? true : message.isMine,
+          lastMessageIsRead: isMine ? true : message.isRead,
         };
       });
 

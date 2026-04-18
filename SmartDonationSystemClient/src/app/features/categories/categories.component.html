@@ -1,135 +1,56 @@
-<main class="flex-1 container mx-auto px-6 py-12">
-    <!-- Hero Title Section -->
-    <div class="mb-16 max-w-3xl">
-        <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-light-green/10 text-light-green text-xs font-bold uppercase tracking-wider mb-4">
-            <span class="relative flex h-2 w-2">
-                <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-light-green opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-light-green"></span>
-            </span>
-            Live Platform
+<section class="py-12 md:py-20 min-h-screen">
+  <div class="app-container">
+    <!-- Header Section -->
+    <div class="text-center mb-16 animate-fade-in">
+      <span class="text-bright-blue font-bold tracking-widest uppercase text-sm mb-2 block">Our Services</span>
+      <h2 class="text-4xl md:text-5xl font-header font-bold text-dark-blue mb-6">
+        What We Serve
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto font-content leading-relaxed">
+        Discover the diverse range of categories where your contributions can create a lasting impact. 
+        We connect generous hearts with specific needs to build a better community together.
+      </p>
+      <div class="w-24 h-1.5 bg-bright-blue mx-auto mt-8 rounded-full shadow-sm"></div>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2  gap-10">
+      <div *ngFor="let category of categories" 
+           class="category-card group bg-white rounded-3xl p-8 border border-transparent hover:border-bright-blue/20 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center cursor-pointer overflow-hidden relative"
+           [routerLink]="['/feed']" [queryParams]="{ category: category.id }">
+        
+        <!-- Hover Background Decoration -->
+        <div class="absolute -right-10 -top-10 w-32 h-32 bg-light-beige/30 rounded-full group-hover:scale-150 transition-transform duration-700 -z-10"></div>
+        
+        <!-- Icon Container -->
+        <div class="icon-wrapper w-24 h-24 bg-light-beige rounded-2xl flex items-center justify-center mb-8 group-hover:bg-bright-blue group-hover:rotate-6 transition-all duration-500 shadow-inner">
+          <mat-icon class="text-dark-blue group-hover:text-white transition-colors duration-500">{{ getCategoryIcon(category.name) }}</mat-icon>
         </div>
-        <h1 class="text-5xl lg:text-6xl font-black tracking-tight text-dark-blue mb-6">
-            Our Categories &amp; <span class="text-light-green text-shadow-sm">Services</span>
-        </h1>
-        <p class="text-lg text-slate-500 leading-relaxed">
-            Empowering communities through smart, transparent management. We bridge the gap between resources and needs
-            with AI-driven tracking and direct communication.
+
+        <!-- Content -->
+        <h3 class="text-2xl font-header font-bold text-dark-blue mb-4 group-hover:text-bright-blue transition-colors duration-300">
+          {{ category.name }}
+        </h3>
+        
+        <p class="text-gray-500 font-content leading-relaxed mb-8 flex-grow">
+          {{ category.description }}
         </p>
-    </div>
 
-    <!-- Main Categories Grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-20">
-        <!-- Column 1: Medical Category -->
-        <div class="rounded-xl p-8 lg:p-12 flex flex-col gap-10 bg-white">
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-3">
-                    <mat-icon class="text-bright-blue">medical_services</mat-icon>
-                    <h2 class="text-xl lg:text-3xl font-black text-dark-blue">Medical Support Hub</h2>
-                </div>
-                <p class="text-slate-600 font-medium">Comprehensive healthcare logistics and direct patient support
-                    systems.</p>
-            </div>
-            <div class="grid grid-cols-1 gap-6">
-                <!-- Monetary Donations -->
-                <div
-                    class="group  bg-light-gray/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-transparent hover:border-light-gray/30">
-                    <div class="flex justify-between items-start mb-4">
-                        <div
-                            class="size-12 rounded-full bg-light-green/10 flex items-center justify-center text-light-green">
-                            <mat-icon>payments</mat-icon>
-                        </div>
-                        <button
-                            class="bg-light-green text-dark-blue text-xs font-black py-2 px-5 rounded-full shadow-lg hover:scale-105 transition-transform">
-                            DONATE NOW
-                        </button>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-blue mb-2">Monetary Donations</h3>
-                    <p class="text-sm text-slate-500">Secure gateways for immediate medical funding requirements.</p>
-                </div>
-                <!-- Direct Chatting -->
-                <div class="group bg-light-gray/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
-                    <div
-                        class="size-12 rounded-full bg-bright-blue/10 flex items-center justify-center text-bright-blue mb-4">
-                        <mat-icon>forum</mat-icon>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-blue mb-2">Direct Chatting</h3>
-                    <p class="text-sm text-slate-500">Instant communication with verified healthcare providers and
-                        specialists.</p>
-                </div>
-                <!-- AI Smart Tracking -->
-                <div class="group bg-dark-blue rounded-3xl p-6 shadow-lg relative overflow-hidden">
-                    <div
-                        class="size-12 rounded-full bg-light-green flex items-center justify-center text-dark-blue mb-4">
-                        <mat-icon>analytics</mat-icon>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Smart Medical Tracking</h3>
-                    <p class="text-sm text-slate-400">AI-driven real-time monitoring of medical supplies and
-                        contribution impact.</p>
-                </div>
-            </div>
+        <!-- CTA -->
+        <div class="mt-auto pt-6 flex items-center justify-center text-bright-blue font-bold tracking-wide group-hover:translate-x-2 transition-transform duration-300">
+          <span class="uppercase text-sm">Explore Category</span>
+          <mat-icon class="ml-2 text-xl">arrow_forward</mat-icon>
         </div>
-        <!-- Column 2: Jobs Category -->
-        <div class="rounded-xl p-8 lg:p-12 flex flex-col gap-10 bg-light-beige shadow-xl border border-orange-200/50">
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-3">
-                    <mat-icon class="text-orange-600 ">
-                        work_history
-                    </mat-icon>
-                    <h2 class="text-xl lg:text-3xl font-black text-dark-blue">Jobs Empowerment Hub</h2>
-                </div>
-                <p class="text-slate-700 font-medium">Bridging the employment gap through skill-matching and
-                    professional networking.</p>
-            </div>
-            <div class="grid grid-cols-1 gap-6">
-                <!-- Professional Chatting -->
-                <div
-                    class="group bg-white/60 backdrop-blur-sm rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
-                    <div class="size-12 rounded-full  flex items-center justify-center bg-bright-blue/20 mb-4">
-                        <mat-icon class="text-bright-blue">diversity_3</mat-icon>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-blue mb-2">Professional Chatting</h3>
-                    <p class="text-sm text-slate-600">Network directly with industry mentors and potential employers.
-                    </p>
-                </div>
-                <!-- Smart Job Tracking -->
-                <div class="group bg-white/80 rounded-3xl p-6 shadow-md transition-all relative">
-                    <div
-                        class="size-12 rounded-full bg-dark-blue flex items-center justify-center text-light-green mb-4">
-                        <mat-icon>auto_awesome</mat-icon>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-blue mb-2">Smart Job Tracking</h3>
-                    <p class="text-sm text-slate-600">Advanced career growth analysis and automated opportunity matching
-                        algorithms.</p>
-                    <div class="mt-4 flex gap-2">
-                        <span
-                            class="px-2 py-1 rounded bg-dark-blue/5 text-[10px] font-bold text-dark-blue uppercase">AI-Powered</span>
-                        <span
-                            class="px-2 py-1 rounded bg-dark-blue/5 text-[10px] font-bold text-dark-blue uppercase">Beta</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-
-    <!-- Visual Separator Section -->
-    <div class="relative w-full h-[400px] rounded-xl overflow-hidden mb-20 bg-dark-blue">
-        <div class="absolute inset-0 bg-gradient-to-r from-dark-blue via-transparent to-dark-blue z-10"></div>
-        <div class="absolute inset-0 opacity-40 bg-cover bg-center"
-            data-alt="Abstract digital network visualization with green accents"
-            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKh7QNaqkOiscvUi-8PRvgODDYKVjQ-1b7vKGv-d9Q-MQPazrk4OX13m640WMjuDgv3_MjRziKhAvbL-fnoN5RkhxgZDOpi5YlDxrviC1jtpPkkCdHnjJB97V1Nms4KtjYARJlrzabr6cX3i9tuASnJDj54tcNQ-XwMVIZ683HlYVSuBZSV8MfNU7VcgNq_pLEkzT2gg33eO33l4Y89cNwNtUA2iJqHVlTdmeHgka_q43ZIeWTg5nZYULB4J93bgQJz74hfpzuTF0')">
-        </div>
-        <div class="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
-            <h2 class="text-3xl md:text-5xl font-black text-white mb-6">Transparency through <span
-                    class="text-light-green">Technology</span></h2>
-            <p class="max-w-xl text-slate-300 mb-8">Every contribution is tracked on our private ledger, ensuring 100%
-                of your impact reaches the intended recipient.</p>
-            <div class="flex gap-4">
-                <button class="bg-light-green px-8 py-3 rounded-full font-bold text-dark-blue"
-                    [routerLink]="['/feed']">Explore
-                    Dashboard</button>
-            </div>
-        </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="categories.length === 0" class="text-center py-32 flex flex-col items-center justify-center animate-pulse">
+      <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mb-6">
+        <mat-icon class="text-gray-400 !text-6xl !w-auto !h-auto">inventory_2</mat-icon>
+      </div>
+      <h3 class="text-2xl font-header font-bold text-gray-400 mb-2">No Categories Found</h3>
+      <p class="text-gray-500 italic">Our team is currently updating the service list. Please check back later.</p>
     </div>
-</main>
+  </div>
+</section>

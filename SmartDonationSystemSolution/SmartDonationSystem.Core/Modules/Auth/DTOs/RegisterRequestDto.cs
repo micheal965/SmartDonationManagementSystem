@@ -5,7 +5,6 @@ namespace SmartDonationSystem.Core.Modules.Auth.DTOs;
 
 public class RegisterRequestDto
 {
-    // manual inputs
     [Required]
     [StringLength(14)]
     public required string IdentityNumber { get; set; }
@@ -16,7 +15,6 @@ public class RegisterRequestDto
     [BirthDateValidation(ErrorMessage = "Birth date must be in the past")]
     public DateOnly BirthDate { get; set; }
 
-    //General Data
     [Required]
     public required string Password { get; set; }
     [Required]
@@ -26,4 +24,5 @@ public class RegisterRequestDto
     [Required]
     public required string PhoneNumber { get; set; }
     public string? Address { get; set; }
+    public List<int> InterestingCategoriesIds { get; set; } = new();
 }

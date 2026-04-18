@@ -1,15 +1,19 @@
 import { UserService } from './../../core/services/user.service';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { FeedService } from './services/feed.service';
 import { Post } from './models/post.model';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 import { CreatePostComponent } from '../create-post/create-post.component';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthService } from '../auth/services/auth.service';
+import { CategoryService } from '../../core/services/category.service';
+import { Category } from '../../shared/models/category-model';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-feed',
   standalone: true,
@@ -20,6 +24,7 @@ import { AuthService } from '../auth/services/auth.service';
     InfiniteScrollDirective,
     NgClass,
     CreatePostComponent,
+    MatIcon,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
@@ -28,8 +33,13 @@ export class FeedComponent implements OnInit {
   UserService = inject(UserService);
   authService = inject(AuthService);
   private feedService = inject(FeedService);
+  private categoryService = inject(CategoryService);
+  private route = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
+
   posts: Post[] = [];
+  categories: Category[] = [];
+
   pageNumber = 1;
   pageSize = 6;
 
@@ -38,8 +48,7 @@ export class FeedComponent implements OnInit {
   isOpen = false;
   isModalOpen = false;
 
-  filter: 'All' | 'Medical' | 'Jobs' = 'All';
-  filters: ('All' | 'Medical' | 'Jobs')[] = ['All', 'Medical', 'Jobs'];
+  filter: string = 'All';
   sort: 'Recent' | 'Urgent' | 'MostViewed' = 'Urgent';
   sortOptions = [
     { label: 'Recent', value: 'Recent' },
@@ -48,7 +57,24 @@ export class FeedComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.loadCategories();
     this.loadPosts();
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (cats) => {
+        this.categories = cats;
+
+        const categoryId = this.route.snapshot.queryParams['category'];
+        if (categoryId) {
+          const selectedCat = this.categories.find((c) => c.id === +categoryId);
+          if (selectedCat) {
+            this.filter = selectedCat.name;
+          }
+        }
+      },
+    });
   }
 
   loadPosts(): void {
@@ -86,7 +112,7 @@ export class FeedComponent implements OnInit {
     return item.id;
   }
 
-  onFilterClick(filter: 'All' | 'Medical' | 'Jobs') {
+  onFilterClick(filter: string) {
     this.filter = filter;
     this.reset();
     this.loadPosts();
@@ -122,5 +148,23 @@ export class FeedComponent implements OnInit {
     this.sort = item.value;
     this.isOpen = false;
     this.onSortClick(item.value);
+  }
+
+  getCategoryIcon(name: string): string {
+    const icons: { [key: string]: string } = {
+      food: 'restaurant',
+      health: 'medical_services',
+      medical: 'medical_services',
+      education: 'school',
+      clothing: 'checkroom',
+      shelter: 'home',
+      money: 'payments',
+      water: 'water_drop',
+      environment: 'eco',
+      jobs: 'work',
+      'special cases': 'star',
+    };
+
+    return icons[name.toLowerCase()] || 'category';
   }
 }

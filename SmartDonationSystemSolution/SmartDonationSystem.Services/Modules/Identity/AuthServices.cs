@@ -116,6 +116,31 @@ public class AuthServices : IAuthService
             return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description));
         }
 
+        //Saving Interesting Categories for registring user for notifications
+        if (requestDto.InterestingCategoriesIds != null && requestDto.InterestingCategoriesIds.Any() && requestDto.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+        {
+            var categoryIds = requestDto.InterestingCategoriesIds
+                .Distinct()
+                .ToList();
+
+            var validCategoryIds = await _applicationDbContext.Categories
+                .Where(c => categoryIds.Contains(c.Id))
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            if (validCategoryIds.Count != categoryIds.Count)
+                return Result<RegisterResultDto>.BadRequest("Invalid category selection");
+
+            var userCategories = validCategoryIds.Select(categoryId => new UserCategory
+            {
+                UserId = applicationUser.Id,
+                CategoryId = categoryId
+            });
+
+            await _applicationDbContext.UserCategories.AddRangeAsync(userCategories);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
         //Notify Admins about new user registration
         await NotifyAdminsNewUserRegistered(applicationUser);
 
