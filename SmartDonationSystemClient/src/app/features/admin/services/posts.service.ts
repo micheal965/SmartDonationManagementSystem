@@ -12,7 +12,7 @@ import { apiBaseUrl } from '../../../core/utils/app.config';
 export class PostsService {
   constructor(private http: HttpClient) {}
 
-  getUsers(
+  getPosts(
     pageNumber: number,
     pageSize: number,
     postStatus?: string | null,
@@ -28,5 +28,20 @@ export class PostsService {
         ApiResult<PaginatedResponse<PostToReturnDto>>
       >(`${apiBaseUrl}/admin/PostManagement/posts`, { params })
       .pipe(map((res) => res.data));
+  }
+
+  getPostDetails(id: string): Observable<PostToReturnDto> {
+    return this.http
+      .get<
+        ApiResult<PostToReturnDto>
+      >(`${apiBaseUrl}/admin/PostManagement/post-details?id=${id}`)
+      .pipe(map((res) => res.data));
+  }
+
+  updatePostStatus(postId: string, action: string) {
+    return this.http.patch<ApiResult<object>>(
+      `${apiBaseUrl}/admin/PostManagement/update-post-status?postId=${postId}&action=${action}`,
+      null,
+    );
   }
 }

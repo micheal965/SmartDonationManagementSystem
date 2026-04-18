@@ -384,15 +384,9 @@ namespace SmartDonationSystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("User1UnreadCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("User2Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("User2UnreadCount")
-                        .HasColumnType("int");
 
                     b.Property<bool>("lastMessageIsRead")
                         .HasColumnType("bit");

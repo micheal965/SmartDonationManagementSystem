@@ -1,0 +1,146 @@
+<main class="flex flex-col flex-1 lg:ml-64 p-4 sm:p-6 lg:p-10 bg-white rounded-3xl min-h-fit">
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <div class="flex flex-col gap-8">
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <button routerLink="/admin/users"
+                        class="flex place-items-center p-2 rounded-full hover:bg-slate-100 transition-colors">
+                        <mat-icon class="text-slate-600">arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            User Details
+                        </h2>
+                        <p class="text-slate-500 mt-1">
+                            Detailed profile information for {{ user.fullName }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span [ngClass]="user.isSoftDeleted ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'"
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 border"
+                        [class.border-red-200]="user.isSoftDeleted" [class.border-green-200]="!user.isSoftDeleted">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                [ngClass]="user.isSoftDeleted ? 'bg-red-400' : 'bg-green-400'"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2"
+                                [ngClass]="user.isSoftDeleted ? 'bg-red-500' : 'bg-green-500'"></span>
+                        </span>
+                        {{ user.isSoftDeleted ? 'InActive' : 'Active' }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Left Column: Profile Card -->
+                <div class="xl:col-span-1">
+                    <div
+                        class="bg-slate-50 rounded-3xl p-8 border border-slate-100 flex flex-col items-center text-center">
+                        <div class="relative mb-6">
+                            <img [src]="user.pictureUrl || 'assets/avatar.png'" [alt]="user.fullName"
+                                class="w-40 h-40 rounded-full object-cover border-4 border-white shadow-xl">
+                            <div class="absolute bottom-2 right-2 w-6 h-6 border-4 border-white rounded-full shadow-sm"
+                                [ngClass]="user.isSoftDeleted ? 'bg-red-500' : 'bg-green-500'">
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-1">{{ user.fullName }}</h3>
+                        <p class="text-indigo-600 font-medium mb-6">{{ user.role }}</p>
+
+                        <div class="w-full pt-6 border-t border-slate-200">
+                            <div class="flex justify-between items-center mb-4 text-sm">
+                                <span class="text-slate-500 font-medium">User ID</span>
+                                <span class="text-slate-900 font-mono text-xs">{{ user.id }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Details & Information -->
+                <div class="xl:col-span-2 space-y-8">
+                    <!-- Basic Information -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <mat-icon>person</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Personal Information</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Full
+                                    Name</label>
+                                <p class="text-slate-900 font-semibold">{{ user.fullName }}</p>
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Phone
+                                    Number</label>
+                                <div class="flex items-center gap-2 text-slate-900 font-semibold">
+                                    <mat-icon class="text-slate-400">phone</mat-icon>
+                                    {{ user.phoneNumber || 'N/A' }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Birth
+                                    Date</label>
+                                <div class="flex items-center gap-2 text-slate-900 font-semibold">
+                                    <mat-icon class="text-slate-400">cake</mat-icon>
+                                    {{ user.birthDate | date:'mediumDate' }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Address</label>
+                                <div class="flex items-center gap-2 text-slate-900 font-semibold">
+                                    <mat-icon class="text-slate-400">location_on</mat-icon>
+                                    {{ user.address || 'No address provided' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings / Stats -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <mat-icon>settings</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Account Management</h4>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <button [routerLink]="['/admin/edit', user.id]"
+                                class="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100 flex items-center gap-2">
+                                <mat-icon>edit</mat-icon>
+                                Edit Profile
+                            </button>
+                            <button (click)="toggleUserStatus(user)"
+                                class="px-6 py-3 rounded-xl font-bold transition-colors flex items-center gap-2"
+                                [ngClass]="user.isSoftDeleted 
+                ? 'border-green-100 text-green-600 hover:bg-green-50'
+                : 'border-red-100 text-red-600 hover:bg-red-50'">
+
+                                <mat-icon>
+                                    {{ user.isSoftDeleted ? 'check_circle' : 'block' }}
+                                </mat-icon>
+
+                                {{ user.isSoftDeleted ? 'Activate User' : 'Suspend User' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AnalyticsService } from './core/services/analytics.service';
 import { NotificationService } from './core/services/notification.service';
 import { ChatService } from './core/services/chat.service';
 import { AudioService } from './core/services/audio.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +21,13 @@ export class AppComponent implements OnInit {
   private audioService = inject(AudioService);
 
   ngOnInit(): void {
-    this.audioService.unlockAudioOnFirstInteraction();
+    // Track analytics
     this.analyticsService.trackEntrance();
 
+    // Register audio unlock listener (DO NOT assume it unlocks immediately)
+    this.audioService.unlockAudioOnFirstInteraction();
+
+    // Start backend connections (safe in standalone)
     this.notificationService.startConnection();
     this.chatService.startConnection();
   }

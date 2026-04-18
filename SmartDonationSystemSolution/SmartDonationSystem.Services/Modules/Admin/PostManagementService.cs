@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.DTOs;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
+using SmartDonationSystem.Core.Modules.Notifications.DTOs;
+using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Pagination;
@@ -13,12 +15,41 @@ namespace SmartDonationSystem.Services.Modules.Admin
     public class PostManagementService : IPostManagementService
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly INotificationService _notificationService;
 
-        public PostManagementService(ApplicationDbContext applicationDbContext)
+        public PostManagementService(ApplicationDbContext applicationDbContext, INotificationService notificationService)
         {
             _applicationDbContext = applicationDbContext;
+            _notificationService = notificationService;
         }
 
+        public async Task<Result<PostToReturnDto>> GetPostByIdAsync(int postId)
+        {
+            var post = await _applicationDbContext.Posts
+                .Include(p => p.Category)
+                .Include(p => p.PostAttachments)
+                .Include(p => p.ApplicationUser)
+                .Where(p => p.Id == postId)
+                .Select(p => new PostToReturnDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Content = p.Content,
+                    Status = p.Status,
+                    CreatedAt = p.CreatedAt,
+                    PostPicture = p.PostPicture,
+                    PostAttachments = p.PostAttachments.Select(a => a.AttachmentUrl).ToList(),
+                    CategoryName = p.Category.Name,
+                    RequesterName = p.ApplicationUser.FullName,
+                    RequesterPicture = p.ApplicationUser.PictureUrl
+                })
+                .FirstOrDefaultAsync();
+
+            if (post == null)
+                return Result<PostToReturnDto>.NotFound("Post not found");
+
+            return Result<PostToReturnDto>.Ok(post);
+        }
         public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(int pageNumber, int pageSize, PostStatus? postStatus)
         {
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
@@ -69,8 +100,20 @@ namespace SmartDonationSystem.Services.Modules.Admin
             }
 
             await _applicationDbContext.SaveChangesAsync();
-            return Result<object>.Ok("Post status Updated successfully");
-        }
 
+            await _notificationService.CreateAsync(new CreateNotificationRequest
+            {
+                ReceiverId = post.ApplicationUserId,
+                Title = "Post Status Updated",
+                Message = action == PostStatus.Approved.ToString() ? "Congratulations! Your post has been approved and is now visible to others."
+                             : "Unfortunately, your post has been rejected. Please contact support if you believe this is a mistake.",
+                Type = (action == PostStatus.Approved.ToString()) ? NotificationType.PostApproval : NotificationType.PostRejection,
+                EntityId = post.Id
+            });
+
+            //TODO: notify user in that category later
+
+            return Result<object>.Ok(null, "Post status Updated successfully");
+        }
     }
 }

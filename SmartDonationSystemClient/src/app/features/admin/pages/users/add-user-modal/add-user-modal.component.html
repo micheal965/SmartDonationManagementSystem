@@ -1,0 +1,209 @@
+<!-- Modal -->
+<div *ngIf="isModalOpen" (click)="closeModal()"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+
+    <!-- Modal Container -->
+    <div (click)="$event.stopPropagation()"
+        class="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-fadeIn">
+
+        <!-- Close Button -->
+        <button (click)="closeModal()"
+            class="absolute top-4 right-4 text-gray-400 hover:text-black text-2xl transition">
+            ✕
+        </button>
+
+        <div class="p-8">
+
+            <!-- Header -->
+            <h1 class="mb-6 text-3xl font-bold text-dark-blue">Sign Up</h1>
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Profile Picture -->
+                <div>
+                    <div class="flex justify-center">
+                        <div class="relative rounded-full border-2 border-slate-400 border-dashed cursor-pointer"
+                            (click)="fileInput.click()">
+
+                            <!-- Show image preview if exists -->
+                            <img *ngIf="imagePreview" [src]="imagePreview"
+                                class="w-32 h-32 rounded-full object-cover" />
+                            <svg *ngIf="!imagePreview" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                viewBox="0 0 24 24" class="w-32 h-32 p-4 text-gray-400">
+                                <path
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                class="absolute bottom-0 right-0 w-8 h-8 text-black bg-slate-200 rounded-full p-1">
+                                <path fill="currentColor"
+                                    d="M20 5h-3.17l-1.84-2H8.99L7.15 5H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-8 12a4 4 0 110-8 4 4 0 010 8z" />
+                                <circle fill="currentColor" cx="12" cy="12" r="2" />
+                            </svg>
+
+                        </div>
+                    </div>
+                    <input type="file" id="profilePicture" #fileInput accept="image/*" class="hidden"
+                        (change)="onProfilePictureSelected($event)" />
+                    <small *ngIf="profilePicture?.invalid && (profilePicture?.touched || profilePicture?.dirty)"
+                        class="text-red-500 text-md mt-1">
+                        Profile Picture is required.
+                    </small>
+                </div>
+
+                <!-- Role Selection -->
+                <div>
+                    <div class="grid grid-cols-2 gap-4 mb-2">
+
+                        <div (click)="selectRole('Donor')"
+                            class="cursor-pointer border-2 p-4 rounded-xl text-center transition-all duration-300 hover:shadow-sm"
+                            [ngClass]="{
+                 'border-light-green': registerForm.get('Role')?.value==='Donor',
+                 'border-gray-200': registerForm.get('Role')?.value!=='Donor'
+               }">
+                            <h2 class="font-semibold text-dark-blue">Donate</h2>
+                            <p class="text-xs text-gray-500">I want to help</p>
+                        </div>
+
+                        <div (click)="selectRole('Requester')"
+                            class="cursor-pointer border-2 p-4 rounded-xl text-center transition-all duration-300 hover:shadow-sm"
+                            [ngClass]="{
+                 'border-light-green': registerForm.get('Role')?.value==='Requester',
+                 'border-gray-200': registerForm.get('Role')?.value!=='Requester'
+               }">
+                            <h2 class="font-semibold text-dark-blue">Request Help</h2>
+                            <p class="text-xs text-gray-500">I need support</p>
+                        </div>
+
+                        <div (click)="selectRole('Admin')"
+                            class="col-span-2 cursor-pointer border-2 p-4 rounded-xl text-center transition-all duration-300 hover:shadow-sm"
+                            [ngClass]="{
+                 'border-light-green': registerForm.get('Role')?.value==='Admin',
+                 'border-gray-200': registerForm.get('Role')?.value!=='Admin'
+               }">
+                            <h2 class="font-semibold text-dark-blue">Admin</h2>
+                            <p class="text-xs text-gray-500">System access</p>
+                        </div>
+                    </div>
+
+                    <small *ngIf="registerForm.get('Role')?.invalid && registerForm.get('Role')?.touched"
+                        class="text-red-500 text-md block">
+                        Role is required.
+                    </small>
+
+                </div>
+
+                <!-- Identity Number -->
+                <div>
+                    <input type="text" formControlName="IdentityNumber" placeholder="National ID" class="pl-4 w-full" />
+
+                    <div *ngIf="registerForm.get('IdentityNumber')?.invalid &&
+                    (registerForm.get('IdentityNumber')?.touched || registerForm.get('IdentityNumber')?.dirty)"
+                        class="text-red-500 text-md mt-1">
+                        <small *ngIf="registerForm.get('IdentityNumber')?.errors?.['required']">
+                            National ID is required.
+                        </small>
+                        <small *ngIf="registerForm.get('IdentityNumber')?.errors?.['pattern']">
+                            National ID must be exactly 14 digits.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <input type="password" formControlName="Password" placeholder="Password" class="pl-4 w-full" />
+
+                    <div *ngIf="registerForm.get('Password')?.invalid &&
+                    (registerForm.get('Password')?.touched || registerForm.get('Password')?.dirty)"
+                        class="flex flex-col text-red-500 text-md mt-1 space-y-1">
+
+                        <small *ngIf="registerForm.get('Password')?.errors?.['required']">
+                            Password is required.
+                        </small>
+
+                        <small *ngIf="registerForm.get('Password')?.errors?.['minlength']">
+                            Minimum 8 characters required.
+                        </small>
+
+                        <small *ngIf="registerForm.get('Password')?.getError('noUpperCase')">
+                            {{ registerForm.get('Password')?.getError('noUpperCase') }}
+                        </small>
+
+                        <small *ngIf="registerForm.get('Password')?.getError('noLowerCase')">
+                            {{ registerForm.get('Password')?.getError('noLowerCase') }}
+                        </small>
+
+                        <small *ngIf="registerForm.get('Password')?.getError('noNumber')">
+                            {{ registerForm.get('Password')?.getError('noNumber') }}
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Full Name -->
+                <div>
+                    <input type="text" formControlName="FullName" placeholder="Full Name" class="pl-4 w-full" />
+
+                    <small *ngIf="registerForm.get('FullName')?.invalid &&
+                    (registerForm.get('FullName')?.touched || registerForm.get('FullName')?.dirty)"
+                        class="text-red-500 text-md mt-1">
+                        Full name is required.
+                    </small>
+                </div>
+
+                <!-- Birth Date -->
+                <div>
+                    <input type="date" formControlName="BirthDate" class="pl-4 w-full" />
+
+                    <div *ngIf="registerForm.get('BirthDate')?.invalid &&
+                    (registerForm.get('BirthDate')?.touched || registerForm.get('BirthDate')?.dirty)"
+                        class="text-red-500 text-md mt-1 space-y-1">
+
+                        <small *ngIf="registerForm.get('BirthDate')?.errors?.['required']">
+                            Birth date is required.
+                        </small>
+
+                        <small *ngIf="registerForm.get('BirthDate')?.errors?.['tooYoung']">
+                            You must be at least {{ registerForm.get('BirthDate')?.errors?.['tooYoung'].requiredAge }}
+                            years
+                            old.
+                        </small>
+
+                        <small *ngIf="registerForm.get('BirthDate')?.errors?.['futureDate']">
+                            Birth date cannot be in the future.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <input type="text" formControlName="PhoneNumber" placeholder="Phone Number" class="pl-4 w-full" />
+
+                    <small *ngIf="registerForm.get('PhoneNumber')?.invalid &&
+                    (registerForm.get('PhoneNumber')?.touched || registerForm.get('PhoneNumber')?.dirty)"
+                        class="text-red-500 text-md mt-1">
+                        Phone number is required.
+                    </small>
+                </div>
+
+                <!-- Address -->
+                <div>
+                    <input type="text" formControlName="Address" placeholder="Address" class="pl-4 w-full input" />
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" [disabled]="registerForm.invalid || isLoading || isImageUploading"
+                    class="flex justify-center items-center gap-2 w-full btn-primary rounded-xl">
+
+                    <span> {{isLoading? 'Processing' :'Sign Up'}}</span>
+
+                    <svg *ngIf="isLoading" class="w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                        <circle class="opacity-30" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" />
+                        <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</div>

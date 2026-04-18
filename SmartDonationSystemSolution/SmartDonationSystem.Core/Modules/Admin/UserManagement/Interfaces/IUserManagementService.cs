@@ -8,6 +8,8 @@ namespace SmartDonationSystem.Core.Modules.Admin.UserManagement.Interfaces
     {
         Task<Result<PaginatedList<UserToReturnDto>>> GetUsersAsync(int pageNumber, int pageSize, string? role);
         Task<Result<object>> ToggleUserSoftDeleteAsync(string userId);
-
+        Task<Result<object>> AddNewUserAsync(RegisterUserDto dto);
+        Task<Result<UserToReturnDto>> UpdateUserAsync(UpdateUserDto dto);
+        Task<Result<UserToReturnDto>> GetUserByIdAsync(string id);
     }
 }

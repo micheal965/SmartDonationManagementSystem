@@ -6,7 +6,9 @@
         Comment,
         Message,
         Tag,
+        PostCreation,
         PostApproval,
+        PostRejection,
         UserRegistered
     }
 }

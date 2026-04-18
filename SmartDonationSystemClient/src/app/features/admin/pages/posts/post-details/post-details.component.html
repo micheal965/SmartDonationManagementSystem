@@ -1,0 +1,174 @@
+<main class="flex flex-col flex-1 lg:ml-64 p-4 sm:p-6 lg:p-10 bg-white rounded-3xl min-h-screen">
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <div class="flex flex-col gap-8">
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <button routerLink="/admin/posts"
+                        class="flex place-items-center p-2 rounded-full hover:bg-slate-100 transition-colors">
+                        <mat-icon class="text-slate-600">arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            Post Details
+                        </h2>
+                        <p class="text-slate-500 mt-1">
+                            Review and manage donation request
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span [ngClass]="getStatusClass(post.status)"
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 border">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-current"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-current"></span>
+                        </span>
+                        {{ post.status }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Left Column: Requester & Info -->
+                <div class="xl:col-span-1 space-y-6">
+                    <!-- Requester Card -->
+                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Requester</h4>
+                        <div class="flex items-center gap-4">
+                            <img [src]="post.requesterPicture || 'assets/avatar.png'" [alt]="post.requesterName"
+                                class="w-16 h-16 rounded-2xl object-cover shadow-sm">
+                            <div>
+                                <h3 class="font-bold text-slate-900">{{ post.requesterName }}</h3>
+                                <p class="text-xs text-indigo-600 font-medium">Requester</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meta Info -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
+                        <div>
+                            <label
+                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Category</label>
+                            <p class="text-sm font-semibold text-slate-900 flex items-center gap-2">
+                                <mat-icon class="text-indigo-500 text-sm w-4 h-4">category</mat-icon>
+                                {{ post.categoryName }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Created
+                                At</label>
+                            <p class="text-sm font-semibold text-slate-900 flex items-center gap-2">
+                                <mat-icon class="text-indigo-500 text-sm w-4 h-4">calendar_today</mat-icon>
+                                {{ post.createdAt | date:'medium' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Content & Attachments -->
+                <div class="xl:col-span-2 space-y-8">
+                    <!-- Post Content -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">{{ post.title }}</h3>
+                        <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed">
+                            {{ post.content }}
+                        </div>
+                    </div>
+
+                    <!-- Attachments -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <mat-icon>attachment</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Proof & Attachments</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                            <div class="lg:col-span-2">
+                                <div
+                                    class="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+                                    <img [src]="post.postPicture"
+                                        class="w-full h-[320px] md:h-[420px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                                    <div
+                                        class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="post.postAttachments && post.postAttachments.length > 0"
+                                class="flex flex-col gap-3">
+
+                                <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                                    Attachments
+                                </h3>
+
+                                <a *ngFor="let file of post.postAttachments; let i = index" [href]="file"
+                                    target="_blank"
+                                    class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md hover:border-slate-300 transition">
+
+                                    <!-- Left -->
+                                    <div class="flex items-center gap-3 min-w-0">
+
+                                        <div
+                                            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 group-hover:bg-light-green/10 transition">
+
+                                            <mat-icon class="text-light-green text-[20px]">
+                                                {{ getFileIcon(file) }}
+                                            </mat-icon>
+
+                                        </div>
+
+                                        <div class="flex flex-col min-w-0">
+                                            <span class="text-sm font-medium text-slate-700 truncate">
+                                                Attachment {{ i + 1 }}
+                                            </span>
+
+                                            <span class="text-xs text-slate-400 truncate">
+                                                {{ file | slice:-20 }}
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Right -->
+                                    <mat-icon class="text-slate-400 group-hover:text-slate-600 transition">
+                                        open_in_new
+                                    </mat-icon>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="post.status === 'Pending'"
+                        class="bg-white rounded-xl p-8 border-2 border-indigo-50 shadow-sm shadow-indigo-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-900">Decision Required</h4>
+                            <p class="text-slate-500 text-sm">Please review the content and proof before making a
+                                decision.</p>
+                        </div>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <button (click)="updateStatus('Rejected')" [disabled]="isLoading"
+                                class="flex-1 sm:flex-none px-8 py-3 bg-white text-red-600 border border-red-100 rounded-xl font-bold hover:bg-red-50 transition-colors disabled:opacity-50">
+                                Reject
+                            </button>
+                            <button (click)="updateStatus('Approved')" [disabled]="isLoading"
+                                class="flex-1 sm:flex-none px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 disabled:opacity-50">
+                                <span *ngIf="isLoading"
+                                    class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                {{ isLoading ? 'Processing...' : 'Approve' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

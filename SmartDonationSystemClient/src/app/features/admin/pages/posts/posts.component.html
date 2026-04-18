@@ -30,17 +30,23 @@
             <div class="p-5 flex flex-col gap-4">
 
                 <div>
-                    <h3
-                        class="text-slate-900 font-bold text-lg leading-tight line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                    <h3 [routerLink]="['/admin/posts', post.id]"
+                        class="text-slate-900 font-bold text-lg leading-tight line-clamp-2 group-hover:text-indigo-600 transition-colors cursor-pointer">
                         {{ post.title }}
                     </h3>
                     <p class="text-slate-500 text-sm line-clamp-3">
                         {{ post.content }}
                     </p>
-                    <p class="text-slate-500 text-xs mt-2 flex items-center gap-1">
-                        <mat-icon class="text-sm">calendar_today</mat-icon>
-                        {{ post.createdAt | date:'mediumDate' }}
-                    </p>
+                    <div class="flex items-center justify-between mt-2">
+                        <p class="text-slate-500 text-xs flex items-center gap-1">
+                            <mat-icon class="text-sm">calendar_today</mat-icon>
+                            {{ post.createdAt | date:'mediumDate' }}
+                        </p>
+                        <button [routerLink]="['/admin/posts', post.id]"
+                            class="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline uppercase tracking-wider">
+                            Review
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Footer -->
@@ -50,19 +56,13 @@
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-full bg-slate-200 overflow-hidden">
                             <img class="w-full h-full rounded-full object-cover"
-                                [src]="post.requesterPicture || 'assets/user.png'" />
+                                [src]="post.requesterPicture || 'assets/avatar.png'" />
                         </div>
 
                         <span class="text-xs text-slate-600 font-medium">
                             {{ post.requesterName || 'Unknown' }}
                         </span>
                     </div>
-
-                    <!-- Actions -->
-                    <button class="text-slate-400 hover:text-indigo-600 transition-colors">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-
                 </div>
             </div>
         </div>

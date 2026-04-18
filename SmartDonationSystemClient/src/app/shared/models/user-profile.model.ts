@@ -6,4 +6,5 @@ export interface UserProfile {
   address: string;
   phoneNumber: string;
   role: string;
+  isSoftDeleted: boolean;
 }

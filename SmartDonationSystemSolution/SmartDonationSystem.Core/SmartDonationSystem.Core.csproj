@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Modules\Cloud\" />
-    <Folder Include="Modules\User\Donation\" />
-    <Folder Include="Modules\User\PostAggregate\Reaction\DTOs\" />
+    <Folder Include="Modules\Payment\" />
+    <Folder Include="Modules\PostAggregate\Reaction\DTOs\" />
   </ItemGroup>
 
 </Project>

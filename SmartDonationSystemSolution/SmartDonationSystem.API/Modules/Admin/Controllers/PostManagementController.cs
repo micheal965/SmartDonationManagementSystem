@@ -29,5 +29,11 @@ namespace SmartDonationSystem.API.Modules.Admin.Controllers
             var result = await _postService.ApproveOrFreezePostAsync(postId, action, userId);
             return StatusCode((int)result.statusCode, result);
         }
+        [HttpGet("post-details")]
+        public async Task<IActionResult> GetPostById([FromQuery] int id)
+        {
+            var result = await _postService.GetPostByIdAsync(id);
+            return StatusCode((int)result.statusCode, result);
+        }
     }
 }

@@ -18,7 +18,7 @@ export class NotificationsComponent implements OnInit {
   page = 1;
   pageSize = 5;
   notificationStyle: any = {
-    PostApproval: {
+    PostCreation: {
       border: 'border-emerald-500',
       dot: 'bg-emerald-500',
     },

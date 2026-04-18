@@ -11,9 +11,6 @@
         public string? LastMessage { get; set; }
         public DateTime? LastMessageAt { get; set; }
         public bool lastMessageIsRead { get; set; } = false;
-        public int User1UnreadCount { get; set; }
-        public int User2UnreadCount { get; set; }
-
         public ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }

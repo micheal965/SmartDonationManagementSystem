@@ -16,10 +16,10 @@ export class NotificationService {
   private audioService = inject(AudioService);
   private httpClient = inject(HttpClient);
   private authService = inject(AuthService);
+
   private hubConnection!: signalR.HubConnection;
   private isStarting = false;
   private isStarted = false;
-  private listenersRegistered = false;
 
   state = signal<{
     items: NotificationPayload[];
@@ -41,10 +41,8 @@ export class NotificationService {
       })
       .withAutomaticReconnect()
       .build();
-    if (!this.listenersRegistered) {
-      this.registerListeners();
-      this.listenersRegistered = true;
-    }
+
+    this.registerListeners();
 
     this.hubConnection
       .start()
@@ -52,9 +50,7 @@ export class NotificationService {
         this.isStarted = true;
         this.isStarting = false;
       })
-      .catch(() => {
-        this.isStarting = false;
-      });
+      .catch(() => (this.isStarting = false));
   }
 
   private registerListeners() {
@@ -62,6 +58,7 @@ export class NotificationService {
       'ReceiveNotification',
       (notification: NotificationPayload) => {
         this.audioService.playSound('notification');
+
         this.unreadCount.set(this.unreadCount() + 1);
         this.state.update((state) => {
           if (!state) return state;
@@ -77,6 +74,7 @@ export class NotificationService {
 
   stopConnection() {
     this.hubConnection?.stop();
+    this.isStarted = false;
   }
   loadNotifications(page: number = 1, pageSize: number = 10) {
     this.httpClient

@@ -85,15 +85,15 @@ public class AuthServices : IAuthService
     }
     public async Task<Result<RegisterResultDto>> RegisterAsync(RegisterRequestDto requestDto)
     {
-        ApplicationUser? existingUser = await _applicationDbContext.ApplicationUsers
-                                        .FirstOrDefaultAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
-        if (existingUser != null) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
+        bool existingUser = await _applicationDbContext.ApplicationUsers
+                                        .AnyAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
+        if (existingUser) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
 
         ApplicationUser applicationUser = new ApplicationUser()
         {
             IdentityNumber = requestDto.IdentityNumber,
             FullName = requestDto.FullName,
-            UserName = Guid.NewGuid().ToString(),
+            UserName = requestDto.IdentityNumber,
             BirthDate = requestDto.BirthDate,
             PhoneNumber = requestDto.PhoneNumber,
             Address = requestDto.Address,
@@ -104,24 +104,17 @@ public class AuthServices : IAuthService
         if (!await _roleManager.RoleExistsAsync(requestDto.Role) ||
             requestDto.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase)) return Result<RegisterResultDto>.BadRequest("Invalid role");
 
-        //Create transaction to ensure the user and its role created or not at all
-        using var transaction = await _applicationDbContext.Database.BeginTransactionAsync();
 
         IdentityResult createResult = await _userManager.CreateAsync(applicationUser, requestDto.Password);
         if (!createResult.Succeeded)
-        {
-            await transaction.RollbackAsync();
-            return Result<RegisterResultDto>.BadRequest("Registration failed", createResult.Errors.Select(e => e.Description).ToList());
-        }
+            return Result<RegisterResultDto>.BadRequest("Registration failed", createResult.Errors.Select(e => e.Description));
+
         IdentityResult roleResult = await _userManager.AddToRoleAsync(applicationUser, requestDto.Role);
         if (!roleResult.Succeeded)
         {
             await _userManager.DeleteAsync(applicationUser);
-            await transaction.RollbackAsync();
-
-            return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description).ToList());
+            return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description));
         }
-        await transaction.CommitAsync();
 
         //Notify Admins about new user registration
         await NotifyAdminsNewUserRegistered(applicationUser);

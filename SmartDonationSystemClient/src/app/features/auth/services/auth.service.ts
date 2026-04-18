@@ -10,8 +10,6 @@ import { JwtPayloadModel } from '../models/jwt-payload.model';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { userDataModel } from '../models/user-data.model';
-import { NotificationService } from '../../../core/services/notification.service';
-import { ChatService } from '../../../core/services/chat.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +17,7 @@ import { ChatService } from '../../../core/services/chat.service';
 export class AuthService {
   private accessToken: string | null = null;
   private router = inject(Router);
+
   private isBrowser: boolean;
   userData!: userDataModel;
 

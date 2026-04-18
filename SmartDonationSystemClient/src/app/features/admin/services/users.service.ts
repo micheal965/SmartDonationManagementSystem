@@ -5,6 +5,7 @@ import { UserToReturnDto } from '../models/user-model';
 import { map, Observable } from 'rxjs';
 import { ApiResult } from '../../../shared/models/api-result-model';
 import { apiBaseUrl } from '../../../core/utils/app.config';
+import { UpdateUserDto } from '../models/update-user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,28 @@ export class UsersService {
     return this.http.delete<ApiResult<object>>(
       `${apiBaseUrl}/admin/UserManagement/toggle-user-soft-delete`,
       { params },
+    );
+  }
+  addNewUser(data: any): Observable<ApiResult<any>> {
+    return this.http.post<ApiResult<any>>(
+      `${apiBaseUrl}/admin/UserManagement/add-new-user`,
+      data,
+    );
+  }
+  getUserDetails(id: string): Observable<UserToReturnDto> {
+    return this.http
+      .get<
+        ApiResult<UserToReturnDto>
+      >(`${apiBaseUrl}/admin/UserManagement/get-user-details?id=${id}`)
+      .pipe(map((res) => res.data));
+  }
+
+  updateUser(
+    updateUserDto: UpdateUserDto,
+  ): Observable<ApiResult<UserToReturnDto>> {
+    return this.http.put<ApiResult<UserToReturnDto>>(
+      `${apiBaseUrl}/admin/UserManagement/update-user`,
+      updateUserDto,
     );
   }
 }

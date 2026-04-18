@@ -103,8 +103,10 @@ namespace SmartDonationSystem.Services.Modules.Messaging
                 Content = request.Content,
                 CreatedAt = message.CreatedAt,
                 IsRead = message.IsRead,
+                Participants = await GetMessageParticipantsDataAsync(request.SenderId, request.ReceiverId)
             };
         }
+
         public async Task<Result<PaginatedList<MessagePayload>>> GetMessagesAsync(
             string userId,
             int conversationId,
@@ -199,5 +201,29 @@ namespace SmartDonationSystem.Services.Modules.Messaging
                 : conversation.User1Id;
         }
 
+        private async Task<MessageParticipantsPayload?> GetMessageParticipantsDataAsync(string senderId, string receiverId)
+        {
+            var Sender = await _context.Users.Where(u => u.Id == senderId).Select(u => new
+            {
+                SenderName = u.FullName,
+                SenderImage = u.PictureUrl
+            }).FirstOrDefaultAsync();
+
+            var Receiver = await _context.Users.Where(u => u.Id == receiverId).Select(u => new
+            {
+                ReceiverName = u.FullName,
+                ReceiverImage = u.PictureUrl
+            }).FirstOrDefaultAsync();
+            if (Receiver == null || Sender == null) return null;
+
+            var messageParticipantsPayload = new MessageParticipantsPayload()
+            {
+                SenderName = Sender.SenderName,
+                SenderImage = Sender.SenderImage,
+                ReceiverName = Receiver.ReceiverName,
+                ReceiverImage = Receiver.ReceiverImage,
+            };
+            return messageParticipantsPayload;
+        }
     }
 }

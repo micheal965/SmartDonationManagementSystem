@@ -27,7 +27,8 @@
             ]">
 
                 <div class="w-12 h-12 rounded-full flex items-center justify-center">
-                    <img class="rounded-full w-full h-full" [src]="n.actorImage" alt="Actor Image">
+                    <img class="rounded-full w-full h-full" [src]="n.actorImage || './assets/avatar.png'"
+                        alt="Actor Image">
                 </div>
 
                 <div class="flex-1">

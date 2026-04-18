@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessagePayload } from '../../shared/models/message-payload-model';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chat',
@@ -31,7 +31,6 @@ export class ChatComponent implements AfterViewChecked {
   private typingInterval: ReturnType<typeof setInterval> | null = null;
   private typingTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  private isTypingSent = false;
   isTyping = computed(() => {
     return (
       this.chatService.typingUserId() ===
@@ -43,6 +42,7 @@ export class ChatComponent implements AfterViewChecked {
     return this.chatService.state()?.messages || [];
   }
   ngOnInit(): void {
+    this.chatService.startConnection();
     this.chatService.loadMessages();
   }
 

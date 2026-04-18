@@ -3,12 +3,13 @@ import { MatIcon } from '@angular/material/icon';
 import { PaginatedResponse } from '../../../../shared/models/paginated-response.model';
 import { PostToReturnDto } from '../../models/post.model';
 import { PostsService } from '../../services/posts.service';
-import { NgFor, NgClass, DatePipe } from '@angular/common';
+import { NgFor, NgClass, DatePipe, NgIf } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [MatIcon, NgFor, NgClass, DatePipe],
+  imports: [MatIcon, NgFor, NgClass, DatePipe, NgIf, RouterModule, RouterLink],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
 })
@@ -50,14 +51,13 @@ export class PostsComponent {
   }
   loadPosts(): void {
     this.postService
-      .getUsers(this.pageNumber, this.pageSize, this.selectedFilter)
+      .getPosts(this.pageNumber, this.pageSize, this.selectedFilter)
       .subscribe({
         next: (res) => {
           this.PaginatedPosts = {
             ...res,
             items: [...(this.PaginatedPosts?.items ?? []), ...res.items],
           };
-          console.log(res);
         },
       });
   }

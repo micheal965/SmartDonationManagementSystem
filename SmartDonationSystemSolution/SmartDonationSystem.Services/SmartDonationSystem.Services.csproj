@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\Cloud\" />
-    <Folder Include="Modules\User\Donation\" />
+    <Folder Include="Modules\Payment\" />
   </ItemGroup>
 
   <ItemGroup>

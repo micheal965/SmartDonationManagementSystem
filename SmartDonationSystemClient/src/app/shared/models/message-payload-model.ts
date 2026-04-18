@@ -1,3 +1,5 @@
+import { MessageParticipantPayload } from './message-participants-model';
+
 export interface MessagePayload {
   id: number;
   conversationId: number;
@@ -10,4 +12,5 @@ export interface MessagePayload {
 
   isMine: boolean;
   isRead: boolean;
+  participants: MessageParticipantPayload;
 }

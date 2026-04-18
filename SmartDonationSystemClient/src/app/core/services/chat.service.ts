@@ -43,11 +43,9 @@ export class ChatService {
   typingUserId = signal<string | null>(null);
   private typingTimeout: ReturnType<typeof setTimeout> | null = null;
   private typingSoundLock = false;
-
   startConnection() {
     const token = this.auth.getAccessToken();
-    if (!token || this.isStarting || this.isStarted) return;
-
+    if (this.isStarted || this.isStarting || !token) return;
     this.isStarting = true;
 
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -72,7 +70,6 @@ export class ChatService {
       if (convId) this.loadMessages(convId);
     });
   }
-
   stopConnection() {
     this.hubConnection?.stop();
     this.isStarted = false;
@@ -82,6 +79,7 @@ export class ChatService {
     this.hubConnection.on('ReceiveMessage', (message: MessagePayload) => {
       const state = this.state();
       if (!state) return;
+
       const isMine = message.senderId === this.auth.userData.id;
 
       const enriched: MessagePayload = {
@@ -92,7 +90,9 @@ export class ChatService {
       const isActive =
         state.selectedConversation?.id === message.conversationId;
       if (isActive && !isMine) {
-        this.hubConnection.invoke('MarkAsRead', message.conversationId);
+        this.ensureConnected().then(() =>
+          this.hubConnection.invoke('MarkAsRead', message.conversationId),
+        );
       }
 
       this.updateConversationPreview(enriched, isMine);
@@ -105,7 +105,6 @@ export class ChatService {
           return s;
         }
 
-        // 💬 update messages only if chat is open
         if (!isActive) return s;
 
         return {
@@ -197,12 +196,17 @@ export class ChatService {
         ),
         selectedConversation: conversation,
       }));
-      this.hubConnection.invoke('MarkAsRead', conversation.id);
+      this.ensureConnected().then(() =>
+        this.hubConnection.invoke('MarkAsRead', conversation.id),
+      );
     });
   }
   selectConversation(conversation: Conversation) {
     if (this.state()?.selectedConversation?.id === conversation.id) return;
-    this.hubConnection.invoke('MarkAsRead', conversation.id);
+
+    this.ensureConnected().then(() =>
+      this.hubConnection.invoke('MarkAsRead', conversation.id),
+    );
 
     this.state.update((state) => ({
       ...state!,
@@ -215,7 +219,6 @@ export class ChatService {
       messages: [],
     }));
   }
-
   closeConversation() {
     this.state.update((s) => ({
       ...s!,
@@ -259,20 +262,28 @@ export class ChatService {
   sendMessage(newMessage: string) {
     const conversation = this.state()?.selectedConversation;
     if (!conversation) return;
+
     const request: MessageRequest = {
       conversationId: conversation.id,
       receiverId: conversation.otherUserId,
       content: newMessage,
     };
+
     this.typingUserId.set(null);
-    return this.hubConnection.invoke('SendMessage', request);
+
+    return this.ensureConnected().then(() =>
+      this.hubConnection.invoke('SendMessage', request),
+    );
   }
+
   //Typing Indicator
   sendTyping() {
     const receiverId = this.state()?.selectedConversation?.otherUserId;
     if (!receiverId) return;
 
-    this.hubConnection.invoke('Typing', { receiverId });
+    this.ensureConnected().then(() =>
+      this.hubConnection.invoke('Typing', { receiverId }),
+    );
   }
 
   //Helpers
@@ -318,6 +329,12 @@ export class ChatService {
               id: message.conversationId,
               lastMessage: message.content,
               lastMessageAt: message.createdAt,
+              otherUserName: isMine
+                ? message.participants.receiverName
+                : message.participants.senderName,
+              otherUserImage: isMine
+                ? message.participants.receiverImage
+                : message.participants.senderImage,
             } as any,
             ...s.conversations,
           ];
@@ -327,5 +344,12 @@ export class ChatService {
         conversations,
       };
     });
+  }
+  private ensureConnected(): Promise<void> {
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected) {
+      return Promise.resolve();
+    }
+
+    return this.hubConnection.start();
   }
 }

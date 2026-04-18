@@ -24,6 +24,8 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  private chatService = inject(ChatService);
+  private notificationService = inject(NotificationService);
 
   showPassword: boolean = false;
   isLoading: boolean = false;
@@ -50,8 +52,10 @@ export class LoginComponent {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
+          this.chatService.startConnection();
+          this.notificationService.startConnection();
+
           this.toastr.success('Logged in successfully');
-          //navigate
           this.router.navigate(['/feed']);
         },
       });

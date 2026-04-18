@@ -5,6 +5,8 @@ import { postDetailsResolver } from './features/post-details/post-details.resolv
 import { profileResolver } from './features/profile/profile.resolver';
 import { postCommentsResolver } from './features/post-details/post-comments.resolver';
 import { adminGuard } from './core/guards/admin.guard';
+import { userDetailsResolver } from './features/admin/pages/users/user-details.resolver';
+import { postDetailsResolver as adminPostDetailsResolver } from './features/admin/pages/posts/post-details.resolver';
 
 export const routes: Routes = [
   {
@@ -123,6 +125,22 @@ export const routes: Routes = [
         title: 'Users',
       },
       {
+        path: 'users/:id',
+        resolve: { user: userDetailsResolver },
+        loadComponent: () =>
+          import('./features/admin/pages/users/user-details/user-details.component').then(
+            (m) => m.UserDetailsComponent,
+          ),
+      },
+      {
+        path: 'edit/:id',
+        resolve: { user: userDetailsResolver },
+        loadComponent: () =>
+          import('./features/admin/pages/users/edit-user/edit-user.component').then(
+            (m) => m.EditUserComponent,
+          ),
+      },
+      {
         path: 'posts',
         loadComponent: () =>
           import('./features/admin/pages/posts/posts.component').then(
@@ -131,20 +149,21 @@ export const routes: Routes = [
         title: 'Posts',
       },
       {
+        path: 'posts/:id',
+        resolve: { post: adminPostDetailsResolver },
+        loadComponent: () =>
+          import('./features/admin/pages/posts/post-details/post-details.component').then(
+            (m) => m.PostDetailsComponent,
+          ),
+        title: 'Post Details',
+      },
+      {
         path: 'categories',
         loadComponent: () =>
           import('./features/admin/pages/categories/categories.component').then(
             (m) => m.CategoriesComponent,
           ),
         title: 'Categories',
-      },
-      {
-        path: 'analytics',
-        loadComponent: () =>
-          import('./features/admin/pages/analytics/analytics.component').then(
-            (m) => m.AnalyticsComponent,
-          ),
-        title: 'Analytics',
       },
       {
         path: '**',

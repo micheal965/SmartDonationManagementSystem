@@ -5,6 +5,7 @@
         public required string Id { get; set; }
         public required string FullName { get; set; }
         public required string IdentityNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? PictureUrl { get; set; }
         public DateOnly BirthDate { get; set; }
         public string? Address { get; set; }

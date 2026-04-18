@@ -19,11 +19,10 @@ namespace SmartDonationSystem.Services.Modules.SignalR.Hubs
         {
             var senderId = Context.UserIdentifier;
 
-            await Clients.User(request.ReceiverId)
-                .SendAsync("UserTyping", new
-                {
-                    SenderId = senderId
-                });
+            await Clients.User(request.ReceiverId).SendAsync("UserTyping", new
+            {
+                SenderId = senderId
+            });
         }
         public async Task MarkAsRead(int conversationId)
         {

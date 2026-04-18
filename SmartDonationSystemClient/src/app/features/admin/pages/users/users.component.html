@@ -1,12 +1,12 @@
-<main class="flex flex-col ml-64 p-10 bg-white rounded-3xl">
+<main class="flex flex-col ml-64 p-10 bg-white rounded-3xl" (click)="toggleActions(null)">
 
     <div class="flex justify-between mb-8">
         <div>
             <h2 class="text-3xl font-extrabold text-slate-900 mb-2">User Management</h2>
             <p class="text-slate-500 font-medium">Control access levels and manage your global team members.</p>
         </div>
-        <div >
-            <button
+        <div>
+            <button (click)="toggleNewUserModal()"
                 class="flex place-items-center gap-2 px-4 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">
                 <mat-icon>add</mat-icon>
                 Add New User
@@ -70,8 +70,26 @@
 
                         </button>
                     </td>
-                    <td class="px-8 py-5 text-right">
-                        <button class="text-slate-300 hover:text-slate-600"><mat-icon>more_horiz</mat-icon></button>
+                    <td class="relative px-8 py-5 text-right">
+                        <button (click)="$event.stopPropagation()" (click)="toggleActions(user.id)"
+                            class="text-slate-300 hover:text-slate-600">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>
+
+                        <div *ngIf="activeDropdownUserId === user.id"
+                            class="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg py-2 z-50">
+                            <button [routerLink]="['/admin/users', user.id]"
+                                class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 flex items-center gap-2 hover:text-blue-600">
+                                <mat-icon class="text-base">visibility</mat-icon>
+                                View
+                            </button>
+
+                            <button [routerLink]="['/admin/edit', user.id]"
+                                class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 flex items-center gap-2 hover:text-blue-600">
+                                <mat-icon class="text-base">edit</mat-icon>
+                                Edit
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -111,4 +129,6 @@
             </div>
         </div>
     </div>
+
+    <app-add-user-modal [isModalOpen]="isAddUserModelOpen" (close)="isAddUserModelOpen = false" />
 </main>

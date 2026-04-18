@@ -3,14 +3,25 @@ import { MatIcon } from '@angular/material/icon';
 import { UsersService } from '../../services/users.service';
 import { UserToReturnDto } from '../../models/user-model';
 import { FormsModule } from '@angular/forms';
-import { DatePipe, NgClass, NgFor } from '@angular/common';
+import { DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { PaginatedResponse } from '../../../../shared/models/paginated-response.model';
 import { ToastrService } from 'ngx-toastr';
+import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [MatIcon, FormsModule, NgFor, NgClass, DatePipe],
+  imports: [
+    MatIcon,
+    FormsModule,
+    NgFor,
+    NgIf,
+    NgClass,
+    DatePipe,
+    AddUserModalComponent,
+    RouterLink,
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
@@ -29,6 +40,9 @@ export class UsersComponent implements OnInit {
     { label: 'Donors', value: 'Donor' },
     { label: 'Requesters', value: 'Requester' },
   ];
+  isAddUserModelOpen: boolean = false;
+  activeDropdownUserId: string | null = null;
+
   get totalPages() {
     return this.PaginatedUsers
       ? Math.ceil(this.PaginatedUsers.totalCount / this.pageSize)
@@ -106,5 +120,12 @@ export class UsersComponent implements OnInit {
         this.toastr.success(res.message);
       },
     });
+  }
+  toggleNewUserModal() {
+    this.isAddUserModelOpen = !this.isAddUserModelOpen;
+  }
+  toggleActions(userId: string | null) {
+    this.activeDropdownUserId =
+      this.activeDropdownUserId === userId ? null : userId;
   }
 }

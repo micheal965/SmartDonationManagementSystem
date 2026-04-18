@@ -1,0 +1,156 @@
+<main class="flex flex-col flex-1 lg:ml-64 p-4 sm:p-6 lg:p-10 bg-white rounded-3xl">
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <div class="flex flex-col gap-8">
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <button routerLink="/admin/users"
+                        class="flex place-items-center p-2 rounded-full hover:bg-slate-100 transition-colors">
+                        <mat-icon class="text-slate-600">arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            Edit User
+                        </h2>
+                        <p class="text-slate-500 mt-1">
+                            Modify profile information for {{ user.fullName }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Left Column: Profile Picture -->
+                <div class="xl:col-span-1">
+                    <div
+                        class="bg-slate-50 rounded-3xl p-8 border border-slate-100 flex flex-col items-center text-center">
+                        <div class="relative mb-6">
+                            <div class="relative rounded-full border-4 border-white shadow-xl cursor-pointer overflow-hidden group"
+                                (click)="fileInput.click()">
+                                <img [src]="imagePreview || 'assets/avatar.png'" [alt]="user.fullName"
+                                    class="w-40 h-40 object-cover transition-opacity group-hover:opacity-75">
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <mat-icon class="text-white">camera_alt</mat-icon>
+                                </div>
+                                <div *ngIf="isImageUploading"
+                                    class="absolute inset-0 flex items-center justify-center bg-white/60">
+                                    <svg class="w-8 h-8 animate-spin text-indigo-600" viewBox="0 0 24 24" fill="none">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4" />
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <input type="file" #fileInput accept="image/*" class="hidden"
+                                (change)="onProfilePictureSelected($event)" />
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-1">{{ fullName?.value || 'User Name' }}</h3>
+                        <p class="text-indigo-600 font-medium mb-6">{{ role?.value || 'Role' }}</p>
+
+                        <div class="w-full pt-6 border-t border-slate-200">
+                            <p class="text-xs text-slate-400 uppercase font-bold tracking-widest mb-4">Select Role</p>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button type="button" *ngFor="let r of ['Admin', 'Donor', 'Requester']"
+                                    (click)="selectRole(r)"
+                                    class="px-4 py-2 rounded-xl text-sm font-semibold transition-all border" [ngClass]="{
+                                        'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-100': role?.value === r,
+                                        'bg-white text-slate-600 border-slate-200 hover:border-indigo-300': role?.value !== r
+                                    }">
+                                    {{ r }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Details & Information -->
+                <div class="xl:col-span-2 space-y-8">
+                    <!-- Basic Information -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <mat-icon>person</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Personal Information</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Full Name -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Full
+                                    Name</label>
+                                <input type="text" formControlName="fullName" placeholder="Full Name"
+                                    class="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                                <small *ngIf="fullName?.invalid && (fullName?.touched || fullName?.dirty)"
+                                    class="text-red-500 text-xs">Full name is required.</small>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Phone
+                                    Number</label>
+                                <input type="text" formControlName="phoneNumber" placeholder="Phone Number"
+                                    class="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                                <small *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
+                                    class="text-red-500 text-xs">Phone number is required.</small>
+                            </div>
+
+                            <!-- Identity Number -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">National
+                                    ID</label>
+                                <input type="text" formControlName="identityNumber" placeholder="National ID"
+                                    class="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                                <div *ngIf="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)"
+                                    class="text-red-500 text-xs flex flex-col gap-1">
+                                    <small *ngIf="identityNumber?.errors?.['required']">National ID is
+                                        required.</small>
+                                    <small *ngIf="identityNumber?.errors?.['pattern']">National ID must be 14
+                                        digits.</small>
+                                </div>
+                            </div>
+
+                            <!-- Birth Date -->
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Birth
+                                    Date</label>
+                                <input type="date" formControlName="birthDate"
+                                    class="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                                <div *ngIf="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)"
+                                    class="text-red-500 text-xs flex flex-col gap-1">
+                                    <small *ngIf="birthDate?.errors?.['required']">Birth date is required.</small>
+                                    <small *ngIf="birthDate?.errors?.['tooYoung']">Must be at least 18 years
+                                        old.</small>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="flex flex-col gap-2 md:col-span-2">
+                                <label
+                                    class="text-xs font-bold text-slate-400 uppercase tracking-widest">Address</label>
+                                <input type="text" formControlName="address" placeholder="Address"
+                                    class="px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end gap-4">
+                        <button type="button" routerLink="/admin/users"
+                            class="px-8 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" [disabled]="editForm.invalid || isLoading || isImageUploading"
+                            class="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100 flex items-center gap-2">
+                            <span *ngIf="isLoading" class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                            {{ isLoading ? 'Saving...' : 'Save Changes' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

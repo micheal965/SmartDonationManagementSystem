@@ -11,7 +11,9 @@ namespace SmartDonationSystem.Shared.Helpers
                 NotificationType.Like => $"/posts/{entityId}",
                 NotificationType.Comment => $"/posts/{entityId}",
                 NotificationType.Tag => $"/posts/{entityId}",
-                NotificationType.PostApproval => $"/admin/posts/{entityId}",
+                NotificationType.PostCreation => $"/admin/posts/{entityId}",
+                NotificationType.PostApproval => $"/posts/{entityId}",
+                NotificationType.PostRejection => "/feed",
                 NotificationType.UserRegistered => $"/admin/users",
                 NotificationType.Message => "/chat",
                 _ => "/"
