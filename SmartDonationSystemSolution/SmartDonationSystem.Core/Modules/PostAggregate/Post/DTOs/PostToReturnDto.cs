@@ -10,7 +10,7 @@
         public int? likesCount { get; set; }
         public List<string> attachments { get; set; }
         public required string PostPicture { get; set; }
-
+        public required string createdByRole { get; set; }
         public bool hasReacted { get; set; }
         public required string categoryName { get; set; }
         public int viewCount { get; set; }

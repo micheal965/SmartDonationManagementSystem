@@ -28,6 +28,7 @@ export class PostDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(({ post }) => {
       this.post = post;
+      console.log('posttttttttt' + this.post);
       this.titleService.setTitle(`Post | ${this.post.title}`);
     });
   }

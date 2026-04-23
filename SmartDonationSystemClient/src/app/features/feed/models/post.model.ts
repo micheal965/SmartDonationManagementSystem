@@ -9,6 +9,7 @@ export interface Post {
   phoneNumber: string;
   viewCount: number;
   postPicture: string;
+  createdByRole: 'Requester' | 'Donor';
   pictureUrl: string;
   attachments: string[];
   likesCount: number;

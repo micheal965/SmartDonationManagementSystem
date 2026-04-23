@@ -9,6 +9,7 @@ export interface PostToReturnDto {
 
   categoryName: string;
 
-  requesterName?: string;
-  requesterPicture?: string;
+  creatorName?: string;
+  creatorPicture?: string;
+  creatorRole?: string;
 }

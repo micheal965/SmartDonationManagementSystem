@@ -72,10 +72,6 @@ export class FeedService {
       .get<ApiResult<Post>>(`${apiBaseUrl}/Post/get-post/${id}`)
       .pipe(map((res) => res.data));
   }
-  updatePost(id: number, data: any): Observable<Post> {
-    return this.http.put<Post>(`${apiBaseUrl}/${id}`, data);
-    // .pipe(map((res) => res.data));
-  }
 
   reactToPost(postId: number) {
     var params = new HttpParams().set('postId', postId);

@@ -1,30 +1,29 @@
 import { UserService } from './../../core/services/user.service';
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { Component, inject, OnInit } from '@angular/core';
 import { FeedService } from './services/feed.service';
 import { Post } from './models/post.model';
-import { NgClass, NgFor, NgIf, isPlatformBrowser } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { InfiniteScrollDirective } from '../../shared/directives/infinite-scroll.directive';
 import { CreatePostComponent } from '../create-post/create-post.component';
 import { ToastrService } from 'ngx-toastr';
 import { MatIcon } from '@angular/material/icon';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthService } from '../auth/services/auth.service';
 import { CategoryService } from '../../core/services/category.service';
 import { Category } from '../../shared/models/category-model';
 import { ActivatedRoute } from '@angular/router';
+import { PostComponent } from '../post/post.component';
 
 @Component({
   selector: 'app-feed',
   standalone: true,
   imports: [
-    CardComponent,
     NgIf,
     NgFor,
     InfiniteScrollDirective,
     NgClass,
     CreatePostComponent,
     MatIcon,
+    PostComponent,
   ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',
@@ -80,7 +79,6 @@ export class FeedComponent implements OnInit {
   loadPosts(): void {
     if (this.loading || !this.hasNext) return;
     this.loading = true;
-
     const categoryName = this.filter === 'All' ? null : this.filter;
     this.feedService
       .getPosts(this.pageNumber, this.pageSize, categoryName, this.sort)

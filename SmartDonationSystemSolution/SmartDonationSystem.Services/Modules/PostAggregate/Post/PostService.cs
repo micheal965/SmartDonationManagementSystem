@@ -33,7 +33,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             _notificationService = notificationService;
             _userManager = userManager;
         }
-        public async Task<Result<object>> CreatePostAsync(CreatePostDto createPostDto, string applicationUserId)
+        public async Task<Result<object>> CreatePostAsync(CreatePostDto createPostDto, string applicationUserId, string role)
         {
             ApplicationUser? User = await _applicationDbContext.Users.FindAsync(applicationUserId);
             if (User == null)
@@ -58,7 +58,8 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                 Title = createPostDto.title,
                 Content = createPostDto.content,
                 CategoryId = createPostDto.categoryId,
-                PostPicture = PostPictureResult.url
+                PostPicture = PostPictureResult.url,
+                CreatedByRole = role,
             };
             if (createPostDto.attachments != null)
             {
@@ -90,14 +91,21 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             return Result<object>.Created(null, "Post created successfully");
         }
 
-        public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(string userId, int pageNumber, int pageSize, string? categoryName, PostSortBy sortBy)
+        public async Task<Result<PaginatedList<PostToReturnDto>>> GetPostsAsync(string userId, string role, int pageNumber, int pageSize, string? categoryName, PostSortBy sortBy)
         {
             if (!Enum.IsDefined(typeof(PostSortBy), sortBy))
                 return Result<PaginatedList<PostToReturnDto>>.BadRequest($"Invalid sort type: {sortBy}");
 
-            var query = _applicationDbContext.Posts
-                          .Where(p => p.Status == PostStatus.Approved.ToString()
-                          && (string.IsNullOrEmpty(categoryName) || p.Category.Name == categoryName));
+            var query = _applicationDbContext.Posts.Where(p => p.Status == PostStatus.Approved.ToString());
+
+            if (role != AppRoles.Admin)
+            {
+                var targetRole = role == "Requester" ? "Donor" : "Requester";
+                query = query.Where(p => p.CreatedByRole == targetRole);
+            }
+
+            if (!string.IsNullOrEmpty(categoryName))
+                query = query.Where(p => p.Category != null && p.Category.Name == categoryName);
 
             query = sortBy switch
             {
@@ -127,6 +135,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
                     likesCount = p.Reactions.Count(),
                     PostPicture = p.PostPicture,
+                    createdByRole = p.CreatedByRole,
                     hasReacted = p.Reactions.Any(r => r.ApplicationUserId == userId),
                     viewCount = p.AnalyticsEvents!.Count(),
                     userId = p.ApplicationUserId,
@@ -139,7 +148,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             var result = new PaginatedList<PostToReturnDto>(postsToReturnDto, pageNumber, pageSize, totalCount);
             return Result<PaginatedList<PostToReturnDto>>.Ok(result);
         }
-        public async Task<Result<PostToReturnDto>> GetPostAsync(int postId)
+        public async Task<Result<PostToReturnDto>> GetPostAsync(int postId, string currentUserId, string role)
         {
             PostToReturnDto? post = await _applicationDbContext.Posts
                 .Where(p => p.Id == postId)
@@ -153,6 +162,8 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     attachments = p.PostAttachments.Select(pa => pa.AttachmentUrl).ToList(),
                     likesCount = p.Reactions.Count(),
                     viewCount = p.AnalyticsEvents!.Count(),
+                    hasReacted = p.Reactions.Any(r => r.ApplicationUserId == currentUserId),
+                    createdByRole = p.CreatedByRole,
                     PostPicture = p.PostPicture,
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
@@ -161,7 +172,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     categoryName = p.Category.Name
                 }).FirstOrDefaultAsync();
 
-            if (post == null)
+            if (post == null || (post.createdByRole == role && post.userId != currentUserId))
                 return Result<PostToReturnDto>.NotFound("Post not found");
 
             return Result<PostToReturnDto>.Ok(post);

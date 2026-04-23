@@ -22,21 +22,25 @@ namespace SmartDonationSystem.API.Modules.User.Controllers
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDto createPostDto)
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var result = await _postService.CreatePostAsync(createPostDto, userId);
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var result = await _postService.CreatePostAsync(createPostDto, userId, role);
             return StatusCode((int)result.statusCode, result);
         }
         [HttpGet("get-posts")]
         public async Task<IActionResult> GetPosts([FromQuery] PostQueryParams postQueryParams)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
             var result = await _postService
-                .GetPostsAsync(userId, postQueryParams.pageNumber, postQueryParams.pageSize, postQueryParams.categoryName, postQueryParams.sortBy);
+                .GetPostsAsync(userId, role, postQueryParams.pageNumber, postQueryParams.pageSize, postQueryParams.categoryName, postQueryParams.sortBy);
             return StatusCode((int)result.statusCode, result);
         }
         [HttpGet("get-post/{postId}")]
         public async Task<IActionResult> GetPost(int postId)
         {
-            var result = await _postService.GetPostAsync(postId);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var result = await _postService.GetPostAsync(postId, userId, role);
             return StatusCode((int)result.statusCode, result);
         }
         [HttpPost("track-post/{postId}")]

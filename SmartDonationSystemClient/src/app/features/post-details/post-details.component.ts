@@ -10,8 +10,9 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
-import { NgIf, NgClass, NgFor, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { Post } from '../feed/models/post.model';
@@ -23,6 +24,8 @@ import { CommentItemComponent } from '../comment-item/comment-item.component';
 import Tribute from 'tributejs';
 import { AnalyticsService } from '../../core/services/analytics.service';
 import { ChatService } from '../../core/services/chat.service';
+import { AuthService } from '../auth/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-details',
@@ -30,10 +33,10 @@ import { ChatService } from '../../core/services/chat.service';
   imports: [
     CommonModule,
     MatIconModule,
+    MatTooltipModule,
     TimeAgoPipe,
     PriorityLabelPipe,
     PriorityClassPipe,
-    TimeAgoPipe,
     FormsModule,
     CommentItemComponent,
     RouterLink,
@@ -53,20 +56,29 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   };
   showAllComments = false;
   mentionedUserIds: string[] = [];
+
   userService = inject(UserService);
+  authService = inject(AuthService);
+  chatService = inject(ChatService);
+  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private feedService = inject(FeedService);
   private analyticsService = inject(AnalyticsService);
-  chatService = inject(ChatService);
+  private toastr = inject(ToastrService);
+
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);
   }
+
   ngOnInit() {
     this.post = this.route.snapshot.data['post'];
-    if (this.post) this.titleService.setTitle(this.post.title);
+    if (this.post) {
+      this.titleService.setTitle(this.post.title);
+      this.analyticsService.trackPostEntrance(this.post.id);
+    }
     this.comments = this.route.snapshot.data['comments'];
-    this.analyticsService.trackPostEntrance(this.post.id);
+    this.userService.loadProfile();
   }
 
   ngAfterViewInit() {
@@ -99,6 +111,31 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
     });
 
     tribute.attach(this.textarea.nativeElement);
+  }
+
+  onLike() {
+    if (this.post.isReacting) return;
+    this.post.isReacting = true;
+
+    const previousState = {
+      hasReacted: this.post.hasReacted,
+      likesCount: this.post.likesCount,
+    };
+    this.post.hasReacted = !this.post.hasReacted;
+    this.post.likesCount += this.post.hasReacted ? 1 : -1;
+
+    this.feedService.reactToPost(this.post.id).subscribe({
+      next: () => (this.post.isReacting = false),
+      error: () => {
+        this.post.hasReacted = previousState.hasReacted;
+        this.post.likesCount = previousState.likesCount;
+        this.post.isReacting = false;
+      },
+    });
+  }
+
+  onDonate() {
+    this.toastr.info('Donation feature coming soon!', 'Stay Tuned');
   }
 
   sendComment() {
@@ -145,6 +182,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   toggleShowAll() {
     this.showAllComments = !this.showAllComments;
   }
+
   autoResize(event: Event) {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = 'auto';
@@ -163,6 +201,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
 
     return 'link';
   }
+
   private findCommentById(comments: Comment[], id: number): Comment | null {
     for (const comment of comments) if (comment.id === id) return comment;
     return null;

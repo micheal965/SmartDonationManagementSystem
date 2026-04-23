@@ -20,11 +20,11 @@
            [routerLink]="['/feed']" [queryParams]="{ category: category.id }">
         
         <!-- Hover Background Decoration -->
-        <div class="absolute -right-10 -top-10 w-32 h-32 bg-light-beige/30 rounded-full group-hover:scale-150 transition-transform duration-700 -z-10"></div>
+        <div class="absolute -right-10 -top-10 w-32 h-32 bg-bright-blue/30 group-hover:bg-bright-blue/90 rounded-full group-hover:scale-150 transition-transform duration-700 -z-10"></div>
         
         <!-- Icon Container -->
-        <div class="icon-wrapper w-24 h-24 bg-light-beige rounded-2xl flex items-center justify-center mb-8 group-hover:bg-bright-blue group-hover:rotate-6 transition-all duration-500 shadow-inner">
-          <mat-icon class="text-dark-blue group-hover:text-white transition-colors duration-500">{{ getCategoryIcon(category.name) }}</mat-icon>
+        <div class="icon-wrapper w-24 h-24 bg-bright-blue/90 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-bright-blue group-hover:rotate-6 transition-all duration-500 shadow-inner">
+          <mat-icon class="text-white transition-colors duration-500">{{ getCategoryIcon(category.name) }}</mat-icon>
         </div>
 
         <!-- Content -->

@@ -49,10 +49,8 @@ export class RegisterComponent implements OnInit {
     const baseSteps = [
       { label: 'Account type & ID' },
       { label: 'Personal Info' },
+      { label: 'Interests' },
     ];
-    if (this.role?.value === 'Donor') {
-      baseSteps.push({ label: 'Interests' });
-    }
     return baseSteps;
   }
 
@@ -128,8 +126,6 @@ export class RegisterComponent implements OnInit {
   }
 
   selectRole(role: 'Requester' | 'Donor') {
-    if (role == 'Requester') this.interestingCategoriesIds?.setValue(null);
-    
     this.role?.setValue(role);
   }
   prev() {

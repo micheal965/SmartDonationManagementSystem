@@ -32,22 +32,20 @@
             </div>
 
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <!-- Left Column: Requester & Info -->
                 <div class="xl:col-span-1 space-y-6">
-                    <!-- Requester Card -->
                     <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100">
-                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Requester</h4>
+                        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{{post.creatorRole}}
+                        </h4>
                         <div class="flex items-center gap-4">
-                            <img [src]="post.requesterPicture || 'assets/avatar.png'" [alt]="post.requesterName"
+                            <img [src]="post.creatorPicture || 'assets/avatar.png'" [alt]="post.creatorName"
                                 class="w-16 h-16 rounded-2xl object-cover shadow-sm">
                             <div>
-                                <h3 class="font-bold text-slate-900">{{ post.requesterName }}</h3>
-                                <p class="text-xs text-indigo-600 font-medium">Requester</p>
+                                <h3 class="font-bold text-slate-900">{{ post.creatorName }}</h3>
+                                <p class="text-xs text-indigo-600 font-medium">{{post.creatorRole}}</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Meta Info -->
                     <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
                         <div>
                             <label

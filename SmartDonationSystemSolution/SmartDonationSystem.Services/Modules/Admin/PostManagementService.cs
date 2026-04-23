@@ -40,8 +40,9 @@ namespace SmartDonationSystem.Services.Modules.Admin
                     PostPicture = p.PostPicture,
                     PostAttachments = p.PostAttachments.Select(a => a.AttachmentUrl).ToList(),
                     CategoryName = p.Category.Name,
-                    RequesterName = p.ApplicationUser.FullName,
-                    RequesterPicture = p.ApplicationUser.PictureUrl
+                    CreatorName = p.ApplicationUser.FullName,
+                    creatorPicture = p.ApplicationUser.PictureUrl,
+                    creatorRole = p.CreatedByRole
                 })
                 .FirstOrDefaultAsync();
 
@@ -76,8 +77,9 @@ namespace SmartDonationSystem.Services.Modules.Admin
 
                       CategoryName = p.Category.Name,
 
-                      RequesterName = p.ApplicationUser.FullName,
-                      RequesterPicture = p.ApplicationUser.PictureUrl
+                      CreatorName = p.ApplicationUser.FullName,
+                      creatorPicture = p.ApplicationUser.PictureUrl,
+                      creatorRole = p.CreatedByRole
                   })
                   .ToListAsync();
             var PaginatedPosts = new PaginatedList<PostToReturnDto>(posts, pageNumber, pageSize, totalCount);
@@ -111,29 +113,39 @@ namespace SmartDonationSystem.Services.Modules.Admin
                 EntityId = post.Id
             });
 
-
             //Notify Users that interesting in that category
-            var category = await _applicationDbContext.Categories
+            if (action == PostStatus.Approved.ToString())
+            {
+                var category = await _applicationDbContext.Categories
                     .Where(c => c.Id == post.CategoryId)
                     .Select(c => c.Name)
                     .FirstOrDefaultAsync();
 
-            var userIds = await _applicationDbContext.UserCategories
-                                .Where(uc => uc.CategoryId == post.CategoryId && uc.UserId != post.ApplicationUserId)
-                                .Select(uc => uc.UserId)
-                                .ToListAsync();
+                var targetRole = post.CreatedByRole == "Requester" ? "Donor" : "Requester";
 
-            foreach (var userId in userIds)
-            {
-                await _notificationService.CreateAsync(new CreateNotificationRequest
+                var userIds = await (
+                 from uc in _applicationDbContext.UserCategories
+                 join u in _applicationDbContext.Users on uc.UserId equals u.Id
+                 join ur in _applicationDbContext.UserRoles on u.Id equals ur.UserId
+                 join r in _applicationDbContext.Roles on ur.RoleId equals r.Id
+                 where uc.CategoryId == post.CategoryId
+                       && uc.UserId != post.ApplicationUserId
+                       && r.Name == targetRole
+                 select uc.UserId).ToListAsync();
+
+                foreach (var userId in userIds)
                 {
-                    ReceiverId = userId,
-                    Title = "New Post Update",
-                    Message = $"A new post in '{category}' category is now available. Click to check it out.",
-                    Type = NotificationType.PostApproval,
-                    EntityId = post.Id
-                });
+                    await _notificationService.CreateAsync(new CreateNotificationRequest
+                    {
+                        ReceiverId = userId,
+                        Title = "New Post Update",
+                        Message = $"A new post in '{category}' category is now available. Click to check it out.",
+                        Type = NotificationType.PostApproval,
+                        EntityId = post.Id
+                    });
+                }
             }
+
             return Result<object>.Ok(null, "Post status Updated successfully");
         }
     }

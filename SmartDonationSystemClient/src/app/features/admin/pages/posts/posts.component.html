@@ -56,11 +56,11 @@
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-full bg-slate-200 overflow-hidden">
                             <img class="w-full h-full rounded-full object-cover"
-                                [src]="post.requesterPicture || 'assets/avatar.png'" />
+                                [src]="post.creatorPicture || 'assets/avatar.png'" />
                         </div>
 
                         <span class="text-xs text-slate-600 font-medium">
-                            {{ post.requesterName || 'Unknown' }}
+                            {{ post.creatorName || 'Unknown' }}
                         </span>
                     </div>
                 </div>

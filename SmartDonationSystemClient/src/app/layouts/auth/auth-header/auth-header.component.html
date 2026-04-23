@@ -14,7 +14,7 @@
             <a [routerLink]="['/']" fragment="team" [ngClass]="{'active-link':currentFragment==='team'}">Our Team</a>
         </nav>
 
-        <div *ngIf="!authService.isAuthenticated()" class="hidden lg:flex items-center gap-2">
+        <div *ngIf="!authService.isAuthenticated() else signedInTemplate" class="hidden lg:flex items-center gap-2">
             <button
                 class="flex justify-center items-center gap-1 px-6 py-2.5 text-sm font-bold text-dark-blue hover:scale-95 transition-all"
                 routerLink="/signin">
@@ -39,15 +39,25 @@
                 </svg>
                 Sign Up</button>
         </div>
-        <div *ngIf="authService.isAuthenticated()" class="hidden lg:flex items-center gap-2">
-            <button
-                class="flex justify-center items-center gap-2 px-6 py-2.5 text-sm font-bold bg-light-green text-white rounded-3xl shadow-lg shadow-light-green/20 hover:brightness-105 hover:scale-95 transition-all"
-                routerLink="/feed">
-                <mat-icon>favorite</mat-icon>
-                <span *ngIf="authService.isRequester()">Find Help</span>
-                <span *ngIf="!authService.isRequester()">Help Someone</span>
-            </button>
-        </div>
+        <ng-template #signedInTemplate>
+            <div class="hidden lg:flex items-center gap-2">
+                <button
+                    class="flex justify-center items-center gap-2 px-6 py-2.5 text-sm font-bold bg-light-green text-white rounded-3xl shadow-lg shadow-light-green/20 hover:brightness-105 hover:scale-95 transition-all"
+                    routerLink="/feed">
+                    <mat-icon>favorite</mat-icon>
+                    <span *ngIf="authService.isRequester()">Find Help</span>
+                    <span *ngIf="!authService.isRequester()">Help Someone</span>
+                </button>
+                <button (click)="logout()" class="group flex items-center gap-2 px-4 py-2.5 text-sm font-semibold 
+         text-red-400 rounded-xl transition-all duration-200
+         hover:bg-red-500/10 hover:text-red-500 active:scale-95">
+                    <mat-icon class="text-base transition-transform duration-200 group-hover:translate-x-1">
+                        logout
+                    </mat-icon>
+                    <span class="tracking-wide">Logout</span>
+                </button>
+            </div>
+        </ng-template>
         <button (click)="isMenuOpen = !isMenuOpen"
             class="lg:hidden p-2 text-dark-blue hover:text-light-green/70 focus:outline-none ">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +115,14 @@
                 <span *ngIf="authService.isRequester()">Find Help</span>
                 <span *ngIf="!authService.isRequester()">Help Someone</span>
             </button>
+            <button (click)="logout()" class="group w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold 
+                text-red-400 rounded-3xl transition-all duration-200
+                hover:bg-red-500/10 hover:text-red-500 active:scale-95 mt-2">
+                <mat-icon class="text-base transition-transform duration-200 group-hover:translate-x-1">
+                    logout
+                </mat-icon>
+                <span class="tracking-wide">Logout</span>
+            </button>
         </div>
-
     </div>
 </header>

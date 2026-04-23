@@ -10,9 +10,9 @@ import { PriorityClassPipe } from '../../shared/pipes/priority-class.pipe';
 import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { ChatService } from '../../core/services/chat.service';
 import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
-
+import { AuthService } from '../auth/services/auth.service';
 @Component({
-  selector: 'app-card',
+  selector: 'app-post',
   standalone: true,
   imports: [
     MatIconModule,
@@ -24,18 +24,20 @@ import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
     RouterLink,
     ShortNumberPipe,
   ],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  templateUrl: './post.component.html',
+  styleUrl: './post.component.scss',
 })
-export class CardComponent {
+export class PostComponent {
   private feedService = inject(FeedService);
   private router = inject(Router);
+  authService = inject(AuthService);
   chatService = inject(ChatService);
   post = input.required<Post>();
 
   goToDetails() {
     this.router.navigate(['/posts', this.post().id]);
   }
+
   onLike(post: Post) {
     if (post.isReacting) return;
     post.isReacting = true;

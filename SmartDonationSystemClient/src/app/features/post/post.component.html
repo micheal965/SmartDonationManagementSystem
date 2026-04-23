@@ -13,10 +13,11 @@
     <div class="flex items-start justify-between mb-6">
         <div class="flex items-center gap-3">
             <div class="relative">
-                <img class="w-12 h-12 rounded-2xl object-cover ring-2 ring-gray-50 group-hover:ring-bright-blue/20 transition-all" 
-                     [src]="post().pictureUrl || './assets/avatar.png'" alt="requester">
-                <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
-                    <mat-icon class="!text-[16px] !w-4 !h-4 text-light-green flex items-center justify-center">verified</mat-icon>
+                <img class="w-12 h-12 rounded-2xl object-cover ring-2 ring-gray-50 group-hover:ring-bright-blue/20 transition-all"
+                    [src]="post().pictureUrl || './assets/avatar.png'" alt="requester">
+                <div class="absolute -bottom-2 -right-1 ">
+                    <mat-icon
+                        class="!text-[16px] !w-4 !h-4 bg-white rounded-full text-light-green flex items-center justify-center">verified</mat-icon>
                 </div>
             </div>
             <div class="flex flex-col">
@@ -39,15 +40,19 @@
     </div>
 
     <!-- Media Section -->
-    <div class="relative rounded-2xl mb-5 overflow-hidden group-hover:shadow-inner transition-all" *ngIf="post().postPicture">
-        <img class="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105" 
-             [src]="post().postPicture" alt="Post picture" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <div class="relative rounded-2xl mb-5 overflow-hidden group-hover:shadow-inner transition-all"
+        *ngIf="post().postPicture">
+        <img class="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-105"
+            [src]="post().postPicture" alt="Post picture" />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+        </div>
     </div>
 
     <!-- Content Section -->
     <div class="space-y-3 mb-8 px-1">
-        <h2 class="text-xl font-header font-bold text-dark-blue leading-tight group-hover:text-bright-blue transition-colors line-clamp-1">
+        <h2
+            class="text-xl font-header font-bold text-dark-blue leading-tight group-hover:text-bright-blue transition-colors line-clamp-1">
             {{post().title}}
         </h2>
         <p class="text-gray-500 font-content text-sm leading-relaxed line-clamp-3">
@@ -57,18 +62,29 @@
 
     <!-- Actions Section -->
     <div class="flex flex-wrap items-center gap-3">
-        <!-- Main Action: Donate -->
-        <button (click)="$event.stopPropagation()"
+        <button
+            *ngIf="post().userId !== authService.userData.id && post().createdByRole === 'Requester' && authService.isDonor()"
+            (click)="$event.stopPropagation(); onLike(post())"
             class="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-bright-blue hover:bg-dark-blue text-white font-bold text-sm py-3.5 rounded-2xl shadow-lg shadow-bright-blue/20 hover:shadow-dark-blue/20 active:scale-95 transition-all duration-300">
             <mat-icon>volunteer_activism</mat-icon>
             Donate Now
         </button>
 
         <!-- Secondary: Message -->
-        <button (click)="chatService.openConversation(post().userId); $event.stopPropagation()"
-            class="p-3.5 bg-gray-50 text-dark-blue rounded-2xl hover:bg-bright-blue/10 hover:text-bright-blue transition-all duration-300 border border-transparent hover:border-bright-blue/10"
-            title="Message requester">
-            <mat-icon class="!flex !items-center !justify-center">chat_bubble_outline</mat-icon>
+        <button *ngIf="authService.isDonor() && post().userId !== authService.userData.id"
+            (click)="chatService.openConversation(post().userId); $event.stopPropagation()"
+            class="flex place-items-center gap-1 p-3.5 bg-gray-50 text-dark-blue rounded-2xl hover:bg-bright-blue/10 hover:text-bright-blue transition-all duration-300 border border-transparent hover:border-bright-blue/10"
+            title="Message author">
+
+            <mat-icon>chat_bubble_outline</mat-icon>
+        </button>
+
+        <button *ngIf="!authService.isDonor() && post().userId !== authService.userData.id"
+            (click)="$event.stopPropagation();chatService.openConversation(post().userId)"
+            class="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-bright-blue hover:bg-dark-blue text-white font-bold text-sm py-3.5 rounded-2xl shadow-lg shadow-bright-blue/20 hover:shadow-dark-blue/20 active:scale-95 transition-all duration-300">
+
+            <mat-icon>chat_bubble_outline</mat-icon>
+            Contact Donor
         </button>
 
         <!-- Interaction: Like -->
@@ -76,13 +92,12 @@
             class="flex items-center gap-2 px-5 py-3.5 font-bold rounded-2xl transition-all duration-300 border"
             [ngClass]="post().hasReacted 
                 ? 'bg-soft-red text-white border-soft-red shadow-lg shadow-soft-red/20' 
-                : 'bg-white text-soft-red border-soft-red/20 hover:bg-soft-red/5'"
-            [disabled]="post().isReacting">
-            <mat-icon class="transition-transform" 
-                      [ngClass]="{'scale-125 active-heart': post().hasReacted}">
+                : 'bg-white text-soft-red border-soft-red/20 hover:bg-soft-red/5'" [disabled]="post().isReacting">
+            <mat-icon class="transition-transform" [ngClass]="{'scale-125 active-heart': post().hasReacted}">
                 {{ post().hasReacted ? 'favorite' : 'favorite_border' }}
             </mat-icon>
             <span class="text-sm">{{post().likesCount}}</span>
         </button>
     </div>
+
 </div>

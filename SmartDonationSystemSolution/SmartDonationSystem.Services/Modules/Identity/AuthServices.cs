@@ -116,8 +116,8 @@ public class AuthServices : IAuthService
             return Result<RegisterResultDto>.BadRequest("Registration failed", roleResult.Errors.Select(e => e.Description));
         }
 
-        //Saving Interesting Categories for registring user for notifications
-        if (requestDto.InterestingCategoriesIds != null && requestDto.InterestingCategoriesIds.Any() && requestDto.Role.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+        //Saving Interesting Categories for registering user for notifications
+        if (requestDto.InterestingCategoriesIds != null && requestDto.InterestingCategoriesIds.Any())
         {
             var categoryIds = requestDto.InterestingCategoriesIds
                 .Distinct()
@@ -206,7 +206,6 @@ public class AuthServices : IAuthService
                 ipAddress = _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].ToString().Split(',')[0].Trim();
             }
 
-            ipAddress = ipAddress == "::1" ? "127.0.0.1" : ipAddress; // Convert ::1 to 127.0.0.1 if local
             await _applicationDbContext.UserLoginsHistory.AddAsync(new UserLoginHistory()
             {
                 ApplicationUserId = user.Id,
