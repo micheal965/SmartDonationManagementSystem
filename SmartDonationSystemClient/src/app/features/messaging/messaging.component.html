@@ -1,6 +1,5 @@
-<div class="flex gap-4 items-end">
-
-    <div *ngIf="chatService.state().selectedConversation?.id"
+<div *ngIf="!isOnMessagingPage()" class="flex gap-4 items-end">
+    <div *ngIf="showFloatingChat()"
         class="w-80 h-[420px] bg-white rounded-t-xl shadow-2xl flex flex-col overflow-hidden">
         <app-chat class="flex flex-col h-full" />
     </div>
@@ -22,5 +21,4 @@
         </div>
 
     </div>
-
 </div>

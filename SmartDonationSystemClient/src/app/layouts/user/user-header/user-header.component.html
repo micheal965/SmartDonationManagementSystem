@@ -2,14 +2,15 @@
     <div class="max-w-8xl mx-auto h-16 sm:h-18 flex items-center justify-between gap-4">
 
         <div class="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-none">
-            <img class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 hidden xs:block" src="./assets/logo-black.png" alt="logo">
+            <img class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 hidden xs:block" src="./assets/logo-black.png"
+                alt="logo">
             <div class="relative w-full sm:w-auto">
                 <input type="search" placeholder="Search"
                     class="input rounded-3xl pl-10 w-full sm:w-48 md:w-80 focus:md:w-[400px] xl:focus:md:w-[500px] transition-all text-sm h-10">
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="7" stroke-width="2"/>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" stroke-width="2" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" />
                 </svg>
             </div>
         </div>
@@ -32,7 +33,8 @@
                     <!-- Header -->
                     <div class="px-4 py-3 border-b flex justify-between items-center">
                         <span class="font-semibold text-gray-800">Notifications</span>
-                        <a (click)="goToViewAll()" class="text-blue-600 text-xs hover:underline cursor-pointer font-medium">
+                        <a (click)="goToViewAll()"
+                            class="text-blue-600 text-xs hover:underline cursor-pointer font-medium">
                             View All
                         </a>
                     </div>
@@ -58,7 +60,8 @@
 
                                     <div class="flex justify-between items-center mt-1">
                                         <span class="text-xs text-gray-500 font-medium">{{ n.actorName }}</span>
-                                        <span class="text-[10px] text-gray-400">{{ n.createdAt | date:'MMM d, h:mm a' }}</span>
+                                        <span class="text-[10px] text-gray-400">{{ n.createdAt | date:'MMM d, h:mm a'
+                                            }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,11 +81,12 @@
             <div class="relative border-l border-gray-200 pl-4">
                 <button (click)="toggleMe()"
                     class="flex flex-col justify-center items-center text-gray-500 hover:text-black transition-colors min-w-[40px]">
-                    <img class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-light-green shadow-sm object-cover"
+                    <img class="w-9 h-9  rounded-full border border-light-green/70 shadow-sm object-cover"
                         [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" alt="user">
-                    <span class="flex items-center text-[10px] sm:text-[11px] font-bold mt-1 uppercase tracking-tighter">
-                        Me <svg class="w-3 h-3 ml-0.5 transition-transform duration-300" [class.rotate-180]="isMeClicked"
-                            fill="currentColor" viewBox="0 0 24 24">
+                    <span
+                        class="flex items-center text-[10px] sm:text-[11px] font-bold mt-1 uppercase tracking-tighter">
+                        Me <svg class="w-3 h-3 ml-0.5 transition-transform duration-300"
+                            [class.rotate-180]="isMeClicked" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 16L6 10H18L12 16Z" />
                         </svg>
                     </span>
@@ -96,7 +100,8 @@
                         View Profile
                     </a>
                     <hr class="my-1 border-gray-50">
-                    <button class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    <button
+                        class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
                         (click)="onLogout()">
                         <mat-icon class="!text-lg">logout</mat-icon>
                         Logout
@@ -105,7 +110,8 @@
             </div>
         </nav>
 
-        <button (click)="isMenuOpen = !isMenuOpen" class="lg:hidden p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+        <button (click)="isMenuOpen = !isMenuOpen"
+            class="lg:hidden p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path *ngIf="!isMenuOpen" d="M4 6h16M4 12h16m-7 6h7" stroke-width="2" stroke-linecap="round" />
                 <path *ngIf="isMenuOpen" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" />
@@ -115,9 +121,11 @@
 
     <!-- Mobile Navigation Overlay -->
     <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[60]">
-        <div class="absolute inset-0 bg-dark-blue/20 backdrop-blur-sm transition-opacity" (click)="isMenuOpen = false"></div>
+        <div class="absolute inset-0 bg-dark-blue/20 backdrop-blur-sm transition-opacity" (click)="isMenuOpen = false">
+        </div>
 
-        <div class="absolute right-0 top-0 h-full w-72 bg-white shadow-2xl p-6 flex flex-col gap-2 animate-in slide-in-from-right duration-300">
+        <div
+            class="absolute right-0 top-0 h-full w-72 bg-white shadow-2xl p-6 flex flex-col gap-2 animate-in slide-in-from-right duration-300">
             <div class="flex items-center justify-between mb-4">
                 <span class="font-header font-bold text-dark-blue text-xl">Menu</span>
                 <button (click)="isMenuOpen = false" class="p-2 text-gray-400">
@@ -126,8 +134,8 @@
             </div>
 
             <div class="flex flex-col gap-1 flex-1 overflow-y-auto">
-                <a *ngFor="let item of navItems" [routerLink]="[item.link]" routerLinkActive="bg-light-green/10 text-dark-blue"
-                    (click)="isMenuOpen = false"
+                <a *ngFor="let item of navItems" [routerLink]="[item.link]"
+                    routerLinkActive="bg-light-green/10 text-dark-blue" (click)="isMenuOpen = false"
                     class="flex items-center p-3.5 gap-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
                     <mat-icon class="text-dark-blue/70">
                         {{ item.iconName }}
@@ -139,11 +147,13 @@
             <div class="pt-4 border-t border-gray-100 mt-auto">
                 <div class="bg-gray-50 rounded-2xl p-4 flex flex-col gap-3">
                     <div class="flex items-center gap-3">
-                         <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover"
+                        <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover"
                             [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" alt="user">
                         <div class="flex flex-col">
-                            <span class="text-sm font-bold text-dark-blue">{{this.userService.profile()?.fullName}}</span>
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">{{this.userService.profile()?.role}}</span>
+                            <span
+                                class="text-sm font-bold text-dark-blue">{{this.userService.profile()?.fullName}}</span>
+                            <span
+                                class="text-[10px] text-gray-500 uppercase tracking-wider">{{this.userService.profile()?.role}}</span>
                         </div>
                     </div>
                     <a [routerLink]="['/profile' ,this.userService.profile()?.id]" (click)="isMenuOpen = false"
@@ -151,7 +161,9 @@
                         <mat-icon class="!text-lg">account_circle</mat-icon>
                         View Profile
                     </a>
-                    <button class="flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-600 transition-colors" (click)="onLogout()">
+                    <button
+                        class="flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-600 transition-colors"
+                        (click)="onLogout()">
                         <mat-icon class="!text-lg">logout</mat-icon>
                         Logout
                     </button>

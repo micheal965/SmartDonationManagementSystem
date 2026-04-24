@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
-type SoundKey = 'notification' | 'typing' | 'message';
+type SoundKey = 'notification' | 'typing' | 'message'|'sendMessage';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,7 @@ export class AudioService {
     notification: '/assets/audios/notification.mp3',
     typing: '/assets/audios/typing.mp3',
     message: '/assets/audios/message.mp3',
+    sendMessage: '/assets/audios/send-message.mp3',
   };
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}

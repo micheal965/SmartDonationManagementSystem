@@ -37,6 +37,11 @@
             <mat-icon class="group-hover:scale-110 transition-transform">grid_view</mat-icon>
             <span class="font-semibold text-sm xl:text-base">Categories</span>
         </a>
+        <a class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group"
+            [routerLink]="['/messaging']" [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
+            <mat-icon class="group-hover:scale-110 transition-transform">message</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">Messages</span>
+        </a>
         <a *ngIf="authService.isAdmin()"
             class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group" [routerLink]="['/admin']"
             [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">

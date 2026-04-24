@@ -89,6 +89,14 @@ export const routes: Routes = [
             (m) => m.NotificationsComponent,
           ),
       },
+      {
+        path: 'messaging',
+        title: 'Messaging | Help Hand',
+        loadComponent: () =>
+          import(
+            './features/messaging/pages/message-page/message-page.component'
+          ).then((m) => m.MessagePageComponent),
+      },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],
   },

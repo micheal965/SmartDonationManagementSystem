@@ -218,6 +218,7 @@ export class ChatService {
       selectedConversation: conversation,
       messages: [],
     }));
+    this.loadMessages();
   }
   closeConversation() {
     this.state.update((s) => ({
@@ -270,7 +271,7 @@ export class ChatService {
     };
 
     this.typingUserId.set(null);
-
+    this.audioService.playSound('sendMessage');
     return this.ensureConnected().then(() =>
       this.hubConnection.invoke('SendMessage', request),
     );
