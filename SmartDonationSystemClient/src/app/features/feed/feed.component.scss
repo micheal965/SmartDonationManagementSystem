@@ -8,7 +8,7 @@
 
 .filter-chip {
   @apply flex items-center gap-2 px-6 py-2.5 rounded-2xl font-medium transition-all duration-300 whitespace-nowrap shadow-sm border;
-  
+
   mat-icon {
     @apply transition-transform duration-300;
   }
@@ -42,8 +42,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
@@ -68,9 +72,19 @@
   }
 }
 
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
 
 .mask-fade {
-  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
 }

@@ -131,6 +131,7 @@ public class UserProfileServices : IUserProfileService
             id = p.Id,
             title = p.Title,
             content = p.Content,
+            postPicture = p.PostPicture,
             likesCount = p.Reactions.Count()
         }).ToList();
 

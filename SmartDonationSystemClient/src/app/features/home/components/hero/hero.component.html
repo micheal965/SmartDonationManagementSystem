@@ -1,6 +1,6 @@
 <main
-    class="relative min-h-screen pt-32 pb-20 bg-gradient-to-l from-white via-transparent to-light-green/15 shadow-light-green/15 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6">
+    class="relative min-h-screen pt-32 pb-20 bg-gradient-to-l from-white via-transparent to-light-green/5 shadow-light-green/15 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <!-- Left Content -->
             <div class="space-y-8 relative z-10">
@@ -41,14 +41,13 @@
             <!-- Right Visual (Dashboard Mockup) -->
             <div class="relative">
                 <div class="swiper mySwiper h-[480px] rounded-2xl overflow-hidden shadow-2xl">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" *ngFor="let img of images">
-                            <div class="relative">
+                    <div class="swiper-wrapper h-full">
+                        <div class="swiper-slide h-full" *ngFor="let img of images">
+                            <div class="relative h-full">
                                 <img [src]="img.url" class="w-full h-full object-cover" />
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             </div>
                         </div>
-
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>

@@ -8,4 +8,5 @@ export interface userPost {
   title: string;
   content: string;
   likesCount: number;
+  postPicture: string;
 }

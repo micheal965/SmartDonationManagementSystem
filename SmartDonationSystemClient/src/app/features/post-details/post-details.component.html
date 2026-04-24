@@ -1,137 +1,137 @@
-<div class="max-w-4xl mx-auto px-4 py-8 animate-fade-in" *ngIf="post">
+<div class="max-w-4xl mx-auto  py-4 sm:py-8 animate-fade-in" *ngIf="post">
   <!-- Back Button & Breadcrumbs -->
-  <div class="flex items-center gap-2 text-slate-500 mb-6 hover:text-dark-blue transition-colors cursor-pointer group"
+  <div class="flex items-center gap-2 text-slate-500 mb-6 hover:text-dark-blue transition-colors cursor-pointer group w-fit"
     routerLink="/feed">
-    <mat-icon class="text-sm">arrow_back</mat-icon>
-    <span class="text-sm font-medium">Back to Feed</span>
+    <mat-icon class="!text-lg sm:!text-xl">arrow_back</mat-icon>
+    <span class="text-sm font-bold">Back to Feed</span>
   </div>
 
   <article
     class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 animate-slide-up">
     <!-- Header Image / Cover -->
-    <div class="relative h-64 md:h-96 overflow-hidden" *ngIf="post.postPicture">
+    <div class="relative h-56 sm:h-72 md:h-96 overflow-hidden" *ngIf="post.postPicture">
       <img [src]="post.postPicture" [alt]="post.title"
         class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-      <div class="absolute top-4 right-4 flex gap-2">
+      <div class="absolute top-3 right-3 sm:top-4 sm:right-4 flex flex-wrap justify-end gap-2">
         <span [class]="post.priorityLevel | priorityClass"
-          class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+          class="px-3 py-1 sm:px-4 sm:py-1.5 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-lg">
           {{ post.priorityLevel | priorityLabel }}
         </span>
-        <span class="bg-white/90 backdrop-blur px-4 py-1.5 rounded-full text-xs font-bold text-dark-blue shadow-lg">
+        <span class="bg-white/90 backdrop-blur px-3 py-1 sm:px-4 sm:py-1.5 rounded-xl text-[10px] sm:text-xs font-bold text-dark-blue shadow-lg">
           {{ post.categoryName }}
         </span>
       </div>
     </div>
 
     <!-- Content Area -->
-    <div class="p-6 md:p-10">
+    <div class="p-5 sm:p-8 md:p-10">
       <!-- Category & Date for posts without image -->
-      <div class="flex items-center gap-3 mb-4" *ngIf="!post.pictureUrl">
-        <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold uppercase tracking-wider">
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6" *ngIf="!post.postPicture">
+        <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider">
           {{ post.categoryName }}
         </span>
         <span [class]="post.priorityLevel | priorityClass"
-          class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+          class="px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider">
           {{ post.priorityLevel | priorityLabel }}
         </span>
-        <div class="h-1 w-1 bg-slate-300 rounded-full"></div>
-        <span class="text-slate-400 text-sm font-medium">{{ post.createdAt | timeAgo }}</span>
+        <div class="h-1 w-1 bg-slate-300 rounded-full hidden xs:block"></div>
+        <span class="text-slate-400 text-xs sm:text-sm font-medium">{{ post.createdAt | timeAgo }}</span>
       </div>
 
-      <h1 class="text-3xl md:text-4xl font-extrabold text-dark-blue mb-6 leading-tight">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-dark-blue mb-6 leading-tight">
         {{ post.title }}
       </h1>
 
       <!-- Author Profile Card -->
       <div
-        class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl mb-8 border border-slate-100 group hover:border-light-green/30 transition-all cursor-pointer"
+        class="flex flex-col xs:flex-row items-start xs:items-center justify-between p-4 bg-slate-50/50 rounded-2xl mb-8 border border-slate-100 group hover:border-light-green/30 transition-all cursor-pointer gap-4"
         [routerLink]="['/profile', post.userId]">
-        <div class="flex items-center gap-4">
-          <div class="relative">
-            <img [src]="post.pictureUrl" alt="Author"
-              class="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md" />
-            <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-light-green border-2 border-white rounded-full"
+        <div class="flex items-center gap-3 sm:gap-4">
+          <div class="relative shrink-0">
+            <img [src]="post.pictureUrl || './assets/avatar.png'" alt="Author"
+              class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-white shadow-md" />
+            <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"
               title="Online"></div>
           </div>
-          <div>
-            <h3 class="font-bold text-dark-blue group-hover:text-bright-blue transition-colors">{{ post.fullName }}</h3>
-            <p class="text-xs text-slate-500 font-medium flex items-center gap-1">
-              <mat-icon class="text-xs !w-4 !h-3 leading-none">call</mat-icon>
+          <div class="min-w-0">
+            <h3 class="font-bold text-dark-blue group-hover:text-bright-blue transition-colors text-sm sm:text-base truncate">{{ post.fullName }}</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 font-bold flex items-center gap-1 mt-0.5">
+                <mat-icon class="!text-sm !w-4 !h-4">call</mat-icon>
               {{ post.phoneNumber }}
             </p>
           </div>
         </div>
-        <div class="text-right hidden sm:block">
-          <p class="text-xs text-slate-400 font-medium">Posted on</p>
-          <p class="text-sm text-dark-blue font-bold">{{ post.createdAt | date:'mediumDate' }}</p>
+        <div class="text-right w-full xs:w-auto pt-3 xs:pt-0 border-t xs:border-t-0 border-slate-100">
+          <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-tighter">Posted on</p>
+          <p class="text-xs sm:text-sm text-dark-blue font-black">{{ post.createdAt | date:'mediumDate' }}</p>
         </div>
       </div>
 
       <!-- Main Body Content -->
       <div class="prose prose-slate max-w-none mb-10">
-        <p class="text-slate-600 text-lg leading-relaxed whitespace-pre-wrap">
+        <p class="text-slate-600 text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
           {{ post.content }}
         </p>
       </div>
 
       <!-- Attachments Section -->
       <div class="mb-10" *ngIf="post.attachments && post.attachments.length > 0">
-        <h4 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-          <mat-icon class="!w-5 !h-5 text-slate-400">attach_file</mat-icon>
+        <h4 class="text-xs sm:text-sm font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <mat-icon class="!w-5 !h-5 text-slate-300">attach_file</mat-icon>
           Attachments
         </h4>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <a *ngFor="let file of post.attachments" [href]="file" target="_blank"
-            class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-bright-blue transition-all group">
-            <div class="p-2 bg-slate-100 rounded-lg group-hover:bg-bright-blue/10 transition-colors">
-              <mat-icon class="text-slate-500 group-hover:text-bright-blue transition-colors">{{ getFileIcon(file)
+            class="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-bright-blue transition-all group">
+            <div class="p-2 bg-slate-100 rounded-xl group-hover:bg-bright-blue/10 transition-colors">
+              <mat-icon class="text-slate-400 group-hover:text-bright-blue transition-colors !text-xl">{{ getFileIcon(file)
                 }}</mat-icon>
             </div>
             <div class="flex-1 overflow-hidden">
-              <p class="text-sm font-bold text-dark-blue truncate">{{ file.split('/').pop() }}</p>
-              <p class="text-xs text-slate-400 uppercase">External Resource</p>
+              <p class="text-xs sm:text-sm font-bold text-dark-blue truncate">{{ file.split('/').pop() }}</p>
+              <p class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-tighter">External Resource</p>
             </div>
-            <mat-icon class="text-slate-300 group-hover:text-dark-blue text-sm">open_in_new</mat-icon>
+            <mat-icon class="text-slate-300 group-hover:text-dark-blue !text-sm">open_in_new</mat-icon>
           </a>
         </div>
       </div>
 
       <!-- Engagement Metrics & Actions -->
-      <div class="flex items-center justify-between pt-6 border-t border-slate-100">
-        <div class="flex items-center gap-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between pt-6 border-t border-slate-100 gap-6">
+        <div class="flex items-center justify-center sm:justify-start gap-5 sm:gap-6 w-full sm:w-auto">
           <button (click)="onLike()" [disabled]="post.isReacting"
-            class="flex items-center gap-2 transition-colors group"
-            [ngClass]="post.hasReacted ? 'text-soft-red active-heart' : 'text-slate-500 hover:text-soft-red'">
+            class="flex items-center gap-1.5 transition-colors group"
+            [ngClass]="post.hasReacted ? 'text-soft-red active-heart' : 'text-slate-400 hover:text-soft-red'">
             <mat-icon>
               {{ post.hasReacted ? 'favorite' : 'favorite_border' }}
             </mat-icon>
-            <span class="font-bold text-sm">{{ post.likesCount }} <span class="hidden sm:inline">Likes</span></span>
+            <span class="font-black text-xs sm:text-sm">{{ post.likesCount }} <span class="hidden xs:inline">Likes</span></span>
           </button>
 
-          <div class="flex items-center gap-2 text-slate-500">
+          <div class="flex items-center gap-1.5 text-slate-400">
             <mat-icon>visibility</mat-icon>
-            <span class="font-bold text-sm">{{ post.viewCount }} <span class="hidden sm:inline">Views</span></span>
+            <span class="font-black text-xs sm:text-sm">{{ post.viewCount }} <span class="hidden xs:inline">Views</span></span>
           </div>
 
-          <div class="flex items-center gap-2 text-slate-500">
+          <div class="flex items-center gap-1.5 text-slate-400">
             <mat-icon>chat_bubble_outline</mat-icon>
-            <span class="font-bold text-sm">{{ comments.length || 0 }} <span
-                class="hidden sm:inline">Comments</span></span>
+            <span class="font-black text-xs sm:text-sm">{{ comments.length || 0 }} <span
+                class="hidden xs:inline">Comments</span></span>
           </div>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
           <button
             *ngIf="post.userId !== authService.userData.id && post.createdByRole === 'Requester' && authService.isDonor()"
-            class="flex items-center gap-2 px-6 py-2.5 bg-bright-blue text-white rounded-xl font-bold hover:bg-dark-blue transition-all shadow-lg shadow-bright-blue/20"
+            class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-bright-blue text-white rounded-2xl font-bold hover:bg-dark-blue transition-all shadow-lg shadow-bright-blue/20 text-sm"
             (click)="onDonate()">
-            <mat-icon class="text-sm">volunteer_activism</mat-icon>
+            <mat-icon>volunteer_activism</mat-icon>
             Donate Now
           </button>
           <button *ngIf="post.userId !== authService.userData.id"
-            class="flex items-center gap-2 px-6 py-2.5 bg-slate-100 text-dark-blue rounded-xl font-bold hover:bg-slate-200 transition-all"
+            class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-slate-100 text-dark-blue rounded-2xl font-bold hover:bg-slate-200 transition-all text-sm"
             (click)="chatService.openConversation(post.userId)">
-            <mat-icon class="text-sm">chat_bubble_outline</mat-icon>
+            <mat-icon >chat_bubble_outline</mat-icon>
             Message
           </button>
         </div>
@@ -140,34 +140,34 @@
   </article>
 
   <!-- Comments Section -->
-  <section class="mt-12 animate-slide-up" style="animation-delay: 0.2s">
-    <div class="flex items-center justify-between mb-8">
-      <h2 class="text-2xl font-extrabold text-dark-blue flex items-center gap-3">
+  <section class="mt-8 sm:mt-12 animate-slide-up" style="animation-delay: 0.2s">
+    <div class="flex items-center justify-between mb-6 sm:mb-8 px-1">
+      <h2 class="text-xl sm:text-2xl font-black text-dark-blue flex items-center gap-3">
         Comments
-        <span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-xs">{{ comments.length || 0 }}</span>
+        <span class="px-2.5 py-0.5 bg-slate-100 text-slate-500 rounded-full text-[10px] sm:text-xs">{{ comments.length || 0 }}</span>
       </h2>
     </div>
 
     <!-- Write a Comment -->
     <div
-      class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-10 focus-within:ring-2 focus-within:ring-light-green transition-all">
-      <div class="flex gap-4">
+      class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-100 mb-8 sm:mb-10 focus-within:ring-2 focus-within:ring-light-green transition-all">
+      <div class="flex gap-3 sm:gap-4">
         <img [src]="userService.profile()?.pictureUrl || './assets/avatar.png'"
-          class="w-10 h-10 rounded-full object-cover shadow-sm" alt="Me" />
-        <div class="flex-1">
+          class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" alt="Me" />
+        <div class="flex-1 min-w-0">
           <textarea #commentTextarea [(ngModel)]="newComment.Content" (input)="autoResize($event)" rows="1"
-            placeholder="Write a message of support..."
-            class="w-full resize-none border-none focus:ring-0 p-0 pl-4 text-slate-700 placeholder:text-slate-400 leading-relaxed max-h-48 min-h-[40px]"></textarea>
+            placeholder="Write a comment..."
+            class="pl-4 w-full resize-none border-none focus:ring-0 p-0 text-slate-700 placeholder:text-slate-400 text-sm sm:text-base leading-relaxed max-h-48 min-h-[40px]"></textarea>
 
-          <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
+          <div class="flex flex-col xs:flex-row xs:items-center justify-between mt-4 pt-4 border-t border-slate-50 gap-4">
             <div class="flex items-center gap-2 text-slate-400">
-              <span class="text-xs font-medium">Type <span
+              <span class="text-[10px] sm:text-xs font-bold uppercase tracking-tighter">Type <span
                   class="bg-slate-100 px-1.5 py-0.5 rounded text-dark-blue">&#64;</span> to mention someone</span>
             </div>
             <button (click)="sendComment()" [disabled]="!newComment.Content.trim()"
-              class="flex items-center gap-2 px-6 py-2 bg-light-green text-dark-blue font-bold rounded-xl hover:brightness-95 disabled:opacity-40 disabled:hover:brightness-100 transition-all shadow-md">
+              class="flex items-center justify-center gap-2 px-6 py-2.5 bg-light-green text-dark-blue font-bold rounded-2xl hover:brightness-95 disabled:opacity-40 disabled:hover:brightness-100 transition-all shadow-md text-sm">
               <span>Send</span>
-              <mat-icon class="text-sm">send</mat-icon>
+              <mat-icon class="!text-lg !w-4 !h-7">send</mat-icon>
             </button>
           </div>
         </div>
@@ -175,21 +175,21 @@
     </div>
 
     <!-- Comments List -->
-    <div class="space-y-6" *ngIf="comments && comments.length > 0">
+    <div class="space-y-4 sm:space-y-6" *ngIf="comments && comments.length > 0">
       <div *ngFor="let comment of displayedComments" class="group">
         <app-comment-item class="animate-slide-up" [comment]="comment" (replyAdded)="handleReply($event)" />
       </div>
 
       <button *ngIf="comments.length > 4" (click)="toggleShowAll()"
-        class="w-full py-4 text-sm font-bold text-bright-blue hover:bg-slate-50 rounded-2xl transition-all border-2 border-dashed border-slate-200 hover:border-bright-blue">
+        class="w-full py-4 text-xs sm:text-sm font-bold text-bright-blue hover:bg-slate-50 rounded-2xl transition-all border-2 border-dashed border-slate-100 hover:border-bright-blue">
         {{ showAllComments ? 'Show Less' : 'View All ' + comments.length + ' Comments' }}
       </button>
     </div>
 
     <div *ngIf="!comments || comments.length === 0"
-      class="text-center py-16 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-      <mat-icon class="text-5xl !w-12 !h-12 text-slate-300 mb-4">forum</mat-icon>
-      <p class="text-slate-500 font-medium">No comments yet. Be the first to share some support!</p>
+      class="text-center py-12 sm:py-16 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-100 mx-4 sm:mx-0">
+      <mat-icon class="!text-4xl sm:!text-5xl !w-auto !h-auto text-slate-200 mb-4">forum</mat-icon>
+      <p class="text-slate-400 text-sm sm:text-base font-bold">No comments yet. Be the first to share some support!</p>
     </div>
   </section>
 </div>

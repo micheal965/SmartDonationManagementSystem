@@ -1,82 +1,86 @@
-<nav class="fixed top-20 right-0 h-[calc(100vh-5rem)] bg-white p-6 w-80">
+<nav class="h-full w-full bg-white p-5 xl:p-6 border-l border-gray-50 overflow-y-auto no-scrollbar">
     <div class="mb-8">
-        <div class="flex items-center gap-2 mb-4">
-            <span class="animate-stepPulse h-3 w-3 rounded-full  bg-light-green/75 "></span>
-            <span class="text-sm font-bold text-dark-blue">Live Impact</span>
+        <div class="flex items-center gap-2 mb-6">
+            <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-light-green opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-light-green"></span>
+            </span>
+            <span class="text-xs xl:text-sm font-bold text-dark-blue uppercase tracking-wider">Live Impact</span>
         </div>
-        <div class="flex gap-3 items-center mb-3">
-            <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center"
-                data-alt="Avatar of donor"
-                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAvWxblN8XolmA0IwYwQN1hBclw3u_EEjlJfCc0HvJZZEmo6bkOy5FzHSOWek7LwIUccmoom7Du5gOsgE4F3juY7obpurHngEoVjD3nj-67nm-j1lcCdxG-8ZVAr8hzM65otbCGRlk_5jcm66UVnGCOOOjqJhIM9H-eyIMnpsRrsv8ryvV-8wqzbzYnVRXqhzlYoBR284PURpg810biG3d871A-PONTyFTcqngyu4f1caHeGNe_j_poniNum9UZoYMsjN8cR2NaOUkT')">
+        
+        <div class="space-y-4">
+            <div class="flex gap-3 items-center group cursor-pointer p-2 rounded-xl hover:bg-gray-50 transition-all">
+                <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center shadow-sm"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAvWxblN8XolmA0IwYwQN1hBclw3u_EEjlJfCc0HvJZZEmo6bkOy5FzHSOWek7LwIUccmoom7Du5gOsgE4F3juY7obpurHngEoVjD3nj-67nm-j1lcCdxG-8ZVAr8hzM65otbCGRlk_5jcm66UVnGCOOOjqJhIM9H-eyIMnpsRrsv8ryvV-8wqzbzYnVRXqhzlYoBR284PURpg810biG3d871A-PONTyFTcqngyu4f1caHeGNe_j_poniNum9UZoYMsjN8cR2NaOUkT')">
+                </div>
+                <div class="text-[10px] xl:text-xs min-w-0">
+                    <p class="text-slate-600 truncate"><span class="font-bold text-dark-blue">Sarah M.</span> donated <span
+                            class="text-light-green font-bold">$150</span></p>
+                    <p class="text-slate-400 truncate">to Restoration Fund • 2m ago</p>
+                </div>
             </div>
-            <div class="text-xs mt-1">
-                <p class="text-slate-600"><span class="font-bold text-dark-blue">Sarah M.</span> donated <span
-                        class="text-light-green font-bold">$150</span></p>
-                <p class="text-slate-400">to Restoration Fund • 2m ago</p>
+
+            <div class="flex gap-3 items-center group cursor-pointer p-2 rounded-xl hover:bg-gray-50 transition-all">
+                <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center shadow-sm"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2PQrlrIjeqm3I1VxhkBA7kV8hWG-8aynZUW6Who-L_QFFKxZBuoQHL3-UrtIdxx4QPTHts7w0yK5LYP2zCHdx2vod0BQx1s7uSQKwZUuDMLaniI_yZ41vaJVH8cmcVYkz72NSx_MkX_fpaf4zeALwHLHnkhyQmgInMXE0cBorJNc846ei2rE_WQNwCGNS2q7G7vvg6Vr2IaftpFNnJCdWAEY73VIERRQuCjfw1GyZ_q8H8I0wxxAzFv312fs1goz4rEzxAXhg7nmW')">
+                </div>
+                <div class="text-[10px] xl:text-xs min-w-0">
+                    <p class="text-slate-600 truncate"><span class="font-bold text-dark-blue">Elena R.</span> donated <span
+                            class="text-light-green font-bold">$25</span></p>
+                    <p class="text-slate-400 truncate">to Clean Water Hub • 8m ago</p>
+                </div>
             </div>
-        </div>
-        <div class="flex gap-3 items-center mb-3">
-            <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center"
-                data-alt="Avatar of donor"
-                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2PQrlrIjeqm3I1VxhkBA7kV8hWG-8aynZUW6Who-L_QFFKxZBuoQHL3-UrtIdxx4QPTHts7w0yK5LYP2zCHdx2vod0BQx1s7uSQKwZUuDMLaniI_yZ41vaJVH8cmcVYkz72NSx_MkX_fpaf4zeALwHLHnkhyQmgInMXE0cBorJNc846ei2rE_WQNwCGNS2q7G7vvg6Vr2IaftpFNnJCdWAEY73VIERRQuCjfw1GyZ_q8H8I0wxxAzFv312fs1goz4rEzxAXhg7nmW')">
-            </div>
-            <div class="text-xs mt-1">
-                <p class="text-slate-600"><span class="font-bold text-dark-blue">Elena R.</span> donated <span
-                        class="text-light-green font-bold">$25</span></p>
-                <p class="text-slate-400">to Clean Water Hub • 8m ago</p>
-            </div>
-        </div>
-        <div class="flex gap-3 items-center">
-            <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center"
-                data-alt="Avatar of donor"
-                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA15Wc0QBp48e9f0S4sDyRboIYnGlbBRUJHBZFT4W1abXZP7E5ASxhEw2IvXpt2qDxDAEJSGiquYLjS4QcP4S-v08pVXHFj_Sd-hQJVLN8IbGXnNjbeIfyjjvUdVfXS7utB_YSCgDavscrE5kowz7hkib4fxZhTqFLdv-_9PjmT1nA7FApqO-KEURpCTuMp3NvfVGMBjqY-mvlLsQWLgsOvtmIleSG9NiFuRZYOvL1Pt9PJdjhHH3l81mkCaNqKd1M8XqHry_an-SpH')">
-            </div>
-            <div class="text-xs mt-1">
-                <p class="text-slate-600"><span class="font-bold text-dark-blue">Mark T.</span> donated <span
-                        class="text-light-green font-bold">$500</span></p>
-                <p class="text-slate-400">to Amazon Reforest • 15m ago</p>
+
+            <div class="flex gap-3 items-center group cursor-pointer p-2 rounded-xl hover:bg-gray-50 transition-all">
+                <div class="w-8 h-8 xl:w-10 xl:h-10 rounded-full bg-slate-100 border border-slate-200 flex-shrink-0 bg-cover bg-center shadow-sm"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA15Wc0QBp48e9f0S4sDyRboIYnGlbBRUJHBZFT4W1abXZP7E5ASxhEw2IvXpt2qDxDAEJSGiquYLjS4QcP4S-v08pVXHFj_Sd-hQJVLN8IbGXnNjbeIfyjjvUdVfXS7utB_YSCgDavscrE5kowz7hkib4fxZhTqFLdv-_9PjmT1nA7FApqO-KEURpCTuMp3NvfVGMBjqY-mvlLsQWLgsOvtmIleSG9NiFuRZYOvL1Pt9PJdjhHH3l81mkCaNqKd1M8XqHry_an-SpH')">
+                </div>
+                <div class="text-[10px] xl:text-xs min-w-0">
+                    <p class="text-slate-600 truncate"><span class="font-bold text-dark-blue">Mark T.</span> donated <span
+                            class="text-light-green font-bold">$500</span></p>
+                    <p class="text-slate-400 truncate">to Amazon Reforest • 15m ago</p>
+                </div>
             </div>
         </div>
     </div>
+
     <!-- Trending Needs -->
-    <div>
-        <h4 class="text-sm font-bold text-dark-blue mb-2">Trending Needs</h4>
-        <div class="space-y-4">
-            <div class="group cursor-pointer mb-6">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-tighter">Emergency
-                        Relief</span>
-                    <span class="text-[11px] font-bold text-red-500">Urgent</span>
+    <div class="border-t border-gray-50 pt-8 mb-8">
+        <h4 class="text-xs xl:text-sm font-bold text-dark-blue mb-4 uppercase tracking-wider">Trending Needs</h4>
+        <div class="space-y-6">
+            <div class="group cursor-pointer">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[9px] xl:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Emergency Relief</span>
+                    <span class="text-[9px] xl:text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Urgent</span>
                 </div>
-                <p class="text-xs font-bold text-dark-blue group-hover:text-light-green transition-colors">Flood
-                    Recovery in
-                    Southeast Asia</p>
-                <div class="mt-2 w-full h-1.5 bg-slate-100 rounded-full">
-                    <div class="h-full bg-red-500 rounded-full" style="width: 85%"></div>
+                <p class="text-xs xl:text-sm font-bold text-dark-blue group-hover:text-bright-blue transition-colors leading-snug">Flood Recovery in Southeast Asia</p>
+                <div class="mt-3 w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-red-500 rounded-full transition-all duration-1000" style="width: 85%"></div>
                 </div>
             </div>
+
             <div class="group cursor-pointer">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-tighter">Education</span>
-                    <span class="text-[11px] font-bold text-slate-400">90% Funded</span>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[9px] xl:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Education</span>
+                    <span class="text-[9px] xl:text-[10px] font-bold text-slate-500">90% Funded</span>
                 </div>
-                <p class="text-xs font-bold text-dark-blue group-hover:text-light-green transition-colors">Digital
-                    Literacy
-                    for Rural Schools</p>
-                <div class="mt-2 w-full h-1.5 bg-slate-100 rounded-full">
-                    <div class="h-full bg-light-green rounded-full" style="width: 90%"></div>
+                <p class="text-xs xl:text-sm font-bold text-dark-blue group-hover:text-bright-blue transition-colors leading-snug">Digital Literacy for Rural Schools</p>
+                <div class="mt-3 w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-light-green rounded-full transition-all duration-1000" style="width: 90%"></div>
                 </div>
             </div>
         </div>
         <button
-            class="w-full mt-6 py-3 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 transition-all">
+            class="w-full mt-8 py-3.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-dark-blue transition-all">
             View Global Impact Map
         </button>
     </div>
+
     <!-- App Stats Badge -->
-    <div class="mt-6 p-4 bg-dark-blue rounded-2xl text-center relative leading-10">
-        <p class="text-xs font-bold text-light-green uppercase ">Total Impact Today</p>
-        <p class="font-black text-white">$1,240,582</p>
-        <p class="text-xs text-white/50 ">across 142 verified cases</p>
+    <div class="p-5 bg-dark-blue rounded-3xl text-center relative overflow-hidden shadow-xl">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-16 h-16 bg-white/5 rounded-full blur-2xl"></div>
+        <p class="text-[10px] font-bold text-light-green uppercase tracking-[0.2em] mb-2">Total Impact Today</p>
+        <p class="text-xl xl:text-2xl font-black text-white mb-1">$1,240,582</p>
+        <p class="text-[10px] text-white/50 font-medium">across 142 verified cases</p>
     </div>
 </nav>

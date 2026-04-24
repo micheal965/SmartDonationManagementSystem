@@ -1,0 +1,27 @@
+<div class="bg-white rounded-2xl shadow-sm border p-5 
+    transition-all duration-200 
+    hover:shadow-md hover:-translate-y-1 
+    hover:bg-slate-50 cursor-pointer" [routerLink]="['/posts', comment.postId]">
+
+    <div class="flex items-start justify-between gap-4">
+
+        <!-- Left Content -->
+        <div class="flex-1 min-w-0">
+            <p class="text-gray-800 text-sm leading-relaxed mb-3 italic">
+                "{{ comment.content }}"
+            </p>
+
+            <div class="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                <mat-icon class="!text-lg !w-4 !h-7">history</mat-icon>
+                <span>{{ comment.createdAt | timeAgo }}</span>
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span>View original post</span>
+            </div>
+        </div>
+
+        <!-- Right Icon -->
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-light-green/10 text-light-green shrink-0">
+            <mat-icon>chat_bubble</mat-icon>
+        </div>
+    </div>
+</div>

@@ -1,40 +1,37 @@
-<article [routerLink]="['/posts', post.id]" class="bg-white rounded-2xl border shadow-sm p-6
-   hover:shadow-xl hover:-translate-y-1
-   transition-all duration-300 cursor-pointer
-   flex flex-col min-h-[240px]">
+<div class="bg-white rounded-2xl shadow-sm border p-5 
+    transition-all duration-200 
+    hover:shadow-md hover:-translate-y-1 
+    hover:bg-slate-50 cursor-pointer" [routerLink]="['/posts', post.id]">
 
-    <!-- Title -->
-    <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-1">
-        {{ post.title }}
-    </h3>
+    <div class="flex items-start justify-between gap-4">
 
-    <!-- Content Preview -->
-    <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">
-        {{ post.content }}
-    </p>
+        <!-- Left Content -->
+        <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-semibold text-gray-800 mb-1 line-clamp-1">
+                {{ post.title }}
+            </h3>
 
-    <!-- Spacer -->
-    <div class="flex-grow"></div>
+            <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-3">
+                {{ post.content }}
+            </p>
 
-    <!-- Footer -->
-    <div class="flex items-center justify-between mt-6 pt-4 border-t">
-
-        <!-- Likes -->
-        <div class="flex items-center  text-sm text-gray-500">
-            <div class="w-8 h-8 flex items-center justify-center
-                rounded-full  text-red-500 text-sm font-semibold">
-                <mat-icon>favorite</mat-icon>
+            <div class="flex items-center gap-1 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                <mat-icon class="!text-lg !w-5 !h-7 text-red-500">favorite</mat-icon>
+                <span>{{ post.likesCount }}</span>
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span>View post</span>
             </div>
-            <span class="text-sm text-gray-400">
-                {{ post.likesCount }}
-            </span>
         </div>
 
-        <!-- View -->
-        <span class="text-indigo-600 text-sm font-medium hover:underline">
-            View →
-        </span>
-
+        <!-- Right Content: Post Picture or Icon -->
+        @if (post.postPicture) {
+        <div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 border shadow-sm">
+            <img [src]="post.postPicture" alt="Post picture" class="w-full h-full object-cover">
+        </div>
+        } @else {
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 shrink-0">
+            <mat-icon>description</mat-icon>
+        </div>
+        }
     </div>
-
-</article>
+</div>

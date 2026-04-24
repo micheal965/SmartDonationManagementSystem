@@ -1,65 +1,68 @@
 <nav
-    class="fixed left-0 top-20 h-[calc(100vh-5rem)] bg-gradient-to-bl from-dark-blue to-bright-blue text-white p-8 flex flex-col z-30">
+    class="h-full w-full bg-gradient-to-bl from-dark-blue to-bright-blue text-white p-6 xl:p-8 flex flex-col shadow-2xl transition-all duration-300">
 
-    <div class="pb-5 flex items-center gap-4 mb-8 border-b border-white/30">
-
-        <div class="relative">
+    <div class="pb-6 flex items-center gap-3 xl:gap-4 mb-6 xl:mb-8 border-b border-white/20">
+        <div class="relative shrink-0">
             <img [src]="user?.pictureUrl || './assets/avatar.png'" alt="User picture"
-                class="w-12 h-12 rounded-full object-cover ring-2 ring-white/20 shadow-md">
-
-            <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-dark-blue rounded-full"></span>
+                class="w-10 h-10 xl:w-12 xl:h-12 rounded-full object-cover ring-2 ring-white/20 shadow-lg">
+            <span
+                class="absolute bottom-0 right-0 w-2.5 h-2.5 xl:w-3 xl:h-3 bg-green-400 border-2 border-dark-blue rounded-full"></span>
         </div>
 
-        <div class="flex flex-col">
-            <h1 class="text-base font-semibold text-white leading-tight">
+        <div class="flex flex-col min-w-0">
+            <h1 class="text-sm xl:text-base font-bold text-white leading-tight truncate">
                 {{user?.fullName || 'User Name'}}
             </h1>
-
-            <span class="mt-1 inline-block w-fit px-3 py-1 text-xs font-medium rounded-full 
-                   bg-white/10 text-light-green tracking-wide">
+            <span class="mt-1 inline-block w-fit px-2 py-0.5 xl:px-3 xl:py-1 text-[10px] font-bold rounded-full 
+                   bg-white/10 text-light-green tracking-wider uppercase">
                 {{user?.role || 'User'}}
             </span>
         </div>
     </div>
 
-    <div class="space-y-2 flex-1 ">
-        <a class="flex items-center gap-3 p-3 rounded-2xl  transition-colors" [routerLink]="['/feed']"
-            [routerLinkActive]="['bg-light-green','text-dark-blue']">
-            <mat-icon>home</mat-icon>
-            <span>Home</span>
+    <div class="space-y-1.5 flex-1 overflow-y-auto no-scrollbar">
+        <a class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group" [routerLink]="['/feed']"
+            [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
+            <mat-icon class="group-hover:scale-110 transition-transform">home</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">Home</span>
         </a>
-        <a *ngIf="!authService.isRequester()" class="flex items-center gap-3 p-3 rounded-2xl  transition-colors"
-            href="#" [routerLinkActive]="['bg-light-green','text-dark-blue']">
-            <mat-icon>favorite</mat-icon>
-            <span>My Donations</span>
+        <a *ngIf="!authService.isRequester()"
+            class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group" href="#"
+            [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
+            <mat-icon class="group-hover:scale-110 transition-transform">favorite</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">My Donations</span>
         </a>
-        <a class="flex items-center gap-3 p-3 rounded-2xl  transition-colors" [routerLink]="['/categories']"
-            [routerLinkActive]="['bg-light-green','text-dark-blue']">
-            <mat-icon>grid_view</mat-icon>
-            <span>Categories</span>
+        <a class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group"
+            [routerLink]="['/categories']" [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
+            <mat-icon class="group-hover:scale-110 transition-transform">grid_view</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">Categories</span>
         </a>
-        <a *ngIf="authService.isAdmin()" class="flex items-center gap-3 p-3 rounded-2xl  transition-colors"
-            [routerLink]="['/admin']" [routerLinkActive]="['bg-light-green','text-dark-blue']">
-            <mat-icon>dashboard</mat-icon>
-            <span>Admin Dashboard</span>
+        <a *ngIf="authService.isAdmin()"
+            class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group" [routerLink]="['/admin']"
+            [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
+            <mat-icon class="group-hover:scale-110 transition-transform">dashboard</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">Admin Dashboard</span>
         </a>
+
         <div class="pt-6 pb-2">
-            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 px-4">
+            <p class="text-[9px] xl:text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 px-4">
                 Platform
             </p>
         </div>
 
-        <a [routerLink]="['/']" [fragment]="'home'" class="flex items-center gap-3 p-3 rounded-2xl transition-colors"
-            routerLinkActive="bg-light-green text-dark-blue" [routerLinkActiveOptions]="{ exact: true }">
-            <mat-icon class="text-xl">info</mat-icon>
-            <span class="font-medium">About Us</span>
+        <a [routerLink]="['/']" [fragment]="'home'"
+            class="flex items-center gap-3 p-3 rounded-2xl transition-all duration-200 group"
+            routerLinkActive="bg-light-green text-dark-blue shadow-lg" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon class="group-hover:scale-110 transition-transform">info</mat-icon>
+            <span class="font-semibold text-sm xl:text-base">About Us</span>
         </a>
 
     </div>
-    <div class="mx-auto bg-white/5 rounded-3xl p-4 border border-white/10">
-        <p class="text-xs text-white/60 mb-3 leading-relaxed">Ready to make a bigger difference?</p>
+
+    <div class="mt-auto bg-white/5 rounded-3xl p-4 border border-white/10 shadow-inner">
+        <p class="text-xs text-white/60 mb-3 leading-relaxed font-medium">Ready to make a bigger difference?</p>
         <button
-            class="w-full py-3 bg-light-green text-dark-blue font-bold rounded-xl text-sm hover:scale-[1.02] active:scale-[0.98] transition-all">
+            class="w-full py-3 bg-light-green text-dark-blue font-bold rounded-xl text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-light-green/10">
             Start Fundraiser
         </button>
     </div>

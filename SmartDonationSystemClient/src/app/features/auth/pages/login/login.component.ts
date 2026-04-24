@@ -11,11 +11,12 @@ import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
 import { ChatService } from '../../../../core/services/chat.service';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, RouterLink],
+  imports: [ReactiveFormsModule, NgIf, RouterLink, MatIcon],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

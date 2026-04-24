@@ -11,6 +11,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { ProfileLikeComponent } from './profile-like/profile-like.component';
+import { ProfileCommentComponent } from './profile-comment/profile-comment.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { EditUserModel } from './models/edit-user-profile.model';
 import { ProfilePictureModalComponent } from './profile-picture-modal/profile-picture-modal.component';
@@ -26,6 +27,7 @@ import { UserCommentsDto } from './models/user-comments.model';
     MatIconModule,
     ProfilePostComponent,
     ProfileLikeComponent,
+    ProfileCommentComponent,
     EditProfileComponent,
     ProfilePictureModalComponent,
   ],

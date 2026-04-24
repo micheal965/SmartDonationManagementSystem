@@ -105,9 +105,9 @@
             </div>
         </section>
         <!-- Tabs Content -->
-        <div class="px-6">
+        <div>
             <!-- Posts Tab -->
-            <section *ngIf="activeTab === 'posts'" class="lg:px-12 mt-10">
+            <section *ngIf="activeTab === 'posts'" class="lg:px-20 mt-10">
                 <div *ngIf="!this.userPostsDto?.posts || userPostsDto?.totalPostsCount === 0"
                     class="text-center text-slate-500 py-20">
                     <p class="text-xl font-semibold">No posts yet</p>
@@ -115,22 +115,21 @@
                         Start creating your first post to share with the community!
                     </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="flex flex-col gap-4">
                     <app-profile-post *ngFor="let post of userPostsDto?.posts" [post]="post" />
                 </div>
             </section>
 
             <!-- Comments Tab -->
-            <!-- <section *ngIf="activeTab === 'comments'" class="px-6 lg:px-20 mt-10">
-        <div *ngIf="!user().comments || user().comments.length === 0" class="text-center text-slate-500 py-16">
-            <p class="text-lg font-medium">No comments yet</p>
-        </div>
-        <div class="space-y-4">
-            <div *ngFor="let comment of user().comments" class="p-4 border rounded">
-                comment.text
-            </div>
-        </div>
-    </section> -->
+            <section *ngIf="activeTab === 'comments'" class="px-6 lg:px-20 mt-10">
+                <div *ngIf="!userCommentsDto || userCommentsDto.totalCommentsCount === 0"
+                    class="text-center text-slate-500 py-16">
+                    <p class="text-lg font-medium">No comments yet</p>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <app-profile-comment *ngFor="let comment of userCommentsDto?.comments" [comment]="comment" />
+                </div>
+            </section>
 
             <!-- Likes Tab -->
             <section *ngIf="activeTab === 'likes'" class="lg:px-20 mt-10">
@@ -138,7 +137,7 @@
                     class="text-center text-slate-500 py-16">
                     <p class="text-lg font-medium">No likes yet</p>
                 </div>
-                <div class="space-y-4">
+                <div class="flex flex-col gap-4">
                     <app-profile-like *ngFor="let like of userReactionsDto?.reactions" [like]="like" />
                 </div>
             </section>

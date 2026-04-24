@@ -1,97 +1,87 @@
-<header class="max-w-8xl mx-auto sticky top-0 w-full bg-white  z-50 px-6 font-header">
-    <div class="h-18 flex items-center justify-between">
+<header class="w-full bg-white shadow-sm sticky top-0 z-50 px-4 sm:px-6 font-header">
+    <div class="max-w-8xl mx-auto h-16 sm:h-18 flex items-center justify-between gap-4">
 
-        <div class="flex items-center gap-3 py-4 lg:py-0">
-            <img class="w-11 h-11 md:w-12 md:h-12 hidden sm:block" src="./assets/logo-black.png" alt="logo">
-            <div class="relative ">
+        <div class="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-none">
+            <img class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 hidden xs:block" src="./assets/logo-black.png" alt="logo">
+            <div class="relative w-full sm:w-auto">
                 <input type="search" placeholder="Search"
-                    class="input rounded-3xl pl-10 md:w-80 focus:md:w-[500px] transition-all">
-                <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor"
+                    class="input rounded-3xl pl-10 w-full sm:w-48 md:w-80 focus:md:w-[400px] xl:focus:md:w-[500px] transition-all text-sm h-10">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="7" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <circle cx="11" cy="11" r="7" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
                 </svg>
             </div>
         </div>
 
-        <nav class="hidden lg:flex items-center gap-6 p-3">
+        <nav class="hidden lg:flex items-center gap-4 xl:gap-6">
             <div class="relative inline-block">
                 <!-- Bell Button -->
-                <button (click)="toggleNotifications()" class="relative text-gray-600 hover:text-black transition">
-
+                <button (click)="toggleNotifications()" class="relative text-gray-600 hover:text-black transition p-2">
                     <mat-icon>notifications</mat-icon>
-
                     <!-- Badge -->
                     <span *ngIf="notificationService.unreadCount() > 0"
-                        class="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full">
+                        class="absolute top-1 right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white font-bold">
                         {{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}
                     </span>
-
                 </button>
 
                 <!-- Dropdown -->
                 <div *ngIf="isNotificationsListOpen"
                     class="absolute right-0 mt-3 w-80 bg-white shadow-xl rounded-xl border z-50">
-
                     <!-- Header -->
                     <div class="px-4 py-3 border-b flex justify-between items-center">
                         <span class="font-semibold text-gray-800">Notifications</span>
-                        <a (click)="goToViewAll()" class="text-blue-600 text-xs hover:underline cursor-pointer">
+                        <a (click)="goToViewAll()" class="text-blue-600 text-xs hover:underline cursor-pointer font-medium">
                             View All
                         </a>
                     </div>
 
                     <ng-container *ngIf="(notificationService.state()?.items?.length ?? 0) > 0; else emptyState">
-
                         <div class="max-h-96 overflow-y-auto">
-
                             <div *ngFor="let n of notificationService.state()?.items" (click)="goToDetails(n)"
-                                class="flex gap-3 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50"
-                                [ngClass]="{ 'bg-blue-50': !n.isRead }">
+                                class="flex gap-3 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+                                [ngClass]="{ 'bg-blue-50/50': !n.isRead }">
 
-                                <div class="w-11 h-11 flex items-center justify-center rounded-full shrink-0">
-                                    <img class="rounded-full w-full h-full"
+                                <div class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                                    <img class="rounded-full w-full h-full object-cover"
                                         [src]="n.actorImage || './assets/avatar.png'"
                                         [alt]="n.actorName || 'user avatar'">
                                 </div>
 
                                 <div class="flex-1">
                                     <div class="flex justify-between items-start gap-2">
-                                        <p class="text-sm font-medium text-gray-900">{{ n.message }}</p>
+                                        <p class="text-sm font-medium text-gray-900 leading-snug">{{ n.message }}</p>
                                         <span *ngIf="!n.isRead"
-                                            class="w-2 h-2 bg-blue-500 rounded-full mt-1 shrink-0"></span>
+                                            class="w-2 h-2 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>
                                     </div>
 
-                                    <div class="flex justify-between mt-1">
-                                        <span class="text-xs text-gray-500">{{ n.actorName }}</span>
-                                        <span class="text-xs text-gray-400">{{ n.createdAt | date:'MMM d, h:mm a'
-                                            }}</span>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <span class="text-xs text-gray-500 font-medium">{{ n.actorName }}</span>
+                                        <span class="text-[10px] text-gray-400">{{ n.createdAt | date:'MMM d, h:mm a' }}</span>
                                     </div>
                                 </div>
                             </div>
-
-                            <div appInfiniteScroll (scrolled)="loadMoreNotifications()" class="h-0.5">
-                            </div>
-
+                            <div appInfiniteScroll (scrolled)="loadMoreNotifications()" class="h-0.5"></div>
                         </div>
-
                     </ng-container>
 
                     <ng-template #emptyState>
-                        <div class="p-6 text-center text-gray-500">
-                            No notifications yet
+                        <div class="p-8 text-center text-gray-500">
+                            <mat-icon class="text-gray-200 !text-4xl !w-auto !h-auto mb-2">notifications_off</mat-icon>
+                            <p class="text-sm">No notifications yet</p>
                         </div>
                     </ng-template>
                 </div>
             </div>
 
-            <div class="relative border-l border-gray-300 pl-4 mx-3">
+            <div class="relative border-l border-gray-200 pl-4">
                 <button (click)="toggleMe()"
-                    class="flex flex-col justify-center items-center text-gray-500 hover:text-black transition-colors">
-                    <img class="w-10 h-10 rounded-full border-2 border-light-green"
+                    class="flex flex-col justify-center items-center text-gray-500 hover:text-black transition-colors min-w-[40px]">
+                    <img class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-light-green shadow-sm object-cover"
                         [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" alt="user">
-                    <span class="flex items-center text-[11px] font-medium mt-1">
-                        Me <svg class="w-3 h-3 ml-0.5 transition-transform" [class.rotate-180]="isMeClicked"
+                    <span class="flex items-center text-[10px] sm:text-[11px] font-bold mt-1 uppercase tracking-tighter">
+                        Me <svg class="w-3 h-3 ml-0.5 transition-transform duration-300" [class.rotate-180]="isMeClicked"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 16L6 10H18L12 16Z" />
                         </svg>
@@ -99,41 +89,73 @@
                 </button>
 
                 <div *ngIf="isMeClicked"
-                    class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-xl py-2 animate-in fade-in slide-in-from-top-2">
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-2xl py-2 animate-in fade-in slide-in-from-top-2 overflow-hidden">
                     <a [routerLink]="['/profile' ,this.userService.profile()?.id]"
-                        class="block px-4 py-2 text-sm hover:bg-gray-100">View Profile</a>
-                    <hr class="my-1">
-                    <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                        (click)="onLogout()">Logout</button>
+                        class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                        <mat-icon class="!text-lg">person</mat-icon>
+                        View Profile
+                    </a>
+                    <hr class="my-1 border-gray-50">
+                    <button class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                        (click)="onLogout()">
+                        <mat-icon class="!text-lg">logout</mat-icon>
+                        Logout
+                    </button>
                 </div>
             </div>
         </nav>
 
-        <button (click)="isMenuOpen = !isMenuOpen" class="lg:hidden p-2">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button (click)="isMenuOpen = !isMenuOpen" class="lg:hidden p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path *ngIf="!isMenuOpen" d="M4 6h16M4 12h16m-7 6h7" stroke-width="2" stroke-linecap="round" />
                 <path *ngIf="isMenuOpen" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" />
             </svg>
         </button>
     </div>
 
+    <!-- Mobile Navigation Overlay -->
     <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[60]">
-        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" (click)="isMenuOpen = false"></div>
+        <div class="absolute inset-0 bg-dark-blue/20 backdrop-blur-sm transition-opacity" (click)="isMenuOpen = false"></div>
 
-        <div class="absolute right-0 top-0 h-full w-64 bg-white shadow-2xl p-6 flex flex-col gap-1">
-            <a *ngFor="let item of navItems" [routerLink]="[item.link]" routerLinkActive="'bg-light-green'"
-                (click)="isMenuOpen = false"
-                class="flex p-4 gap-2 justify-start text-gray-600 hover:bg-light-green hover:text-dark-blue rounded-lg">
-                <mat-icon class="w-8 h-8  text-dark-blue">
-                    {{ item.iconName }}
-                </mat-icon>
-                <span class="font-medium">{{item.label}}</span>
-            </a>
-            <hr>
-            <div class="flex flex-col gap-6 p-4">
-                <a [routerLink]="['/profile' ,this.userService.profile()?.id]" (click)="isMenuOpen = false"
-                    class="font-medium text-gray-500 hover:text-gray-00">View Profile</a>
-                <button class="text-left font-medium text-red-600" (click)="onLogout()">Logout</button>
+        <div class="absolute right-0 top-0 h-full w-72 bg-white shadow-2xl p-6 flex flex-col gap-2 animate-in slide-in-from-right duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-header font-bold text-dark-blue text-xl">Menu</span>
+                <button (click)="isMenuOpen = false" class="p-2 text-gray-400">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-1 flex-1 overflow-y-auto">
+                <a *ngFor="let item of navItems" [routerLink]="[item.link]" routerLinkActive="bg-light-green/10 text-dark-blue"
+                    (click)="isMenuOpen = false"
+                    class="flex items-center p-3.5 gap-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-all">
+                    <mat-icon class="text-dark-blue/70">
+                        {{ item.iconName }}
+                    </mat-icon>
+                    <span class="font-semibold text-sm">{{item.label}}</span>
+                </a>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 mt-auto">
+                <div class="bg-gray-50 rounded-2xl p-4 flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                         <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover"
+                            [src]="this.userService.profile()?.pictureUrl || './assets/avatar.png'" alt="user">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-bold text-dark-blue">{{this.userService.profile()?.fullName}}</span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">{{this.userService.profile()?.role}}</span>
+                        </div>
+                    </div>
+                    <a [routerLink]="['/profile' ,this.userService.profile()?.id]" (click)="isMenuOpen = false"
+                        class="flex items-center gap-2 text-sm font-bold text-bright-blue hover:text-dark-blue transition-colors">
+                        <mat-icon class="!text-lg">account_circle</mat-icon>
+                        View Profile
+                    </a>
+                    <button class="flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-600 transition-colors" (click)="onLogout()">
+                        <mat-icon class="!text-lg">logout</mat-icon>
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </div>

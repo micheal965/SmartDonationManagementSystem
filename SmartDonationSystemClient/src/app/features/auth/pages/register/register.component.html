@@ -1,31 +1,39 @@
-<div class="flex max-w-7xl mx-auto bg-gray-50 m-4 rounded-xl shadow-2xl my-12">
+<div class="flex flex-col lg:flex-row max-w-7xl bg-gray-50 mx-auto my-8 lg:my-12 rounded-xl shadow-2xl overflow-hidden">
+
+    <!-- Mobile Image -->
+    <div class="block lg:hidden">
+        <img src="./assets/signup-photo.png" class="w-full h-56 object-cover">
+    </div>
+
     <!-- Left Side -->
-    <div class="lg:w-6/12 mx-auto p-8 pb-4">
-        <div class="flex flex-col gap-2">
-            <h1 class="text-4xl text-dark-blue font-bold">Sign Up</h1>
-            <h3 class="text-md">Join our community to make an impact or receive support</h3>
-            <p class="flex gap-2 items-center bg-light-gray p-2  rounded-full ">
-                <svg class="w-7 h-7 text-red-500 animate-stepPulse" fill="none" fill="currentColor" viewBox="0 0 24 24">
+    <div class="w-full lg:w-6/12 p-2.5 sm:p-6 lg:p-8">
+        <div class="flex flex-col text-center lg:text-start gap-2 mb-4">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl text-dark-blue font-bold">Sign Up</h1>
+            <h3 class="text-sm sm:text-base text-dark-blue/70">Join our community to make an impact or receive support
+            </h3>
+            <p class="flex gap-2 items-center bg-light-gray p-2 px-4 rounded-full text-xs sm:text-sm w-fit mx-auto lg:mx-0">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-red-500 animate-stepPulse" fill="none" fill="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682 4.318 12.682a4.5 4.5 0 010-6.364z" />
                 </svg>
-                Over 10,000 donors making an impact
+                <span class="font-medium">Over 10,000 donors making an impact</span>
             </p>
         </div>
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"
-            class="p-4 my-4 max-w-xl bg-white shadow-md rounded-2xl">
+            class="p-4 sm:p-6 w-full mx-auto max-w-full sm:max-w-xl bg-white shadow-md rounded-2xl text-xs sm:text-sm lg:text-base">
             <!-- Stepper Container -->
             <div class="flex flex-col">
-                <p class="text-lg text-dark-blue font-extrabold mb-3">
+                <p class="text-base sm:text-lg text-dark-blue font-extrabold mb-3">
                     Step {{ currentStep }} : {{steps[currentStep-1].label}}
                 </p>
                 <div class="flex items-center mb-6">
                     <ng-container *ngFor="let step of steps; let i = index">
 
                         <!-- Circle -->
-                        <div class="flex items-center justify-center w-8 h-8 rounded-full font-semibold
+                        <div class="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full font-semibold
                       transition-all duration-300 shrink-0" [ngClass]="{
-                    'bg-light-green text-lg text-[#ffffff] ': currentStep > i + 1,
+                    'bg-light-green text-sm sm:text-lg text-[#ffffff] ': currentStep > i + 1,
                     'bg-gray-300 text-white scale-110 animate-stepPulse': currentStep === i + 1
                     }">
                             {{ i + 1 }}
@@ -47,7 +55,7 @@
             <div *ngIf="currentStep===1">
 
                 <!-- Scan -->
-                <div class="mb-4 border-2 border-dashed border-light-green/35 rounded-3xl p-4 pb-2">
+                <div class="mb-4 border-2 border-dashed border-light-green/35 rounded-3xl p-3 sm:p-4 pb-2">
                     <div class="flex flex-col lg:flex-row items-center gap-4 text-center lg:text-start justify-center">
                         <img src="./assets/scan.png" alt="scan icon" width="60px" class="hidden lg:block">
 
@@ -60,7 +68,7 @@
                         <input type="file" #idInput (change)="onFileSelected($event)" accept="image/*" class="hidden">
 
                         <button type="button" (click)="idInput.click()" [disabled]="isLoading"
-                            class="btn bg-light-green text-white shadow-lg shadow-light-green/20 hover:brightness-105 disabled:bg-gray-400 disabled:shadow-none">
+                            class="btn bg-light-green text-white shadow-lg shadow-light-green/20 hover:brightness-105 disabled:bg-gray-400 disabled:shadow-none py-2 px-4 rounded-xl text-sm">
                             <span class="flex items-center gap-2">
                                 <span>{{isLoading?'Scanning':'Scan My ID Card'}}</span>
                                 <svg *ngIf="isLoading" class="animate-spin h-4 w-4 text-light-green"
@@ -77,25 +85,26 @@
                     </div>
 
                     <div class="flex justify-center items-center gap-1 text-gray-400 mt-4">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <rect x="5" y="10" width="14" height="10" rx="2" ry="2" stroke-width="2"></rect>
                             <path d="M8 10V7a4 4 0 018 0v3" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round"></path>
                         </svg>
-                        <p class="text-[10px] lg:text-xs">Secure & AI - Powered</p>
+                        <p class="text-[10px] sm:text-xs">Secure & AI - Powered</p>
                     </div>
                 </div>
 
                 <!-- Role -->
                 <div class="mb-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                         <!-- Donor -->
                         <div class="role-container cursor-pointer flex border-2 p-3 rounded-2xl items-center gap-2 transition-all duration-300"
                             [ngClass]="{
                                     'border-light-green': role?.value==='Donor',
                                     'border-slate-200': role?.value!=='Donor'
                                 }" (click)="selectRole('Donor')">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" [ngClass]="{
+                            <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                [ngClass]="{
                                     'text-light-green': role?.value==='Donor',
                                     'text-gray-400': role?.value!=='Donor'
                                     }">
@@ -104,7 +113,7 @@
                             </svg>
 
                             <div class="flex flex-col">
-                                <h2 class="font-bold text-dark-blue">I want to Donate</h2>
+                                <h2 class="font-bold text-dark-blue text-sm sm:text-base">I want to Donate</h2>
                                 <p class="text-gray-400 text-xs">Empower Lives</p>
                             </div>
                         </div>
@@ -116,7 +125,7 @@
                                 }" (click)="selectRole('Requester')">
 
                             <!-- Icon -->
-                            <svg class="w-8 h-8 " fill="none" stroke="currentColor" [ngClass]="{
+                            <svg class="w-6 h-6 sm:w-8 sm:h-8 " fill="none" stroke="currentColor" [ngClass]="{
                                         'text-light-green': role?.value==='Requester',
                                         'text-gray-400': role?.value!=='Requester'
                                         }" viewBox="0 0 24 24">
@@ -125,14 +134,14 @@
                             </svg>
 
                             <div class="flex flex-col">
-                                <h2 class="font-bold text-dark-blue">I Need Help</h2>
+                                <h2 class="font-bold text-dark-blue text-sm sm:text-base">I Need Help</h2>
                                 <p class="text-gray-400 text-xs">Request Help</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Validation message -->
-                    <small *ngIf="role?.invalid && role?.touched" class="text-red-500 text-sm mt-2 block">
+                    <small *ngIf="role?.invalid && role?.touched" class="text-red-500 text-xs sm:text-sm mt-2 block">
                         Role is required.
                     </small>
                 </div>
@@ -154,7 +163,7 @@
                         </svg>
 
                         <input type="text" id="identityNumber" formControlName="IdentityNumber"
-                            placeholder="0000-0000-0000-0000" class="input"
+                            placeholder="0000-0000-0000-0000" class="input text-sm sm:text-base"
                             [class.border-red-500]="identityNumber?.invalid && (identityNumber?.touched || identityNumber?.dirty)" />
                     </div>
 
@@ -181,7 +190,7 @@
                         </svg>
 
                         <input type="password" id="password" formControlName="Password"
-                            placeholder="At least 8 characters" class="input"
+                            placeholder="At least 8 characters" class="input text-sm sm:text-base"
                             [class.border-red-500]="password?.invalid && (password?.touched || password?.dirty)" />
                     </div>
 
@@ -198,7 +207,7 @@
                 </div>
 
                 <button type="button" (click)="next()" [disabled]="isLoading"
-                    class="btn-primary w-full flex justify-center items-center group my-2 text-sm  md:text-lg">
+                    class="btn-primary w-full flex justify-center items-center group my-2 text-sm sm:text-base py-3">
                     Continue to Personal Details
                     <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -218,15 +227,15 @@
 
                             <!-- Show image preview if exists -->
                             <img *ngIf="imagePreview" [src]="imagePreview"
-                                class="w-32 h-32 rounded-full object-cover" />
+                                class="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover" />
                             <svg *ngIf="!imagePreview" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                viewBox="0 0 24 24" class="w-32 h-32 p-4 text-gray-400">
+                                viewBox="0 0 24 24" class="w-24 h-24 sm:w-32 sm:h-32 p-4 text-gray-400">
                                 <path
                                     d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
                             </svg>
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="absolute bottom-0 right-0 w-8 h-8 text-black bg-light-green/50 rounded-full p-1">
+                                class="absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 text-black bg-light-green/50 rounded-full p-1">
                                 <path fill="currentColor"
                                     d="M20 5h-3.17l-1.84-2H8.99L7.15 5H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-8 12a4 4 0 110-8 4 4 0 010 8z" />
                                 <circle fill="currentColor" cx="12" cy="12" r="2" />
@@ -237,7 +246,7 @@
                     <input type="file" id="profilePicture" #fileInput accept="image/*" class="hidden"
                         (change)="onProfilePictureSelected($event)" />
                     <div *ngIf="profilePicture?.invalid && (profilePicture?.touched || profilePicture?.dirty)"
-                        class="text-red-500 text-sm mt-1">
+                        class="text-red-500 text-xs sm:text-sm mt-1 text-center">
                         Profile Picture is required.
                     </div>
                 </div>
@@ -245,10 +254,10 @@
                 <div class="mb-4">
                     <label for="FullName" class="block font-medium mb-1">Full Name</label>
                     <input type="text" id="FullName" formControlName="FullName" placeholder="Enter your Full name"
-                        class="input pl-2"
+                        class="input pl-2 text-sm sm:text-base"
                         [class.border-red-500]="fullName?.invalid && (fullName?.touched || fullName?.dirty)" />
                     <div *ngIf="fullName?.invalid && (fullName?.touched || fullName?.dirty)"
-                        class="text-red-500 text-sm mt-1">
+                        class="text-red-500 text-xs sm:text-sm mt-1">
                         Full Name is required.
                     </div>
                 </div>
@@ -256,10 +265,11 @@
                 <!-- Birth Date -->
                 <div class="mb-4">
                     <label for="BirthDate" class="block font-medium mb-1">Birth Date</label>
-                    <input type="date" id="BirthDate" formControlName="BirthDate" class="input pl-2"
+                    <input type="date" id="BirthDate" formControlName="BirthDate"
+                        class="input pl-2 text-sm sm:text-base"
                         [class.border-red-500]="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)" />
                     <div *ngIf="birthDate?.invalid && (birthDate?.touched || birthDate?.dirty)"
-                        class="text-red-500 text-sm mb-3">
+                        class="text-red-500 text-xs sm:text-sm mb-3">
                         <span *ngIf="birthDate?.errors?.['required']">Birth Date is required.</span>
                         <span *ngIf="birthDate?.errors?.['futureDate']">Birth date cannot be in the future. </span>
                         <span *ngIf="birthDate?.errors?.['tooYoung']">
@@ -271,11 +281,12 @@
                 <!-- Phone Number -->
                 <div class="mb-4">
                     <label for="PhoneNumber" class="block font-medium mb-1">Phone Number</label>
-                    <input type="text" id="PhoneNumber" formControlName="PhoneNumber" class="input pl-2"
+                    <input type="text" id="PhoneNumber" formControlName="PhoneNumber"
+                        class="input pl-2 text-sm sm:text-base"
                         [class.border-red-500]="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
                         placeholder="+20 1201605049" />
                     <div *ngIf="phoneNumber?.invalid && (phoneNumber?.touched || phoneNumber?.dirty)"
-                        class="text-red-500 text-sm mt-1">
+                        class="text-red-500 text-xs sm:text-sm mt-1">
                         Phone Number is required.
                     </div>
                 </div>
@@ -284,15 +295,15 @@
                 <div class="mb-4">
                     <label for="Address" class="block font-medium mb-1">Address</label>
                     <input type="text" id="Address" formControlName="Address" placeholder="Enter your address"
-                        class="input pl-2" />
+                        class="input pl-2 text-sm sm:text-base" />
                 </div>
 
                 <!-- Buttons -->
                 <div class="flex flex-col ">
-                    <div class="flex flex-col md:flex-row gap-4 my-2">
+                    <div class="flex flex-col sm:flex-row gap-4 my-2">
                         <!-- Prev button -->
-                        <button type="button" (click)="prev()" class="w-full md:w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 p-3 rounded-full font-semibold
-                 hover:bg-gray-300 transition-colors duration-300 group ">
+                        <button type="button" (click)="prev()" class="w-full sm:w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 py-3 rounded-full font-semibold
+                 hover:bg-gray-300 transition-colors duration-300 group text-sm sm:text-base">
                             <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -302,7 +313,7 @@
                         </button>
                         <!-- Dynamic Button -->
                         <button type="button" (click)="next()" [disabled]="isImageUploading || isLoading"
-                            class="flex justify-center items-center gap-2 w-full md:w-1/2 btn-primary rounded-3xl">
+                            class="flex justify-center items-center gap-2 w-full sm:w-1/2 btn-primary rounded-3xl py-3 text-sm sm:text-base">
                             <span>Continue to Interests</span>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -316,35 +327,37 @@
             <!-- Step 3 (Donor Only) -->
             <div *ngIf="currentStep===3">
                 <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-dark-blue mb-2">What inspires you to give?</h2>
-                    <p class="text-gray-500 text-sm mb-6">Select the causes you're most passionate about. We'll notify
+                    <h2 class="text-xl sm:text-2xl font-bold text-dark-blue mb-2">What inspires you to give?</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm mb-6">Select the causes you're most passionate about.
+                        We'll notify
                         you
                         whenever a new request matches your interests. <span
                             class="text-light-green font-semibold">(Optional)</span></p>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <div *ngFor="let category of categories" (click)="toggleCategory(category.id)"
-                            class="group relative cursor-pointer p-4 border-2 rounded-2xl transition-all duration-300 hover:shadow-lg flex flex-col gap-1"
+                            class="group relative cursor-pointer p-3 sm:p-4 border-2 rounded-2xl transition-all duration-300 hover:shadow-lg flex flex-col gap-1"
                             [ngClass]="{
                                 'border-light-green bg-light-green/5 ring-1 ring-light-green': isCategorySelected(category.id),
                                 'border-gray-100 bg-white hover:border-light-green/30': !isCategorySelected(category.id)
                             }">
 
                             <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-lg transition-colors"
+                                <h3 class="font-bold text-base sm:text-lg transition-colors"
                                     [ngClass]="isCategorySelected(category.id) ? 'text-light-green' : 'text-dark-blue'">
                                     {{ category.name }}
                                 </h3>
-                                <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all"
+                                <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center transition-all"
                                     [ngClass]="isCategorySelected(category.id) ? 'bg-light-green border-light-green text-white' : 'border-gray-200 text-transparent'">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                             d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
                             </div>
 
-                            <p class="text-xs leading-relaxed transition-colors"
+                            <p class="text-[10px] sm:text-xs leading-relaxed transition-colors"
                                 [ngClass]="isCategorySelected(category.id) ? 'text-light-green/80' : 'text-gray-400'">
                                 {{ category.description }}
                             </p>
@@ -354,10 +367,10 @@
 
                 <!-- Buttons -->
                 <div class="flex flex-col ">
-                    <div class="flex flex-col md:flex-row gap-4 my-2">
+                    <div class="flex flex-col sm:flex-row gap-4 my-2">
                         <!-- Prev button -->
-                        <button type="button" (click)="prev()" class="w-full md:w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 p-3 rounded-full font-semibold
-                 hover:bg-gray-300 transition-colors duration-300 group ">
+                        <button type="button" (click)="prev()" class="w-full sm:w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 py-3 rounded-full font-semibold
+                 hover:bg-gray-300 transition-colors duration-300 group text-sm sm:text-base">
                             <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -367,7 +380,7 @@
                         </button>
                         <!-- Register button -->
                         <button type="submit" [disabled]="registerForm.invalid || isLoading || isImageUploading"
-                            class="btn flex justify-center items-center gap-2 w-full md:w-1/2 btn-primary rounded-3xl">
+                            class="btn flex justify-center items-center gap-2 w-full sm:w-1/2 btn-primary rounded-3xl py-3 text-sm sm:text-base">
 
                             <span> {{isLoading? 'Processing' :'Sign Up'}}</span>
 
@@ -382,15 +395,23 @@
                     </div>
                 </div>
             </div>
+
+            <p class="text-xs sm:text-sm text-center mt-4">
+                Already have an account?
+                <a routerLink="/login" class="text-bright-blue font-semibold">
+                    Sign in
+                </a>
+            </p>
+
         </form>
     </div>
 
     <!-- Right Side -->
-    <div class="relative w-0 lg:w-6/12 m-0">
+    <div class="hidden lg:block lg:w-6/12 relative">
         <div
-            class="absolute inset-0 bg-gradient-to-t from-light-green via-transparent to-white opacity-50 rounded-r-lg shadow-inner">
+            class="absolute inset-0 bg-gradient-to-t from-light-green via-transparent to-white opacity-30 shadow-inner">
         </div>
-        <img src="./assets/signup-photo.png" alt="signup photo"
-            class="w-full h-full object-cover shadow-xl rounded-r-lg">
+        <img src="./assets/signup-photo.png" alt="signup photo" class="w-full h-full object-cover">
     </div>
+
 </div>

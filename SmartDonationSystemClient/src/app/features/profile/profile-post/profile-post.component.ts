@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Post } from '../../feed/models/post.model';
 import { RouterLink } from '@angular/router';
 import { userPost } from '../models/user-posts.model';
 
