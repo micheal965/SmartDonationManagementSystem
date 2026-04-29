@@ -1,16 +1,19 @@
-<div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-[9999] p-2 sm:p-4 animate-fade-in" (click)="close()">
+<div class="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-[9999] p-2 sm:p-4 animate-fade-in"
+    (click)="close()">
     <form [formGroup]="form" (ngSubmit)="submit()" (click)="$event.stopPropagation()"
         class="bg-white w-full max-w-2xl rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/20 animate-scale-up">
 
         <!-- Header -->
         <div class="px-4 py-4 sm:px-8 sm:py-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <div class="flex items-center gap-2 sm:gap-3">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-bright-blue rounded-lg flex items-center justify-center text-white shadow-lg shadow-bright-blue/20">
+                <div
+                    class="w-8 h-8 sm:w-10 sm:h-10 bg-bright-blue rounded-lg flex items-center justify-center text-white shadow-lg shadow-bright-blue/20">
                     <mat-icon class="!text-lg sm:!text-xl">add_circle</mat-icon>
                 </div>
                 <h2 class="text-xl sm:text-2xl font-header font-bold text-dark-blue">Create Post</h2>
             </div>
-            <button class="w-8 h-8 sm:w-10 sm:h-10 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-soft-red hover:bg-soft-red/10 transition-all shadow-sm"
+            <button
+                class="w-8 h-8 sm:w-10 sm:h-10 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-soft-red hover:bg-soft-red/10 transition-all shadow-sm"
                 type="button" (click)="close()">
                 <mat-icon class="!text-lg sm:!text-xl">close</mat-icon>
             </button>
@@ -25,10 +28,11 @@
                     <mat-icon class="!text-base sm:!text-lg">title</mat-icon>
                     Post Title
                 </label>
-                <input formControlName="title" 
-                       class="w-full bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue placeholder:text-gray-400 text-sm sm:text-base" 
-                       placeholder="Give your donation request a clear title..." />
-                <small *ngIf="f.title.invalid && (f.title.touched || f.title.dirty)" class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
+                <input formControlName="title"
+                    class="w-full bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue placeholder:text-gray-400 text-sm sm:text-base"
+                    placeholder="Give your donation request a clear title..." />
+                <small *ngIf="f.title.invalid && (f.title.touched || f.title.dirty)"
+                    class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
                     <mat-icon class="!text-sm">error_outline</mat-icon>
                     <span *ngIf="f.title.errors?.['required']">Title is required.</span>
                     <span *ngIf="f.title.errors?.['minlength']">Minimum 3 characters needed.</span>
@@ -43,8 +47,8 @@
                         Category
                     </label>
                     <div class="relative">
-                        <select formControlName="categoryId" 
-                                class="w-full appearance-none bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue cursor-pointer text-sm sm:text-base">
+                        <select formControlName="categoryId"
+                            class="w-full appearance-none bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue cursor-pointer text-sm sm:text-base">
                             <option value="" disabled>Select Category</option>
                             <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
                         </select>
@@ -52,7 +56,8 @@
                             <mat-icon class="!text-lg sm:!text-xl">expand_more</mat-icon>
                         </div>
                     </div>
-                    <small *ngIf="f.categoryId.invalid && (f.categoryId.touched || f.categoryId.dirty)" class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
+                    <small *ngIf="f.categoryId.invalid && (f.categoryId.touched || f.categoryId.dirty)"
+                        class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
                         <mat-icon class="!text-sm">error_outline</mat-icon>
                         Please select a category.
                     </small>
@@ -64,12 +69,16 @@
                         <mat-icon class="!text-base sm:!text-lg">image</mat-icon>
                         Cover Image
                     </label>
-                    <label class="relative flex items-center gap-3 bg-gray-50 border-2 border-dashed border-gray-200 hover:border-bright-blue/30 hover:bg-bright-blue/5 rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 transition-all cursor-pointer group">
+                    <label
+                        class="relative flex items-center gap-3 bg-gray-50 border-2 border-dashed border-gray-200 hover:border-bright-blue/30 hover:bg-bright-blue/5 rounded-xl sm:rounded-2xl p-2.5 sm:p-3.5 transition-all cursor-pointer group">
                         <input type="file" hidden accept="image/*" (change)="onImageChange($event)" />
-                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                            <mat-icon class="text-gray-400 group-hover:text-bright-blue !text-lg sm:!text-xl">{{ f.postPicture.value ? 'check_circle' : 'add_photo_alternate' }}</mat-icon>
+                        <div
+                            class="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <mat-icon class="text-gray-400 group-hover:text-bright-blue !text-lg sm:!text-xl">{{
+                                f.postPicture.value ? 'check_circle' : 'add_photo_alternate' }}</mat-icon>
                         </div>
-                        <span class="text-xs sm:text-sm font-medium text-gray-500 group-hover:text-bright-blue truncate">
+                        <span
+                            class="text-xs sm:text-sm font-medium text-gray-500 group-hover:text-bright-blue truncate">
                             {{ f.postPicture.value ? f.postPicture.value.name : 'Upload cover photo' }}
                         </span>
                     </label>
@@ -82,10 +91,11 @@
                     <mat-icon class="!text-base sm:!text-lg">subject</mat-icon>
                     Description
                 </label>
-                <textarea formControlName="content" 
-                          class="w-full bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue placeholder:text-gray-400 resize-none min-h-[120px] sm:min-h-[160px] text-sm sm:text-base"
-                          placeholder="Tell the community about your need and how they can help..."></textarea>
-                <small *ngIf="f.content.invalid && (f.content.touched || f.content.dirty)" class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
+                <textarea formControlName="content"
+                    class="w-full bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue placeholder:text-gray-400 resize-none min-h-[120px] sm:min-h-[160px] text-sm sm:text-base"
+                    placeholder="Tell the community about your need and how they can help..."></textarea>
+                <small *ngIf="f.content.invalid && (f.content.touched || f.content.dirty)"
+                    class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
                     <mat-icon class="!text-sm">error_outline</mat-icon>
                     <span *ngIf="f.content.errors?.['required']">Content is required.</span>
                     <span *ngIf="f.content.errors?.['minlength']">Please provide more details (min 10 chars).</span>
@@ -99,58 +109,70 @@
                         <mat-icon class="!text-base sm:!text-lg">attachment</mat-icon>
                         Supportive Documents
                     </label>
-                    <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-gray-100 text-gray-400 rounded-lg" 
-                          *ngIf="isAttachmentsOptional">Optional</span>
-                    <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-soft-red/10 text-soft-red rounded-lg" 
-                          *ngIf="!isAttachmentsOptional">Required</span>
+                    <span
+                        class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-gray-100 text-gray-400 rounded-lg"
+                        *ngIf="isAttachmentsOptional">Optional</span>
+                    <span
+                        class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-soft-red/10 text-soft-red rounded-lg"
+                        *ngIf="!isAttachmentsOptional">Required</span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <label class="border-2 border-dashed border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center hover:bg-gray-50 hover:border-bright-blue/30 transition-all cursor-pointer group h-full">
-                        <input type="file" multiple hidden (change)="onFileChange($event)" accept=".pdf,.doc,.docx,.txt" />
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 group-hover:text-bright-blue group-hover:bg-white transition-all shadow-sm mb-2 sm:mb-3">
+                    <label
+                        class="border-2 border-dashed border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center hover:bg-gray-50 hover:border-bright-blue/30 transition-all cursor-pointer group h-full">
+                        <input type="file" multiple hidden (change)="onFileChange($event)"
+                            accept=".pdf,.doc,.docx,.txt" />
+                        <div
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 group-hover:text-bright-blue group-hover:bg-white transition-all shadow-sm mb-2 sm:mb-3">
                             <mat-icon class="!text-xl sm:!text-2xl">attach_file</mat-icon>
                         </div>
-                        <p class="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-tighter">Click to add files</p>
+                        <p class="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-tighter">Click to
+                            add files</p>
                     </label>
 
                     <div class="space-y-2">
                         <div *ngFor="let file of attachmentsControl.value; let i = index"
-                             class="bg-white border border-gray-100 p-2.5 sm:p-3 rounded-lg sm:rounded-xl flex justify-between items-center shadow-sm animate-fade-in">
+                            class="bg-white border border-gray-100 p-2.5 sm:p-3 rounded-lg sm:rounded-xl flex justify-between items-center shadow-sm animate-fade-in">
                             <div class="flex items-center gap-2 overflow-hidden">
                                 <mat-icon class="text-bright-blue !text-base sm:!text-lg">description</mat-icon>
-                                <span class="text-[10px] sm:text-xs font-medium text-dark-blue truncate">{{ file.name }}</span>
+                                <span class="text-[10px] sm:text-xs font-medium text-dark-blue truncate">{{ file.name
+                                    }}</span>
                             </div>
-                            <button type="button" (click)="removeFile(i)" class="text-gray-300 hover:text-soft-red transition-colors">
+                            <button type="button" (click)="removeFile(i)"
+                                class="text-gray-300 hover:text-soft-red transition-colors">
                                 <mat-icon class="!text-base sm:!text-lg">cancel</mat-icon>
                             </button>
                         </div>
-                        
-                        <div *ngIf="attachmentsControl.value.length === 0" class="h-24 sm:h-full flex items-center justify-center text-gray-300 border border-gray-50 rounded-xl sm:rounded-2xl border-dashed">
-                             <p class="text-[10px] sm:text-xs italic">No documents added yet</p>
+
+                        <div *ngIf="attachmentsControl.value.length === 0"
+                            class="h-24 sm:h-full flex items-center justify-center text-gray-300 border border-gray-50 rounded-xl sm:rounded-2xl border-dashed">
+                            <p class="text-[10px] sm:text-xs italic">No documents added yet</p>
                         </div>
                     </div>
                 </div>
 
-                <small *ngIf="attachmentsControl.invalid && (attachmentsControl.touched || attachmentsControl.dirty)" class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
+                <small *ngIf="attachmentsControl.invalid && (attachmentsControl.touched || attachmentsControl.dirty)"
+                    class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
                     <mat-icon class="!text-sm">error_outline</mat-icon>
-                    <span *ngIf="attachmentsControl.getError('minFiles')">At least {{ attachmentsControl.getError('minFiles').required }} file(s) required.</span>
+                    <span *ngIf="attachmentsControl.getError('minFiles')">At least {{
+                        attachmentsControl.getError('minFiles').required }} file(s) required.</span>
                     <span *ngIf="attachmentsControl.getError('maxFiles')">Maximum 5 files allowed.</span>
                 </small>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="px-4 py-4 sm:px-8 sm:py-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 bg-gray-50/50">
+        <div
+            class="px-4 py-4 sm:px-8 sm:py-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 bg-gray-50/50">
             <button type="button" (click)="close()"
                 class="w-full sm:w-auto px-8 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-gray-500 font-bold hover:bg-gray-100 transition-all text-sm sm:text-base">
                 Discard
             </button>
 
-            <button type="submit" [disabled]="form.invalid || isLoading" 
-                    class="w-full sm:w-auto bg-bright-blue hover:bg-dark-blue text-white px-8 sm:px-10 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold shadow-lg shadow-bright-blue/20 hover:shadow-dark-blue/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base">
-                <mat-icon class="!text-lg sm:!text-xl" *ngIf="!isLoading">send</mat-icon>
-                <span *ngIf="isLoading" class="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <button type="submit" [disabled]="form.invalid || isLoading"
+                class="w-full sm:w-auto bg-bright-blue hover:bg-dark-blue text-white px-8 sm:px-10 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold shadow-lg shadow-bright-blue/20 hover:shadow-dark-blue/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed gap-2 text-sm sm:text-base">
+                <span *ngIf="isLoading"
+                    class="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                 Publish Donation Request
             </button>
         </div>

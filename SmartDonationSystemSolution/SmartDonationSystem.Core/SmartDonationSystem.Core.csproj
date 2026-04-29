@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\Cloud\" />
-    <Folder Include="Modules\Payment\" />
     <Folder Include="Modules\PostAggregate\Reaction\DTOs\" />
   </ItemGroup>
 

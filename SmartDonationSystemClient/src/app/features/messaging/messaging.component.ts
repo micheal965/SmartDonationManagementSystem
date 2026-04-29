@@ -37,6 +37,7 @@ export class MessagingComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.chatService.startConnection();
     this.chatService.loadConversations();
   }
 

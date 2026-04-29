@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.API.Modules.Admin;
 using SmartDonationSystem.API.Modules.Identity;
 using SmartDonationSystem.API.Modules.Messaging;
+using SmartDonationSystem.API.Modules.Payment;
 using SmartDonationSystem.API.Modules.User;
 using SmartDonationSystem.Core.Modules.AI;
 using SmartDonationSystem.Core.Modules.Analytics;
@@ -54,6 +55,7 @@ namespace SmartDonationSystem.API.Extensions
             services.AddAdminModule();
             services.AddNotificationModule();
             services.AddMessagingModule();
+            services.AddPaymentModule();
 
             services.AddDataProtection();
             services.AddScoped<ICategoryServices, CategoryServices>();

@@ -3,7 +3,7 @@ using SmartDonationSystem.Services.Modules.Notifications;
 
 namespace SmartDonationSystem.API.Modules.User
 {
-    public static class NotificationModuleExtensions
+    public static class PaymentModuleExtensions
     {
         public static IServiceCollection AddNotificationModule(this IServiceCollection services)
         {

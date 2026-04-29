@@ -10,6 +10,7 @@ using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Services.Modules.SignalR.Hubs;
 using SmartDonationSystem.Shared.Enums;
+using Stripe;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -108,7 +109,7 @@ namespace SmartDonationSystem.API
             });
             // Register Modules dependencies
             builder.Services.AddModulesDependencies();
-
+            StripeConfiguration.ApiKey = builder.Configuration["Payments:Stripe:SecretKey"];
             var app = builder.Build();
             app.UseRateLimiter();
 

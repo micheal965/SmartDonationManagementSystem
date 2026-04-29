@@ -478,6 +478,42 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Payment.Controllers.PaymentController",
+    "Method": "CreateDonation",
+    "RelativePath": "api/Payment/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SmartDonationSystem.Core.Modules.Payment.DTOs.CreateDonationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Payment.Controllers.PaymentController",
+    "Method": "PaymobWebhook",
+    "RelativePath": "api/Payment/paymob",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Payment.Controllers.PaymentController",
+    "Method": "StripeWebhook",
+    "RelativePath": "api/Payment/stripe",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.PostController",
     "Method": "CreatePost",
     "RelativePath": "api/Post/create-post",

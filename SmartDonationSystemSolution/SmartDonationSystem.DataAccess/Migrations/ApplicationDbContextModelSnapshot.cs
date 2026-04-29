@@ -399,6 +399,49 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.ToTable("Conversations");
                 });
 
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Donation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DonorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PaymentGateway")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentGatewayId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DonorId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Donations");
+                });
+
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -791,6 +834,23 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("Comment");
 
                     b.Navigation("MentionedUser");
+                });
+
+            modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Donation", b =>
+                {
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "Donor")
+                        .WithMany()
+                        .HasForeignKey("DonorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Donor");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("SmartDonationSystem.Core.Common.Models.Message", b =>
