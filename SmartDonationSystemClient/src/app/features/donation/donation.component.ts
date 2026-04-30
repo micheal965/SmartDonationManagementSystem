@@ -1,12 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { PaymentService } from '../../core/services/payment.service';
 import { Post } from '../feed/models/post.model';
 import { DonationDto } from '../../shared/models/donation.model';
 import { Title } from '@angular/platform-browser';
+import { DonationService } from '../../core/services/donation.service';
 
 @Component({
   selector: 'app-donation',
@@ -19,7 +24,7 @@ export class DonationComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private paymentService = inject(PaymentService);
+  private donationService = inject(DonationService);
   private titleService = inject(Title);
 
   post!: Post;
@@ -27,8 +32,18 @@ export class DonationComponent implements OnInit {
   isSubmitting = false;
 
   gateways = [
-    { id: 'Stripe', name: 'Stripe', icon: 'payments', description: 'Credit/Debit Card' },
-    { id: 'Paymob', name: 'Paymob', icon: 'account_balance_wallet', description: 'Card / Vodafone Cash / Meeza' },
+    {
+      id: 'Stripe',
+      name: 'Stripe',
+      icon: 'payments',
+      description: 'Credit/Debit Card',
+    },
+    {
+      id: 'Paymob',
+      name: 'Paymob',
+      icon: 'account_balance_wallet',
+      description: 'Card / Vodafone Cash / Meeza',
+    },
   ];
 
   constructor() {
@@ -61,6 +76,6 @@ export class DonationComponent implements OnInit {
       Gateway: this.donationForm.value.gateway,
     };
 
-    this.paymentService.redirectToCheckout(donationDto);
+    this.donationService.redirectToCheckout(donationDto);
   }
 }

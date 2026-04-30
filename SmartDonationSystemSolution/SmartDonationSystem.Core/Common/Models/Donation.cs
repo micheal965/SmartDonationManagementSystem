@@ -6,6 +6,7 @@ namespace SmartDonationSystem.Core.Common.Models
     {
         public decimal Amount { get; set; }
         public string Status { get; set; } = DonationStatus.Pending.ToString();
+        public string? CheckoutUrl { get; set; }
 
         public string Type { get; set; } // "Post" , "Platform"
 

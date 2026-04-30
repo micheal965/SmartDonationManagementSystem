@@ -1,9 +1,10 @@
-﻿namespace SmartDonationSystem.Shared.Enums
+namespace SmartDonationSystem.Shared.Enums
 {
     public enum DonationStatus
     {
         Pending,
         Paid,
-        Failed
+        Failed,
+        Processed
     }
 }

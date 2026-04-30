@@ -30,7 +30,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
             var options = new SessionCreateOptions
             {
                 Mode = "payment",
-                SuccessUrl = $"http://localhost:4200/feed",
+                SuccessUrl = $"http://localhost:4200/my-donations",
                 CancelUrl = $"http://localhost:4200/feed",
                 LineItems = new List<SessionLineItemOptions>
                 {
@@ -58,7 +58,8 @@ namespace SmartDonationSystem.Services.Modules.Payment
 
             var service = new SessionService();
             var session = await service.CreateAsync(options);
-
+            donation.CheckoutUrl = session.Url;
+            await _context.SaveChangesAsync();
             return Result<string>.Ok(session.Url);
         }
 

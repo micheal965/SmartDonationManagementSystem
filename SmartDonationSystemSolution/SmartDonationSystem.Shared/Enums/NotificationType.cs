@@ -1,4 +1,4 @@
-﻿namespace SmartDonationSystem.Shared.Enums
+namespace SmartDonationSystem.Shared.Enums
 {
     public enum NotificationType
     {
@@ -11,6 +11,7 @@
         PostRejection,
         UserRegistered,
         AdminDonationReceived,
-        DonationReceived
+        DonationReceived,
+        DonationProcessed
     }
 }

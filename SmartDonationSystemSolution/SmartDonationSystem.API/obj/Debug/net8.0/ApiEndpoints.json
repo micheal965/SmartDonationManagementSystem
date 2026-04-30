@@ -73,6 +73,74 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PaymentManagementController",
+    "Method": "ApproveDonation",
+    "RelativePath": "api/admin/PaymentManagement/approve/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PaymentManagementController",
+    "Method": "GetDonationById",
+    "RelativePath": "api/admin/PaymentManagement/get-donation/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PaymentManagementController",
+    "Method": "GetDonations",
+    "RelativePath": "api/admin/PaymentManagement/get-donations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PaymentManagementController",
+    "Method": "GetTotalCollectedAmount",
+    "RelativePath": "api/admin/PaymentManagement/total-collected",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.PostManagementController",
     "Method": "GetPostById",
     "RelativePath": "api/admin/PostManagement/post-details",
@@ -489,6 +557,32 @@
         "Name": "dto",
         "Type": "SmartDonationSystem.Core.Modules.Payment.DTOs.CreateDonationDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.Payment.Controllers.PaymentController",
+    "Method": "GetMyDonations",
+    "RelativePath": "api/Payment/my-donations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

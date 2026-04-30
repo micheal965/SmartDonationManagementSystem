@@ -15,8 +15,9 @@ namespace SmartDonationSystem.Shared.Helpers
                 NotificationType.PostApproval => $"/posts/{entityId}",
                 NotificationType.PostRejection => "/feed",
                 NotificationType.UserRegistered => $"/admin/users",
-                NotificationType.AdminDonationReceived => $"/admin/posts/{entityId}",
+                NotificationType.AdminDonationReceived => $"/admin/payments/{entityId}",
                 NotificationType.DonationReceived => $"/posts/{entityId}",
+                NotificationType.DonationProcessed => $"/payments/{entityId}",
                 NotificationType.Message => "/chat",
                 _ => "/"
             };

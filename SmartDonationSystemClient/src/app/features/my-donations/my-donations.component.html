@@ -1,0 +1,163 @@
+<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
+  <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h1 class="text-3xl font-black text-dark-blue">My Donations</h1>
+      <p class="text-slate-500 font-medium mt-1">Track and manage your contribution history</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-2 mb-6 flex flex-wrap gap-2">
+    <button *ngFor="let s of statuses" (click)="filterByStatus(s.value)"
+      [ngClass]="statusFilter === s.value ? 'bg-dark-blue text-white shadow-md' : 'text-slate-600 hover:bg-slate-50'"
+      class="px-5 py-2 rounded-xl font-bold text-sm transition-all duration-200">
+      {{ s.label }}
+    </button>
+  </div>
+
+
+  <!-- Empty State -->
+  <div *ngIf="paginatedDonations?.items?.length === 0"
+    class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-12 text-center">
+    <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <mat-icon class="text-slate-300 !w-12 !h-12 text-5xl">volunteer_activism</mat-icon>
+    </div>
+    <h3 class="text-xl font-black text-dark-blue mb-2">No donations found</h3>
+    <p class="text-slate-500 font-medium mb-6">You haven't made any donations with this status yet.</p>
+    <a [routerLink]="['/feed']"
+      class="inline-flex items-center gap-2 px-6 py-3 bg-bright-blue text-white font-bold rounded-xl hover:bg-dark-blue transition-colors">
+      <mat-icon>explore</mat-icon>
+      Explore Posts
+    </a>
+  </div>
+
+  <!-- Donations Grid -->
+  <div *ngIf="paginatedDonations?.items?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div *ngFor="let donation of paginatedDonations!.items"
+      class="bg-white rounded-lg shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+
+      <!-- Card Header: Image & Post Info (if post exists) -->
+      <div class="h-32 bg-slate-100 relative" *ngIf="donation.postId">
+        <img [src]="donation.postPicture || './assets/placeholder.png'" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-dark-blue/80 to-transparent flex items-end p-4">
+          <h3 class="text-white font-bold truncate w-full" [title]="donation.postTitle">{{ donation.postTitle }}</h3>
+        </div>
+      </div>
+      <div class="h-20 bg-gradient-to-r from-bright-blue to-dark-blue flex items-center px-4" *ngIf="!donation.postId">
+        <mat-icon class="text-white/50 !w-10 !h-10 text-4xl mr-3">foundation</mat-icon>
+        <h3 class="text-white font-bold">General Donation</h3>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-5 flex-1 flex flex-col">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Amount</p>
+            <p class="text-2xl font-black text-dark-blue">{{ donation.amount }} <span class="text-sm">EGP</span></p>
+          </div>
+          <div class="flex flex-col items-end">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold" [ngClass]="{
+                'bg-green-100 text-green-700': donation.status === 'Paid',
+                
+                'bg-blue-100 text-blue-700': donation.status === 'Processed',
+
+                'bg-emerald-100 text-emerald-700': donation.status === 'Succeeded',
+
+                'bg-amber-100 text-amber-700': donation.status === 'Pending',
+
+                'bg-red-100 text-red-700': donation.status === 'Failed'
+              }">
+
+              <mat-icon class="!w-3 !h-3 text-[12px] leading-[12px]">
+                {{ getStatusIcon(donation.status) }}
+              </mat-icon>
+
+              {{ donation.status }}
+            </span>
+            <span class="text-[10px] font-medium text-slate-400 mt-1">{{ donation.createdAt | date:'mediumDate'
+              }}</span>
+          </div>
+        </div>
+
+        <div class="mt-auto space-y-2 pt-4 border-t border-slate-100">
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-500 font-medium">Type</span>
+            <span class="px-2 py-0.5 rounded-full text-[11px] font-bold" [ngClass]="{
+                  'bg-purple-100 text-purple-700': donation.type === 'Post',
+                  'bg-blue-100 text-blue-700': donation.type === 'Platform'
+                }">
+              {{ donation.type }}
+            </span>
+
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-500 font-medium">Gateway</span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold" [ngClass]="{
+                'bg-sky-100 text-sky-700': donation.paymentGateway === 'Stripe',
+                'bg-indigo-100 text-indigo-700': donation.paymentGateway === 'Paymob',
+                'bg-slate-100 text-slate-600': !donation.paymentGateway
+              }">
+              {{ donation.paymentGateway }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div *ngIf="donation.postId || donation.checkoutUrl"
+        class="bg-slate-50 border-t border-slate-100 px-5 py-3 flex items-center justify-center gap-3">
+
+        <a *ngIf="donation.postId" [routerLink]="['/posts', donation.postId]"
+          class="text-sm font-semibold text-sky-600 hover:text-blue-800 transition-colors">
+          View Post →
+        </a>
+
+        <!-- Divider -->
+        <span *ngIf="donation.postId && donation.checkoutUrl" class="text-slate-300">
+          |
+        </span>
+
+        <!-- Complete Checkout -->
+        <a *ngIf="donation.checkoutUrl" [href]="donation.checkoutUrl" target="_blank"
+          class="px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 text-xs font-bold hover:bg-amber-200 transition-colors">
+          Complete Checkout
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="paginatedDonations?.totalPages && paginatedDonations!.totalPages > 1"
+    class="flex flex-col sm:flex-row items-center justify-between bg-white px-6 py-4 rounded-2xl border border-slate-100 shadow-sm gap-4">
+    <p class="text-sm text-slate-500 font-medium">
+      Showing <span class="font-bold text-dark-blue">{{ (pageNumber - 1) * pageSize + 1 }}</span> to
+      <span class="font-bold text-dark-blue">{{ getTo() }}</span> of
+      <span class="font-bold text-dark-blue">{{ paginatedDonations?.totalCount }}</span> results
+    </p>
+
+    <div class="flex items-center gap-2">
+      <button (click)="prevPage()" [disabled]="pageNumber === 1"
+        class="flex items-center  p-2 rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-dark-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <div class="hidden sm:flex gap-1">
+        <button *ngFor="let page of pages" (click)="changePageNumber(page)"
+          [ngClass]="pageNumber === page ? 'bg-bright-blue text-white border-bright-blue' : 'border-slate-200 text-slate-600 hover:bg-slate-50'"
+          class="w-10 h-10 rounded-xl border font-bold text-sm transition-all flex items-center justify-center">
+          {{ page }}
+        </button>
+      </div>
+      <div class="sm:hidden text-sm font-bold text-dark-blue">
+        Page {{ pageNumber }} of {{ totalPages }}
+      </div>
+
+      <button (click)="nextPage()" [disabled]="pageNumber === totalPages"
+        class="flex items-center p-2 rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-dark-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+</div>

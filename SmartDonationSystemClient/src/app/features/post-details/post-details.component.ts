@@ -26,7 +26,7 @@ import { AnalyticsService } from '../../core/services/analytics.service';
 import { ChatService } from '../../core/services/chat.service';
 import { AuthService } from '../auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { PaymentService } from '../../core/services/payment.service';
+import { DonationService } from '../../core/services/donation.service';
 
 @Component({
   selector: 'app-post-details',
@@ -66,7 +66,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   private titleService = inject(Title);
   private feedService = inject(FeedService);
   private analyticsService = inject(AnalyticsService);
-  private paymentService = inject(PaymentService);
+  private donationService = inject(DonationService);
 
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);

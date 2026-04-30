@@ -45,7 +45,8 @@
                                 class="flex gap-3 p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
                                 [ngClass]="{ 'bg-blue-50/50': !n.isRead }">
 
-                                <div class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                                <div *ngIf="n.actorImage"
+                                    class="w-10 h-10 flex items-center justify-center rounded-full shrink-0">
                                     <img class="rounded-full w-full h-full object-cover"
                                         [src]="n.actorImage || './assets/avatar.png'"
                                         [alt]="n.actorName || 'user avatar'">

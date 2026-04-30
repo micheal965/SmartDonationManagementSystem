@@ -1,0 +1,203 @@
+<main class="flex flex-col flex-1 lg:ml-64 p-4 sm:p-6 lg:p-10 bg-white rounded-3xl min-h-fit">
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <div class="flex flex-col gap-8">
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <button routerLink="/admin/payments"
+                        class="flex place-items-center p-2 rounded-full hover:bg-slate-100 transition-colors">
+                        <mat-icon class="text-slate-600">arrow_back</mat-icon>
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            Payment Details
+                        </h2>
+                        <p class="text-slate-500 mt-1">
+                            Transaction reference: <span class="font-mono text-indigo-600 font-bold">{{
+                                donation.id }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button *ngIf="donation.status === 'Paid' || donation.status === 'Succeeded'"
+                        (click)="approvePayment()"
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 flex items-center gap-2">
+                        <mat-icon class="scale-75">task_alt</mat-icon>
+                        Approve Transaction
+                    </button>
+
+                    <span
+                        class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 border"
+                        [ngClass]="{
+                            'bg-emerald-100 text-emerald-700 border-emerald-200': donation.status === 'Succeeded' || donation.status === 'Paid',
+                            'bg-indigo-100 text-indigo-700 border-indigo-200': donation.status === 'Processed',
+                            'bg-amber-100 text-amber-700 border-amber-200': donation.status === 'Pending',
+                            'bg-rose-100 text-rose-700 border-rose-200': donation.status === 'Failed'
+                        }">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                [ngClass]="{
+                                    'bg-emerald-400': donation.status === 'Succeeded' || donation.status === 'Paid',
+                                    'bg-indigo-400': donation.status === 'Processed',
+                                    'bg-amber-400': donation.status === 'Pending',
+                                    'bg-rose-400': donation.status === 'Failed'
+                                }"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2" [ngClass]="{
+                                    'bg-emerald-500': donation.status === 'Succeeded' || donation.status === 'Paid',
+                                    'bg-indigo-500': donation.status === 'Processed',
+                                    'bg-amber-500': donation.status === 'Pending',
+                                    'bg-rose-500': donation.status === 'Failed'
+                                }"></span>
+                        </span>
+                        {{ donation.status === 'Succeeded' ? 'Paid' : donation.status }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Left Column: Payment Summary Card -->
+                <div class="xl:col-span-1">
+                    <div
+                        class="bg-slate-50 rounded-3xl p-8 border border-slate-100 flex flex-col items-center text-center">
+                        <div
+                            class="w-20 h-20 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-600 mb-6">
+                            <mat-icon class="scale-[2]">payments</mat-icon>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Amount</p>
+                            <h3 class="text-4xl font-black text-slate-900">
+                                {{ donation.amount | number:'1.2-2' }} <span
+                                    class="text-lg font-bold text-slate-400">EGP</span>
+                            </h3>
+                        </div>
+
+                        <div class="w-full space-y-4 pt-6 border-t border-slate-200">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Gateway</span>
+                                <span
+                                    class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border"
+                                    [ngClass]="{
+                                        'bg-sky-50 text-sky-700 border-sky-200': donation.paymentGateway === 'Stripe',
+                                        'bg-purple-50 text-purple-700 border-purple-200': donation.paymentGateway === 'Paymob',
+                                        'bg-slate-50 text-slate-600 border-slate-200': !donation.paymentGateway
+                                    }">
+                                    {{ donation.paymentGateway || 'Unknown' }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Type</span>
+                                <span class="text-xs font-bold px-2 py-1 rounded"
+                                    [ngClass]="donation.type === 'Post' ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'">
+                                    {{ donation.type }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Date</span>
+                                <span class="text-slate-900 font-semibold">{{ donation.createdAt | date:'medium'
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Info Sections -->
+                <div class="xl:col-span-2 space-y-8">
+                    <!-- Donor Information -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <mat-icon>volunteer_activism</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Donor Information</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Full
+                                    Name</label>
+                                <p class="text-slate-900 font-semibold flex items-center gap-2">
+                                    <mat-icon class="text-slate-400 scale-75">person</mat-icon>
+                                    {{ donation.donorName }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Phone
+                                    Number</label>
+                                <p class="text-slate-900 font-semibold flex items-center gap-2">
+                                    <mat-icon class="text-slate-400 scale-75">phone</mat-icon>
+                                    {{ donation.donorPhoneNumber || 'N/A' }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Target / Request Information -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                <mat-icon>{{ donation.type === 'Post' ? 'campaign' : 'business' }}</mat-icon>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900">Target Information</h4>
+                        </div>
+
+                        <div *ngIf="donation.type === 'Post'; else platformInfo" class="space-y-8">
+                            <div class="flex items-start gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                <img *ngIf="donation.postPicture" [src]="donation.postPicture"
+                                    class="w-20 h-20 rounded-xl object-cover shadow-sm">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start">
+                                        <h5 class="text-lg font-bold text-slate-900">{{ donation.postTitle || 'Deleted
+                                            Post' }}</h5>
+                                        <span
+                                            class="text-[10px] font-bold uppercase bg-white px-2 py-1 rounded-lg border border-slate-200 text-slate-500">
+                                            {{ donation.categoryName || 'General' }}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-slate-500 mt-1">Post ID: {{ donation.postId }}</p>
+                                    <a [routerLink]="['/admin/posts', donation.postId]"
+                                        class="text-xs font-bold text-indigo-600 hover:text-indigo-700 mt-2 inline-flex items-center gap-1">
+                                        View Post Details <mat-icon class="scale-50">open_in_new</mat-icon>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label
+                                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Requester
+                                        Name</label>
+                                    <p class="text-slate-900 font-semibold">{{ donation.requesterName || 'N/A' }}</p>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Requester
+                                        Phone</label>
+                                    <p class="text-slate-900 font-semibold">{{ donation.requesterPhoneNumber || 'N/A' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-template #platformInfo>
+                            <div class="p-10 text-center bg-emerald-50 rounded-3xl border border-emerald-100">
+                                <mat-icon class="text-emerald-500 scale-[2] mb-6">verified</mat-icon>
+                                <h5 class="text-xl font-bold text-emerald-900 mb-2">Platform Support</h5>
+                                <p class="text-emerald-600 max-w-md mx-auto">This donation was made directly to support
+                                    the Smart Donation platform's operations and maintenance.</p>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

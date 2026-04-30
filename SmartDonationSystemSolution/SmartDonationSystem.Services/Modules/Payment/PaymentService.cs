@@ -1,8 +1,10 @@
-﻿using SmartDonationSystem.Core.Common.Models;
+using Microsoft.EntityFrameworkCore;
+using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Payment.DTOs;
 using SmartDonationSystem.Core.Modules.Payment.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
+using SmartDonationSystem.Shared.Pagination;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.Services.Modules.Payment
@@ -40,6 +42,42 @@ namespace SmartDonationSystem.Services.Modules.Payment
             var result = await gateway.CreateCheckoutAsync(donation);
 
             return result;
+        }
+
+        public async Task<Result<PaginatedList<MyDonationDto>>> GetMyDonationsAsync(string donorId, int pageNumber, int pageSize, string? status = null)
+        {
+            var query = _context.Donations
+                .Include(d => d.Post)
+                .Where(d => d.DonorId == donorId)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(status))
+                query = query.Where(d => d.Status == status);
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(d => d.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(d => new MyDonationDto
+                {
+                    Id = d.Id,
+                    Amount = d.Amount,
+                    Status = d.Status,
+                    Type = d.Type,
+                    PaymentGateway = d.PaymentGateway,
+                    PostId = d.PostId,
+                    PostTitle = d.Post != null ? d.Post.Title : null,
+                    PostPicture = d.Post != null ? d.Post.PostPicture : null,
+                    CreatedAt = d.CreatedAt,
+                    CheckoutUrl = d.Status == DonationStatus.Pending.ToString() ? d.CheckoutUrl : null
+                })
+                .ToListAsync();
+
+            var paginatedList = new PaginatedList<MyDonationDto>(items, pageNumber, pageSize, totalCount);
+
+            return Result<PaginatedList<MyDonationDto>>.Ok(paginatedList);
         }
     }
 }

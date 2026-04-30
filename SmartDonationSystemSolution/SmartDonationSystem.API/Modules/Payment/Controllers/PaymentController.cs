@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.Modules.Payment.DTOs;
 using SmartDonationSystem.Core.Modules.Payment.Interfaces;
@@ -24,6 +24,15 @@ namespace SmartDonationSystem.API.Modules.Payment.Controllers
         {
             var DonorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var result = await _paymentService.CreateDonationAsync(dto, DonorId);
+            return StatusCode((int)result.statusCode, result);
+        }
+
+        [HttpGet("my-donations")]
+        [Authorize]
+        public async Task<IActionResult> GetMyDonations([FromQuery] string? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+        {
+            var donorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var result = await _paymentService.GetMyDonationsAsync(donorId, pageNumber, pageSize, status);
             return StatusCode((int)result.statusCode, result);
         }
 

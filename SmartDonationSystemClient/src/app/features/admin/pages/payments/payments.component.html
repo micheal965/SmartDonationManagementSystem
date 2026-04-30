@@ -1,0 +1,130 @@
+<main class="flex flex-col ml-64 p-10 bg-white rounded-3xl">
+
+    <div class="flex justify-between mb-8">
+        <div>
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-2">Payment Management</h2>
+            <p class="text-slate-500 font-medium">Monitor all donations and platform payments across the system.</p>
+        </div>
+
+        <div class="bg-indigo-50 border border-indigo-100 rounded-2xl px-6 py-4 flex flex-col items-end">
+            <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Total Money Collected</p>
+            <div class="flex items-end gap-1">
+                <span class="text-2xl font-black text-indigo-600">{{ totalCollected | number:'1.2-2' }}</span>
+                <span class="text-xs font-bold text-indigo-400 mb-1">EGP</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-8 border-b border-slate-100 mb-10">
+        <button *ngFor="let s of statuses" (click)="filterByStatus(s.value)" [ngClass]="getFilterClass(s.value)"
+            class="pb-4 text-sm font-bold transition-colors border-b-2">
+            {{ s.label }}
+        </button>
+    </div>
+
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden mb-8">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50/50">
+                <tr>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Donor</th>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Target</th>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">
+                        Gateway</th>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">
+                        Status</th>
+                    <th class="px-8 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+                <tr *ngFor="let donation of paginatedDonations?.items" [routerLink]="['/admin/payments', donation.id]"
+                    class="hover:bg-slate-50/50 transition-colors cursor-pointer group">
+                    <td class="px-8 py-5">
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">{{donation.donorName}}</p>
+                            <p class="text-xs text-slate-400">{{donation.donorPhoneNumber}}</p>
+                        </div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-100">
+                            <span class="text-[11px] font-semibold text-emerald-600 uppercase tracking-wide">
+                                EGP
+                            </span>
+                            <p class="text-sm font-extrabold text-emerald-700 tracking-tight">
+                                {{ donation.amount | number:'1.2-2' }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <span *ngIf="donation.type === 'Post'"
+                            class="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                            Post: {{donation.postTitle || 'Deleted Post'}}
+                        </span>
+                        <span *ngIf="donation.type === 'Platform'"
+                            class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
+                            Platform Support
+                        </span>
+                    </td>
+                    <td class="px-8 py-5 text-center">
+                        <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border"
+                            [ngClass]="{
+                                'bg-sky-50 text-sky-700 border-sky-200': donation.paymentGateway === 'Stripe',
+                                'bg-purple-50 text-purple-700 border-purple-200': donation.paymentGateway === 'Paymob',
+                                'bg-slate-50 text-slate-600 border-slate-200': !donation.paymentGateway
+                            }">
+                            {{ donation.paymentGateway || 'Unknown' }}
+                        </span>
+                    </td>
+                    <td class="px-8 py-5 text-center">
+                        <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full" [ngClass]="{
+                                'bg-emerald-100 text-emerald-700': donation.status === 'Paid',
+                                'bg-blue-100 text-blue-700': donation.status === 'Processed',
+                                'bg-amber-100 text-amber-700': donation.status === 'Pending',
+                                'bg-rose-100 text-rose-700': donation.status === 'Failed'
+                            }">
+                            {{ donation.status }}
+                        </span>
+                    </td>
+                    <td class="px-8 py-5 text-right text-xs text-slate-400 font-medium">
+                        {{ donation.createdAt | date:'medium' }}
+                    </td>
+                </tr>
+                <tr *ngIf="paginatedDonations?.items?.length === 0">
+                    <td colspan="7" class="px-8 py-10 text-center text-slate-400 font-medium">
+                        No payments found matching your criteria.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="px-8 py-5 border-t border-slate-50 flex items-center justify-between">
+            <p class="text-xs font-bold text-slate-400">
+                Showing {{ (pageNumber - 1) * pageSize + 1 }}
+                to {{ getTo() }}
+                of {{ paginatedDonations?.totalCount }} results
+            </p>
+
+            <div class="flex gap-2 items-center">
+                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg disabled:opacity-50"
+                    (click)="prevPage()" [disabled]="pageNumber === 1">
+                    Previous
+                </button>
+
+                <button *ngFor="let p of pages" (click)="changePageNumber(p)"
+                    class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg" [ngClass]="p === pageNumber
+        ? 'bg-indigo-600 text-white shadow-md'
+        : 'text-slate-500 hover:bg-slate-50'">
+                    {{ p }}
+                </button>
+
+                <button class="px-4 py-2 text-xs font-bold text-slate-500 bg-slate-50 rounded-lg disabled:opacity-50"
+                    (click)="nextPage()" [disabled]="pageNumber === totalPages">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</main>

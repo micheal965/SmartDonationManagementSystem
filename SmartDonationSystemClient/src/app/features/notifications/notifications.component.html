@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto m-8 border border-gray-200 rounded-xl bg-white shadow-sm">
+<div class="max-w-4xl mx-auto my-8 border border-gray-200 rounded-xl bg-white shadow-sm">
     <div class="p-5 border-b border-gray-100 flex justify-between items-center">
         <h2 class="text-lg font-bold flex items-center gap-2">
             Notifications
@@ -17,7 +17,8 @@
         @for (n of notificationService.state()?.items; track n.id) {
         <div (click)="goToDetails(n)" [class.bg-blue-50]="!n.isRead"
             class="p-5 flex gap-4 hover:bg-gray-50 transition-colors group cursor-pointer">
-            <div class="h-12 w-12 rounded-full bg-white border flex items-center justify-center shadow-sm ">
+            <div *ngIf="n.actorImage"
+                class="h-12 w-12 rounded-full bg-white border flex items-center justify-center shadow-sm ">
                 <img class="rounded-full w-full h-full" [src]="n.actorImage" alt="Actor Image">
             </div>
 

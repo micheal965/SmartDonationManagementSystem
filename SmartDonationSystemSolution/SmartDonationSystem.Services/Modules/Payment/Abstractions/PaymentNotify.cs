@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Notifications.DTOs;
 using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
@@ -37,6 +38,10 @@ namespace SmartDonationSystem.Core.Modules.Payment.Abstractions
         protected virtual async Task NotifyAdmins(Donation donation)
         {
             var admins = await _userManager.GetUsersInRoleAsync(AppRoles.Admin);
+            var donor = await _context.Users
+                        .Where(u => u.Id == donation.DonorId)
+                        .Select(u => new { u.FullName, u.PictureUrl })
+                        .FirstOrDefaultAsync();
 
             foreach (var admin in admins)
             {
@@ -44,11 +49,11 @@ namespace SmartDonationSystem.Core.Modules.Payment.Abstractions
                 {
                     ReceiverId = admin.Id,
                     Title = "Donation Ready for Payout",
-                    Message = $"A new donation of {donation.Amount}EGP has been successfully processed.",
+                    Message = $"A new donation of {donation.Amount} EGP has been successfully processed.",
                     Type = NotificationType.AdminDonationReceived,
                     EntityId = (int)donation.PostId,
-                    ActorName = donation.Donor?.FullName ?? "Anonymous",
-                    ActorImage = donation.Donor?.PictureUrl,
+                    ActorName = donor?.FullName ?? "Anonymous",
+                    ActorImage = donor?.PictureUrl,
                 });
             }
         }
@@ -59,6 +64,10 @@ namespace SmartDonationSystem.Core.Modules.Payment.Abstractions
 
             if (post == null)
                 return;
+            var donor = await _context.Users
+                                    .Where(u => u.Id == donation.DonorId)
+                                    .Select(u => new { u.FullName, u.PictureUrl })
+                                    .FirstOrDefaultAsync();
 
             await _notificationService.CreateAsync(new CreateNotificationRequest
             {
@@ -67,8 +76,8 @@ namespace SmartDonationSystem.Core.Modules.Payment.Abstractions
                 Message = "Your post received a donation. The amount will be transferred to you within 7 days.",
                 Type = NotificationType.DonationReceived,
                 EntityId = (int)donation.PostId,
-                ActorName = donation.Donor?.FullName ?? "Anonymous",
-                ActorImage = donation.Donor?.PictureUrl,
+                ActorName = donor?.FullName ?? "Anonymous",
+                ActorImage = donor?.PictureUrl,
             });
         }
         protected virtual Task NotifyDonor(Donation donation)

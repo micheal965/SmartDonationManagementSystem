@@ -21,13 +21,10 @@ export class AppComponent implements OnInit {
   private audioService = inject(AudioService);
 
   ngOnInit(): void {
-    // Track analytics
     this.analyticsService.trackEntrance();
 
-    // Register audio unlock listener (DO NOT assume it unlocks immediately)
     this.audioService.unlockAudioOnFirstInteraction();
 
-    // Start backend connections (safe in standalone)
     this.notificationService.startConnection();
     this.chatService.startConnection();
   }

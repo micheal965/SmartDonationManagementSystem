@@ -10,7 +10,7 @@ import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { ChatService } from '../../core/services/chat.service';
 import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
 import { AuthService } from '../auth/services/auth.service';
-import { PaymentService } from '../../core/services/payment.service';
+import { DonationService } from '../../core/services/donation.service';
 @Component({
   selector: 'app-post',
   standalone: true,
@@ -30,7 +30,7 @@ import { PaymentService } from '../../core/services/payment.service';
 export class PostComponent {
   private feedService = inject(FeedService);
   private router = inject(Router);
-  private paymentService = inject(PaymentService);
+  private donationService = inject(DonationService);
   authService = inject(AuthService);
   chatService = inject(ChatService);
   post = input.required<Post>();

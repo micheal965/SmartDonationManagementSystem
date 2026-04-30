@@ -7,6 +7,7 @@ import { postCommentsResolver } from './features/post-details/post-comments.reso
 import { adminGuard } from './core/guards/admin.guard';
 import { userDetailsResolver } from './features/admin/pages/users/user-details.resolver';
 import { postDetailsResolver as adminPostDetailsResolver } from './features/admin/pages/posts/post-details.resolver';
+import { paymentDetailsResolver } from './features/admin/pages/payments/payment-details.resolver';
 
 export const routes: Routes = [
   {
@@ -105,6 +106,14 @@ export const routes: Routes = [
             (m) => m.MessagePageComponent,
           ),
       },
+      {
+        path: 'my-donations',
+        title: 'My Donations | Help Hand',
+        loadComponent: () =>
+          import('./features/my-donations/my-donations.component').then(
+            (m) => m.MyDonationsComponent,
+          ),
+      },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],
   },
@@ -180,6 +189,24 @@ export const routes: Routes = [
             (m) => m.CategoriesComponent,
           ),
         title: 'Categories',
+      },
+      {
+        path: 'payments',
+        loadComponent: () =>
+          import('./features/admin/pages/payments/payments.component').then(
+            (m) => m.PaymentsComponent,
+          ),
+        title: 'Payments',
+      },
+      {
+        path: 'payments/:id',
+        resolve: { donation: paymentDetailsResolver },
+
+        loadComponent: () =>
+          import('./features/admin/pages/payments/payment-details/payment-details.component').then(
+            (m) => m.PaymentDetailsComponent,
+          ),
+        title: 'Payment Details',
       },
       {
         path: '**',
