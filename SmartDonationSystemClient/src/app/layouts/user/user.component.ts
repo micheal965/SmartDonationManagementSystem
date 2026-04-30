@@ -6,7 +6,6 @@ import { UserRightSidebarComponent } from './user-right-sidebar/user-right-sideb
 import { MessagingComponent } from '../../features/messaging/messaging.component';
 import { CommonModule } from '@angular/common';
 import { filter, map, startWith } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user',

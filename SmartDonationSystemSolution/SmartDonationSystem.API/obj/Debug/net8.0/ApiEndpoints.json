@@ -352,6 +352,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Identity.Controllers.AuthController",
+    "Method": "GetSignInData",
+    "RelativePath": "api/Auth/sign-in-data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.CategoryController",
     "Method": "GetCategories",
     "RelativePath": "api/Category/get-categories",
@@ -720,6 +730,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.SidebarController",
+    "Method": "GetSidebarData",
+    "RelativePath": "api/Sidebar/data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

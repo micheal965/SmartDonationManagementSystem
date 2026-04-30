@@ -36,7 +36,7 @@
             <mat-icon class="group-hover:scale-110 transition-transform">message</mat-icon>
             <span class="font-semibold text-sm xl:text-base">Messages</span>
         </a>
-        <a *ngIf="!authService.isRequester()"
+        <a *ngIf="authService.isDonor()"
             class="flex items-center gap-3 p-3 rounded-2xl hover:bg-white/10  transition-all duration-200  group"
             [routerLink]="['/my-donations']" [routerLinkActive]="['bg-light-green','text-dark-blue','shadow-lg']">
             <mat-icon class="group-hover:scale-110 transition-transform">favorite</mat-icon>

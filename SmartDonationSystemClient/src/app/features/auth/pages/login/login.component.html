@@ -100,7 +100,8 @@
             </div>
 
             <!-- Donate Box -->
-            <div class="mb-4 flex border-l-4 border-light-green bg-light-green/10 p-3 rounded-xl gap-3 sm:gap-4">
+            <div class="mb-4 flex border-l-4 border-light-green bg-light-green/10 p-3 rounded-xl gap-3 sm:gap-4"
+                *ngIf="signInData?.recentDonation">
                 <div
                     class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-light-green/10 shadow-sm shrink-0">
                     <svg class="w-7 h-7 rounded-full text-light-green animate-stepPulse" fill="none" fill="#42e2b8"
@@ -111,14 +112,17 @@
                 </div>
 
                 <div class="flex flex-col justify-center">
-                    <h3 class="font-bold text-dark-blue text-xs sm:text-sm leading-snug">Micheal Ghobrial just donated
-                        500 EGP to Cairo Children’s Hospital</h3>
-                    <p class="text-gray-400 text-[10px] sm:text-xs mt-1">2 minutes ago</p>
+                    <h3 class="font-bold text-dark-blue text-xs sm:text-sm leading-snug">{{
+                        signInData.recentDonation.donorName }} just donated
+                        {{ signInData.recentDonation.amount | currency:'EGP':'symbol':'1.0-0' }} to {{
+                        signInData.recentDonation.postTitle }}</h3>
+                    <p class="text-gray-400 text-[10px] sm:text-xs mt-1">{{ signInData.recentDonation.createdAt |
+                        timeAgo }}</p>
                 </div>
             </div>
 
             <!-- Milestones -->
-            <div class="mb-6">
+            <div class="mb-6" *ngIf="signInData?.milestones">
                 <h2 class="text-dark-blue font-black text-sm sm:text-base mb-4 flex items-center gap-2">
                     <mat-icon>trending_up</mat-icon>
                     Today's Milestones
@@ -126,14 +130,16 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 bg-light-gray/50 p-4 rounded-[2rem] gap-4 sm:gap-6">
                     <div class="flex flex-col items-center text-center gap-1">
                         <img src="./assets/Vector.png" alt="meals" class="w-6 h-6 sm:w-7 sm:h-7">
-                        <p class="text-dark-blue font-black text-sm sm:text-base">5,420</p>
+                        <p class="text-dark-blue font-black text-sm sm:text-base">{{
+                            signInData.milestones.mealsDelivered | number }}</p>
                         <p class="text-gray-400 text-[10px] sm:text-xs uppercase font-bold tracking-tighter">Meals
                             Delivered</p>
                     </div>
 
                     <div class="flex flex-col items-center text-center gap-1">
                         <img src="./assets/Vector2.png" alt="classrooms" class="w-8 h-8 sm:w-9 sm:h-9">
-                        <p class="text-dark-blue font-black text-sm sm:text-base">12</p>
+                        <p class="text-dark-blue font-black text-sm sm:text-base">{{
+                            signInData.milestones.classroomsBuilt | number }}</p>
                         <p class="text-gray-400 text-[10px] sm:text-xs uppercase font-bold tracking-tighter">Classrooms
                             Built</p>
                     </div>
@@ -141,7 +147,8 @@
                     <div
                         class="flex flex-col items-center text-center gap-1 col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-gray-200 pt-3 md:pt-0">
                         <img src="./assets/Vector3.png" alt="water" class="w-5 h-5 sm:w-6 sm:h-6">
-                        <p class="text-dark-blue font-black text-sm sm:text-base">850L</p>
+                        <p class="text-dark-blue font-black text-sm sm:text-base">{{
+                            signInData.milestones.cleanWaterLiters | number }}L</p>
                         <p class="text-gray-400 text-[10px] sm:text-xs uppercase font-bold tracking-tighter">Clean Water
                         </p>
                     </div>

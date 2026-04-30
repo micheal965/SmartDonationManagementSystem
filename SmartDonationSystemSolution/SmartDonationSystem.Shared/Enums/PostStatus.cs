@@ -14,6 +14,5 @@ namespace SmartDonationSystem.Shared.Enums
         Freezed,
         [EnumMember(Value = "Completed")]
         Completed
-
     }
 }

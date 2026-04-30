@@ -1,35 +1,55 @@
 import { finalize } from 'rxjs';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../models/login-request.model';
-import { NgIf } from '@angular/common';
+import { CommonModule, isPlatformBrowser, NgIf } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { passwordStrengthValidator } from '../../../../shared/validators/password.validator';
 import { ChatService } from '../../../../core/services/chat.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon } from '@angular/material/icon';
+import { TimeAgoPipe } from '../../../../shared/pipes/time-ago.pipe';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, RouterLink, MatIcon],
+  imports: [
+    ReactiveFormsModule,
+    NgIf,
+    RouterLink,
+    MatIcon,
+    CommonModule,
+    TimeAgoPipe,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
   private chatService = inject(ChatService);
   private notificationService = inject(NotificationService);
+  private platformId = inject(PLATFORM_ID);
 
   showPassword: boolean = false;
   isLoading: boolean = false;
+  signInData: any = null;
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.authService.getSignInData().subscribe({
+        next: (data) => {
+          this.signInData = data;
+        },
+      });
+    }
+  }
 
   loginForm = this.fb.group({
     identityNumber: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]],

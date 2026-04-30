@@ -91,6 +91,18 @@
         }
       }
     },
+    "/api/Auth/sign-in-data": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Category/get-categories": {
       "get": {
         "tags": [
@@ -951,6 +963,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sidebar/data": {
+      "get": {
+        "tags": [
+          "Sidebar"
         ],
         "responses": {
           "200": {

@@ -301,4 +301,41 @@ public class AuthServices : IAuthService
         foreach (var notificationRequest in notificationsRequests)
             await _notificationService.CreateAsync(notificationRequest);
     }
+
+    public async Task<Result<SignInPageDataDto>> GetSignInPageDataAsync()
+    {
+        var data = new SignInPageDataDto();
+
+        // Recent Donation
+        var recentDonation = await _applicationDbContext.Donations
+            .Include(d => d.Donor)
+            .Include(d => d.Post)
+            .Where(d => d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString())
+            .OrderByDescending(d => d.CreatedAt)
+            .FirstOrDefaultAsync();
+
+        if (recentDonation != null)
+        {
+            data.RecentDonation = new RecentDonationDto
+            {
+                DonorName = recentDonation.Donor.FullName,
+                Amount = recentDonation.Amount,
+                PostTitle = recentDonation.Post != null ? recentDonation.Post.Title : "Platform",
+                CreatedAt = recentDonation.CreatedAt
+            };
+        }
+
+        // Today's Milestones (Mock logic for now as it's typically complex aggregated data, we can base it off today's donations)
+        var today = DateTime.UtcNow.Date;
+        var todayDonations = await _applicationDbContext.Donations
+            .Where(d => d.CreatedAt >= today && (d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()))
+            .SumAsync(d => d.Amount);
+
+        // Simulated calculation for milestones based on donation amounts for demonstration purposes.
+        data.Milestones.MealsDelivered = (int)(todayDonations / 50); // e.g. 50 EGP per meal
+        data.Milestones.ClassroomsBuilt = (int)(todayDonations / 50000); // e.g. 50,000 EGP per classroom
+        data.Milestones.CleanWaterLiters = (int)(todayDonations / 10); // e.g. 10 EGP per Liter
+
+        return Result<SignInPageDataDto>.Ok(data);
+    }
 }

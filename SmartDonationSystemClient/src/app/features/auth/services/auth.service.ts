@@ -91,6 +91,11 @@ export class AuthService {
         }),
       );
   }
+
+  getSignInData(): Observable<any> {
+    return this.http.get<ApiResult<any>>(`${apiBaseUrl}/Auth/sign-in-data`)
+      .pipe(map(res => res.data));
+  }
   private setTokens(token: string) {
     localStorage.setItem('token', token);
     this.accessToken = token;

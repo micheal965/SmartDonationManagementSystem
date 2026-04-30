@@ -50,5 +50,12 @@ namespace SmartDonationSystem.API.Modules.Identity.Controllers
             var result = await _authServices.RotateRefreshTokenAsync(token);
             return StatusCode((int)result.statusCode, result);
         }
+
+        [HttpGet("sign-in-data")]
+        public async Task<IActionResult> GetSignInData()
+        {
+            var result = await _authServices.GetSignInPageDataAsync();
+            return StatusCode((int)result.statusCode, result);
+        }
     }
 }

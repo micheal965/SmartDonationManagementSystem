@@ -11,4 +11,5 @@ public interface IAuthService
     Task SaveLoginAttemptAsync(string IdentityNumber);
     Task AddTokenBlacklistAsync(string token);
     Task<bool> IsTokenBlacklistedAsync(string token);
+    Task<Result<SignInPageDataDto>> GetSignInPageDataAsync();
 }
