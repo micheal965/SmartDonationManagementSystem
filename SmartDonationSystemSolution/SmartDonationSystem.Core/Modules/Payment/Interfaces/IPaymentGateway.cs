@@ -8,7 +8,8 @@ namespace SmartDonationSystem.Core.Modules.Payment.Interfaces
         string Name { get; }
 
         Task<Result<string>> CreateCheckoutAsync(Donation donation);
-
         Task HandleWebhookAsync(string payload, string signature);
+
+
     }
 }

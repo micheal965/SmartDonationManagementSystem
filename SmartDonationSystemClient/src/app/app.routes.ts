@@ -75,6 +75,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'posts/:id/donate',
+        resolve: { post: postDetailsResolver },
+        loadComponent: () =>
+          import('./features/donation/donation.component').then(
+            (m) => m.DonationComponent,
+          ),
+      },
+      {
         path: 'profile/:id',
         resolve: { user: profileResolver },
         loadComponent: () =>
@@ -93,9 +101,9 @@ export const routes: Routes = [
         path: 'messaging',
         title: 'Messaging | Help Hand',
         loadComponent: () =>
-          import(
-            './features/messaging/pages/message-page/message-page.component'
-          ).then((m) => m.MessagePageComponent),
+          import('./features/messaging/pages/message-page/message-page.component').then(
+            (m) => m.MessagePageComponent,
+          ),
       },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],

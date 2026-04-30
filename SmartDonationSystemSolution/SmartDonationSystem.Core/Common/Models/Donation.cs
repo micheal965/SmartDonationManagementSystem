@@ -5,12 +5,11 @@ namespace SmartDonationSystem.Core.Common.Models
     public class Donation : BaseEntity
     {
         public decimal Amount { get; set; }
-        public DonationStatus Status { get; set; } = DonationStatus.Pending;
+        public string Status { get; set; } = DonationStatus.Pending.ToString();
 
-        public DonationType Type { get; set; } // "Post" , "Platform"
+        public string Type { get; set; } // "Post" , "Platform"
 
         public string PaymentGateway { get; set; } // "Stripe", "Paymob"
-        public string? PaymentGatewayId { get; set; }
 
         public int? PostId { get; set; }
         public Post? Post { get; set; }

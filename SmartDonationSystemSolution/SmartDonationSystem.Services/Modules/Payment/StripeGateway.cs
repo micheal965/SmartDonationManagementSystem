@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using SmartDonationSystem.Core.Common.Models;
+using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
+using SmartDonationSystem.Core.Modules.Payment.Abstractions;
 using SmartDonationSystem.Core.Modules.Payment.Interfaces;
 using SmartDonationSystem.DataAccess;
 using SmartDonationSystem.Shared.Enums;
@@ -9,14 +12,15 @@ using Stripe.Checkout;
 
 namespace SmartDonationSystem.Services.Modules.Payment
 {
-    public class StripeGateway : IPaymentGateway
+    public class StripeGateway : PaymentNotify, IPaymentGateway
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
 
         public string Name => "Stripe";
 
-        public StripeGateway(ApplicationDbContext context, IConfiguration configuration)
+        public StripeGateway(UserManager<ApplicationUser> userManager, ApplicationDbContext context, INotificationService notificationService, IConfiguration configuration)
+            : base(userManager, context, notificationService)
         {
             _context = context;
             _configuration = configuration;
@@ -36,7 +40,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             Currency = "egp",
-                            UnitAmount = (long)(donation.Amount * 100),
+                            UnitAmount = Convert.ToInt64(Math.Round(donation.Amount * 100)),
 
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -72,35 +76,34 @@ namespace SmartDonationSystem.Services.Modules.Payment
                     webhookSecret
                 );
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Invalid Stripe webhook signature");
+                throw new Exception(ex.Message);
             }
 
             // 2. Handle event types
             switch (stripeEvent.Type)
             {
-                case "payment_intent.succeeded":
-                    await HandlePaymentSucceeded(stripeEvent);
+                case "checkout.session.completed":
+                    await HandleCheckoutCompleted(stripeEvent);
                     break;
 
                 case "payment_intent.payment_failed":
                     await HandlePaymentFailed(stripeEvent);
                     break;
-
                 default:
                     break;
             }
         }
 
-        private async Task HandlePaymentSucceeded(Event stripeEvent)
+        private async Task HandleCheckoutCompleted(Event stripeEvent)
         {
-            var intent = stripeEvent.Data.Object as PaymentIntent;
+            var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
 
-            if (intent == null)
+            if (session == null)
                 return;
 
-            if (!intent.Metadata.TryGetValue("donationId", out var donationIdStr))
+            if (!session.Metadata.TryGetValue("donationId", out var donationIdStr))
                 return;
 
             var donation = await _context.Donations.FindAsync(int.Parse(donationIdStr));
@@ -108,14 +111,14 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (donation == null)
                 return;
 
-            if (donation.Status == DonationStatus.Paid)
+            if (donation.Status == DonationStatus.Paid.ToString())
                 return;
 
-            donation.Status = DonationStatus.Paid;
-            donation.PaymentGatewayId = intent.Id;
+            donation.Status = DonationStatus.Paid.ToString();
 
-            _context.Donations.Update(donation);
             await _context.SaveChangesAsync();
+
+            await NotifyDonationPaidAsync(donation.Id);
         }
         private async Task HandlePaymentFailed(Event stripeEvent)
         {
@@ -133,7 +136,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (donation == null)
                 return;
 
-            donation.Status = DonationStatus.Failed;
+            donation.Status = DonationStatus.Failed.ToString();
 
             _context.Donations.Update(donation);
             await _context.SaveChangesAsync();

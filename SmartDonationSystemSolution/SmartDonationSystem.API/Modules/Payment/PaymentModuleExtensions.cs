@@ -9,9 +9,8 @@ namespace SmartDonationSystem.API.Modules.Payment
         {
             services.AddScoped<IPaymentGateway, StripeGateway>();
             //services.AddScoped<IPaymentGateway, PaymobGateway>();
-
             services.AddScoped<IPaymentGatewayFactory, PaymentGatewayFactory>();
-
+            services.AddScoped<IPaymentService, PaymentService>();
 
             return services;
         }

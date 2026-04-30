@@ -26,6 +26,7 @@ import { AnalyticsService } from '../../core/services/analytics.service';
 import { ChatService } from '../../core/services/chat.service';
 import { AuthService } from '../auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { PaymentService } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-post-details',
@@ -60,12 +61,12 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   userService = inject(UserService);
   authService = inject(AuthService);
   chatService = inject(ChatService);
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private titleService = inject(Title);
   private feedService = inject(FeedService);
   private analyticsService = inject(AnalyticsService);
-  private toastr = inject(ToastrService);
+  private paymentService = inject(PaymentService);
 
   get displayedComments() {
     return this.showAllComments ? this.comments : this.comments.slice(0, 4);
@@ -135,7 +136,7 @@ export class PostDetailsComponent implements OnInit, AfterViewInit {
   }
 
   onDonate() {
-    this.toastr.info('Donation feature coming soon!', 'Stay Tuned');
+    this.router.navigate(['/posts', this.post.id, 'donate']);
   }
 
   sendComment() {

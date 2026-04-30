@@ -1,0 +1,97 @@
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8 animate-fade-in" *ngIf="post">
+  <!-- Back Button -->
+  <div class="flex items-center gap-2 text-slate-500 mb-8 hover:text-dark-blue transition-colors cursor-pointer group w-fit"
+    [routerLink]="['/posts', post.id]">
+    <mat-icon class="!text-lg">arrow_back</mat-icon>
+    <span class="text-sm font-bold">Back to Post</span>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
+    <!-- Post Summary Card -->
+    <div class="p-6 bg-slate-50 border-b border-slate-100 flex items-center gap-4">
+      <div class="w-16 h-16 rounded-2xl overflow-hidden shrink-0 shadow-md">
+        <img [src]="post.postPicture || './assets/avatar.png'" [alt]="post.title" class="w-full h-full object-cover">
+      </div>
+      <div class="min-w-0">
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Donating to</p>
+        <h2 class="text-lg font-black text-dark-blue truncate leading-tight">{{ post.title }}</h2>
+        <p class="text-xs text-slate-500 font-medium truncate">{{ post.fullName }}</p>
+      </div>
+    </div>
+
+    <!-- Donation Form -->
+    <form [formGroup]="donationForm" (ngSubmit)="onSubmit()" class="p-8 space-y-8">
+      <!-- Amount Section -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <label class="block text-sm font-black text-dark-blue uppercase tracking-widest">Select Amount</label>
+          <span class="text-[10px] font-bold text-soft-red uppercase tracking-tighter">* Minimum 50 EGP</span>
+        </div>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-black text-slate-400">EGP</span>
+          <input type="number" formControlName="amount"
+            class="w-full pl-16 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-2xl font-black text-dark-blue focus:ring-2 focus:ring-bright-blue focus:border-bright-blue transition-all"
+            [class.border-soft-red]="donationForm.get('amount')?.invalid && donationForm.get('amount')?.touched"
+            placeholder="50">
+        </div>
+        
+        <p class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter"
+           *ngIf="!(donationForm.get('amount')?.errors?.['min'] && donationForm.get('amount')?.touched)">
+           Minimum donation is 50 EGP.
+        </p>
+
+        <p *ngIf="donationForm.get('amount')?.errors?.['min'] && donationForm.get('amount')?.touched" 
+           class="mt-2 text-xs font-bold text-soft-red animate-fade-in">
+           The minimum donation amount is 50 EGP.
+        </p>
+
+        <div class="grid grid-cols-3 gap-3 mt-4">
+          <button type="button" *ngFor="let quickAmount of [50, 100, 250, 500, 1000, 2000]"
+            (click)="donationForm.patchValue({amount: quickAmount})"
+            [class.bg-bright-blue]="donationForm.value.amount === quickAmount"
+            [class.text-white]="donationForm.value.amount === quickAmount"
+            [class.bg-slate-50]="donationForm.value.amount !== quickAmount"
+            [class.text-dark-blue]="donationForm.value.amount !== quickAmount"
+            class="py-3 rounded-xl font-bold text-sm hover:brightness-95 transition-all border border-slate-100">
+            {{ quickAmount }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Gateway Section -->
+      <div>
+        <label class="block text-sm font-black text-dark-blue uppercase tracking-widest mb-4">Payment Method</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <button type="button" *ngFor="let gateway of gateways" (click)="selectGateway(gateway.id)"
+            [class.ring-2]="donationForm.value.gateway === gateway.id"
+            [class.ring-bright-blue]="donationForm.value.gateway === gateway.id"
+            class="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-100 text-left hover:bg-slate-50 transition-all group">
+            <div class="p-3 rounded-xl transition-colors"
+              [class.bg-bright-blue]="donationForm.value.gateway === gateway.id"
+              [class.bg-slate-100]="donationForm.value.gateway !== gateway.id"
+              [class.text-white]="donationForm.value.gateway === gateway.id"
+              [class.text-slate-400]="donationForm.value.gateway !== gateway.id">
+              <mat-icon>{{ gateway.icon }}</mat-icon>
+            </div>
+            <div>
+              <p class="font-bold text-dark-blue">{{ gateway.name }}</p>
+              <p class="text-[10px] font-medium text-slate-500">{{ gateway.description }}</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="donationForm.invalid || isSubmitting"
+        class="w-full py-5 bg-bright-blue text-white rounded-2xl font-black text-lg hover:bg-dark-blue transition-all shadow-xl shadow-bright-blue/30 disabled:opacity-50 disabled:shadow-none flex items-center justify-center gap-3">
+        <mat-icon *ngIf="!isSubmitting">volunteer_activism</mat-icon>
+        <span *ngIf="isSubmitting" class="animate-pulse">Processing...</span>
+        <span *ngIf="!isSubmitting">Donate {{ donationForm.value.amount }} EGP</span>
+      </button>
+
+      <p class="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+        Secure encrypted payment processing
+      </p>
+    </form>
+  </div>
+</div>

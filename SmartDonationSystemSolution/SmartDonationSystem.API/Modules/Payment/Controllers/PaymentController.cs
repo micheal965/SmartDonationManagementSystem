@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.Modules.Payment.DTOs;
 using SmartDonationSystem.Core.Modules.Payment.Interfaces;
 using System.Security.Claims;
@@ -18,6 +19,7 @@ namespace SmartDonationSystem.API.Modules.Payment.Controllers
             _paymentService = paymentService;
         }
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> CreateDonation(CreateDonationDto dto)
         {
             var DonorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

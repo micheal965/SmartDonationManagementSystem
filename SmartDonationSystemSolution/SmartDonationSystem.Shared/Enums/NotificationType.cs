@@ -9,6 +9,8 @@
         PostCreation,
         PostApproval,
         PostRejection,
-        UserRegistered
+        UserRegistered,
+        AdminDonationReceived,
+        DonationReceived
     }
 }

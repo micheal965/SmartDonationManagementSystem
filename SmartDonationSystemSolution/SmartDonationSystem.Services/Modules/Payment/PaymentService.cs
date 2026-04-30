@@ -20,7 +20,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
 
         public async Task<Result<string>> CreateDonationAsync(CreateDonationDto dto, string DonorId)
         {
-            if (dto.Amount <= 0)
+            if (dto.Amount < 50)
                 throw new Exception("Invalid amount");
 
             var donation = new Donation
@@ -28,7 +28,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
                 Amount = dto.Amount,
                 PostId = dto.PostId,
                 PaymentGateway = dto.Gateway,
-                Type = dto.PostId.HasValue ? DonationType.Post : DonationType.Platform,
+                Type = dto.PostId.HasValue ? DonationType.Post.ToString() : DonationType.Platform.ToString(),
                 DonorId = DonorId
             };
 

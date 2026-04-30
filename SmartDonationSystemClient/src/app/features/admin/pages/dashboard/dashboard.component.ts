@@ -51,6 +51,11 @@ export class DashboardComponent {
       bg: 'bg-slate-50',
       iconColor: 'text-slate-500',
     },
+    AdminDonationReceived: {
+      icon: 'payments',
+      bg: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+    },
   };
   get adminName(): string {
     return this.authService.userData.name.split(' ')[0];

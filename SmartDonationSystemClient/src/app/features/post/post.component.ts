@@ -2,7 +2,6 @@ import { Component, inject, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Post } from '../feed/models/post.model';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgClass, NgIf } from '@angular/common';
 import { FeedService } from '../feed/services/feed.service';
 import { Router, RouterLink } from '@angular/router';
@@ -11,6 +10,7 @@ import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { ChatService } from '../../core/services/chat.service';
 import { ShortNumberPipe } from '../../shared/pipes/short-number.pipe';
 import { AuthService } from '../auth/services/auth.service';
+import { PaymentService } from '../../core/services/payment.service';
 @Component({
   selector: 'app-post',
   standalone: true,
@@ -30,6 +30,7 @@ import { AuthService } from '../auth/services/auth.service';
 export class PostComponent {
   private feedService = inject(FeedService);
   private router = inject(Router);
+  private paymentService = inject(PaymentService);
   authService = inject(AuthService);
   chatService = inject(ChatService);
   post = input.required<Post>();
@@ -57,5 +58,9 @@ export class PostComponent {
         post.isReacting = false;
       },
     });
+  }
+
+  onDonate() {
+    this.router.navigate(['/posts', this.post().id, 'donate']);
   }
 }

@@ -19,8 +19,8 @@ export class NotificationsComponent implements OnInit {
   pageSize = 5;
   notificationStyle: any = {
     PostCreation: {
-      border: 'border-emerald-500',
-      dot: 'bg-emerald-500',
+      border: 'border-sky-500',
+      dot: 'bg-sky-500',
     },
     UserRegistered: {
       border: 'border-indigo-600',
@@ -29,6 +29,10 @@ export class NotificationsComponent implements OnInit {
     Comment: {
       border: 'border-orange-500',
       dot: 'bg-orange-500',
+    },
+    AdminDonationReceived: {
+      border: 'border-emerald-600',
+      dot: 'bg-emerald-600',
     },
   };
   ngOnInit(): void {

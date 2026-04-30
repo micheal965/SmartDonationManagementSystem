@@ -1,5 +1,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -109,7 +110,14 @@ namespace SmartDonationSystem.API
             });
             // Register Modules dependencies
             builder.Services.AddModulesDependencies();
+            var keysPath = Path.Combine(builder.Environment.ContentRootPath, "keys");
+
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(keysPath))
+                .SetApplicationName("MyApp");
+
             StripeConfiguration.ApiKey = builder.Configuration["Payments:Stripe:SecretKey"];
+
             var app = builder.Build();
             app.UseRateLimiter();
 
