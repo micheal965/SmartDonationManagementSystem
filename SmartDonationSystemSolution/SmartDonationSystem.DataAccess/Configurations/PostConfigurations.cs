@@ -31,6 +31,9 @@ namespace SmartDonationSystem.DataAccess.Configurations
                 .WithMany(c => c.Posts)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(p => p.TargetMoney)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

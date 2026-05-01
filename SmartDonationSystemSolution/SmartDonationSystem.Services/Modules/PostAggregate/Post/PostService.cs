@@ -60,6 +60,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                 CategoryId = createPostDto.categoryId,
                 PostPicture = PostPictureResult.url,
                 CreatedByRole = role,
+                TargetMoney = createPostDto.targetMoney
             };
             if (createPostDto.attachments != null)
             {
@@ -141,7 +142,8 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     userId = p.ApplicationUserId,
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
-                    categoryName = p.Category.Name
+                    categoryName = p.Category.Name,
+                    targetMoney = p.TargetMoney
                 })
                 .ToListAsync();
 
@@ -169,7 +171,8 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
                     phoneNumber = p.ApplicationUser.PhoneNumber,
-                    categoryName = p.Category.Name
+                    categoryName = p.Category.Name,
+                    targetMoney = p.TargetMoney
                 }).FirstOrDefaultAsync();
 
             if (post == null || (post.createdByRole == role && post.userId != currentUserId))

@@ -5,6 +5,36 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/admin/AnalysisManagement/analysis": {
+      "get": {
+        "tags": [
+          "AnalysisManagement"
+        ],
+        "parameters": [
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Auth/register": {
       "post": {
         "tags": [
@@ -739,6 +769,10 @@
                   "PostPicture": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "targetMoney": {
+                    "type": "number",
+                    "format": "double"
                   }
                 }
               },
@@ -756,6 +790,9 @@
                   "style": "form"
                 },
                 "PostPicture": {
+                  "style": "form"
+                },
+                "targetMoney": {
                   "style": "form"
                 }
               }
@@ -987,6 +1024,18 @@
       "post": {
         "tags": [
           "SmartDonationSystem.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/UserAnalysis/my-impact": {
+      "get": {
+        "tags": [
+          "UserAnalysis"
         ],
         "responses": {
           "200": {

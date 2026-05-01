@@ -1,5 +1,26 @@
 [
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.AnalysisManagementController",
+    "Method": "GetAnalysis",
+    "RelativePath": "api/admin/AnalysisManagement/analysis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "toDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.CategoryManagementController",
     "Method": "CreateCategory",
     "RelativePath": "api/admin/CategoryManagement/create-category",
@@ -649,6 +670,11 @@
         "Name": "PostPicture",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
+      },
+      {
+        "Name": "targetMoney",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -757,6 +783,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserAnalysisController",
+    "Method": "GetMyImpact",
+    "RelativePath": "api/UserAnalysis/my-impact",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SmartDonationSystem.API.Modules.User.Controllers.UserProfileController",

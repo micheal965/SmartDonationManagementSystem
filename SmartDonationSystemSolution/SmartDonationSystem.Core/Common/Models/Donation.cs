@@ -12,6 +12,8 @@ namespace SmartDonationSystem.Core.Common.Models
 
         public string PaymentGateway { get; set; } // "Stripe", "Paymob"
 
+        public string? ExternalOrderId { get; set; }
+        public string? ExternalTransactionId { get; set; }
         public int? PostId { get; set; }
         public Post? Post { get; set; }
 

@@ -114,6 +114,14 @@ export const routes: Routes = [
             (m) => m.MyDonationsComponent,
           ),
       },
+      {
+        path: 'my-impact',
+        title: 'My Impact | Help Hand',
+        loadComponent: () =>
+          import('./features/user-analysis/user-analysis.component').then(
+            (m) => m.UserAnalysisComponent,
+          ),
+      },
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
     ],
   },
@@ -132,6 +140,14 @@ export const routes: Routes = [
             (m) => m.DashboardComponent,
           ),
         title: 'Dashboard',
+      },
+      {
+        path: 'analysis',
+        loadComponent: () =>
+          import('./features/admin/pages/analysis/analysis.component').then(
+            (m) => m.AnalysisComponent,
+          ),
+        title: 'Platform Analysis',
       },
       {
         path: 'notifications',

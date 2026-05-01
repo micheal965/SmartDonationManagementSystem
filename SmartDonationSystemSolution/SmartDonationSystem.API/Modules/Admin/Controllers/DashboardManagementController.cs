@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces;
 using SmartDonationSystem.Shared.Enums;

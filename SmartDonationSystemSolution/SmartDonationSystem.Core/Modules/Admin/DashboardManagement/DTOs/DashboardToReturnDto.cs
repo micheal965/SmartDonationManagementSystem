@@ -1,4 +1,6 @@
-﻿namespace SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs
+﻿using SmartDonationSystem.Core.Modules.Admin.AnalysisManagement.DTOs;
+
+namespace SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs
 {
     public sealed class DashboardToReturnDto
     {

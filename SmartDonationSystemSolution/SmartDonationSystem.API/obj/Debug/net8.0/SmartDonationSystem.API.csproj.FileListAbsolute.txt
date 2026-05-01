@@ -403,6 +403,6 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\itext.commons.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Microsoft.DotNet.PlatformAbstractions.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\System.IO.Packaging.dll
-D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Debug\net8.0\Stripe.net.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

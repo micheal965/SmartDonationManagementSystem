@@ -1,4 +1,5 @@
-﻿using SmartDonationSystem.Core.Modules.Admin.CategoryManagement.Interfaces;
+﻿using SmartDonationSystem.Core.Modules.Admin.AnalysisManagement.Interfaces;
+using SmartDonationSystem.Core.Modules.Admin.CategoryManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Admin.PaymentManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
@@ -18,6 +19,8 @@ namespace SmartDonationSystem.API.Modules.Admin
             services.AddScoped<ICategoryManagementService, CategoryManagementService>();
             services.AddScoped<IPostManagementService, PostManagementService>();
             services.AddScoped<IPaymentManagementService, PaymentManagementService>();
+            services.AddScoped<IAnalysisManagementService, AnalysisManagementService>();
+
             PostConfigs.PostMappings();
             return services;
         }

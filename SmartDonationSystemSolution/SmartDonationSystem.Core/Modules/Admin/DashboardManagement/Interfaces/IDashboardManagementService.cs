@@ -1,4 +1,4 @@
-﻿using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs;
+using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs;
 using SmartDonationSystem.Shared.Responses;
 
 namespace SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces

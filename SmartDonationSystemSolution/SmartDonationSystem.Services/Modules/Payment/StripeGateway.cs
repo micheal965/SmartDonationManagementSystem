@@ -99,7 +99,7 @@ namespace SmartDonationSystem.Services.Modules.Payment
 
         private async Task HandleCheckoutCompleted(Event stripeEvent)
         {
-            var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
+            var session = stripeEvent.Data.Object as Session;
 
             if (session == null)
                 return;

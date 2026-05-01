@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using SmartDonationSystem.Core.Modules.Admin.AnalysisManagement.DTOs;
 using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs;
 using SmartDonationSystem.Core.Modules.Admin.DashboardManagement.Interfaces;
 using SmartDonationSystem.DataAccess;

@@ -51,7 +51,7 @@ namespace SmartDonationSystem.Core.Modules.Payment.Abstractions
                     Title = "Donation Ready for Payout",
                     Message = $"A new donation of {donation.Amount} EGP has been successfully processed.",
                     Type = NotificationType.AdminDonationReceived,
-                    EntityId = (int)donation.PostId,
+                    EntityId = donation.Id,
                     ActorName = donor?.FullName ?? "Anonymous",
                     ActorImage = donor?.PictureUrl,
                 });

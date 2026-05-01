@@ -42,7 +42,8 @@ namespace SmartDonationSystem.Services.Modules.Admin
                     CategoryName = p.Category.Name,
                     CreatorName = p.ApplicationUser.FullName,
                     creatorPicture = p.ApplicationUser.PictureUrl,
-                    creatorRole = p.CreatedByRole
+                    creatorRole = p.CreatedByRole,
+                    TargetMoney = p.TargetMoney
                 })
                 .FirstOrDefaultAsync();
 
@@ -79,7 +80,8 @@ namespace SmartDonationSystem.Services.Modules.Admin
 
                       CreatorName = p.ApplicationUser.FullName,
                       creatorPicture = p.ApplicationUser.PictureUrl,
-                      creatorRole = p.CreatedByRole
+                      creatorRole = p.CreatedByRole,
+                      TargetMoney = p.TargetMoney
                   })
                   .ToListAsync();
             var PaginatedPosts = new PaginatedList<PostToReturnDto>(posts, pageNumber, pageSize, totalCount);

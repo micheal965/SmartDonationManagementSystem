@@ -1,0 +1,173 @@
+<main class="flex-col p-4 sm:p-6 md:p-10 min-h-screen relative overflow-hidden">
+
+  <!-- Header -->
+  <section class="mb-8 md:mb-12 relative z-10 mt-16 lg:mt-0">
+    <div class="flex flex-col gap-2">
+      <h2
+        class="text-3xl md:text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-indigo-600">
+        My Impact & Analytics
+      </h2>
+      <p class="text-slate-500 font-medium text-base md:text-lg">Track your personal contribution and fundraising
+        performance.</p>
+    </div>
+  </section>
+
+  <ng-container *ngIf="analysisData">
+    <!-- As a Donor Section -->
+    <section class="mb-12 md:mb-16 relative z-10">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 md:mb-8">
+        <div
+          class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-lg shadow-emerald-500/30 flex items-center justify-center text-white transform transition-transform hover:scale-110 hover:rotate-3 duration-300">
+          <mat-icon>volunteer_activism</mat-icon>
+        </div>
+        <h3 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">My Giving Impact</h3>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-10">
+        <!-- Total Donated Card -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(16,185,129,0.12)] transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="absolute right-0 top-0 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-bl from-emerald-50 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500">
+          </div>
+          <div class="relative z-10">
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <mat-icon>payments</mat-icon>
+            </div>
+            <p class="text-slate-500 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Total Donated</p>
+            <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">{{
+              analysisData.donorImpact.totalDonated | currency:'EGP':'symbol':'1.0-0' }}</h3>
+          </div>
+        </div>
+
+        <!-- Causes Supported Card -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(20,184,166,0.12)] transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="absolute right-0 top-0 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-bl from-teal-50 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500">
+          </div>
+          <div class="relative z-10">
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <mat-icon>favorite</mat-icon>
+            </div>
+            <p class="text-slate-500 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Causes Supported</p>
+            <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">{{
+              analysisData.donorImpact.totalCausesSupported }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Giving Trend Chart -->
+      <div
+        class="rounded-3xl p-5 sm:p-6 md:p-8 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-shadow hover:shadow-[0_8px_30px_rgb(16,185,129,0.08)] duration-300">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 md:mb-8">
+          <h4 class="text-lg md:text-xl font-bold text-slate-800">Giving Trend</h4>
+          <span
+            class="px-3 md:px-4 py-1 md:py-1.5 bg-emerald-50 text-emerald-600 text-[10px] md:text-xs font-bold rounded-full border border-emerald-100 w-fit">Last
+            30 Days</span>
+        </div>
+        <div class="h-[250px] sm:h-[300px] md:h-[360px] relative w-full"
+          *ngIf="analysisData.donorImpact.donationTrend.length > 0; else noDonorTrend">
+          <canvas baseChart [data]="donorTrendChartData" [options]="lineChartOptions" [type]="'line'"></canvas>
+        </div>
+        <ng-template #noDonorTrend>
+          <div
+            class="h-[250px] sm:h-[300px] md:h-[360px] flex flex-col items-center justify-center text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 p-4 text-center">
+            <mat-icon class="text-4xl md:text-5xl mb-2 md:mb-3 opacity-50">show_chart</mat-icon>
+            <span class="font-medium text-sm md:text-lg">No donation data available for the last 30 days.</span>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+
+    <!-- As a Requester Section -->
+    <section class="mb-10 md:mb-12 relative z-10">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 md:mb-8">
+        <div
+          class="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30 flex items-center justify-center text-white transform transition-transform hover:scale-110 hover:-rotate-3 duration-300">
+          <mat-icon>campaign</mat-icon>
+        </div>
+        <h3 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">My Fundraising Performance</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-10">
+        <!-- Funds Raised Card (Highlight) -->
+        <div
+          class="group sm:col-span-2 lg:col-span-1 relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-indigo-900 p-6 md:p-8 shadow-xl shadow-indigo-500/20 text-white transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="absolute right-0 top-0 w-40 h-40 md:w-48 md:h-48 bg-white/10 rounded-bl-full -mr-10 -mt-10 md:-mr-12 md:-mt-12 transition-transform group-hover:scale-110 duration-500">
+          </div>
+          <div class="relative z-10">
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <mat-icon>savings</mat-icon>
+            </div>
+            <p class="text-indigo-100 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Total Funds Raised
+            </p>
+            <h3 class="text-4xl md:text-5xl font-black tracking-tight">{{
+              analysisData.requesterImpact.totalFundsRaised
+              | currency:'EGP':'symbol':'1.0-0' }}</h3>
+          </div>
+        </div>
+
+        <!-- Needs Fulfilled Card -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(168,85,247,0.12)] transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="absolute right-0 top-0 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-bl from-purple-50 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500">
+          </div>
+          <div class="relative z-10">
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <mat-icon>task_alt</mat-icon>
+            </div>
+            <p class="text-slate-500 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Needs Fulfilled</p>
+            <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">{{
+              analysisData.requesterImpact.totalNeedsFulfilled }}</h3>
+          </div>
+        </div>
+
+        <!-- Active Needs Card -->
+        <div
+          class="group relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] transition-all duration-300 hover:-translate-y-1">
+          <div
+            class="absolute right-0 top-0 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500">
+          </div>
+          <div class="relative z-10">
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <mat-icon>pending_actions</mat-icon>
+            </div>
+            <p class="text-slate-500 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Active Needs</p>
+            <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">{{
+              analysisData.requesterImpact.activeNeeds }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fundraising Trend Chart -->
+      <div
+        class="rounded-3xl p-5 sm:p-6 md:p-8 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-shadow hover:shadow-[0_8px_30px_rgb(99,102,241,0.08)] duration-300">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 md:mb-8">
+          <h4 class="text-lg md:text-xl font-bold text-slate-800">Fundraising Trend</h4>
+          <span
+            class="px-3 md:px-4 py-1 md:py-1.5 bg-indigo-50 text-indigo-600 text-[10px] md:text-xs font-bold rounded-full border border-indigo-100 w-fit">Last
+            30 Days</span>
+        </div>
+        <div class="h-[250px] sm:h-[300px] md:h-[360px] relative w-full"
+          *ngIf="analysisData.requesterImpact.fundsRaisedTrend.length > 0; else noRequesterTrend">
+          <canvas baseChart [data]="requesterTrendChartData" [options]="lineChartOptions" [type]="'line'"></canvas>
+        </div>
+        <ng-template #noRequesterTrend>
+          <div
+            class="h-[250px] sm:h-[300px] md:h-[360px] flex flex-col items-center justify-center text-slate-400 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 p-4 text-center">
+            <mat-icon class="text-4xl md:text-5xl mb-2 md:mb-3 opacity-50">show_chart</mat-icon>
+            <span class="font-medium text-sm md:text-lg">No fundraising data available for the last 30 days.</span>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+  </ng-container>
+</main>

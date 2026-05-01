@@ -20,6 +20,13 @@
             <span class="text-sm font-semibold">Dashboard</span>
         </a>
 
+        <!-- Analysis -->
+        <a [routerLink]="['analysis']" routerLinkActive="bg-indigo-600 text-white shadow-lg shadow-indigo-100"
+            class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500">
+            <mat-icon>analytics</mat-icon>
+            <span class="text-sm font-semibold">Analysis</span>
+        </a>
+
         <!-- Notifications -->
         <a [routerLink]="['notifications']" routerLinkActive="bg-indigo-600 text-white shadow-lg shadow-indigo-100"
             class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500">
@@ -59,7 +66,7 @@
     <!-- Logout & Return Home Buttons -->
     <div class="p-4">
 
-        <div class="border-t border-slate-100 mb-3"></div>
+        <div class="border-t border-slate-200 mb-3"></div>
 
         <div class="flex flex-col gap-1">
 
@@ -67,14 +74,14 @@
             <a [routerLink]="['/feed']" routerLinkActive="bg-slate-900 text-white"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all">
 
-                <mat-icon class="text-[18px]">home</mat-icon>
+                <mat-icon>home</mat-icon>
 
                 <span class="flex-1">Home</span>
             </a>
             <a (click)="logout()" routerLinkActive="bg-slate-900 text-white"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 hover:text-red-600 transition-all cursor-pointer">
 
-                <mat-icon class="text-[18px]">logout</mat-icon>
+                <mat-icon>logout</mat-icon>
 
                 <span class="flex-1">Logout</span>
             </a>

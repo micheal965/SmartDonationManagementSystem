@@ -420,6 +420,12 @@ namespace SmartDonationSystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ExternalOrderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExternalTransactionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PaymentGateway")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -598,6 +604,9 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("TargetMoney")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -843,12 +852,13 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.HasOne("SmartDonationSystem.Core.Common.Models.ApplicationUser", "Donor")
                         .WithMany()
                         .HasForeignKey("DonorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SmartDonationSystem.Core.Common.Models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
+                        .WithMany("Donations")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Donor");
 
@@ -1006,6 +1016,8 @@ namespace SmartDonationSystem.DataAccess.Migrations
                     b.Navigation("AnalyticsEvents");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Donations");
 
                     b.Navigation("PostAttachments");
 

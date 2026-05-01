@@ -14,6 +14,7 @@ namespace SmartDonationSystem.Core.Common.Models
         public bool IsFreezed { get; set; } = false;
         public required string PostPicture { get; set; }
         public required string CreatedByRole { get; set; }
+        public decimal? TargetMoney { get; set; }
 
         #region Ranking
         public double? ImpactScore { get; set; }
@@ -34,5 +35,6 @@ namespace SmartDonationSystem.Core.Common.Models
         public List<Comment>? Comments { get; set; } = new List<Comment>();
         public List<PostAttachment>? PostAttachments { get; set; } = new List<PostAttachment>();
         public List<AnalyticsEvent>? AnalyticsEvents { get; set; } = new List<AnalyticsEvent>();
+        public List<Donation>? Donations { get; set; } = new List<Donation>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SmartDonationSystem.Core.Modules.Admin.DashboardManagement.DTOs
+﻿namespace SmartDonationSystem.Core.Modules.Admin.AnalysisManagement.DTOs
 {
     public class AnalyticsDto
     {

@@ -13,5 +13,6 @@
         public required string CreatorName { get; set; }
         public required string creatorPicture { get; set; }
         public required string creatorRole { get; set; }
+        public decimal? TargetMoney { get; set; }
     }
 }
