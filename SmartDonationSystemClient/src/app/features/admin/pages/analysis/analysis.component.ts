@@ -35,12 +35,11 @@ export class AnalysisComponent implements OnInit {
   toDate: string;
 
   constructor() {
-    const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
 
-    this.toDate = today.toISOString().split('T')[0];
-    this.fromDate = thirtyDaysAgo.toISOString().split('T')[0];
+    this.toDate = now.toLocaleDateString('en-CA'); // yyyy-MM-dd
+    this.fromDate = startOfYear.toLocaleDateString('en-CA');
   }
 
   // Trend Chart

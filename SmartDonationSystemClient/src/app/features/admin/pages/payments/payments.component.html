@@ -113,10 +113,10 @@
                     Previous
                 </button>
 
-                <button *ngFor="let p of pages" (click)="changePageNumber(p)"
+                <button *ngFor="let p of visiblePages" (click)="changePageNumber(p)"
                     class="w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg" [ngClass]="p === pageNumber
-        ? 'bg-indigo-600 text-white shadow-md'
-        : 'text-slate-500 hover:bg-slate-50'">
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'text-slate-500 hover:bg-slate-50'">
                     {{ p }}
                 </button>
 

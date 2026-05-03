@@ -770,7 +770,7 @@
                     "type": "string",
                     "format": "binary"
                   },
-                  "targetMoney": {
+                  "TargetMoney": {
                     "type": "number",
                     "format": "double"
                   }
@@ -792,7 +792,7 @@
                 "PostPicture": {
                   "style": "form"
                 },
-                "targetMoney": {
+                "TargetMoney": {
                   "style": "form"
                 }
               }

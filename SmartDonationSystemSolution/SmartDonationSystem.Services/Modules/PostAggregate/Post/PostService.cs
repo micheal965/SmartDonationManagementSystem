@@ -1,4 +1,4 @@
-﻿using Hangfire;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
@@ -43,6 +43,12 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             if (category == null)
                 return Result<object>.BadRequest("Category not found");
 
+            if (role == AppRoles.Requester && (!createPostDto.TargetMoney.HasValue || createPostDto.TargetMoney <= 0))
+                return Result<object>.BadRequest("Target money is required and must be greater than zero for Requesters.");
+
+            if (role == AppRoles.Donor)
+                createPostDto.TargetMoney = null;
+
             if (createPostDto.attachments != null && createPostDto.attachments.Count > 5)
                 return Result<object>.BadRequest("You can upload a maximum of 5 attachments.");
 
@@ -60,7 +66,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                 CategoryId = createPostDto.categoryId,
                 PostPicture = PostPictureResult.url,
                 CreatedByRole = role,
-                TargetMoney = createPostDto.targetMoney
+                TargetMoney = createPostDto.TargetMoney
             };
             if (createPostDto.attachments != null)
             {
@@ -143,7 +149,8 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     fullName = p.ApplicationUser.FullName,
                     pictureUrl = p.ApplicationUser.PictureUrl,
                     categoryName = p.Category.Name,
-                    targetMoney = p.TargetMoney
+                    targetMoney = p.TargetMoney,
+                    collectedMoney = p.CreatedByRole == AppRoles.Requester ? p.Donations.Where(d => d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()).Sum(d => d.Amount) : null
                 })
                 .ToListAsync();
 
@@ -172,7 +179,19 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
                     pictureUrl = p.ApplicationUser.PictureUrl,
                     phoneNumber = p.ApplicationUser.PhoneNumber,
                     categoryName = p.Category.Name,
-                    targetMoney = p.TargetMoney
+                    targetMoney = p.TargetMoney,
+                    collectedMoney = p.Donations.Where(d => d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()).Sum(d => d.Amount),
+                    recentDonations = p.Donations
+                        .Where(d => d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString())
+                        .OrderByDescending(d => d.CreatedAt)
+                        .Take(5)
+                        .Select(d => new RecentDonationDto
+                        {
+                            amount = d.Amount,
+                            donorName = d.Donor.FullName,
+                            donorPictureUrl = d.Donor.PictureUrl,
+                            createdAt = d.CreatedAt
+                        }).ToList()
                 }).FirstOrDefaultAsync();
 
             if (post == null || (post.createdByRole == role && post.userId != currentUserId))

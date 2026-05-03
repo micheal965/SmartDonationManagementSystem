@@ -97,6 +97,7 @@ export class FeedComponent implements OnInit {
         formData.categoryId,
         formData.postPicture,
         formData.attachments,
+        formData.targetMoney,
       )
       .subscribe({
         next: () => {

@@ -1,4 +1,4 @@
-﻿namespace SmartDonationSystem.Core.Modules.PostAggregate.Post.DTOs
+namespace SmartDonationSystem.Core.Modules.PostAggregate.Post.DTOs
 {
     public class PostToReturnDto
     {
@@ -19,5 +19,7 @@
         public required string pictureUrl { get; set; }
         public string phoneNumber { get; set; }
         public decimal? targetMoney { get; set; }
+        public decimal? collectedMoney { get; set; }
+        public List<RecentDonationDto>? recentDonations { get; set; }
     }
 }

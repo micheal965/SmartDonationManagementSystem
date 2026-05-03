@@ -74,6 +74,60 @@
         </p>
       </div>
 
+      <!-- Progress & Transactions Section (Requesters Only) -->
+      <div *ngIf="post.targetMoney !== null && post.targetMoney !== undefined" class="mb-10 bg-slate-50/50 rounded-3xl p-6 border border-slate-100">
+        <h4 class="text-lg font-black text-dark-blue mb-6 flex items-center gap-2">
+          <mat-icon class="text-bright-blue">analytics</mat-icon>
+          Donation Progress
+        </h4>
+
+        <!-- Progress Bar -->
+        <div class="mb-8">
+          <div class="flex justify-between items-end mb-3">
+            <div class="flex flex-col">
+              <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Amount Raised</span>
+              <span class="text-2xl font-black text-dark-blue">{{ (post.collectedMoney || 0) | currency:'EGP ' }}</span>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Target Goal</span>
+              <span class="text-lg font-bold text-slate-500">{{ post.targetMoney | currency:'EGP ' }}</span>
+            </div>
+          </div>
+          <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
+            <div class="bg-gradient-to-r from-bright-blue to-light-green h-full rounded-full transition-all duration-1000 relative"
+              [style.width.%]="((post.collectedMoney || 0) / post.targetMoney!) * 100 > 100 ? 100 : ((post.collectedMoney || 0) / post.targetMoney!) * 100">
+            </div>
+          </div>
+          <div class="text-right mt-2">
+            <span class="text-sm font-black text-bright-blue">
+              {{ ((post.collectedMoney || 0) / post.targetMoney!) * 100 | number:'1.0-0' }}% Funded
+            </span>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div *ngIf="post.recentDonations && post.recentDonations.length > 0">
+          <h5 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <mat-icon class="!text-lg">history</mat-icon>
+            Recent Contributions
+          </h5>
+          <div class="space-y-3">
+            <div *ngFor="let donation of post.recentDonations" class="flex items-center justify-between bg-white p-3 sm:p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-bright-blue/20 transition-all">
+              <div class="flex items-center gap-3">
+                <img [src]="donation.donorPictureUrl || './assets/avatar.png'" alt="Donor" class="w-10 h-10 rounded-full object-cover shadow-sm" />
+                <div>
+                  <p class="text-sm font-bold text-dark-blue">{{ donation.donorName }}</p>
+                  <p class="text-[10px] sm:text-xs text-slate-400 font-medium">{{ donation.createdAt | timeAgo }}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-sm sm:text-base font-black text-light-green">+{{ donation.amount | currency:'EGP ' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Attachments Section -->
       <div class="mb-10" *ngIf="post.attachments && post.attachments.length > 0">
         <h4 class="text-xs sm:text-sm font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">

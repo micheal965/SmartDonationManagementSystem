@@ -16,4 +16,14 @@ export interface Post {
   hasReacted: boolean;
   isReacting: boolean;
   categoryName: string;
+  targetMoney?: number;
+  collectedMoney?: number;
+  recentDonations?: RecentDonation[];
+}
+
+export interface RecentDonation {
+  donorName: string;
+  donorPictureUrl: string;
+  amount: number;
+  createdAt: string;
 }

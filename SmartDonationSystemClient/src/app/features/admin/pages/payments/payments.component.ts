@@ -28,6 +28,14 @@ export class PaymentsComponent implements OnInit {
     { label: 'Processed', value: 'Processed' },
     { label: 'Failed', value: 'Failed' },
   ];
+  get visiblePages(): number[] {
+    const maxVisible = 5;
+
+    const start = Math.max(0, this.pageNumber - Math.floor(maxVisible / 2));
+    const end = start + maxVisible;
+
+    return this.pages.slice(start, end);
+  }
 
   ngOnInit(): void {
     this.loadDonations();

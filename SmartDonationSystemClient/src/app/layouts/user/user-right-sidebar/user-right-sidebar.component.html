@@ -84,7 +84,18 @@
                     {{ need.title }}
                 </p>
 
-                <div class="h-2 w-full rounded-full overflow-hidden" [ngClass]="need.priorityLevel | priorityClass">
+                <div *ngIf="need.targetMoney !== null && need.targetMoney !== undefined" class="mt-2">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="text-[10px] font-bold text-dark-blue">{{ (need.collectedMoney || 0) | currency:'EGP':'symbol':'1.0-0' }}</span>
+                        <span class="text-[9px] font-medium text-slate-400">{{ need.targetMoney | currency:'EGP':'symbol':'1.0-0' }}</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-gradient-to-r from-bright-blue to-light-green h-full rounded-full transition-all duration-1000 relative"
+                            [style.width.%]="((need.collectedMoney || 0) / need.targetMoney) * 100 > 100 ? 100 : ((need.collectedMoney || 0) / need.targetMoney) * 100">
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="need.targetMoney === null || need.targetMoney === undefined" class="h-1.5 w-full rounded-full overflow-hidden opacity-50" [ngClass]="need.priorityLevel | priorityClass">
                 </div>
 
             </div>

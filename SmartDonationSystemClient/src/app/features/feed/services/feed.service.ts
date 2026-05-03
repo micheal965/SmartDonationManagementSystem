@@ -20,12 +20,16 @@ export class FeedService {
     categoryId: string,
     postPicture: File,
     attachments?: File[],
+    targetMoney?: number,
   ): Observable<ApiResult<object>> {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('categoryId', categoryId);
     formData.append('postPicture', postPicture);
+    if (targetMoney !== undefined && targetMoney !== null) {
+      formData.append('targetMoney', targetMoney.toString());
+    }
     if (attachments && attachments.length > 0) {
       attachments.forEach((file, index) => {
         formData.append('attachments', file);

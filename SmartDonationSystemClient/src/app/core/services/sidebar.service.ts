@@ -17,6 +17,8 @@ export interface TrendingNeed {
   title: string;
   categoryName: string;
   priorityLevel: number;
+  targetMoney?: number;
+  collectedMoney?: number;
 }
 
 export interface TotalImpact {

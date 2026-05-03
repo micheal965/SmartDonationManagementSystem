@@ -12,7 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { PriorityLabelPipe } from '../../shared/pipes/priority-label.pipe';
 import { Post } from '../feed/models/post.model';

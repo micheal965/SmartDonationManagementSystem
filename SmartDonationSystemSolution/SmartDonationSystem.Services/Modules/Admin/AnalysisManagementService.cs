@@ -19,7 +19,7 @@ namespace SmartDonationSystem.Services.Modules.Admin
         {
             var successfulDonationStatuses = new[] { DonationStatus.Paid.ToString(), DonationStatus.Processed.ToString() };
 
-            var startDate = fromDate ?? DateTime.UtcNow.AddDays(-30).Date;
+            var startDate = fromDate ?? new DateTime(DateTime.UtcNow.Year, 1, 1);
             var endDate = toDate ?? DateTime.UtcNow.Date;
             var daysCount = (int)(endDate - startDate).TotalDays + 1;
 

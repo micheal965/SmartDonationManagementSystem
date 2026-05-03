@@ -14,6 +14,6 @@ namespace SmartDonationSystem.Core.Modules.PostAggregate.Post.DTOs
         public List<IFormFile>? attachments { get; set; }
         [Required]
         public IFormFile PostPicture { get; set; }
-        public decimal? targetMoney { get; set; }
+        public decimal? TargetMoney { get; set; }
     }
 }

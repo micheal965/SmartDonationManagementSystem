@@ -22,6 +22,8 @@ namespace SmartDonationSystem.Core.Modules.User.Sidebar.DTOs
         public string Title { get; set; }
         public string CategoryName { get; set; }
         public int? PriorityLevel { get; set; }
+        public decimal? TargetMoney { get; set; }
+        public decimal? CollectedMoney { get; set; }
     }
 
     public class TotalImpactDto

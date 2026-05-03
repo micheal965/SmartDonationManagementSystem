@@ -8,14 +8,14 @@
             <div class="flex items-center gap-2 sm:gap-3">
                 <div
                     class="w-8 h-8 sm:w-10 sm:h-10 bg-bright-blue rounded-lg flex items-center justify-center text-white shadow-lg shadow-bright-blue/20">
-                    <mat-icon class="!text-lg sm:!text-xl">add_circle</mat-icon>
+                    <mat-icon>add_circle</mat-icon>
                 </div>
                 <h2 class="text-xl sm:text-2xl font-header font-bold text-dark-blue">Create Post</h2>
             </div>
             <button
                 class="w-8 h-8 sm:w-10 sm:h-10 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-soft-red hover:bg-soft-red/10 transition-all shadow-sm"
                 type="button" (click)="close()">
-                <mat-icon class="!text-lg sm:!text-xl">close</mat-icon>
+                <mat-icon>close</mat-icon>
             </button>
         </div>
 
@@ -36,6 +36,23 @@
                     <mat-icon class="!text-sm">error_outline</mat-icon>
                     <span *ngIf="f.title.errors?.['required']">Title is required.</span>
                     <span *ngIf="f.title.errors?.['minlength']">Minimum 3 characters needed.</span>
+                </small>
+            </div>
+
+            <!-- Target Money (Requester Only) -->
+            <div class="space-y-1.5 sm:space-y-2" *ngIf="!authService.isDonor()">
+                <label class="text-xs sm:text-sm font-bold text-dark-blue flex items-center gap-2">
+                    <mat-icon class="!text-base sm:!text-lg">monetization_on</mat-icon>
+                    Target Amount (EGP)
+                </label>
+                <input type="number" formControlName="targetMoney"
+                    class="w-full bg-gray-50 border-2 border-transparent focus:border-bright-blue/30 focus:bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 transition-all outline-none text-dark-blue placeholder:text-gray-400 text-sm sm:text-base"
+                    placeholder="e.g. 5000" />
+                <small *ngIf="f['targetMoney']?.invalid && (f['targetMoney']?.touched || f['targetMoney']?.dirty)"
+                    class="text-soft-red flex items-center gap-1 font-medium pl-2 text-[10px] sm:text-xs">
+                    <mat-icon class="!text-sm">error_outline</mat-icon>
+                    <span *ngIf="f['targetMoney']?.errors?.['required']">Target amount is required.</span>
+                    <span *ngIf="f['targetMoney']?.errors?.['min']">Target amount must be greater than zero.</span>
                 </small>
             </div>
 

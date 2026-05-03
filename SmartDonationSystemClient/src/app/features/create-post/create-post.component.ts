@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Category } from '../../shared/models/category-model';
 import { CategoryService } from '../../core/services/category.service';
 import { minMaxFilesValidator } from '../../shared/validators/files.validator';
+import { AuthService } from '../auth/services/auth.service';
 @Component({
   selector: 'app-create-post',
   standalone: true,
@@ -19,6 +20,7 @@ import { minMaxFilesValidator } from '../../shared/validators/files.validator';
 })
 export class CreatePostComponent {
   private fb = inject(FormBuilder);
+  public authService = inject(AuthService);
 
   @Output() closed = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<any>();
@@ -32,12 +34,21 @@ export class CreatePostComponent {
       minMaxFilesValidator(0, 5),
     ),
     postPicture: this.fb.control<File | null>(null, Validators.required),
+    targetMoney: this.fb.control<number | null>(null),
   });
   categories: Category[] = [];
   isLoading: boolean = false;
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
+    if (!this.authService.isDonor()) {
+      const targetMoneyControl = this.form.get('targetMoney');
+      targetMoneyControl?.setValidators([
+        Validators.required,
+        Validators.min(1),
+      ]);
+      targetMoneyControl?.updateValueAndValidity();
+    }
     // load categories
     this.categoryService.getCategories().subscribe((cats) => {
       this.categories = cats;

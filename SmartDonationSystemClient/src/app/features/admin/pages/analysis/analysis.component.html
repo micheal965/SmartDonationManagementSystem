@@ -1,9 +1,28 @@
 <main class="flex flex-col ml-64 p-10 rounded-3xl bg-white">
   <!-- Header -->
-  <section class="mb-10">
+  <section class="flex justify-between mb-10">
     <div class="flex flex-col gap-1">
       <h2 class="text-3xl font-black tracking-tighter text-slate-900">Platform Analysis</h2>
       <p class="text-slate-500 font-medium">Detailed insights into donations, targets, and user engagement.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="flex gap-4 bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-sm">
+        <div class="flex items-center ">
+          <span class="text-xs text-slate-500 font-semibold mr-2">From:</span>
+          <input type="date" [(ngModel)]="fromDate" class="text-sm text-slate-700 outline-none bg-transparent">
+        </div>
+        <div class="flex items-center">
+          <span class="text-xs text-slate-500 font-semibold mr-2">To:</span>
+          <input type="date" [(ngModel)]="toDate" class="text-sm text-slate-700 outline-none bg-transparent">
+        </div>
+        <div class="flex items-center">
+          <button (click)="fetchData()"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-1.5 px-4 rounded-lg shadow-sm transition-colors duration-200 flex items-center gap-2">
+            <mat-icon>filter_list</mat-icon>
+            Filter
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -17,7 +36,8 @@
           {{analysisData.totalDonationAmount | shortNumber}} EGP
         </h3>
       </div>
-      <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl">
+
+      <div class="flex items-center bg-indigo-100 text-indigo-600 p-3 rounded-xl">
         <span class="material-icons">payments</span>
       </div>
     </div>
@@ -33,7 +53,7 @@
           {{analysisData.totalPaidAndProcessedDonations}}
         </h3>
       </div>
-      <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl">
+      <div class="flex items-center bg-emerald-100 text-emerald-600 p-3 rounded-xl">
         <span class="material-icons">task_alt</span>
       </div>
     </div>
@@ -49,7 +69,7 @@
           {{analysisData.totalPaidDonations}}
         </h3>
       </div>
-      <div class="bg-amber-100 text-amber-600 p-3 rounded-xl">
+      <div class="flex items-center bg-amber-100 text-amber-600 p-3 rounded-xl">
         <span class="material-icons">hourglass_top</span>
       </div>
     </div>
@@ -68,7 +88,7 @@
         </h3>
       </div>
 
-      <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl">
+      <div class="flex items-center bg-indigo-100 text-indigo-600 p-3 rounded-xl">
         <span class="material-icons">local_shipping</span>
       </div>
 
@@ -82,7 +102,7 @@
           {{analysisData.totalCompletedTargets}}
         </h3>
       </div>
-      <div class="bg-amber-100 text-amber-600 p-3 rounded-xl">
+      <div class="flex items-center bg-amber-100 text-amber-600 p-3 rounded-xl">
         <span class="material-icons">flag</span>
       </div>
     </div>
@@ -95,7 +115,7 @@
           {{analysisData.totalDonors}}
         </h3>
       </div>
-      <div class="bg-rose-100 text-rose-600 p-3 rounded-xl">
+      <div class="flex items-center bg-rose-100 text-rose-600 p-3 rounded-xl">
         <span class="material-icons">groups</span>
       </div>
     </div>
@@ -105,29 +125,7 @@
   <div class="grid grid-cols-12 gap-6" *ngIf="analysisData">
     <!-- Donation Trend -->
     <div class="col-span-12 xl:col-span-8 shadow-md rounded-3xl p-8 bg-slate-50/35 border border-slate-100">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <div class="flex flex-col gap-1">
-          <h3 class="text-lg font-bold text-slate-900">Donation Trend</h3>
-          <p class="text-sm font-medium text-slate-500">Total: <span class="text-indigo-600 font-bold">{{
-              analysisData.totalDonationAmount | shortNumber }} EGP</span></p>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="flex items-center bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-sm">
-            <span class="text-xs text-slate-500 font-semibold mr-2">From:</span>
-            <input type="date" [(ngModel)]="fromDate" class="text-sm text-slate-700 outline-none bg-transparent">
-          </div>
-          <div class="flex items-center bg-white border border-slate-200 rounded-lg px-3 py-1.5 shadow-sm">
-            <span class="text-xs text-slate-500 font-semibold mr-2">To:</span>
-            <input type="date" [(ngModel)]="toDate" class="text-sm text-slate-700 outline-none bg-transparent">
-          </div>
-          <button (click)="fetchData()"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-1.5 px-4 rounded-lg shadow-sm transition-colors duration-200 flex items-center gap-2">
-            <mat-icon>filter_list</mat-icon>
-            Filter
-          </button>
-        </div>
-      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-5">Donation Trend</h3>
       <div class="h-[300px]" *ngIf="analysisData.donationTrend.length > 0; else noTrend">
         <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
         </canvas>

@@ -40,7 +40,7 @@ namespace SmartDonationSystem.Services.Modules.User.Sidebar
             // 2. Trending Needs (Top 2 posts by Most Viewed / AnalyticsEvents Count)
             data.TrendingNeeds = await _context.Posts
                 .Include(p => p.Category)
-                .Where(p => p.Status == PostStatus.Approved.ToString())
+                .Where(p => p.Status == PostStatus.Approved.ToString() && p.CreatedByRole == AppRoles.Requester)
                 .OrderByDescending(p => p.AnalyticsEvents.Count)
                 .Take(2)
                 .Select(p => new TrendingNeedDto
@@ -48,7 +48,9 @@ namespace SmartDonationSystem.Services.Modules.User.Sidebar
                     PostId = p.Id,
                     Title = p.Title,
                     CategoryName = p.Category.Name,
-                    PriorityLevel = p.PriorityLevel
+                    PriorityLevel = p.PriorityLevel,
+                    TargetMoney = p.TargetMoney,
+                    CollectedMoney = p.Donations.Where(d => d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()).Sum(d => d.Amount)
                 })
                 .ToListAsync();
 

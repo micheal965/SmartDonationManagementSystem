@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Post } from '../feed/models/post.model';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgIf, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FeedService } from '../feed/services/feed.service';
 import { Router, RouterLink } from '@angular/router';
 import { PriorityClassPipe } from '../../shared/pipes/priority-class.pipe';
@@ -23,6 +23,8 @@ import { DonationService } from '../../core/services/donation.service';
     PriorityLabelPipe,
     RouterLink,
     ShortNumberPipe,
+    CurrencyPipe,
+    DecimalPipe,
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
@@ -30,7 +32,6 @@ import { DonationService } from '../../core/services/donation.service';
 export class PostComponent {
   private feedService = inject(FeedService);
   private router = inject(Router);
-  private donationService = inject(DonationService);
   authService = inject(AuthService);
   chatService = inject(ChatService);
   post = input.required<Post>();
