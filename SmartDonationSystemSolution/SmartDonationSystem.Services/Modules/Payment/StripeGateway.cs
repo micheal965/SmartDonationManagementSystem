@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
@@ -115,7 +116,20 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (donation.Status == DonationStatus.Paid.ToString())
                 return;
 
+            var post = await _context.Posts.Where(d => d.Id == donation.PostId).FirstOrDefaultAsync();
+
+            if (post == null)
+                return;
+
             donation.Status = DonationStatus.Paid.ToString();
+            await _context.SaveChangesAsync();
+
+            var moneyCollected = await _context.Donations
+               .Where(d => d.PostId == post.Id && (d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()))
+               .SumAsync(d => d.Amount);
+
+            if (post.TargetMoney <= moneyCollected)
+                post.Status = PostStatus.Completed.ToString();
 
             await _context.SaveChangesAsync();
 

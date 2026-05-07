@@ -225,7 +225,16 @@ export const routes: Routes = [
         title: 'Payment Details',
       },
       {
+        path: 'reports',
+        loadComponent: () =>
+          import('./features/admin/pages/reports/reports.component').then(
+            (m) => m.ReportsComponent,
+          ),
+        title: 'Reports',
+      },
+      {
         path: '**',
+
         redirectTo: 'dashboard',
       },
     ],

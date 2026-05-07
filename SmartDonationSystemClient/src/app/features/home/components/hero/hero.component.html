@@ -42,13 +42,31 @@
             <div class="relative">
                 <div class="swiper mySwiper h-[380px] sm:h-[580px] rounded-2xl overflow-hidden shadow-2xl">
                     <div class="swiper-wrapper h-full">
+
                         <div class="swiper-slide h-full" *ngFor="let img of images">
                             <div class="relative h-full">
                                 <img [src]="img.url" class="w-full h-full object-cover" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30">
+                                </div>
+
+                                <!-- content -->
+                                <div class="absolute bottom-6 left-6 right-6 text-white z-10">
+                                    <h2 class="text-xl sm:text-2xl font-bold">
+                                        {{ img.title }}
+                                    </h2>
+
+                                    <p class="text-sm sm:text-base text-gray-200 mt-2 max-w-2xl">
+                                        {{ img.description }}
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
+
                     </div>
+
                     <div class="swiper-pagination"></div>
                 </div>
             </div>

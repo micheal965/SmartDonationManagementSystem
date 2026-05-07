@@ -225,6 +225,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.ReportManagementController",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/admin/ReportManagement/pdf",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SmartDonationSystem.Core.Modules.Admin.ReportManagement.DTOs.ReportRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SmartDonationSystem.API.Modules.Admin.Controllers.UserManagementController",
     "Method": "AddNewUser",
     "RelativePath": "api/admin/UserManagement/add-new-user",

@@ -3,15 +3,10 @@ import {
   ElementRef,
   ViewChild,
   AfterViewChecked,
-  OnInit,
   inject,
-  AfterViewInit,
-  AfterContentInit,
-  effect,
   computed,
   PLATFORM_ID,
   signal,
-  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ChatService } from '../../core/services/chat.service';
@@ -66,6 +61,7 @@ export class ChatComponent implements AfterViewChecked {
     return this.chatService.state()?.messages || [];
   }
   ngOnInit(): void {
+    this.chatService.startConnection();
     this.chatService.loadMessages();
   }
 
