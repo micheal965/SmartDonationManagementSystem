@@ -31,8 +31,8 @@ namespace SmartDonationSystem.Services.Modules.Payment
             var options = new SessionCreateOptions
             {
                 Mode = "payment",
-                SuccessUrl = $"http://localhost:4200/my-donations",
-                CancelUrl = $"http://localhost:4200/feed",
+                SuccessUrl = $"https://smart-donation-management-system.vercel.app/my-donations",
+                CancelUrl = $"https://smart-donation-management-system.vercel.app/feed",
                 LineItems = new List<SessionLineItemOptions>
                 {
                     new SessionLineItemOptions

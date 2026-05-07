@@ -60,15 +60,13 @@ namespace SmartDonationSystem.Services.Modules.Payment
         {
             var secretKey = _config["Payments:Paymob:SecretKey"];
 
-            Console.WriteLine("Wallet ID: " + _config["Payments:Paymob:WalletIntegrationId"]);
-            Console.WriteLine("Card ID: " + _config["Payments:Paymob:CardIntegrationId"]);
             var payload = new
             {
                 amount = donation.Amount * 100, // Paymob uses minor units
                 currency = "EGP",
                 payment_methods = new[]
                 {
-                //int.Parse(_config["Payments:Paymob:WalletIntegrationId"]),
+                int.Parse(_config["Payments:Paymob:WalletIntegrationId"]),
                 int.Parse(_config["Payments:Paymob:CardIntegrationId"])
                 },
                 items = new[]

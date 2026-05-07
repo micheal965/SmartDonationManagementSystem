@@ -1,5 +1,4 @@
-export const BaseUrl =
-  'https://smartdonationmanagementsystem.runasp.net';
+export const BaseUrl = 'https://smartdonationmanagementsystem.runasp.net';
 // 'https://localhost:7190';
 
 export const apiBaseUrl =
