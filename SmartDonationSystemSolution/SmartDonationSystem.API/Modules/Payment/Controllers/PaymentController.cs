@@ -52,10 +52,10 @@ namespace SmartDonationSystem.API.Modules.Payment.Controllers
         public async Task<IActionResult> PaymobWebhook()
         {
             var payload = await new StreamReader(Request.Body).ReadToEndAsync();
+            var hmac = Request.Query["hmac"].ToString();
 
             var gateway = _factory.Get("Paymob");
-            await gateway.HandleWebhookAsync(payload, null);
-
+            await gateway.HandleWebhookAsync(payload, hmac);
             return Ok();
         }
     }

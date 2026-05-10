@@ -36,16 +36,15 @@ export class DonationComponent implements OnInit {
       id: 'Stripe',
       name: 'Stripe',
       icon: 'payments',
-      description: 'Credit/Debit Card',
+      description: 'Card / Apple Pay',
     },
     {
       id: 'Paymob',
       name: 'Paymob',
       icon: 'account_balance_wallet',
-      description: 'Card / Vodafone Cash / Meeza',
+      description: 'Card / Mobile Wallet / Meeza',
     },
   ];
-
   constructor() {
     this.donationForm = this.fb.group({
       amount: [50, [Validators.required, Validators.min(50)]],

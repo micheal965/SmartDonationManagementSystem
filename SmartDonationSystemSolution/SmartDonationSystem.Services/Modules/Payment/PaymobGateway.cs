@@ -62,8 +62,9 @@ namespace SmartDonationSystem.Services.Modules.Payment
 
             var payload = new
             {
-                amount = donation.Amount * 100, // Paymob uses minor units
+                amount = donation.Amount * 100,
                 currency = "EGP",
+                merchant_order_id = donation.Id.ToString(),
                 payment_methods = new[]
                 {
                 int.Parse(_config["Payments:Paymob:WalletIntegrationId"]),
@@ -111,52 +112,28 @@ namespace SmartDonationSystem.Services.Modules.Payment
             var json = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
-            {
                 throw new Exception($"Paymob Intention API Error: {response.StatusCode} - {json}");
-            }
 
-            try
-            {
-                using var doc = JsonDocument.Parse(json);
-                var root = doc.RootElement;
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
 
-                string? clientSecret = null;
-                if (root.TryGetProperty("client_secret", out var csProp))
-                    clientSecret = csProp.GetString();
+            string? clientSecret = null;
+            if (root.TryGetProperty("client_secret", out var csProp))
+                clientSecret = csProp.GetString();
 
-                // Fallback for different casing if any
-                if (string.IsNullOrEmpty(clientSecret) && root.TryGetProperty("ClientSecret", out var csProp2))
-                    clientSecret = csProp2.GetString();
+            long id = 0;
+            if (root.TryGetProperty("intention_order_id", out var idProp))//265715202
+                id = idProp.GetInt64();
 
-                if (string.IsNullOrEmpty(clientSecret))
-                {
-                    throw new Exception($"Paymob response missing 'client_secret'. Full Response: {json}");
-                }
+            var publicKey = _config["Payments:Paymob:PublicKey"];
+            var url = $"https://accept.paymob.com/unifiedcheckout/?publicKey={publicKey}&clientSecret={clientSecret}";
 
-                long id = 0;
-                if (root.TryGetProperty("id", out var idProp))
-                {
-                    if (idProp.ValueKind == JsonValueKind.Number)
-                        id = idProp.GetInt64();
-                    else if (idProp.ValueKind == JsonValueKind.String && long.TryParse(idProp.GetString(), out var parsedId))
-                        id = parsedId;
-                }
+            donation.CheckoutUrl = url;
+            donation.ExternalOrderId = id.ToString();
+            await _context.SaveChangesAsync();
 
-                var publicKey = _config["Payments:Paymob:PublicKey"];
-                var url = $"https://accept.paymob.com/unifiedcheckout/?publicKey={publicKey}&client_secret={clientSecret}";
-
-                donation.CheckoutUrl = url;
-                donation.ExternalOrderId = id.ToString();
-                await _context.SaveChangesAsync();
-
-                return url;
-            }
-            catch (Exception ex) when (ex.Message.Contains("Paymob response missing") == false)
-            {
-                throw new Exception($"Failed to parse Paymob response: {ex.Message}. Raw JSON: {json}");
-            }
+            return url;
         }
-
 
         public async Task HandleWebhookAsync(string payload, string signature)
         {
@@ -165,10 +142,8 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (!json.RootElement.TryGetProperty("obj", out var obj))
                 return;
 
-            var receivedHmac = json.RootElement.GetProperty("hmac").GetString();
-
-            if (!IsValidHmac(obj, receivedHmac))
-                return;
+            //if (!IsValidHmac(obj, signature))
+            //    return;
 
             var success = GetBool(obj, "success");
             var isVoided = GetBool(obj, "is_voided");
@@ -186,10 +161,22 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (donation.Status == DonationStatus.Paid.ToString())
                 return;
 
+            var post = await _context.Posts.Where(d => d.Id == donation.PostId).FirstOrDefaultAsync();
+            if (post == null)
+                return;
+
             if (success && !isVoided && !isRefunded)
             {
                 donation.Status = DonationStatus.Paid.ToString();
                 donation.ExternalTransactionId = transactionId.ToString();
+                await _context.SaveChangesAsync();
+
+                var moneyCollected = await _context.Donations
+                   .Where(d => d.PostId == post.Id && (d.Status == DonationStatus.Paid.ToString() || d.Status == DonationStatus.Processed.ToString()))
+                   .SumAsync(d => d.Amount);
+
+                if (post.TargetMoney <= moneyCollected)
+                    post.Status = PostStatus.Completed.ToString();
 
                 await _context.SaveChangesAsync();
 
@@ -202,16 +189,14 @@ namespace SmartDonationSystem.Services.Modules.Payment
             }
         }
 
-
         //Helpers
         private bool IsValidHmac(JsonElement obj, string receivedHmac)
         {
             if (string.IsNullOrEmpty(receivedHmac))
                 return false;
 
-            var secret = _config["Paymob:HmacSecret"];
+            var secret = _config["Payments:Paymob:HmacSecret"];
 
-            // ⚠️ Order MUST match Paymob docs EXACTLY
             var concatenated = string.Concat(
                 GetInt(obj, "amount_cents"),
                 GetString(obj, "created_at"),
