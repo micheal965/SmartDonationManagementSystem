@@ -142,8 +142,6 @@ namespace SmartDonationSystem.Services.Modules.Payment
             if (!json.RootElement.TryGetProperty("obj", out var obj))
                 return;
 
-            //if (!IsValidHmac(obj, signature))
-            //    return;
 
             var success = GetBool(obj, "success");
             var isVoided = GetBool(obj, "is_voided");
