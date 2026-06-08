@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartDonationSystem.API.Extensions;
+using SmartDonationSystem.API.Filters;
 using SmartDonationSystem.API.Middlewares;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Analytics;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Services.Modules.SignalR.Hubs;
 using SmartDonationSystem.Shared.Enums;
 using Stripe;
@@ -140,17 +142,17 @@ namespace SmartDonationSystem.API
             //});
 
             #region Hangfire Dashboard with its use cases
-            //app.UseHangfireDashboard();
+            app.UseHangfireDashboard();
 
 
-            //var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
-            //recurringJobManager.AddOrUpdate<PostClassifierService>(
-            //    "classify-posts-job",
-            //    job => job.RunClassificationJobByCategoryAsync(),
-            //    Cron.MinuteInterval(1)
-            //);
+            var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+            recurringJobManager.AddOrUpdate<PostClassifierService>(
+                "classify-posts-job",
+                job => job.RunClassificationJobByCategoryAsync(),
+                Cron.DayInterval(1)
+            );
             #endregion
-            //  await SeedingData.SeedDataAsync(app);
+              await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
 

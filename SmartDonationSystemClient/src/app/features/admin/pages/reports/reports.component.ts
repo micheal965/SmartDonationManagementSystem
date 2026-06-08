@@ -99,15 +99,13 @@ export class ReportsComponent {
       dateTo: this.request.dateTo || null,
     };
 
-    console.log('Sending sanitized request:', sanitizedRequest);
-
     this.reportsService
       .generatePdfReport(sanitizedRequest)
       .pipe(finalize(() => (this.isGenerating = false)))
       .subscribe({
         next: (blob) => {
           const fileName = `${this.reportTypes.find((t) => t.value == this.request.reportType)?.label.replace(' ', '_')}_${new Date().getTime()}.pdf`;
-          this.reportsService.downloadBlob(blob, fileName);
+          this.reportsService.openPdf(blob, fileName);
           this.toastr.success('Report generated successfully');
         },
         error: async (err) => {

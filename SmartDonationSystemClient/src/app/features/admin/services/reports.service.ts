@@ -5,24 +5,43 @@ import { apiBaseUrl } from '../../../core/utils/app.config';
 import { ReportRequest } from '../models/report-request.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReportsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   generatePdfReport(request: ReportRequest): Observable<Blob> {
     console.log('Generating PDF report for', request);
     return this.http.post(`${apiBaseUrl}/admin/ReportManagement/pdf`, request, {
-      responseType: 'blob'
+      responseType: 'blob',
     });
   }
 
-  downloadBlob(blob: Blob, fileName: string): void {
+  openPdf(blob: Blob, fileName: string): void {
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    link.click();
-    window.URL.revokeObjectURL(url);
+
+    // Open PDF in new tab
+    const newTab = window.open(url, '_blank');
+
+    // Optional: fallback if popup blocked
+    if (!newTab) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.click();
+    }
+
+    // Optional download button/function
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = fileName;
+
+    // Example: trigger download directly if needed
+    // downloadLink.click();
+
+    // Revoke later to avoid memory leak
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+    }, 1000);
   }
 }

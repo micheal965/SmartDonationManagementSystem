@@ -224,3 +224,4 @@ D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\S
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\runtimes\osx-x64\native\libQuestPdfSkia.dylib
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\runtimes\win-x64\native\QuestPdfSkia.dll
 D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\bin\Release\net8.0\runtimes\win-x86\native\QuestPdfSkia.dll
+D:\Projects\Personal Projects\SmartDonationProject\SmartDonationSystemSolution\SmartDonationSystem.API\obj\Release\net8.0\swae.build.ex.cache

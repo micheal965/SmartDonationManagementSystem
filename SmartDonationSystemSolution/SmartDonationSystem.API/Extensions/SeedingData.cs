@@ -12,10 +12,12 @@ public static class SeedingData
     {
         using var scope = app.Services.CreateAsyncScope();
         var services = scope.ServiceProvider;
-        // var dbContext = services.GetRequiredService<ApplicationDbContext>();
-        // await dbContext.Database.MigrateAsync();
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        await dbContext.Database.MigrateAsync();
+
         //Seeding Roles
         await services.SeedRolesAsync();
+
         //Seeding Users
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         await userManager.SeedAdminAsync();
