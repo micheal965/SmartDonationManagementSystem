@@ -99,7 +99,6 @@ public class UserProfileServices : IUserProfileService
 
         return Result<UserToReturnDto>.Ok(userDto, "User retrieved successfully");
     }
-
     public async Task<Result<List<UserSearchDto>>> SearchUsersByNameAsync(string query)
     {
         if (string.IsNullOrWhiteSpace(query))

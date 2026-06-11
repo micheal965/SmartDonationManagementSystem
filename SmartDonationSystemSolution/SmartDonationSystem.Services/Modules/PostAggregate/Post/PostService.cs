@@ -1,3 +1,4 @@
+using CloudinaryDotNet;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.Core.Modules.PostAggregate.Post.DTOs;
 using SmartDonationSystem.Core.Modules.PostAggregate.Post.Interfaces;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Services.Modules.AI.SummarizationModule;
 using SmartDonationSystem.Services.Modules.FileExtractionModule;
 using SmartDonationSystem.Shared.Enums;
@@ -43,7 +45,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             if (category == null)
                 return Result<object>.BadRequest("Category not found");
 
-            if (role == AppRoles.Requester && (!createPostDto.TargetMoney.HasValue || createPostDto.TargetMoney <= 0))
+            if (role == AppRoles.Requester && category.Name !="Special Cases" && (!createPostDto.TargetMoney.HasValue || createPostDto.TargetMoney <= 0))
                 return Result<object>.BadRequest("Target money is required and must be greater than zero for Requesters.");
 
             if (role == AppRoles.Donor)
@@ -220,25 +222,26 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             return Result<object>.NoContent();
         }
 
-        private async Task NotifyAdminsPostPendingApproval(PostModel post)
-        {
-            var admins = await _userManager.GetUsersInRoleAsync("Admin");
-            if (!admins.Any()) return;
-
-            var notificationsRequests = admins.Select(admin => new CreateNotificationRequest
+        //Helpers
+            private async Task NotifyAdminsPostPendingApproval(PostModel post)
             {
-                ReceiverId = admin.Id,
-                ActorId = post.ApplicationUserId,
-                Title = "New Post Waiting Approval",
-                Message = $"{post.ApplicationUser.FullName} created a new post \"{post.Title}\" and needs approval.",
-                Type = NotificationType.PostCreation,
-                EntityId = post.Id,
-                ActorName = post.ApplicationUser.FullName,
-                ActorImage = post.ApplicationUser.PictureUrl,
-            }).ToList();
+                var admins = await _userManager.GetUsersInRoleAsync("Admin");
+                if (!admins.Any()) return;
 
-            foreach (var notificationRequest in notificationsRequests)
-                await _notificationService.CreateAsync(notificationRequest);
-        }
+                var notificationsRequests = admins.Select(admin => new CreateNotificationRequest
+                {
+                    ReceiverId = admin.Id,
+                    ActorId = post.ApplicationUserId,
+                    Title = "New Post Waiting Approval",
+                    Message = $"{post.ApplicationUser.FullName} created a new post \"{post.Title}\" and needs approval.",
+                    Type = NotificationType.PostCreation,
+                    EntityId = post.Id,
+                    ActorName = post.ApplicationUser.FullName,
+                    ActorImage = post.ApplicationUser.PictureUrl,
+                }).ToList();
+
+                foreach (var notificationRequest in notificationsRequests)
+                    await _notificationService.CreateAsync(notificationRequest);
+            }
     }
 }

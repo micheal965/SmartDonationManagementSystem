@@ -43,6 +43,7 @@ namespace SmartDonationSystem.API
                     });
                 });
             });
+
             builder.Services.AddControllers();
             builder.Services.AddSignalR();
 
@@ -148,11 +149,11 @@ namespace SmartDonationSystem.API
             var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
             recurringJobManager.AddOrUpdate<PostClassifierService>(
                 "classify-posts-job",
-                job => job.RunClassificationJobByCategoryAsync(),
+                job => job.RunClassificationJobForAllCategoriesAsync(),
                 Cron.DayInterval(1)
             );
             #endregion
-              await SeedingData.SeedDataAsync(app);
+            await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
 

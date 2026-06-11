@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Hangfire;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SmartDonationSystem.Core.Common.Models;
 using SmartDonationSystem.Core.Modules.Admin.PostManagement.DTOs;
@@ -6,6 +7,7 @@ using SmartDonationSystem.Core.Modules.Admin.PostManagement.Interfaces;
 using SmartDonationSystem.Core.Modules.Notifications.DTOs;
 using SmartDonationSystem.Core.Modules.Notifications.Interfaces;
 using SmartDonationSystem.DataAccess;
+using SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule;
 using SmartDonationSystem.Shared.Enums;
 using SmartDonationSystem.Shared.Pagination;
 using SmartDonationSystem.Shared.Responses;
@@ -120,7 +122,6 @@ namespace SmartDonationSystem.Services.Modules.Admin
             {
                 var category = await _applicationDbContext.Categories
                     .Where(c => c.Id == post.CategoryId)
-                    .Select(c => c.Name)
                     .FirstOrDefaultAsync();
 
                 var targetRole = post.CreatedByRole == "Requester" ? "Donor" : "Requester";
@@ -141,13 +142,17 @@ namespace SmartDonationSystem.Services.Modules.Admin
                     {
                         ReceiverId = userId,
                         Title = "New Post Update",
-                        Message = $"A new post in '{category}' category is now available. Click to check it out.",
+                        Message = $"A new post in '{category.Name}' category is now available. Click to check it out.",
                         Type = NotificationType.PostApproval,
                         EntityId = post.Id
                     });
                 }
+                // Step 3: Continue with priotization and scoring job (post.Id serializable)
+                BackgroundJob.Enqueue<PostClassifierService>(
+                    "classify-posts-job",
+                    job => job.RunClassificationJobByCategoryAsync(category)
+                );
             }
-
             return Result<object>.Ok(null, "Post status Updated successfully");
         }
     }

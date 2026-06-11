@@ -81,7 +81,6 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Comment
             }).ToList();
 
 
-
             foreach (var notification in notifications)
             {
                 await _notificationService.CreateAsync(new CreateNotificationRequest
@@ -147,7 +146,7 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Comment
             var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
 
             if (comment == null) return Result<object>.NotFound("Comment not found");
-
+            
             if (comment.ApplicationUserId != userId) return Result<object>.Unauthorized("You cannot delete this comment");
 
             _context.Comments.Remove(comment);

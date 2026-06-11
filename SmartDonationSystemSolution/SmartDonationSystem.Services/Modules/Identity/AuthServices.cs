@@ -86,7 +86,7 @@ public class AuthServices : IAuthService
     public async Task<Result<RegisterResultDto>> RegisterAsync(RegisterRequestDto requestDto)
     {
         bool existingUser = await _applicationDbContext.ApplicationUsers
-                                        .AnyAsync(u => u.IdentityNumber == requestDto.IdentityNumber.Trim());
+                                        .AnyAsync(u => u.IdentityNumber ==  requestDto.IdentityNumber.Trim());
         if (existingUser) return Result<RegisterResultDto>.BadRequest("A user with this Identity Number already exists.");
 
         ApplicationUser applicationUser = new ApplicationUser()

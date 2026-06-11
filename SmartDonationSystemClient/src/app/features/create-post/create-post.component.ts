@@ -41,14 +41,15 @@ export class CreatePostComponent {
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
-    if (!this.authService.isDonor()) {
-      const targetMoneyControl = this.form.get('targetMoney');
-      targetMoneyControl?.setValidators([
-        Validators.required,
-        Validators.min(1),
-      ]);
-      targetMoneyControl?.updateValueAndValidity();
-    }
+    // if (!this.authService.isDonor()) {
+    //   const targetMoneyControl = this.form.get('targetMoney');
+    //   targetMoneyControl?.setValidators([
+    //     Validators.required,
+    //     Validators.min(1),
+    //   ]);
+    //   targetMoneyControl?.updateValueAndValidity();
+    // }
+    
     // load categories
     this.categoryService.getCategories().subscribe((cats) => {
       this.categories = cats;
