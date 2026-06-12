@@ -147,10 +147,12 @@ namespace SmartDonationSystem.Services.Modules.Admin
                         EntityId = post.Id
                     });
                 }
-                // Step 3: Continue with priotization and scoring job (post.Id serializable)
+                // Classify all posts in that category to update the category scores for the users interested in that category
+                if (category == null)
+                    return Result<object>.Ok(null, "Post status Updated successfully without classification");
+
                 BackgroundJob.Enqueue<PostClassifierService>(
-                    "classify-posts-job",
-                    job => job.RunClassificationJobByCategoryAsync(category)
+                    job => job.RunClassificationJobByCategoryAsync(category.Id)
                 );
             }
             return Result<object>.Ok(null, "Post status Updated successfully");

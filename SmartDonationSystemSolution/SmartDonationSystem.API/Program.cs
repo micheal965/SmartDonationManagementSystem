@@ -109,6 +109,7 @@ namespace SmartDonationSystem.API
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
+                    //policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                 });
             });
             // Register Modules dependencies
@@ -153,7 +154,7 @@ namespace SmartDonationSystem.API
                 Cron.DayInterval(1)
             );
             #endregion
-            await SeedingData.SeedDataAsync(app);
+            //await SeedingData.SeedDataAsync(app);
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<LogoutMiddleware>();
 

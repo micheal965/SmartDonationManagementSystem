@@ -45,8 +45,23 @@ namespace SmartDonationSystem.Services.Modules.PostAggregate.Post
             if (category == null)
                 return Result<object>.BadRequest("Category not found");
 
-            if (role == AppRoles.Requester && category.Name !="Special Cases" && (!createPostDto.TargetMoney.HasValue || createPostDto.TargetMoney <= 0))
-                return Result<object>.BadRequest("Target money is required and must be greater than zero for Requesters.");
+            if (role == AppRoles.Requester)
+            {
+                if (string.Equals(category.Name, "Special Cases", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (createPostDto.TargetMoney.HasValue && createPostDto.TargetMoney <= 0)
+                        return Result<object>.BadRequest(
+                            "Target money must be greater than zero."
+                        );
+                }
+                else
+                {
+                    if (!createPostDto.TargetMoney.HasValue || createPostDto.TargetMoney <= 0)
+                        return Result<object>.BadRequest(
+                            "Target money is required and must be greater than zero for Requesters."
+                        );
+                }
+            }
 
             if (role == AppRoles.Donor)
                 createPostDto.TargetMoney = null;

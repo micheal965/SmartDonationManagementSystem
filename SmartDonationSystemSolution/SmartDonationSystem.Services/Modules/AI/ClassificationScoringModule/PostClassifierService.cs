@@ -23,15 +23,18 @@ namespace SmartDonationSystem.Services.Modules.AI.ClassificationScoringModule
 
         public async Task RunClassificationJobForAllCategoriesAsync()
         {
-            var categories = await _dbContext.Categories.ToListAsync();
+            var categoriesIds = await _dbContext.Categories.Select(c=>c.Id).ToListAsync();
 
-            foreach (var category in categories)
-                await RunClassificationJobByCategoryAsync(category);
+            foreach (var id in categoriesIds)
+                await RunClassificationJobByCategoryAsync(id);
         }
 
-        public async Task RunClassificationJobByCategoryAsync(Category category)
+        public async Task RunClassificationJobByCategoryAsync(int categoryId)
         {
-                var postsToScore = await _dbContext.Posts
+            var category = await _dbContext.Categories.FirstOrDefaultAsync(c=>c.Id == categoryId);
+            if (category == null) return;
+
+            var postsToScore = await _dbContext.Posts
                     .Where(p => p.CategoryId == category.Id &&
                                 p.Status == PostStatus.Approved.ToString() &&
                                 (p.LastScoredAt == null || p.LastScoredAt < DateTime.UtcNow.AddDays(-1)))
