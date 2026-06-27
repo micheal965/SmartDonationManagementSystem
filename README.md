@@ -1,4 +1,4 @@
-> ⚠️ **NOTICE: All API keys, credentials, and secrets found in this repository are for testing and development purposes only. Do NOT use them in production.**
+> ⚠️ **NOTICE: All API keys, credentials, and secrets found in this repository are for testing and development purposes only.**
 
 # 🤝 Smart Donation Management System
 
